@@ -26,6 +26,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.github.husnjak:IGDB-API-JVM:1.0.1")
     implementation("com.google.guava:guava:30.0-jre")
+    implementation("org.apache.commons:commons-lang3:3.11")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

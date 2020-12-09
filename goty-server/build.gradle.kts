@@ -27,6 +27,10 @@ dependencies {
     implementation("com.github.husnjak:IGDB-API-JVM:1.0.1")
     implementation("com.google.guava:guava:30.0-jre")
     implementation("org.apache.commons:commons-lang3:3.11")
+    implementation("org.apache.lucene:lucene-core:8.7.0")
+    implementation("org.apache.lucene:lucene-analyzers-common:8.7.0")
+    implementation("org.apache.lucene:lucene-queryparser:8.7.0")
+    implementation("org.apache.lucene:lucene-suggest:8.7.0")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

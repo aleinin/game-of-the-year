@@ -23,11 +23,16 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.data:spring-data-elasticsearch")
     implementation("com.google.guava:guava:30.0-jre")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+lombok {
+    config.put("lombok.anyConstructor.addConstructorProperties", "true")
 }
 
 tasks.withType<Test> {

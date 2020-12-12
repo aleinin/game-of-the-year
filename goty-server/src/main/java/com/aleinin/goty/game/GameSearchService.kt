@@ -55,8 +55,8 @@ class GameSearchService(
             this.should(QueryBuilders.matchQuery(field, text).fuzziness(Fuzziness.AUTO))
                     .should(QueryBuilders.matchPhraseQuery(field, text))
 
-    private fun BoolQueryBuilder.mustMatchMainGame(mainGame: Boolean?) =
-            if (mainGame == true) this.must(QueryBuilders.matchQuery("category", "MAIN_GAME")) else this
+    private fun BoolQueryBuilder.mustMatchMainGame(mainGame: Boolean) =
+            if (mainGame) this.must(QueryBuilders.matchQuery("category", "MAIN_GAME")) else this
 
     private fun BoolQueryBuilder.mustMatchYear(year: Int?) =
             if (year != null) this.must(QueryBuilders.matchQuery("release_dates.y", year)) else this

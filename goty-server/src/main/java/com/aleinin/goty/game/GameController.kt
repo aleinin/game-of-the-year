@@ -5,21 +5,18 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-internal class GameController(
-        private val gameCountService: GameCountService,
-        private val gameSearchService: GameSearchService) {
+class GameController(
+    private val gameCountService: GameCountService,
+    private val gameSearchService: GameSearchService,
+) {
 
     @GetMapping("/games")
-    fun gameSearch(@RequestParam title: String,
-                   @RequestParam(defaultValue = "5") limit: Int,
-                   @RequestParam(required = false) year: Int?,
-                   @RequestParam(defaultValue = "false") mainGame: Boolean) =
-        gameSearchService.search(GameSearchRequest(
-            title = title,
-            limit = limit,
-            year = year,
-            mainGame = mainGame
-        ))
+    fun gameSearch(
+        @RequestParam title: String,
+        @RequestParam(defaultValue = "5") limit: Int,
+        @RequestParam(required = false) year: Int?,
+        @RequestParam(defaultValue = "false") mainGame: Boolean,
+    ) = gameSearchService.search(GameSearchRequest(title = title, limit = limit, year = year, mainGame = mainGame))
 
     @GetMapping("/games/count")
     fun count() = gameCountService.count()

@@ -13,12 +13,13 @@ import org.springframework.stereotype.Component
 
 @Component
 class GameSearchService(
-        private val elasticsearchClient: RestHighLevelClient,
-        private val objectMapper: ObjectMapper) {
+    private val elasticsearchClient: RestHighLevelClient,
+    private val objectMapper: ObjectMapper,
+) {
 
     companion object {
-        private const val index = "games"
-        private val includeFields = arrayOf("name", "id")
+        private const val INDEX = "games"
+        private val INCLUDE_FIELDS = arrayOf("name", "id")
     }
 
     fun search(gameSearchRequest: GameSearchRequest) =
@@ -31,14 +32,14 @@ class GameSearchService(
                     .map { buildGameResponse(it) }
 
     private fun buildGameSearchRequest(gameSearchRequest: GameSearchRequest) =
-            Requests.searchRequest(index)
+            Requests.searchRequest(INDEX)
                     .source(buildGameSearchSource(gameSearchRequest))
 
     private fun buildGameSearchSource(gameSearchRequest: GameSearchRequest) =
             SearchSourceBuilder.searchSource()
                     .query(buildGameQuery(gameSearchRequest))
                     .size(gameSearchRequest.limit)
-                    .fetchSource(includeFields, arrayOf())
+                    .fetchSource(INCLUDE_FIELDS, arrayOf())
 
     private fun buildGameQuery(gameSearchRequest: GameSearchRequest) =
             QueryBuilders.boolQuery()

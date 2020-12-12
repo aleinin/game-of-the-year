@@ -10,7 +10,7 @@ class GameOfTheYearController(val gameOfTheYearRepository: GameOfTheYearReposito
 
     @GetMapping("/submissions/{id}")
     fun getSubmission(@PathVariable id: UUID) =
-        gameOfTheYearRepository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+        gameOfTheYearRepository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }!!
 
     @PutMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody gameOfTheYearSubmission: GameOfTheYearSubmission) =

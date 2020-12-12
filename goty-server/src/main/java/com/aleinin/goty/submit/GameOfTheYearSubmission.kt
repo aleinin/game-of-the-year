@@ -8,15 +8,18 @@ data class GameOfTheYearSubmission(
         val name: String,
         val gameSubmissions: List<RankedGameSubmission>,
         val mostAnticipated: GameSubmission,
-        val bestOldGame: GameSubmission) {
+        val bestOldGame: GameSubmission,
+) {
 
     data class GameSubmission(
             val id: String,
-            val title: String)
+            val title: String,
+    )
 
     data class RankedGameSubmission(
             val id: String,
             val title: String,
-            val rank: Int)
+            val rank: Int,
+    )
 }
 

@@ -8,8 +8,5 @@ import org.springframework.data.elasticsearch.client.RestClients
 @Configuration
 internal class ElasticsearchConfiguration {
 
-    @Bean
-    fun elasticsearchClient() = RestClients
-            .create(ClientConfiguration.create("elasticsearch:9200"))
-            .rest()
+    @Bean fun elasticsearchClient() = RestClients.create(ClientConfiguration.create("elasticsearch:9200")).rest()
 }

@@ -7,7 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest
 class GameOfTheYearApplicationTests {
 
     @Test
-    fun contextLoads() {
-
-    }
+    fun contextLoads() { }
 }

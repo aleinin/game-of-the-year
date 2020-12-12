@@ -42,14 +42,14 @@ class GameSearchService(
 
     private fun buildGameQuery(gameSearchRequest: GameSearchRequest) =
             QueryBuilders.boolQuery()
-                    .mustMatchName(gameSearchRequest.name)
+                    .mustMatchTitle(gameSearchRequest.title)
                     .mustMatchMainGame(gameSearchRequest.mainGame)
                     .mustMatchYear(gameSearchRequest.year)
 
-    private fun BoolQueryBuilder.mustMatchName(name: String) =
+    private fun BoolQueryBuilder.mustMatchTitle(title: String) =
             this.must(QueryBuilders.boolQuery()
-                    .shouldMatchFuzzy("name", name)
-                    .shouldMatchFuzzy("alternative_names.name", name))
+                    .shouldMatchFuzzy("name", title)
+                    .shouldMatchFuzzy("alternative_names.name", title))
 
     private fun BoolQueryBuilder.shouldMatchFuzzy(field: String, text: String) =
             this.should(QueryBuilders.matchQuery(field, text).fuzziness(Fuzziness.AUTO))
@@ -62,5 +62,5 @@ class GameSearchService(
             if (year != null) this.must(QueryBuilders.matchQuery("release_dates.y", year)) else this
 
     private fun buildGameResponse(game: JsonNode) =
-            GameSearchResponse(id = game["id"].asText(), name = game["name"].asText())
+            GameSearchResponse(id = game["id"].asText(), title = game["name"].asText())
 }

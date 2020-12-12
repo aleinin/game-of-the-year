@@ -10,12 +10,12 @@ internal class GameController(
         private val gameSearchService: GameSearchService) {
 
     @GetMapping("/games")
-    fun gameSearch(@RequestParam name: String,
+    fun gameSearch(@RequestParam title: String,
                    @RequestParam(defaultValue = "5") limit: Int,
                    @RequestParam(required = false) year: Int?,
                    @RequestParam(defaultValue = "false") mainGame: Boolean) =
         gameSearchService.search(GameSearchRequest(
-            name = name,
+            title = title,
             limit = limit,
             year = year,
             mainGame = mainGame

@@ -1,0 +1,26 @@
+
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+}
+
+.divider {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer a {
+  color: gray;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-shadow: 0 0 5px black;
+}

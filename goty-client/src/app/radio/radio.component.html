@@ -1,0 +1,10 @@
+<app-info [title]="title">
+  <div class="p-field-radiobutton">
+    <p-radioButton id="yes" name="city" [value]="true" [(ngModel)]="value" inputId="yes"></p-radioButton>
+    <label class="label" for="yes">Yes</label>
+  </div>
+  <div class="p-field-radiobutton">
+    <p-radioButton id="no" name="city" [value]="false" [(ngModel)]="value" inputId="no"></p-radioButton>
+    <label class="label" for="no">No</label>
+  </div>
+</app-info>

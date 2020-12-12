@@ -3,7 +3,7 @@ package com.aleinin.goty.submit
 import org.springframework.data.annotation.Id
 import java.util.*
 
-data class GameOfTheYearSubmission(
+data class SubmissionRequest(
         @Id val id: UUID?,
         val name: String,
         val gamesOfTheYear: List<RankedGameSubmission>,

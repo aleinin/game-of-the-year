@@ -6,9 +6,10 @@ import java.util.*
 data class GameOfTheYearSubmission(
         @Id val id: UUID?,
         val name: String,
-        val gameSubmissions: List<RankedGameSubmission>,
+        val gamesOfTheYear: List<RankedGameSubmission>,
         val mostAnticipated: GameSubmission,
         val bestOldGame: GameSubmission,
+        val enteredGiveaway: Boolean
 ) {
 
     data class GameSubmission(

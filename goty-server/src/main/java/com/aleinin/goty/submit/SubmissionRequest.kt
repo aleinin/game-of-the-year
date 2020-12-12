@@ -7,8 +7,8 @@ data class SubmissionRequest(
         @Id val id: UUID?,
         val name: String,
         val gamesOfTheYear: List<RankedGameSubmission>,
-        val mostAnticipated: GameSubmission,
-        val bestOldGame: GameSubmission,
+        val mostAnticipated: GameSubmission?,
+        val bestOldGame: GameSubmission?,
         val enteredGiveaway: Boolean
 ) {
 

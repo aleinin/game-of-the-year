@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
     implementation("com.google.guava:guava:30.0-jre")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

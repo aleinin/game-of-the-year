@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import java.util.*
 
 data class GameOfTheYearSubmission(
-        @Id val id: UUID,
+        @Id val id: UUID?,
         val name: String,
         val gameSubmissions: List<RankedGameSubmission>,
         val mostAnticipated: GameSubmission,

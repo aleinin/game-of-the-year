@@ -1,6 +1,6 @@
 package com.aleinin.goty.objectmapper
 
-import com.fasterxml.jackson.databind.json.JsonMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -8,5 +8,5 @@ import org.springframework.context.annotation.Configuration
 class ObjectMapperConfiguration {
 
     @Bean
-    fun objectMapper() = JsonMapper.builder().build()!!
+    fun objectMapper() = jacksonObjectMapper()
 }

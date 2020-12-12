@@ -8,9 +8,11 @@ import java.util.*
 
 @RestController
 class SubmissionController(
-    val submissionProperties: SubmissionProperties,
-    val submissionRepository: SubmissionRepository,
+    private val submissionProperties: SubmissionProperties,
+    private val submissionRepository: SubmissionRepository,
 ) {
+
+    private val deadlineMessage = "Submission deadline of ${submissionProperties.deadline} has been met."
 
     @GetMapping("/submissions/{id}")
     fun getSubmission(@PathVariable id: UUID) =
@@ -25,7 +27,7 @@ class SubmissionController(
         beforeCutoff { submissionRepository.insert(submissionRequest.copy(id = UUID.randomUUID())) }
 
     private fun beforeCutoff(perform: () -> SubmissionRequest) =
-        if (beforeCutoff()) perform.invoke() else throw ResponseStatusException(HttpStatus.FORBIDDEN)
+        if (beforeCutoff()) perform.invoke() else throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
 
     private fun beforeCutoff() =
         Instant.now().atZone(submissionProperties.deadline.zone).isBefore(submissionProperties.deadline)

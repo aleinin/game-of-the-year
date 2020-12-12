@@ -6,7 +6,8 @@ import org.springframework.data.elasticsearch.client.ClientConfiguration
 import org.springframework.data.elasticsearch.client.RestClients
 
 @Configuration
-internal class ElasticsearchConfiguration {
+class ElasticsearchConfiguration(private val elasticsearchProperties: ElasticsearchProperties) {
 
-    @Bean fun elasticsearchClient() = RestClients.create(ClientConfiguration.create("elasticsearch:9200")).rest()
+    @Bean fun elasticsearchClient() =
+        RestClients.create(ClientConfiguration.create(elasticsearchProperties.hostAndPort)).rest()
 }

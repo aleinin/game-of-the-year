@@ -7,6 +7,7 @@ import {Game} from '../../../api/game.service'
   styleUrls: ['./single-game.component.scss']
 })
 export class SingleGameComponent {
+  @Input() placeholder = ''
   @Input() title = ''
   @Input() game: Game
   @Output() gameSelected = new EventEmitter<Game>()

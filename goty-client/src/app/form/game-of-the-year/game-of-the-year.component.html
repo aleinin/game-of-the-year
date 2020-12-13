@@ -22,6 +22,7 @@
     <li *ngFor="let tie of tiePoints; let i = index">{{i | indexToWord}}: {{tie}}</li>
   </ul>
   <app-search
+    *ngIf="(goty$ | async).length < 10"
     [placeholder]="'Select a game'"
     (gameSelected)="appService.addGameToGOTY($event)"
   ></app-search>

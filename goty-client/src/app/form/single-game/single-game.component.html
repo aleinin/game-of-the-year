@@ -1,6 +1,7 @@
 <app-info [title]="title">
   <ng-content select="[rules]"></ng-content>
   <app-search-in-place
+    [placeholder]="placeholder"
     [game]="game"
     (gameSelected)="gameSelected.emit($event)"
   ></app-search-in-place>

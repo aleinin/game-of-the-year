@@ -1,8 +1,14 @@
 .pi-minus {
   color: #B00020;
 }
-.pi:hover:not(.disabled) {
+.pi-minus:hover:not(.disabled) {
   text-shadow: 0 0 5px black;
+  color: #9a001c;
+}
+
+.pi:hover:not(.disabled):not(.pi-minus) {
+  text-shadow: 0 0 5px black;
+  color: rgba(103, 58, 183, 0.92);
 }
 .pi-chevron-up {
   color: rgb(103, 58, 183);

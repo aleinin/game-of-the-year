@@ -20,12 +20,11 @@ export class FormComponent {
   form = this.formBuilder.group({
     submissionUUID: [undefined],
     name: ['', Validators.required],
-    gamesOfTheYear: [[], Validators.minLength(1)],
+    gamesOfTheYear: [[], Validators.compose([Validators.required, Validators.minLength(1)])],
     bestOldGame: [undefined],
     mostAnticipated: [undefined],
     enteredGiveaway: [undefined, giveawayRequired]
   })
-
   constructor(private readonly appQuery: AppQuery,
               private readonly formBuilder: FormBuilder,
               private readonly submissionService: FormService,

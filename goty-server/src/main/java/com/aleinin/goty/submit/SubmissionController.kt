@@ -21,11 +21,29 @@ class SubmissionController(
 
     @PutMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody submissionRequest: SubmissionRequest) =
-        beforeCutoff { submissionRepository.save(submissionRequest.copy(id = id)) }
+        beforeCutoff {
+            submissionRepository
+                .findById(id)
+                .map {
+                    submissionRequest.copy(
+                        id = id,
+                        enteredOn = it.enteredOn,
+                        updatedOn = System.currentTimeMillis(),
+                    )
+                }
+                .map { submissionRepository.save(it) }
+                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+        }
 
     @PostMapping("/submissions")
     fun insertSubmission(@RequestBody submissionRequest: SubmissionRequest) =
-        beforeCutoff { submissionRepository.insert(submissionRequest.copy(id = UUID.randomUUID())) }
+        beforeCutoff {
+            submissionRepository.insert(submissionRequest.copy(
+                id = UUID.randomUUID(),
+                enteredOn = System.currentTimeMillis(),
+                updatedOn = System.currentTimeMillis(),
+            ))
+        }
 
     private fun beforeCutoff(perform: () -> SubmissionRequest) =
         if (beforeCutoff()) perform.invoke() else throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)

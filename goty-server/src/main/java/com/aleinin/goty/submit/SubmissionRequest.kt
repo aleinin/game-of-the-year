@@ -9,7 +9,9 @@ data class SubmissionRequest(
         val gamesOfTheYear: List<RankedGameSubmission>,
         val mostAnticipated: GameSubmission?,
         val bestOldGame: GameSubmission?,
-        val enteredGiveaway: Boolean = false
+        val enteredGiveaway: Boolean = false,
+        val enteredOn: Long?,
+        val updatedOn: Long?,
 ) {
 
     data class GameSubmission(

@@ -18,7 +18,7 @@ class SubmissionController(
     fun getSubmission(@PathVariable id: UUID) =
         submissionRepository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }!!
 
-    @PutMapping("/submissions/{id}")
+    @PostMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody submissionRequest: SubmissionRequest) =
         beforeCutoff { submissionRepository.save(submissionRequest.copy(id = id)) }
 

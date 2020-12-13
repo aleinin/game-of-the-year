@@ -28,7 +28,6 @@ dependencies {
     implementation("org.springframework.data:spring-data-elasticsearch")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-security")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

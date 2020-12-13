@@ -6,6 +6,7 @@ import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
 import java.util.*
 
+@CrossOrigin
 @RestController
 class SubmissionController(
     private val submissionProperties: SubmissionProperties,
@@ -18,7 +19,7 @@ class SubmissionController(
     fun getSubmission(@PathVariable id: UUID) =
         submissionRepository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }!!
 
-    @PostMapping("/submissions/{id}")
+    @PutMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody submissionRequest: SubmissionRequest) =
         beforeCutoff { submissionRepository.save(submissionRequest.copy(id = id)) }
 

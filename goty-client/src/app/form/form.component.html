@@ -5,4 +5,4 @@
 <app-old-game></app-old-game>
 <app-most-anticipated></app-most-anticipated>
 <app-giveaway *ngIf="giveaway"></app-giveaway>
-<p-button [disabled]="!form.valid" label="Submit" (click)="submit()"></p-button>
+<p-button [style]="{'width': '100%'}" class="submit" [disabled]="!form.valid" label="Submit" (click)="submit()"></p-button>

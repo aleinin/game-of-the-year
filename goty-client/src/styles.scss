@@ -1,7 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 body {
   background-image: url("assets/pattern.gif");
-  font-weight: 350;
+  font-family: Roboto, serif;
+}
+
+@media only screen and (max-width: 767px) {
+  body {
+    font-size: 1.1em;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 1.3em;
+  }
 }
 
 ul {
@@ -14,4 +26,8 @@ a:visited {
 
 a:link {
   color: #6495ED;
+}
+
+.p-button-label {
+  font-size: 1.2em;
 }

@@ -73,7 +73,7 @@ export class FormService {
 
   updateForm(state: AppState) {
     const url = `${this.baseUrl}/submissions/${state.submissionUUID}`
-    return this.httpClient.post(url, convertToBackendForm(state)).pipe(
+    return this.httpClient.put(url, convertToBackendForm(state)).pipe(
       catchError((error) => {
         console.error('Failed to update submission')
         console.error(error)

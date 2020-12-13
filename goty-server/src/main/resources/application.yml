@@ -1,0 +1,15 @@
+goty:
+  elasticsearch:
+    host-and-port: elasticsearch:9200
+  submission:
+    deadline: 2021-01-01T00:00:00-05:00
+
+server:
+  error:
+    include-message: always
+
+spring:
+  data:
+    mongodb:
+      database: goty
+      host: mongo

@@ -6,7 +6,7 @@ import {defaultHeaders} from './api-config'
 
 export interface Game {
   id: string,
-  name: string
+  title: string
 }
 
 @Injectable({providedIn: 'root'})
@@ -16,7 +16,7 @@ export class GameService {
   }
 
   searchGames(input: string, limit: number, year?: number) {
-    let url = `https://goty.gorlah.com/games?query=${input}&limit=${limit}`
+    let url = `https://goty.gorlah.com/games?title=${input}&limit=${limit}`
     if (year != null) {
       url = `${url}&year=${year}`
     }

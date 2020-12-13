@@ -1,7 +1,31 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
+import {StartPageComponent} from './start-page/start-page.component'
+import {FormComponent} from './form/form.component'
+import {EndPageComponent} from './end-page/end-page.component'
+import {EndGuard, FormGuard} from '../api/app/app.guard'
 
-const routes: Routes = []
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'start',
+    pathMatch: 'full'
+  },
+  {
+    path: 'start',
+    component: StartPageComponent
+  },
+  {
+    path: 'form',
+    component: FormComponent,
+    canActivate: [FormGuard]
+  },
+  {
+    path: 'end',
+    component: EndPageComponent,
+    canActivate: [EndGuard]
+  }
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

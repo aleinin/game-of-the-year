@@ -1,0 +1,10 @@
+<app-info>
+  <div class="button-set">
+    <div>
+      <p-button [disabled]="hasSubmission" [style]="{'width': '100%'}" label="New Submission" (click)="route()"></p-button>
+    </div>
+    <div>
+      <p-button [disabled]="!hasSubmission" [style]="{'width': '100%'}" label="Edit Submission" (click)="route()"></p-button>
+    </div>
+  </div>
+</app-info>

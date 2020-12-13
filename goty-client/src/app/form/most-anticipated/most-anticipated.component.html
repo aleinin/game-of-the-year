@@ -1,0 +1,8 @@
+<app-single-game [game]="mostAnticipated$ | async" [title]="title" (gameSelected)="gameSelected($event)">
+  <ng-container rules>
+    <p>Rules:</p>
+    <ul>
+      <li>Anything not released</li>
+    </ul>
+  </ng-container>
+</app-single-game>

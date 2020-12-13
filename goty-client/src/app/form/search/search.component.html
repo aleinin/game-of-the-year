@@ -1,0 +1,13 @@
+<p-autoComplete
+  (completeMethod)="completeMethod.next($event.query)"
+  (onSelect)="selectGame($event)"
+  [(ngModel)]="input"
+  [dropdown]="true"
+  [inputStyle]="{'width':'100%'}"
+  [minLength]="1"
+  [style]="{'display':'flex', 'justify-content':'center', 'margin-right': '15px'}"
+  [suggestions]="selectableGames"
+  class="search"
+  field="title"
+  [placeholder]="placeholder"
+></p-autoComplete>

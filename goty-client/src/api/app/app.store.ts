@@ -3,20 +3,22 @@ import {Query, Store, StoreConfig} from '@datorama/akita'
 import {Injectable} from '@angular/core'
 
 export interface AppState {
+  submissionUUID: string
   name: string
-  gameOfTheYear: Game[]
-  oldGame: Game | null,
+  gamesOfTheYear: Game[]
+  bestOldGame: Game | null,
   mostAnticipated: Game | null,
-  giveaway: boolean | null
+  enteredGiveaway: boolean | null
 }
 
 export function createInitialState(): AppState {
   return {
+    submissionUUID: null,
     name: '',
-    gameOfTheYear: [],
-    oldGame: null,
+    gamesOfTheYear: [],
+    bestOldGame: null,
     mostAnticipated: null,
-    giveaway: null
+    enteredGiveaway: null
   }
 }
 
@@ -27,6 +29,14 @@ export class AppStore extends Store<AppState> {
     super(createInitialState())
   }
 
+  clear() {
+    this.update(() => createInitialState())
+  }
+
+  setState(state: AppState) {
+    this.update( () => state)
+  }
+
   setName(name: string) {
     this.update((state => ({...state, name})))
   }
@@ -34,27 +44,27 @@ export class AppStore extends Store<AppState> {
   addGameToGOTY(newGame: Game) {
     this.update((state) => ({
       ...state,
-      gameOfTheYear: [
-        ...state.gameOfTheYear.filter((game) => game.id !== newGame.id),
+      gamesOfTheYear: [
+        ...state.gamesOfTheYear.filter((game) => game.id !== newGame.id),
         newGame
       ]
     }))
   }
 
   setGOTY(games: Game[]) {
-    this.update((state) => ({...state, gameOfTheYear: games}))
+    this.update((state) => ({...state, gamesOfTheYear: games}))
   }
 
-  setOldGame(oldGame: Game) {
-    this.update((state => ({...state, oldGame})))
+  setBestOldGame(bestOldGame: Game) {
+    this.update((state => ({...state, bestOldGame})))
   }
 
   setMostAnticipated(mostAnticipated: Game) {
     this.update((state => ({...state, mostAnticipated})))
   }
 
-  setGiveaway(giveaway: boolean) {
-    this.update((state => ({...state, giveaway})))
+  setEnteredGiveaway(enteredGiveaway: boolean) {
+    this.update((state => ({...state, enteredGiveaway})))
   }
 }
 
@@ -68,19 +78,19 @@ export class AppQuery extends Query<AppState> {
     return this.select('name')
   }
 
-  selectGameOfTheYear() {
-    return this.select('gameOfTheYear')
+  selectgamesOfTheYear() {
+    return this.select('gamesOfTheYear')
   }
 
   selectMostAnticipated() {
     return this.select('mostAnticipated')
   }
 
-  selectOldGame() {
-    return this.select('oldGame')
+  selectBestOldGame() {
+    return this.select('bestOldGame')
   }
 
-  selectGiveaway() {
-    return this.select('giveaway')
+  selectEnteredGiveaway() {
+    return this.select('enteredGiveaway')
   }
 }

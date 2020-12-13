@@ -1,13 +1,4 @@
 <div class="content">
   <app-title></app-title>
-  <app-game-of-the-year></app-game-of-the-year>
-  <app-old-game></app-old-game>
-  <app-most-anticipated></app-most-anticipated>
-  <app-giveaway *ngIf="giveaway"></app-giveaway>
-  <p-button [disabled]="!form.valid" label="Submit" (click)="submit()"></p-button>
-  <div class="footer">
-    <a href="https://github.com/aleinin">Frontend by aleinin</a>
-    <a href="https://www.igdb.com">Data provided by IGDB</a>
-    <a href="https://github.com/Gorlah">Backend by Gorlah</a>
-  </div>
+  <router-outlet></router-outlet>
 </div>

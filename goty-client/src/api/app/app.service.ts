@@ -1,11 +1,19 @@
 import {Injectable} from '@angular/core'
-import {AppStore} from './app.store'
+import {AppState, AppStore} from './app.store'
 import {Game} from '../game.service'
 
 @Injectable({providedIn: 'root'})
 export class AppService {
 
   constructor(private readonly appStore: AppStore) {
+  }
+
+  clear() {
+    this.appStore.clear()
+  }
+
+  setForm(form: AppState) {
+    this.appStore.setState(form)
   }
 
   setName(name: string) {
@@ -20,16 +28,16 @@ export class AppService {
     this.appStore.setGOTY(games)
   }
 
-  setOldGame(oldGame: Game) {
-    this.appStore.setOldGame(oldGame)
+  setBestOldGame(bestOldGame: Game) {
+    this.appStore.setBestOldGame(bestOldGame)
   }
 
   setMostAnticipated(mostAnticipated: Game) {
     this.appStore.setMostAnticipated(mostAnticipated)
   }
 
-  setGiveaway(giveaway: boolean) {
-    this.appStore.setGiveaway(giveaway)
+  setEnteredGiveaway(enteredGiveaway: boolean) {
+    this.appStore.setEnteredGiveaway(enteredGiveaway)
   }
 
 }

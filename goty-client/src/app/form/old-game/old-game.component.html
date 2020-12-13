@@ -1,0 +1,9 @@
+<app-single-game [game]="bestOldGame$ | async" [title]="title" (gameSelected)="gameSelected($event)">
+  <ng-container rules>
+    <p>What game released before {{year}} have you found yourself going back to?</p>
+    <p>Rules:</p>
+    <ul>
+      <li>Any game not released in {{year}}</li>
+    </ul>
+  </ng-container>
+</app-single-game>

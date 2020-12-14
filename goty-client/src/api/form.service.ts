@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 import {AppState} from './app/app.store'
-import {defaultHeaders} from './api-config'
+import {defaultHeaders, genericErrorHandler} from './api-config'
 import {catchError, tap} from 'rxjs/operators'
-import {of} from 'rxjs'
 import {Game} from './game.service'
 import {AppService} from './app/app.service'
 
@@ -62,23 +61,15 @@ export class FormService {
     return this.httpClient.post<BackendForm>(url, convertToBackendForm(state), {headers: defaultHeaders}).pipe(
       tap(({id}) => {
         localStorage.setItem('submissionUUID', id)
-      }),
-      catchError((error) => {
-        console.error('Failed to submit')
-        console.error(error)
-        return of(error)
-      })
+      }, (error) => genericErrorHandler(error, 'Failed to submit')
+      )
     )
   }
 
   updateForm(state: AppState) {
     const url = `${this.baseUrl}/submissions/${state.submissionUUID}`
     return this.httpClient.put(url, convertToBackendForm(state)).pipe(
-      catchError((error) => {
-        console.error('Failed to update submission')
-        console.error(error)
-        return of(error)
-      })
+      catchError((error) => genericErrorHandler(error, 'Failed to update submission'))
     )
   }
 }

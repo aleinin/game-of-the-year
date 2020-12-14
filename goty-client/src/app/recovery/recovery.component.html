@@ -1,0 +1,15 @@
+<app-info title="Recover Submission">
+  <h4>If you've lost your submission and you've been redirected to this page; paste the key were you given below:</h4>
+  <ng-container *ngIf="failed">
+    <h4 class="error">Something went wrong</h4>
+    <h4 class="error">Unable to recover submission, double check the key</h4>
+  </ng-container>
+  <div class="recovery-set" [formGroup]="recoveryForm">
+    <input
+      type="text"
+      pInputText
+      formControlName="uuid"
+      placeholder="Paste key here">
+    <p-button class="submit" [disabled]="!recoveryForm.valid" label="Submit" (click)="submit()"></p-button>
+  </div>
+</app-info>

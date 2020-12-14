@@ -15,6 +15,19 @@ class SubmissionController(
 
     private val deadlineMessage = "Submission deadline of ${submissionProperties.deadline} has been met."
 
+    @GetMapping("/submissions")
+    fun getSubmissions() = submissionRepository.findAll()
+
+    @PostMapping("/submissions")
+    fun insertSubmission(@RequestBody submissionRequest: SubmissionRequest) =
+        beforeCutoff {
+            submissionRepository.insert(submissionRequest.copy(
+                id = UUID.randomUUID(),
+                enteredOn = System.currentTimeMillis(),
+                updatedOn = System.currentTimeMillis(),
+            ))
+        }
+
     @GetMapping("/submissions/{id}")
     fun getSubmission(@PathVariable id: UUID) =
         submissionRepository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }!!
@@ -33,16 +46,6 @@ class SubmissionController(
                 }
                 .map { submissionRepository.save(it) }
                 .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
-        }
-
-    @PostMapping("/submissions")
-    fun insertSubmission(@RequestBody submissionRequest: SubmissionRequest) =
-        beforeCutoff {
-            submissionRepository.insert(submissionRequest.copy(
-                id = UUID.randomUUID(),
-                enteredOn = System.currentTimeMillis(),
-                updatedOn = System.currentTimeMillis(),
-            ))
         }
 
     private fun beforeCutoff(perform: () -> SubmissionRequest) =

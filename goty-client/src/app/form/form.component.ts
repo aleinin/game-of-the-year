@@ -5,7 +5,7 @@ import {AppQuery, AppState} from '../../api/app/app.store'
 import {FormService} from '../../api/form.service'
 import {first} from 'rxjs/operators'
 import {Router} from '@angular/router'
-import {AppStepService} from '../../api/app/app.step.service'
+import {UIService} from '../../api/ui/ui.service'
 
 export const giveawayRequired = (control: AbstractControl): ValidationErrors | null =>
   giveAway ? Validators.required(control) : null
@@ -29,7 +29,7 @@ export class FormComponent {
               private readonly formBuilder: FormBuilder,
               private readonly submissionService: FormService,
               private readonly router: Router,
-              private readonly appStepService: AppStepService) {
+              private readonly uiService: UIService) {
     this.appQuery.select().subscribe((state) => {
       this.form.setValue({...state})
     })
@@ -53,13 +53,12 @@ export class FormComponent {
   }
 
   private routeToEnd(result: any) {
-    this.appStepService.setEndStep()
     const isError = result.error != null
     let error
     if (isError) {
       error = JSON.stringify(result)
     }
-    this.router.navigate(['/end'], {state: {isError, error}})
+    this.uiService.advanceToEnd(error)
   }
 }
 

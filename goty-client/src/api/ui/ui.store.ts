@@ -1,11 +1,11 @@
 import {Query, Store, StoreConfig} from '@datorama/akita'
 import {Injectable} from '@angular/core'
 
-export interface AppStepState {
-  step: AppStep
+export interface UIState {
+  step: UIStep
 }
 
-export enum AppStep {
+export enum UIStep {
   Start,
   Form,
   End
@@ -13,25 +13,25 @@ export enum AppStep {
 
 export function createInitialState() {
   return {
-    step: AppStep.Start
+    step: UIStep.Start
   }
 }
 
 @StoreConfig({name: 'appStep'})
 @Injectable({providedIn: 'root'})
-export class AppStepStore extends Store<AppStepState> {
+export class UIStore extends Store<UIState> {
   constructor() {
     super(createInitialState())
   }
 
-  setStep(step: AppStep) {
+  setStep(step: UIStep) {
     this.update(() => ({step}))
   }
 }
 
 @Injectable({providedIn: 'root'})
-export class AppStepQuery extends Query<AppStepState> {
-  constructor(protected store: AppStepStore) {
+export class UIQuery extends Query<UIState> {
+  constructor(protected store: UIStore) {
     super(store)
   }
 }

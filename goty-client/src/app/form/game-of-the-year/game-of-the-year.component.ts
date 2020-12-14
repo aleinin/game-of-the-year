@@ -13,7 +13,6 @@ export class GameOfTheYearComponent {
   year = year
   closeDate = closeDate
   tiePoints = tiePoints
-  input = ''
   games: Game[] = []
   title = `What are your favorite game(s) of ${year}?`
   name$ = this.appQuery.selectName()

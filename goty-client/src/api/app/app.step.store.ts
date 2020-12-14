@@ -1,7 +1,7 @@
 import {Query, Store, StoreConfig} from '@datorama/akita'
 import {Injectable} from '@angular/core'
 
-export interface AppStepStore {
+export interface AppStepState {
   step: AppStep
 }
 
@@ -19,7 +19,7 @@ export function createInitialState() {
 
 @StoreConfig({name: 'appStep'})
 @Injectable({providedIn: 'root'})
-export class AppStepStore extends Store<AppStepStore> {
+export class AppStepStore extends Store<AppStepState> {
   constructor() {
     super(createInitialState())
   }
@@ -30,7 +30,7 @@ export class AppStepStore extends Store<AppStepStore> {
 }
 
 @Injectable({providedIn: 'root'})
-export class AppStepQuery extends Query<AppStepStore> {
+export class AppStepQuery extends Query<AppStepState> {
   constructor(protected store: AppStepStore) {
     super(store)
   }

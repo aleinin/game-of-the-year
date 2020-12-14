@@ -7,11 +7,6 @@ import {EndGuard, FormGuard} from '../api/app/app.guard'
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'start',
-    pathMatch: 'full'
-  },
-  {
     path: 'start',
     component: StartPageComponent
   },
@@ -24,6 +19,11 @@ const routes: Routes = [
     path: 'end',
     component: EndPageComponent,
     canActivate: [EndGuard]
+  },
+  {
+    path: '**',
+    redirectTo: 'start',
+    pathMatch: 'full'
   }
 ]
 

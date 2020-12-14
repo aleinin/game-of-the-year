@@ -32,7 +32,7 @@ export class StartPageComponent {
           this.hasSubmission = false
           console.error(error)
           if (error.status === 404 || error.status === 400) {
-            // localStorage.removeItem('submissionUUID')
+            localStorage.removeItem('submissionUUID')
           }
           return of(error)
         })

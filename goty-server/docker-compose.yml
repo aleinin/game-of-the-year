@@ -14,8 +14,6 @@ services:
     - mongo_data:/data/db
   elasticsearch:
     image: 'bitnami/elasticsearch:latest'
-    ports:
-      - 9200:9200
     volumes:
     - elasticsearch_data:/bitnami/elasticsearch/data
 

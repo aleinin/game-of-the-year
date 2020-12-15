@@ -1,6 +1,6 @@
 package com.aleinin.goty.submit
 
 import org.springframework.data.mongodb.repository.MongoRepository
-import java.util.*
+import java.util.UUID
 
 interface SubmissionRepository : MongoRepository<SubmissionRequest, UUID>

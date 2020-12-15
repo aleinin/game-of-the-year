@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 @CrossOrigin
 @RestController
@@ -21,11 +21,13 @@ class SubmissionController(
     @PostMapping("/submissions")
     fun insertSubmission(@RequestBody submissionRequest: SubmissionRequest) =
         beforeCutoff {
-            submissionRepository.insert(submissionRequest.copy(
-                id = UUID.randomUUID(),
-                enteredOn = System.currentTimeMillis(),
-                updatedOn = System.currentTimeMillis(),
-            ))
+            submissionRepository.insert(
+                submissionRequest.copy(
+                    id = UUID.randomUUID(),
+                    enteredOn = System.currentTimeMillis(),
+                    updatedOn = System.currentTimeMillis(),
+                )
+            )
         }
 
     @GetMapping("/submissions/{id}")

@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component
 class GameCountService(private val elasticsearchClient: RestHighLevelClient) {
 
     fun count() =
-        elasticsearchClient
-            .count(CountRequest("games").query(QueryBuilders.matchAllQuery()), RequestOptions.DEFAULT)
-            .count
+        elasticsearchClient.count(
+            CountRequest("games").query(QueryBuilders.matchAllQuery()),
+            RequestOptions.DEFAULT
+        ).count
 }

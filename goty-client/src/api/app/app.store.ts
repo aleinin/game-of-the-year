@@ -78,7 +78,7 @@ export class AppQuery extends Query<AppState> {
     return this.select('name')
   }
 
-  selectgamesOfTheYear() {
+  selectGamesOfTheYear() {
     return this.select('gamesOfTheYear')
   }
 

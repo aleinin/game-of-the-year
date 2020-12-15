@@ -16,7 +16,7 @@ export class GameOfTheYearComponent {
   games: Game[] = []
   title = `What are your favorite game(s) of ${year}?`
   name$ = this.appQuery.selectName()
-  goty$ = this.appQuery.selectgamesOfTheYear()
+  goty$ = this.appQuery.selectGamesOfTheYear()
 
   constructor(public readonly mockGamesService: GameService,
               public readonly appService: AppService,

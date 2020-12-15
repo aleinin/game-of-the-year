@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core'
-import {of} from 'rxjs'
 import {catchError} from 'rxjs/operators'
 import {HttpClient} from '@angular/common/http'
-import {defaultHeaders} from './api-config'
+import {defaultHeaders, genericErrorHandler} from './api-config'
 
 export interface Game {
   id: string,
@@ -21,11 +20,7 @@ export class GameService {
       url = `${url}&year=${year}`
     }
     return this.httpClient.get<Game[]>(url, {observe: 'body', headers: defaultHeaders}).pipe(
-      catchError((error) => {
-        console.error('Service Call Failed')
-        console.error(error)
-        return of(error)
-      })
+      catchError((error) => genericErrorHandler(error, 'Search call failed'))
     )
   }
 }

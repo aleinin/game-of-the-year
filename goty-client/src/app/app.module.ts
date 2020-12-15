@@ -26,7 +26,8 @@ import {InputTextModule} from 'primeng/inputtext'
 import { SingleGameComponent } from './form/single-game/single-game.component'
 import { StartPageComponent } from './start-page/start-page.component'
 import { FormComponent } from './form/form.component';
-import { EndPageComponent } from './end-page/end-page.component'
+import { EndPageComponent } from './end-page/end-page.component';
+import { RecoveryComponent } from './recovery/recovery.component'
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { EndPageComponent } from './end-page/end-page.component'
     SingleGameComponent,
     StartPageComponent,
     FormComponent,
-    EndPageComponent
+    EndPageComponent,
+    RecoveryComponent
   ],
   imports: [
     BrowserModule,

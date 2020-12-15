@@ -1,3 +1,4 @@
+// TODO externalize
 export const tiePoints = [
   15,
   13,

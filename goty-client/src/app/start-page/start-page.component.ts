@@ -1,10 +1,10 @@
 import {Component} from '@angular/core'
 import {AppService} from '../../api/app/app.service'
 import {Router} from '@angular/router'
-import {AppStepService} from '../../api/app/app.step.service'
 import {FormService} from '../../api/form.service'
 import {catchError} from 'rxjs/operators'
 import {of} from 'rxjs'
+import {UIService} from '../../api/ui/ui.service'
 
 const notNull = (input: string | null | undefined): input is string => {
   return input != null
@@ -20,7 +20,7 @@ const notNull = (input: string | null | undefined): input is string => {
 export class StartPageComponent {
   hasSubmission: boolean
   constructor(private readonly appService: AppService,
-              private readonly appStepService: AppStepService,
+              private readonly uiService: UIService,
               private readonly router: Router,
               private readonly formService: FormService) {
     this.appService.clear()
@@ -41,7 +41,6 @@ export class StartPageComponent {
   }
 
   route() {
-    this.appStepService.setFormStep()
-    this.router.navigate(['/form'])
+    this.uiService.advanceToForm()
   }
 }

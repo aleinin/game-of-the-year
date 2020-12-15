@@ -19,11 +19,16 @@ class SubmissionController(
     fun getSubmissions() = submissionRepository.findAll()
 
     @PostMapping("/submissions")
-    fun insertSubmission(@RequestBody submissionRequest: SubmissionRequest) =
+    fun addSubmission(@RequestBody submissionRequest: SubmissionRequest) =
         beforeCutoff {
             submissionRepository.insert(
-                submissionRequest.copy(
+                Submission(
                     id = UUID.randomUUID(),
+                    name = submissionRequest.name,
+                    gamesOfTheYear = submissionRequest.gamesOfTheYear,
+                    mostAnticipated = submissionRequest.mostAnticipated,
+                    bestOldGame = submissionRequest.bestOldGame,
+                    enteredGiveaway = submissionRequest.enteredGiveaway,
                     enteredOn = System.currentTimeMillis(),
                     updatedOn = System.currentTimeMillis(),
                 )
@@ -40,9 +45,12 @@ class SubmissionController(
             submissionRepository
                 .findById(id)
                 .map {
-                    submissionRequest.copy(
-                        id = id,
-                        enteredOn = it.enteredOn,
+                    it.copy(
+                        name = submissionRequest.name,
+                        gamesOfTheYear = submissionRequest.gamesOfTheYear,
+                        mostAnticipated = submissionRequest.mostAnticipated,
+                        bestOldGame = submissionRequest.bestOldGame,
+                        enteredGiveaway = submissionRequest.enteredGiveaway,
                         updatedOn = System.currentTimeMillis(),
                     )
                 }
@@ -50,8 +58,8 @@ class SubmissionController(
                 .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
         }
 
-    private fun beforeCutoff(perform: () -> SubmissionRequest) =
-        if (beforeCutoff()) perform.invoke() else throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
+    private fun beforeCutoff(perform: () -> Submission) =
+        if (beforeCutoff()) perform() else throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
 
     private fun beforeCutoff() =
         Instant.now().atZone(submissionProperties.deadline.zone).isBefore(submissionProperties.deadline)

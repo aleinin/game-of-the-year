@@ -12,6 +12,6 @@ class GameCountService(private val elasticsearchClient: RestHighLevelClient) {
     fun count() =
         elasticsearchClient.count(
             CountRequest("games").query(QueryBuilders.matchAllQuery()),
-            RequestOptions.DEFAULT
+            RequestOptions.DEFAULT,
         ).count
 }

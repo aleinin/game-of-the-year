@@ -1,0 +1,17 @@
+.recovery-set {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recovery-set input {
+  width: 100%;
+  margin-right: 5px;
+}
+
+.recovery-set p-button {
+  align-self: center;
+}
+
+.error {
+  color: #B00020
+}

@@ -1,0 +1,8 @@
+<div class="card">
+  <div>
+    <span [ngClass]="style">{{title}} <span *ngIf="required" class="required">*</span></span>
+  </div>
+  <div>
+    <ng-content></ng-content>
+  </div>
+</div>

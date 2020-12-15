@@ -1,0 +1,13 @@
+.button-set {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr;
+}
+
+.button-set .p-button {
+  margin-top: 10px;
+}
+
+.button-set div:nth-child(2) {
+  margin-top: 10px;
+}

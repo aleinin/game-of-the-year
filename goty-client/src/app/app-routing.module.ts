@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router'
 import {StartPageComponent} from './start-page/start-page.component'
 import {FormComponent} from './form/form.component'
 import {EndPageComponent} from './end-page/end-page.component'
-import {EndGuard, FormGuard} from '../api/app/app.guard'
+import {EndGuard, FormGuard} from '../api/ui/ui.guard'
 import {RecoveryComponent} from './recovery/recovery.component'
 
 const routes: Routes = [

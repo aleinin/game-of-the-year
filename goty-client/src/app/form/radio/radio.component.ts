@@ -16,22 +16,22 @@ import {giveAwayAmountUSD} from '../../../api/constants'
 })
 export class RadioComponent implements ControlValueAccessor {
   title = `Do you want to enter the drawing for the \$${giveAwayAmountUSD} steam gift card?`
-  _value: any
+  internalValue: any
   onChange: any = () => {
   }
   onTouch: any = () => {
   }
 
   set value(value: boolean) {
-    if (value != null && value !== this._value) {
-      this._value = value
+    if (value != null && value !== this.internalValue) {
+      this.internalValue = value
       this.onChange(value)
       this.onTouch(value)
     }
   }
 
   get value() {
-    return this._value
+    return this.internalValue
   }
 
   constructor() {

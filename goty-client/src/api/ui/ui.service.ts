@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core'
 import {UIStep, UIStore} from './ui.store'
 import {Router} from '@angular/router'
 
-@Injectable({'providedIn': 'root'})
+@Injectable({providedIn: 'root'})
 export class UIService {
 
   constructor(private readonly uiStore: UIStore,
@@ -19,7 +19,7 @@ export class UIService {
   }
 
   advanceToEnd(error?: any) {
-    let extras = {state: {isError: error != null, error}}
+    const extras = {state: {isError: error != null, error}}
     this.uiStore.setStep(UIStep.End)
     this.router.navigate(['/end'], extras)
   }

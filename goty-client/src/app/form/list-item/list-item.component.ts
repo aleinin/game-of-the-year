@@ -11,6 +11,7 @@ export class ListItemComponent {
   @Input() index: number
   @Input() length: number
   @Input() orderable = true
+  @Input() readonly = false
   @Output() delete = new EventEmitter<number>()
   @Output() moveUp = new EventEmitter<number>()
   @Output() moveDown = new EventEmitter<number>()

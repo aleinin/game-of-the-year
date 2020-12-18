@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {AppState, AppStore} from './app.store'
+import {Submission, AppStore} from './app.store'
 import {Game} from '../game.service'
 
 @Injectable({providedIn: 'root'})
@@ -12,7 +12,7 @@ export class AppService {
     this.appStore.clear()
   }
 
-  setForm(form: AppState) {
+  setForm(form: Submission) {
     this.appStore.setState(form)
   }
 

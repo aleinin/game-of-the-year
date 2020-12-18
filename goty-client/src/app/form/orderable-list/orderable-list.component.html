@@ -3,6 +3,7 @@
     [index]="i"
     [game]="game"
     [length]="games.length"
+    [readonly]="readonly"
     (delete)="deleteGame($event)"
     (moveUp)="reorderList($event, -1)"
     (moveDown)="reorderList($event, 1)"

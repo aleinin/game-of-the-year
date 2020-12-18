@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
-
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import {HttpClientModule} from '@angular/common/http'
@@ -25,9 +24,15 @@ import { SearchComponent } from './form/search/search.component'
 import {InputTextModule} from 'primeng/inputtext'
 import { SingleGameComponent } from './form/single-game/single-game.component'
 import { StartPageComponent } from './start-page/start-page.component'
-import { FormComponent } from './form/form.component';
-import { EndPageComponent } from './end-page/end-page.component';
+import { FormComponent } from './form/form.component'
+import { EndPageComponent } from './end-page/end-page.component'
 import { RecoveryComponent } from './recovery/recovery.component'
+import { ResultsComponent } from './results/results.component'
+import {TabViewModule} from 'primeng/tabview'
+import {TableModule} from 'primeng/table'
+import { ResultsTableComponent } from './results/results-table/results-table.component'
+import { ResultsSubmissionComponent } from './results/results-submission/results-submission.component'
+import { ResultsSummaryComponent } from './results/results-summary/results-summary.component'
 
 @NgModule({
   declarations: [
@@ -48,7 +53,11 @@ import { RecoveryComponent } from './recovery/recovery.component'
     StartPageComponent,
     FormComponent,
     EndPageComponent,
-    RecoveryComponent
+    RecoveryComponent,
+    ResultsComponent,
+    ResultsTableComponent,
+    ResultsSubmissionComponent,
+    ResultsSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +70,9 @@ import { RecoveryComponent } from './recovery/recovery.component'
     AutoCompleteModule,
     RadioButtonModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    TabViewModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

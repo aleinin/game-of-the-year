@@ -12,6 +12,7 @@ const inBounds = (index: number, moveBy: 1 | -1, length: number) => {
   styleUrls: ['./orderable-list.component.scss']
 })
 export class OrderableListComponent {
+  @Input() readonly = false
   @Input() games: Game[]
   @Output() orderChanges = new EventEmitter<Game[]>()
 

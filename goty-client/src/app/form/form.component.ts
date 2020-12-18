@@ -1,8 +1,8 @@
 import { Component} from '@angular/core'
 import {giveAway} from '../../api/constants'
 import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms'
-import {AppQuery, AppState} from '../../api/app/app.store'
-import {FormService} from '../../api/form.service'
+import {AppQuery, Submission} from '../../api/app/app.store'
+import {SubmissionService} from '../../api/submission.service'
 import {first} from 'rxjs/operators'
 import {Router} from '@angular/router'
 import {UIService} from '../../api/ui/ui.service'
@@ -25,9 +25,11 @@ export class FormComponent {
     mostAnticipated: [undefined],
     enteredGiveaway: [undefined, giveawayRequired]
   })
+  name$ = this.appQuery.selectName()
+  gamesOfTheYear$ = this.appQuery.selectGamesOfTheYear()
   constructor(private readonly appQuery: AppQuery,
               private readonly formBuilder: FormBuilder,
-              private readonly submissionService: FormService,
+              private readonly submissionService: SubmissionService,
               private readonly router: Router,
               private readonly uiService: UIService) {
     this.appQuery.select().subscribe((state) => {
@@ -36,9 +38,9 @@ export class FormComponent {
   }
 
   submit() {
-    const state: AppState = this.form.getRawValue()
+    const state: Submission = this.form.getRawValue()
     if (state.submissionUUID != null) {
-      this.submissionService.updateForm(state).pipe(
+      this.submissionService.updateSubmission(state).pipe(
         first(),
       ).subscribe((result) => {
         this.routeToEnd(result)

@@ -31,3 +31,9 @@ a:link {
 .p-button-label {
   font-size: 1.2em;
 }
+
+app-results .p-tabview .p-tabview-nav {
+  padding: 5px;
+  border-radius: 10px;
+  background-color: rgb(24, 24, 24);
+}

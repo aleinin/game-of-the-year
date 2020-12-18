@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 import {AppService} from '../../api/app/app.service'
 import {Router} from '@angular/router'
-import {FormService} from '../../api/form.service'
+import {SubmissionService} from '../../api/submission.service'
 import {catchError} from 'rxjs/operators'
 import {of} from 'rxjs'
 import {UIService} from '../../api/ui/ui.service'
@@ -22,12 +22,12 @@ export class StartPageComponent {
   constructor(private readonly appService: AppService,
               private readonly uiService: UIService,
               private readonly router: Router,
-              private readonly formService: FormService) {
+              private readonly formService: SubmissionService) {
     this.appService.clear()
     const submissionUUID = localStorage.getItem('submissionUUID')
     this.hasSubmission = notNull(submissionUUID)
     if (this.hasSubmission) {
-      this.formService.getForm(submissionUUID).pipe(
+      this.formService.getSubmission(submissionUUID).pipe(
         catchError((error) => {
           this.hasSubmission = false
           console.error(error)

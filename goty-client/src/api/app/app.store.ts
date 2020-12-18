@@ -2,7 +2,7 @@ import {Game} from '../game.service'
 import {Query, Store, StoreConfig} from '@datorama/akita'
 import {Injectable} from '@angular/core'
 
-export interface AppState {
+export interface Submission {
   submissionUUID: string
   name: string
   gamesOfTheYear: Game[]
@@ -11,7 +11,7 @@ export interface AppState {
   enteredGiveaway: boolean | null
 }
 
-export function createInitialState(): AppState {
+export function createInitialState(): Submission {
   return {
     submissionUUID: null,
     name: '',
@@ -24,7 +24,7 @@ export function createInitialState(): AppState {
 
 @StoreConfig({name: 'appStore'})
 @Injectable({providedIn: 'root'})
-export class AppStore extends Store<AppState> {
+export class AppStore extends Store<Submission> {
   constructor() {
     super(createInitialState())
   }
@@ -33,7 +33,7 @@ export class AppStore extends Store<AppState> {
     this.update(() => createInitialState())
   }
 
-  setState(state: AppState) {
+  setState(state: Submission) {
     this.update( () => state)
   }
 
@@ -69,7 +69,7 @@ export class AppStore extends Store<AppState> {
 }
 
 @Injectable({providedIn: 'root'})
-export class AppQuery extends Query<AppState> {
+export class AppQuery extends Query<Submission> {
   constructor(protected store: AppStore) {
     super(store)
   }

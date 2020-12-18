@@ -1,6 +1,6 @@
 import {Component} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
-import {FormService} from '../../api/form.service'
+import {SubmissionService} from '../../api/submission.service'
 import {first, tap} from 'rxjs/operators'
 import {genericErrorHandler} from '../../api/api-config'
 import {Router} from '@angular/router'
@@ -20,7 +20,7 @@ export class RecoveryComponent {
   })
 
   constructor(private readonly formBuilder: FormBuilder,
-              private readonly formService: FormService,
+              private readonly formService: SubmissionService,
               private readonly uiService: UIService,
               private readonly router: Router) {
 
@@ -29,7 +29,7 @@ export class RecoveryComponent {
   submit() {
     this.failed = false
     const uuid = this.recoveryForm.getRawValue().uuid
-    this.formService.getForm(uuid).pipe(
+    this.formService.getSubmission(uuid).pipe(
       first(),
       tap(() => {
         localStorage.setItem('submissionUUID', uuid)

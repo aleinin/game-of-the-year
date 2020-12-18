@@ -1,0 +1,25 @@
+<app-info [title]="title">
+  <div class="table">
+    <p-table
+      [value]="values"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[5, 10, 25]">
+      <ng-template *ngIf="!stringArr" pTemplate="header">
+        <tr>
+          <th *ngFor="let prop of this.columnConfig">{{prop}}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <ng-container *ngIf="stringArr; else obj">
+            <td>{{row}}</td>
+          </ng-container>
+          <ng-template #obj>
+            <td *ngFor="let prop of this.columnConfig">{{row[prop]}}</td>
+          </ng-template>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</app-info>

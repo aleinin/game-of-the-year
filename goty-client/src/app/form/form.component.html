@@ -1,7 +1,10 @@
 <app-info>
   <span class="required">* Required</span>
 </app-info>
-<app-game-of-the-year></app-game-of-the-year>
+<app-game-of-the-year
+  [name]="name$ | async"
+  [gamesOfTheYear]="gamesOfTheYear$ | async"
+></app-game-of-the-year>
 <app-old-game></app-old-game>
 <app-most-anticipated></app-most-anticipated>
 <app-giveaway *ngIf="giveaway"></app-giveaway>

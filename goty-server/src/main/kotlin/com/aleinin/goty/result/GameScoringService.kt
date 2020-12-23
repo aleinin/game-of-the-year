@@ -11,10 +11,10 @@ class GameScoringService(private val pointsService: PointsService) {
             .groupingBy { it.id }
             .fold(
                 { id, first -> ScoredGameResult(id = id, title = first.title) },
-                { _, rankedGameResult, rankedGameSubmission ->
-                    rankedGameResult.copy(
-                        points = rankedGameResult.points + pointsService.calculatePoints(rankedGameSubmission.rank),
-                        votes = rankedGameResult.votes + 1,
+                { _, scoredGameResult, rankedGameSubmission ->
+                    scoredGameResult.copy(
+                        points = scoredGameResult.points + pointsService.calculatePoints(rankedGameSubmission.rank),
+                        votes = scoredGameResult.votes + 1,
                     )
                 },
             )

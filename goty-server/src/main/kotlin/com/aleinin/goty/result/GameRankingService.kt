@@ -11,7 +11,7 @@ class GameRankingService {
             .groupingBy { it.id }
             .fold(
                 { id, first -> RankedGameResult(id = id, title = first.title) },
-                { _, gameResult, _ -> gameResult.copy(votes = gameResult.votes + 1) },
+                { _, rankedGameResult, _ -> rankedGameResult.copy(votes = rankedGameResult.votes + 1) },
             )
             .map { it.value }
             .groupBy { it.votes }

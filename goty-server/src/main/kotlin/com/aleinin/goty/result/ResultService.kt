@@ -14,6 +14,7 @@ class ResultService(
             gamesOfTheYear = gameScoringService.score(submissions.flatMap { it.gamesOfTheYear }),
             mostAnticipated = gameRankingService.rank(submissions.mapNotNull { it.mostAnticipated }),
             bestOldGame = gameRankingService.rank(submissions.mapNotNull { it.bestOldGame }),
-            participants = submissions.filter { it.enteredGiveaway }.map { it.name },
+            participants = submissions.map { it.name },
+            giveawayParticipants = submissions.filter { it.enteredGiveaway }.map { it.name },
         )
 }

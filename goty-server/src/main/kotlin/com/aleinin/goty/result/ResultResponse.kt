@@ -5,4 +5,5 @@ data class ResultResponse(
     val mostAnticipated: List<RankedGameResult>,
     val bestOldGame: List<RankedGameResult>,
     val participants: List<String>,
+    val giveawayParticipants: List<String>,
 )

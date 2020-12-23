@@ -14,13 +14,13 @@ class ResultService(private val pointsService: PointsService) {
             gamesOfTheYear = score(submissions.flatMap { it.gamesOfTheYear }),
             mostAnticipated = rank(submissions.mapNotNull { it.mostAnticipated }),
             bestOldGame = rank(submissions.mapNotNull { it.bestOldGame }),
-            giveawayParticipants = submissions.filter { it.enteredGiveaway }.map { it.name },
+            participants = submissions.filter { it.enteredGiveaway }.map { it.name },
         )
 
     private fun rank(games: List<GameSubmission>, limit: Int = 1) =
         games
             .groupingBy { it.id }
-            .fold(GameResult()) { gameResult, gameSubmission ->
+            .fold(RankedGameResult()) { gameResult, gameSubmission ->
                 gameResult.copy(
                     id = gameSubmission.id,
                     title = gameSubmission.title,
@@ -36,11 +36,11 @@ class ResultService(private val pointsService: PointsService) {
     private fun score(games: List<RankedGameSubmission>, limit: Int = 10) =
         games
             .groupingBy { it.id }
-            .fold(RankedGameResult()) { rankedGameResult, rankedGameSubmission ->
+            .fold(ScoredGameResult()) { rankedGameResult, rankedGameSubmission ->
                 rankedGameResult.copy(
                     id = rankedGameSubmission.id,
                     title = rankedGameSubmission.title,
-                    points = rankedGameResult.points + pointsService.points(rankedGameSubmission.rank),
+                    points = rankedGameResult.points + pointsService.calculatePoints(rankedGameSubmission.rank),
                     votes = rankedGameResult.votes + 1,
                 )
             }

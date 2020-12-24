@@ -1,7 +1,7 @@
 import {Query, Store, StoreConfig} from '@datorama/akita'
 import {Injectable} from '@angular/core'
 import {Submission} from '../app/app.store'
-import {pluck} from 'rxjs/operators'
+import {map, pluck} from 'rxjs/operators'
 
 export interface ResultsState {
   results: Results,
@@ -13,23 +13,44 @@ export interface GameOfTheYearResult extends GameResult {
 }
 
 export interface GameResult {
+  id: string
   rank: number
   title: string
   votes: number
 }
 
 export interface Results {
-  names: string[],
+  participants: string[],
   gamesOfTheYear: GameOfTheYearResult[]
   mostAnticipated: GameResult[]
   bestOldGame: GameResult[]
-  giveaway: string[]
+  giveawayParticipants: string[]
 }
 
 export function createInitialState(): ResultsState {
   return {
     results: null,
-    submissions: null
+    submissions: []
+  }
+}
+
+export interface Rankable {
+  rank: number
+}
+
+const makeRankHumanReadable = <T extends Rankable> (results: T[]): T[] => {
+  return results.map((result) => ({...result, rank: result.rank + 1}))
+}
+
+const incrementRankInResults = (results: Results): Results => {
+  if (results == null) {
+    return null
+  }
+  return {
+    ...results,
+    gamesOfTheYear: makeRankHumanReadable(results.gamesOfTheYear),
+    mostAnticipated: makeRankHumanReadable(results.mostAnticipated),
+    bestOldGame: makeRankHumanReadable(results.bestOldGame)
   }
 }
 
@@ -55,13 +76,38 @@ export class ResultsQuery extends Query<ResultsState> {
     super(store)
   }
 
-  selectResult(prop: keyof Results) {
+  selectHumanReadableResults() {
     return this.select('results').pipe(
+      map((results) => incrementRankInResults(results))
+    )
+  }
+
+  selectResult(prop: keyof Results) {
+    return this.selectHumanReadableResults().pipe(
       pluck(prop)
     )
   }
 
-  selectSubmissions() {
-    return this.select('submissions')
+  selectSubmission(index: number) {
+    return this.select('submissions').pipe(
+      map((submissions) => {
+        if (!Array.isArray(submissions)) {
+          return null
+        }
+        if (index < 0) {
+          return submissions[0]
+        }
+        if (index  > submissions.length - 1) {
+          return submissions[submissions.length - 1]
+        }
+        return submissions[index]
+      })
+    )
+  }
+
+  selectLengthOfSubmissions() {
+    return this.select('submissions').pipe(
+      map((submissions) => Array.isArray(submissions) ? submissions.length : 0)
+    )
   }
 }

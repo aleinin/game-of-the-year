@@ -1,7 +1,6 @@
-import {Component} from '@angular/core'
+import {Component, Input} from '@angular/core'
 import {lastTime} from 'src/api/constants'
 import {AppService} from '../../../api/app/app.service'
-import {AppQuery} from '../../../api/app/app.store'
 
 @Component({
   selector: 'app-giveaway',
@@ -9,11 +8,11 @@ import {AppQuery} from '../../../api/app/app.store'
   styleUrls: ['./giveaway.component.scss']
 })
 export class GiveawayComponent {
+  @Input() enteredGiveaway
+  @Input() readonly = false
   title = 'Giveaway'
   lastTime = lastTime
-  enteredGiveaway$ = this.appQuery.selectEnteredGiveaway()
 
-  constructor(public readonly appService: AppService,
-              private readonly appQuery: AppQuery) {
+  constructor(public readonly appService: AppService) {
   }
 }

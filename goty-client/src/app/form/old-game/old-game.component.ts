@@ -1,8 +1,7 @@
-import {Component} from '@angular/core'
+import {Component, Input} from '@angular/core'
 import {year} from 'src/api/constants'
 import {Game} from '../../../api/game.service'
 import {AppService} from '../../../api/app/app.service'
-import {AppQuery} from '../../../api/app/app.store'
 
 @Component({
   selector: 'app-old-game',
@@ -10,11 +9,11 @@ import {AppQuery} from '../../../api/app/app.store'
   styleUrls: ['./old-game.component.scss']
 })
 export class OldGameComponent {
+  @Input() readonly = false
+  @Input() bestOldGame: Game
   title = `What is your favorite OLD game of ${year}`
   year = year
-  bestOldGame$ = this.appQuery.selectBestOldGame()
-  constructor(private readonly appService: AppService,
-              private readonly appQuery: AppQuery) {
+  constructor(private readonly appService: AppService) {
   }
 
   gameSelected(bestOldGame: Game) {

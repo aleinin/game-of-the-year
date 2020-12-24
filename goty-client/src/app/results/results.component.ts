@@ -3,6 +3,7 @@ import {ResultsQuery} from '../../api/results/results.store'
 import {ResultsService} from '../../api/results/results.service'
 import {first} from 'rxjs/operators'
 import {ActivatedRoute, Router} from '@angular/router'
+import {SubmissionService} from '../../api/submission.service'
 
 export enum ResultTabs {
   SUMMARY,
@@ -15,11 +16,15 @@ export enum ResultTabs {
   styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent {
+  activateIndex = ResultTabs.SUMMARY
   constructor(private readonly resultsService: ResultsService,
               private readonly resultsQuery: ResultsQuery,
+              private readonly submissionService: SubmissionService,
               private readonly router: Router,
               private readonly route: ActivatedRoute) {
     this.resultsService.fetchResults().pipe(first()).subscribe()
+    this.submissionService.getAllSubmissions().pipe(first()).subscribe()
+    this.activateIndex = this.router.url.includes('summary') ? ResultTabs.SUMMARY : ResultTabs.INDIVIDUAL
   }
   change(index: ResultTabs) {
     this.router.navigate([index === ResultTabs.SUMMARY ? 'summary' : 'individual'], {relativeTo: this.route})

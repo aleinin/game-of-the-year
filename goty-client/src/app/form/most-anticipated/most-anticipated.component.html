@@ -1,5 +1,5 @@
-<app-single-game placeholder="Select a game" [game]="mostAnticipated$ | async" [title]="title" (gameSelected)="gameSelected($event)">
-  <ng-container rules>
+<app-single-game placeholder="Select a game" [game]="mostAnticipated" [title]="title" (gameSelected)="gameSelected($event)" [readonly]="readonly">
+  <ng-container *ngIf="!readonly" rules>
     <p>Rules:</p>
     <ul>
       <li>Anything not released</li>

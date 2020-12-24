@@ -13,6 +13,7 @@ export class SearchInPlaceComponent implements OnDestroy {
   @Input() set game(game: Game) {
     this.selectedGameSubject.next(game)
   }
+  @Input() readonly = false
   @Output() gameSelected = new EventEmitter<Game>()
   selectedGameSubject = new BehaviorSubject<Game | undefined>(undefined)
   subscriptions = new Subscription()

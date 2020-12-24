@@ -1,5 +1,5 @@
-<app-single-game placeholder="Select a game" [game]="bestOldGame$ | async" [title]="title" (gameSelected)="gameSelected($event)">
-  <ng-container rules>
+<app-single-game placeholder="Select a game" [game]="bestOldGame" [title]="title" (gameSelected)="gameSelected($event)" [readonly]="readonly">
+  <ng-container *ngIf="!readonly" rules>
     <p>What game released before {{year}} have you found yourself going back to?</p>
     <p>Rules:</p>
     <ul>

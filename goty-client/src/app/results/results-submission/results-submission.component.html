@@ -1,6 +1,23 @@
-<app-game-of-the-year
-  name="test"
-  [gamesOfTheYear]="[{id: 0, title: 'game 1'}]"
-  [showInstructions]="false"
-  [readonly]="true"
-></app-game-of-the-year>
+<app-paginator
+  [totalPages]="totalSubmissions$ | async"
+  (pageChange)="currentIndexSubject.next($event)"
+></app-paginator>
+<ng-container *ngIf="submission$ | async as submission">
+  <app-game-of-the-year
+    [name]="submission.name"
+    [gamesOfTheYear]="submission.gamesOfTheYear"
+    [readonly]="true"
+  ></app-game-of-the-year>
+  <app-old-game
+    [readonly]="true"
+    [bestOldGame]="submission.bestOldGame"
+  ></app-old-game>
+  <app-most-anticipated
+    [readonly]="true"
+    [mostAnticipated]="submission.mostAnticipated"
+  ></app-most-anticipated>
+  <app-giveaway
+    [readonly]="true"
+    [enteredGiveaway]="submission.enteredGiveaway"
+  ></app-giveaway>
+</ng-container>

@@ -10,7 +10,7 @@
   >
 </app-info>
 <app-info [title]="title" [required]="true">
-  <ng-container *ngIf="showInstructions">
+  <ng-container *ngIf="!readonly">
     <p>Rules:</p>
     <ul>
       <li>Voting Closes {{closeDate}}</li>

@@ -27,6 +27,9 @@ export class FormComponent {
   })
   name$ = this.appQuery.selectName()
   gamesOfTheYear$ = this.appQuery.selectGamesOfTheYear()
+  bestOldGame$ = this.appQuery.selectBestOldGame()
+  mostAnticipated$ = this.appQuery.selectMostAnticipated()
+  enteredGiveaway$ = this.appQuery.selectEnteredGiveaway()
   constructor(private readonly appQuery: AppQuery,
               private readonly formBuilder: FormBuilder,
               private readonly submissionService: SubmissionService,
@@ -46,7 +49,7 @@ export class FormComponent {
         this.routeToEnd(result)
       })
     } else {
-      this.submissionService.submitNewForm(state).pipe(
+      this.submissionService.createSubmission(state).pipe(
         first()
       ).subscribe((result) => {
         this.routeToEnd(result)

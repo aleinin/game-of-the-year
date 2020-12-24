@@ -5,7 +5,7 @@
   [name]="name$ | async"
   [gamesOfTheYear]="gamesOfTheYear$ | async"
 ></app-game-of-the-year>
-<app-old-game></app-old-game>
-<app-most-anticipated></app-most-anticipated>
-<app-giveaway *ngIf="giveaway"></app-giveaway>
+<app-old-game [bestOldGame]="bestOldGame$ | async"></app-old-game>
+<app-most-anticipated [mostAnticipated]="mostAnticipated$ | async"></app-most-anticipated>
+<app-giveaway *ngIf="giveaway" [enteredGiveaway]="enteredGiveaway$ | async"></app-giveaway>
 <p-button [style]="{'width': '100%'}" class="submit" [disabled]="!form.valid" label="Submit" (click)="submit()"></p-button>

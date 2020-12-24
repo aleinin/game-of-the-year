@@ -1,7 +1,6 @@
-import {Component} from '@angular/core'
+import {Component, Input} from '@angular/core'
 import {AppService} from '../../../api/app/app.service'
 import {Game} from '../../../api/game.service'
-import {AppQuery} from '../../../api/app/app.store'
 
 @Component({
   selector: 'app-most-anticipated',
@@ -9,10 +8,10 @@ import {AppQuery} from '../../../api/app/app.store'
   styleUrls: ['./most-anticipated.component.scss']
 })
 export class MostAnticipatedComponent {
+  @Input() mostAnticipated: Game
+  @Input() readonly = false
   title = 'What game are you looking forward to most?'
-  mostAnticipated$ = this.appQuery.selectMostAnticipated()
-  constructor(private readonly appService: AppService,
-              private readonly appQuery: AppQuery) {
+  constructor(private readonly appService: AppService) {
   }
 
   gameSelected(game: Game) {

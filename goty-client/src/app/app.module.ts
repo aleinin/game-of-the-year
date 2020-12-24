@@ -33,32 +33,34 @@ import {TableModule} from 'primeng/table'
 import { ResultsTableComponent } from './results/results-table/results-table.component'
 import { ResultsSubmissionComponent } from './results/results-submission/results-submission.component'
 import { ResultsSummaryComponent } from './results/results-summary/results-summary.component'
+import {PaginatorComponent} from './results/paginator/paginator.component'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TitleComponent,
-    OrderableListComponent,
-    ListItemComponent,
-    IndexToWordPipe,
-    GameOfTheYearComponent,
-    InfoComponent,
-    OldGameComponent,
-    MostAnticipatedComponent,
-    GiveawayComponent,
-    SearchInPlaceComponent,
-    RadioComponent,
-    SearchComponent,
-    SingleGameComponent,
-    StartPageComponent,
-    FormComponent,
-    EndPageComponent,
-    RecoveryComponent,
-    ResultsComponent,
-    ResultsTableComponent,
-    ResultsSubmissionComponent,
-    ResultsSummaryComponent
-  ],
+    declarations: [
+        AppComponent,
+        TitleComponent,
+        OrderableListComponent,
+        ListItemComponent,
+        IndexToWordPipe,
+        GameOfTheYearComponent,
+        InfoComponent,
+        OldGameComponent,
+        MostAnticipatedComponent,
+        GiveawayComponent,
+        SearchInPlaceComponent,
+        RadioComponent,
+        SearchComponent,
+        SingleGameComponent,
+        StartPageComponent,
+        FormComponent,
+        EndPageComponent,
+        RecoveryComponent,
+        ResultsComponent,
+        ResultsTableComponent,
+        ResultsSubmissionComponent,
+        ResultsSummaryComponent,
+        PaginatorComponent
+    ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

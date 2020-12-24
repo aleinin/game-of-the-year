@@ -10,5 +10,6 @@ export class SingleGameComponent {
   @Input() placeholder = ''
   @Input() title = ''
   @Input() game: Game
+  @Input() readonly = false
   @Output() gameSelected = new EventEmitter<Game>()
 }

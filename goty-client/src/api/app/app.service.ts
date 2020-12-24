@@ -37,6 +37,7 @@ export class AppService {
   }
 
   setEnteredGiveaway(enteredGiveaway: boolean) {
+    // TODO this shouldn't get called on results screen
     this.appStore.setEnteredGiveaway(enteredGiveaway)
   }
 

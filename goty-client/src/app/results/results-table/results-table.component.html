@@ -4,7 +4,7 @@
       [value]="values"
       [paginator]="true"
       [rows]="10"
-      [rowsPerPageOptions]="[5, 10, 25]">
+      [rowsPerPageOptions]="[10, 20, 50]">
       <ng-template *ngIf="!stringArr" pTemplate="header">
         <tr>
           <th *ngFor="let prop of this.columnConfig">{{prop}}</th>

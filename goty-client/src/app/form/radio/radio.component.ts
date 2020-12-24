@@ -1,4 +1,4 @@
-import {Component, forwardRef} from '@angular/core'
+import {Component, forwardRef, Input} from '@angular/core'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
 import {giveAwayAmountUSD} from '../../../api/constants'
 
@@ -15,6 +15,7 @@ import {giveAwayAmountUSD} from '../../../api/constants'
   ]
 })
 export class RadioComponent implements ControlValueAccessor {
+  @Input() readonly = false
   title = `Do you want to enter the drawing for the \$${giveAwayAmountUSD} steam gift card?`
   internalValue: any
   onChange: any = () => {

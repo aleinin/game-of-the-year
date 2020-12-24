@@ -5,6 +5,7 @@ import {baseUrl, defaultHeaders, genericErrorHandler} from './api-config'
 import {catchError, tap} from 'rxjs/operators'
 import {Game} from './game.service'
 import {AppService} from './app/app.service'
+import {ResultsService} from './results/results.service'
 
 interface BackendForm {
   id?: string
@@ -44,7 +45,8 @@ const convertFromBackendToAppState = (state: BackendForm): Submission => {
 export class SubmissionService {
   readonly submissionsUrl = `${baseUrl}/submissions`
   constructor(private readonly httpClient: HttpClient,
-              private readonly appService: AppService) {
+              private readonly appService: AppService,
+              private readonly resultsService: ResultsService ) {
   }
 
   getSubmission(submissionUUID: string) {
@@ -56,7 +58,14 @@ export class SubmissionService {
     )
   }
 
-  submitNewForm(state: Submission) {
+  getAllSubmissions() {
+    return this.httpClient.get<Submission[]>(this.submissionsUrl, {headers: defaultHeaders, observe: 'body'}).pipe(
+      tap((submissions) => this.resultsService.setSubmissions(submissions)),
+      catchError((error) => genericErrorHandler(error, 'Failed to get all submissions'))
+    )
+  }
+
+  createSubmission(state: Submission) {
     const url = `${this.submissionsUrl}`
     return this.httpClient.post<BackendForm>(url, convertToBackendForm(state), {headers: defaultHeaders}).pipe(
       tap(({id}) => {

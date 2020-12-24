@@ -5,6 +5,7 @@
 ></app-search>
 <ng-template #item>
   <app-list-item
+    [readonly]="readonly"
     [orderable]="false"
     [game]="selectedGameSubject | async"
     (delete)="selectedGameSubject.next(null)"

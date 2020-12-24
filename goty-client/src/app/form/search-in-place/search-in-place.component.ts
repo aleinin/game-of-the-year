@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core'
 import {Game, GameService} from '../../../api/game.service'
 import {BehaviorSubject, Subscription} from 'rxjs'
-import {skip, tap} from 'rxjs/operators'
+import {filter, skip, tap} from 'rxjs/operators'
 
 @Component({
   selector: 'app-search-in-place',
@@ -21,6 +21,7 @@ export class SearchInPlaceComponent implements OnDestroy {
   constructor(public readonly gameService: GameService) {
     const selectedGameSub = this.selectedGameSubject.pipe(
       skip(1),
+      filter(() => !this.readonly),
       tap((game) => this.gameSelected.emit(game))
     ).subscribe()
     this.subscriptions.add(selectedGameSub)

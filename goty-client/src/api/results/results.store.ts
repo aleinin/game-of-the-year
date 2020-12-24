@@ -5,7 +5,7 @@ import {map, pluck} from 'rxjs/operators'
 
 export interface ResultsState {
   results: Results,
-  submissions: Submission[] // TODO
+  submissions: Submission[]
 }
 
 export interface GameOfTheYearResult extends GameResult {

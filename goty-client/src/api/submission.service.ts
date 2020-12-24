@@ -66,8 +66,7 @@ export class SubmissionService {
   }
 
   createSubmission(state: Submission) {
-    const url = `${this.submissionsUrl}`
-    return this.httpClient.post<BackendForm>(url, convertToBackendForm(state), {headers: defaultHeaders}).pipe(
+    return this.httpClient.post<BackendForm>(this.submissionsUrl, convertToBackendForm(state), {headers: defaultHeaders}).pipe(
       tap(({id}) => {
         localStorage.setItem('submissionUUID', id)
       }, (error) => genericErrorHandler(error, 'Failed to submit')

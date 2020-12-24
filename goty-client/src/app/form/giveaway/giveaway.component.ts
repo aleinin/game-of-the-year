@@ -15,4 +15,10 @@ export class GiveawayComponent {
 
   constructor(public readonly appService: AppService) {
   }
+
+  setEnteredGiveaway(enteredGiveaway: boolean) {
+    if (!this.readonly) {
+      this.appService.setEnteredGiveaway(enteredGiveaway)
+    }
+  }
 }

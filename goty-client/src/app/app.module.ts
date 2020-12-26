@@ -34,33 +34,38 @@ import { ResultsTableComponent } from './results/results-table/results-table.com
 import { ResultsSubmissionComponent } from './results/results-submission/results-submission.component'
 import { ResultsSummaryComponent } from './results/results-summary/results-summary.component'
 import {PaginatorComponent} from './results/paginator/paginator.component'
+import {ProgressSpinnerModule} from 'primeng/progressspinner'
+import {ResultsTableStylePipe} from './results/results-table/results-table-style.pipe'
+import {LoadingComponent} from './results/loading/loading.component'
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        TitleComponent,
-        OrderableListComponent,
-        ListItemComponent,
-        IndexToWordPipe,
-        GameOfTheYearComponent,
-        InfoComponent,
-        OldGameComponent,
-        MostAnticipatedComponent,
-        GiveawayComponent,
-        SearchInPlaceComponent,
-        RadioComponent,
-        SearchComponent,
-        SingleGameComponent,
-        StartPageComponent,
-        FormComponent,
-        EndPageComponent,
-        RecoveryComponent,
-        ResultsComponent,
-        ResultsTableComponent,
-        ResultsSubmissionComponent,
-        ResultsSummaryComponent,
-        PaginatorComponent
-    ],
+  declarations: [
+    AppComponent,
+    TitleComponent,
+    OrderableListComponent,
+    ListItemComponent,
+    IndexToWordPipe,
+    GameOfTheYearComponent,
+    InfoComponent,
+    OldGameComponent,
+    MostAnticipatedComponent,
+    GiveawayComponent,
+    SearchInPlaceComponent,
+    RadioComponent,
+    SearchComponent,
+    SingleGameComponent,
+    StartPageComponent,
+    FormComponent,
+    EndPageComponent,
+    RecoveryComponent,
+    ResultsComponent,
+    ResultsTableComponent,
+    ResultsSubmissionComponent,
+    ResultsSummaryComponent,
+    PaginatorComponent,
+    ResultsTableStylePipe,
+    LoadingComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -74,7 +79,8 @@ import {PaginatorComponent} from './results/paginator/paginator.component'
     ButtonModule,
     InputTextModule,
     TabViewModule,
-    TableModule
+    TableModule,
+    ProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

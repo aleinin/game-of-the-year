@@ -1,5 +1,4 @@
 import {Component} from '@angular/core'
-import {giveAway} from '../../../api/constants'
 import {ResultsQuery} from '../../../api/results/results.store'
 import {switchMap} from 'rxjs/operators'
 import {BehaviorSubject} from 'rxjs'
@@ -15,7 +14,7 @@ export class ResultsSubmissionComponent {
     switchMap((index) => this.resultsQuery.selectSubmission(index))
   )
   totalSubmissions$ = this.resultsQuery.selectLengthOfSubmissions()
-  giveaway = giveAway
+  loading$ = this.resultsQuery.selectLoading()
 
   constructor(private readonly resultsQuery: ResultsQuery) {
   }

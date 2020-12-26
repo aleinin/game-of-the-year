@@ -11,11 +11,12 @@ export class ResultsSummaryComponent {
   readonly oldGameTitle = `Old Game of ${year}`
   readonly gameOfTheYearColumns: Array<keyof GameOfTheYearResult> = ['rank', 'title', 'votes', 'points']
   readonly gameColumns: Array<keyof GameResult> = ['rank', 'title', 'votes']
-  names$ = this.resultsQuery.selectResult('participants')
-  gamesOfTheYear$ = this.resultsQuery.selectResult('gamesOfTheYear')
-  bestOldGames$ = this.resultsQuery.selectResult('bestOldGame')
-  mostAnticipated$ = this.resultsQuery.selectResult('mostAnticipated')
-  giveaway$ = this.resultsQuery.selectResult('giveawayParticipants')
+  names$ = this.resultsQuery.selectParticipants()
+  gamesOfTheYear$ = this.resultsQuery.selectGamesOfTheYear()
+  bestOldGames$ = this.resultsQuery.selectBestOldGame()
+  mostAnticipated$ = this.resultsQuery.selectMostAnticipated()
+  giveaway$ = this.resultsQuery.selectGiveawayParticipants()
+  loading$ = this.resultsQuery.selectLoading()
 
   constructor(private readonly resultsQuery: ResultsQuery) {
   }

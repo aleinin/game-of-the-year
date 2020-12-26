@@ -1,6 +1,7 @@
 <app-info [title]="title">
   <div class="table">
     <p-table
+      [autoLayout]="true"
       [value]="values"
       [paginator]="true"
       [rows]="10"
@@ -11,7 +12,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-row>
-        <tr>
+        <tr [ngClass]="row.rank | resultsTableStylePipe: styleType">
           <ng-container *ngIf="stringArr; else obj">
             <td>{{row}}</td>
           </ng-container>

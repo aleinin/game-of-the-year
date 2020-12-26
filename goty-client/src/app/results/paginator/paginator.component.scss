@@ -10,7 +10,7 @@
 .pages {
   margin-left: 5px;
   margin-right: 5px;
-  width: 60px;
+  width: 80px;
   display: inline-block;
   text-align: center;
 }
@@ -18,4 +18,9 @@
 i:hover:not(.disabled) {
   cursor: pointer;
   color: #673ab7;
+  text-shadow: 0 0 5px #673ab7;
+}
+
+.controls div {
+  display: flex;
 }

@@ -82,9 +82,33 @@ export class ResultsQuery extends Query<ResultsState> {
     )
   }
 
-  selectResult(prop: keyof Results) {
+  selectParticipants() {
+    return this.select('results').pipe(
+      pluck('participants')
+    )
+  }
+
+  selectGiveawayParticipants() {
+    return this.select('results').pipe(
+      pluck('giveawayParticipants')
+    )
+  }
+
+  selectGamesOfTheYear() {
     return this.selectHumanReadableResults().pipe(
-      pluck(prop)
+      pluck('gamesOfTheYear')
+    )
+  }
+
+  selectMostAnticipated() {
+    return this.selectHumanReadableResults().pipe(
+      pluck('mostAnticipated')
+    )
+  }
+
+  selectBestOldGame() {
+    return this.selectHumanReadableResults().pipe(
+      pluck('bestOldGame')
     )
   }
 

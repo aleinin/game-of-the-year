@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {baseUrl, defaultHeaders, genericErrorHandler} from '../api-config'
 import {HttpClient} from '@angular/common/http'
-import {catchError, tap} from 'rxjs/operators'
+import {tap} from 'rxjs/operators'
 import {Observable} from 'rxjs'
 import {Results, ResultsStore} from './results.store'
 import {Submission} from '../app/app.store'
@@ -15,9 +15,12 @@ export class ResultsService {
   }
 
   fetchResults(): Observable<Results> {
+    this.resultsStore.setLoading(true)
     return this.httpClient.get<Results>(this.resultsUrl, {headers: defaultHeaders, observe: 'body'}).pipe(
-      tap((results) => this.resultsStore.setResults(results)),
-      catchError((error) => genericErrorHandler(error, 'Failed to fetch results'))
+      tap((results) => {
+        this.resultsStore.setLoading(false)
+        this.resultsStore.setResults(results)
+      }, (error) => genericErrorHandler(error, 'Failed to fetch results')),
     )
   }
 

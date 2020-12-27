@@ -1,4 +1,4 @@
-import { Component} from '@angular/core'
+import {Component} from '@angular/core'
 import {constants} from '../../api/constants'
 import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms'
 import {first} from 'rxjs/operators'

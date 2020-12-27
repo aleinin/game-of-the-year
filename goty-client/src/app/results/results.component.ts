@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import {Component} from '@angular/core'
 import {ResultsQuery} from '../../api/results/results.store'
 import {ResultsService} from '../../api/results/results.service'
 import {first} from 'rxjs/operators'

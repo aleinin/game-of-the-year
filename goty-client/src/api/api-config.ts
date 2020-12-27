@@ -13,5 +13,3 @@ export const genericErrorHandler = (error: any, errorMessage?: string) => {
   console.error(error)
   return of(error)
 }
-
-export const baseUrl = 'https://goty.gorlah.com'

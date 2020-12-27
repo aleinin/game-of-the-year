@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser'
-import { NgModule } from '@angular/core'
+import {APP_INITIALIZER, NgModule} from '@angular/core'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClient, HttpClientModule} from '@angular/common/http'
 import {DropdownModule} from 'primeng/dropdown'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
@@ -37,6 +37,7 @@ import {ResultsTableStylePipe} from './results/results-table/results-table-style
 import {LoadingComponent} from './results/loading/loading.component'
 import {SubmissionComponent} from './submission/submission.component'
 import {PaginatorComponent} from './results/paginator/paginator.component'
+import {initConstants} from '../api/constants'
 
 @NgModule({
   declarations: [
@@ -82,7 +83,14 @@ import {PaginatorComponent} from './results/paginator/paginator.component'
     TableModule,
     ProgressSpinnerModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initConstants,
+      deps: [HttpClient],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

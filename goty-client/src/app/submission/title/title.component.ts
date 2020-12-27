@@ -1,5 +1,5 @@
 import {Component} from '@angular/core'
-import {year} from 'src/api/constants'
+import {constants} from 'src/api/constants'
 
 @Component({
   selector: 'app-title',
@@ -7,7 +7,7 @@ import {year} from 'src/api/constants'
   styleUrls: ['./title.component.scss']
 })
 export class TitleComponent {
-  year = year
+  year = constants.year
 
   constructor() {
   }

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core'
-import {year} from 'src/api/constants'
+import {constants} from 'src/api/constants'
 import {Game} from '../../../api/game.service'
 import {SubmissionService} from '../../../api/submission/submission.service'
 
@@ -11,8 +11,8 @@ import {SubmissionService} from '../../../api/submission/submission.service'
 export class OldGameComponent {
   @Input() readonly = false
   @Input() bestOldGame: Game
-  title = `What is your favorite OLD game of ${year}`
-  year = year
+  title = `What is your favorite OLD game of ${constants.year}`
+  year = constants.year
   constructor(private readonly submissionService: SubmissionService) {
   }
 

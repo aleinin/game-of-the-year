@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core'
-import {baseUrl, defaultHeaders, genericErrorHandler} from '../api-config'
+import {defaultHeaders, genericErrorHandler} from '../api-config'
 import {HttpClient} from '@angular/common/http'
 import {tap} from 'rxjs/operators'
 import {Observable} from 'rxjs'
 import {Results, ResultsStore} from './results.store'
 import {Submission} from '../submission/submission.store'
+import {constants} from '../constants'
 
 @Injectable({providedIn: 'root'})
 export class ResultsService {
-  readonly resultsUrl = `${baseUrl}/results`
+  readonly resultsUrl = `${constants.baseUrl}/results`
 
   constructor(private readonly httpClient: HttpClient,
               private readonly resultsStore: ResultsStore) {

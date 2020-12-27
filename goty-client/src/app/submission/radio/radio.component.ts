@@ -1,6 +1,6 @@
 import {Component, forwardRef, Input} from '@angular/core'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
-import {giveAwayAmountUSD} from '../../../api/constants'
+import {constants} from '../../../api/constants'
 
 @Component({
   selector: 'app-radio',
@@ -16,7 +16,7 @@ import {giveAwayAmountUSD} from '../../../api/constants'
 })
 export class RadioComponent implements ControlValueAccessor {
   @Input() readonly = false
-  title = `Do you want to enter the drawing for the \$${giveAwayAmountUSD} steam gift card?`
+  title = `Do you want to enter the drawing for the \$${constants.giveawayAmountUSD} steam gift card?`
   internalValue: any
   onChange: any = () => {
   }

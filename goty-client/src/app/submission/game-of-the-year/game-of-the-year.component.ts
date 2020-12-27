@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core'
-import {closeDate, tiePoints, year} from 'src/api/constants'
+import {constants} from 'src/api/constants'
 import {Game} from '../../../api/game.service'
 import {SubmissionService} from '../../../api/submission/submission.service'
 
@@ -12,11 +12,11 @@ export class GameOfTheYearComponent {
   @Input() readonly = false
   @Input() name = ''
   @Input() gamesOfTheYear: Game[]
-  year = year
-  closeDate = closeDate
-  tiePoints = tiePoints
+  year = constants.year
+  closeDate = constants.closeDate
+  tiePoints = constants.tiePoints
   games: Game[] = []
-  title = `What are your favorite game(s) of ${year}?`
+  title = `What are your favorite game(s) of ${constants.year}?`
   constructor(public readonly submissionService: SubmissionService) {
   }
 }

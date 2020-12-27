@@ -5,39 +5,39 @@ import {Submission, SubmissionStore} from './submission.store'
 @Injectable({providedIn: 'root'})
 export class SubmissionService {
 
-  constructor(private readonly appStore: SubmissionStore) {
+  constructor(private readonly submissionStore: SubmissionStore) {
   }
 
   clear() {
-    this.appStore.clear()
+    this.submissionStore.clear()
   }
 
-  setForm(form: Submission) {
-    this.appStore.setState(form)
+  setSubmission(submission: Submission) {
+    this.submissionStore.setState(submission)
   }
 
   setName(name: string) {
-    this.appStore.setName(name)
+    this.submissionStore.setName(name)
   }
 
   addGameToGOTY(game: Game) {
-     this.appStore.addGameToGOTY(game)
+     this.submissionStore.addGameToGOTY(game)
   }
 
   setGOTY(games: Game[]) {
-    this.appStore.setGOTY(games)
+    this.submissionStore.setGOTY(games)
   }
 
   setBestOldGame(bestOldGame: Game) {
-    this.appStore.setBestOldGame(bestOldGame)
+    this.submissionStore.setBestOldGame(bestOldGame)
   }
 
   setMostAnticipated(mostAnticipated: Game) {
-    this.appStore.setMostAnticipated(mostAnticipated)
+    this.submissionStore.setMostAnticipated(mostAnticipated)
   }
 
   setEnteredGiveaway(enteredGiveaway: boolean) {
-    this.appStore.setEnteredGiveaway(enteredGiveaway)
+    this.submissionStore.setEnteredGiveaway(enteredGiveaway)
   }
 
 }

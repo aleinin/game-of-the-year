@@ -1,5 +1,5 @@
 import { Component} from '@angular/core'
-import {giveAway} from '../../api/constants'
+import {constants} from '../../api/constants'
 import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms'
 import {first} from 'rxjs/operators'
 import {Router} from '@angular/router'
@@ -8,7 +8,7 @@ import {Submission, SubmissionQuery} from '../../api/submission/submission.store
 import {SubmissionHttpService} from '../../api/submission/submission-http.service'
 
 export const giveawayRequired = (control: AbstractControl): ValidationErrors | null =>
-  giveAway ? Validators.required(control) : null
+  constants.giveaway ? Validators.required(control) : null
 
 @Component({
   selector: 'app-submission',
@@ -16,7 +16,7 @@ export const giveawayRequired = (control: AbstractControl): ValidationErrors | n
   styleUrls: ['./submission.component.scss']
 })
 export class SubmissionComponent {
-  giveaway = giveAway
+  giveaway = constants.giveaway
   form = this.formBuilder.group({
     submissionUUID: [undefined],
     name: ['', Validators.required],

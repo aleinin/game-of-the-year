@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core'
-import {lastTime} from 'src/api/constants'
+import {constants} from 'src/api/constants'
 import {SubmissionService} from '../../../api/submission/submission.service'
 
 @Component({
@@ -11,7 +11,7 @@ export class GiveawayComponent {
   @Input() enteredGiveaway
   @Input() readonly = false
   title = 'Giveaway'
-  lastTime = lastTime
+  lastTime = constants.lastTime
 
   constructor(public readonly submissionService: SubmissionService) {
   }

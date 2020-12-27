@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
-import {baseUrl, defaultHeaders, genericErrorHandler} from '../api-config'
+import {defaultHeaders, genericErrorHandler} from '../api-config'
 import {catchError, tap} from 'rxjs/operators'
 import {Game} from '../game.service'
 import {ResultsService} from '../results/results.service'
 import {SubmissionService} from './submission.service'
 import {Submission} from './submission.store'
+import {constants} from '../constants'
 
-interface BackendForm {
+interface BackendSubmission {
   id?: string
   name: string,
   gamesOfTheYear: BackendGamesOfTheYear[]
@@ -20,7 +21,7 @@ interface BackendGamesOfTheYear extends Game {
   rank: number
 }
 
-const convertToBackendForm = (state: Submission): BackendForm => {
+const convertToBackendSubmission = (state: Submission): BackendSubmission => {
   return {
     name: state.name,
     gamesOfTheYear: state.gamesOfTheYear.map((game, i) => ({...game, rank: i})),
@@ -30,7 +31,7 @@ const convertToBackendForm = (state: Submission): BackendForm => {
   }
 }
 
-const convertFromBackendToAppState = (state: BackendForm): Submission => {
+const convertFromBackendToSubmission = (state: BackendSubmission): Submission => {
   return {
     submissionUUID: state.id,
     name: state.name,
@@ -43,7 +44,7 @@ const convertFromBackendToAppState = (state: BackendForm): Submission => {
 
 @Injectable({providedIn: 'root'})
 export class SubmissionHttpService {
-  readonly submissionsUrl = `${baseUrl}/submissions`
+  readonly submissionsUrl = `${constants.baseUrl}/submissions`
   constructor(private readonly httpClient: HttpClient,
               private readonly submissionService: SubmissionService,
               private readonly resultsService: ResultsService ) {
@@ -51,9 +52,9 @@ export class SubmissionHttpService {
 
   getSubmission(submissionUUID: string) {
     const url = `${this.submissionsUrl}/${submissionUUID}`
-    return this.httpClient.get<BackendForm>(url, {headers: defaultHeaders}).pipe(
-      tap((form) => {
-        this.submissionService.setForm(convertFromBackendToAppState(form))
+    return this.httpClient.get<BackendSubmission>(url, {headers: defaultHeaders}).pipe(
+      tap((submission) => {
+        this.submissionService.setSubmission(convertFromBackendToSubmission(submission))
       })
     )
   }
@@ -66,7 +67,7 @@ export class SubmissionHttpService {
   }
 
   createSubmission(state: Submission) {
-    return this.httpClient.post<BackendForm>(this.submissionsUrl, convertToBackendForm(state), {headers: defaultHeaders}).pipe(
+    return this.httpClient.post<BackendSubmission>(this.submissionsUrl, convertToBackendSubmission(state), {headers: defaultHeaders}).pipe(
       tap(({id}) => {
         localStorage.setItem('submissionUUID', id)
       }, (error) => genericErrorHandler(error, 'Failed to submit')
@@ -76,7 +77,7 @@ export class SubmissionHttpService {
 
   updateSubmission(state: Submission) {
     const url = `${this.submissionsUrl}/${state.submissionUUID}`
-    return this.httpClient.put(url, convertToBackendForm(state)).pipe(
+    return this.httpClient.put(url, convertToBackendSubmission(state)).pipe(
       catchError((error) => genericErrorHandler(error, 'Failed to update submission'))
     )
   }

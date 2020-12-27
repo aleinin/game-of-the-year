@@ -54,7 +54,7 @@ const incrementRankInResults = (results: Results): Results => {
   }
 }
 
-@StoreConfig({name: 'results'})
+@StoreConfig({name: 'resultStore'})
 @Injectable({providedIn: 'root'})
 export class ResultsStore extends Store<ResultsState> {
   constructor() {

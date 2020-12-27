@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core'
 import {catchError} from 'rxjs/operators'
 import {HttpClient} from '@angular/common/http'
-import {baseUrl, defaultHeaders, genericErrorHandler} from './api-config'
+import {defaultHeaders, genericErrorHandler} from './api-config'
+import {constants} from './constants'
 
 export interface Game {
   id: string,
@@ -10,7 +11,7 @@ export interface Game {
 
 @Injectable({providedIn: 'root'})
 export class GameService {
-  readonly gamesUrl = `${baseUrl}/games`
+  readonly gamesUrl = `${constants.baseUrl}/games`
   constructor(private readonly httpClient: HttpClient) {
   }
 

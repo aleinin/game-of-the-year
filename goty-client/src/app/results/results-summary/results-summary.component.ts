@@ -1,5 +1,5 @@
 import {Component} from '@angular/core'
-import {year} from '../../../api/constants'
+import {constants} from '../../../api/constants'
 import {GameOfTheYearResult, GameResult, ResultsQuery} from '../../../api/results/results.store'
 
 @Component({
@@ -8,7 +8,7 @@ import {GameOfTheYearResult, GameResult, ResultsQuery} from '../../../api/result
   styleUrls: ['./results-summary.component.scss']
 })
 export class ResultsSummaryComponent {
-  readonly oldGameTitle = `Old Game of ${year}`
+  readonly oldGameTitle = `Old Game of ${constants.year}`
   readonly gameOfTheYearColumns: Array<keyof GameOfTheYearResult> = ['rank', 'title', 'votes', 'points']
   readonly gameColumns: Array<keyof GameResult> = ['rank', 'title', 'votes']
   names$ = this.resultsQuery.selectParticipants()

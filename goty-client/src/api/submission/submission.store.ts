@@ -22,7 +22,7 @@ export function createInitialState(): Submission {
   }
 }
 
-@StoreConfig({name: 'appStore'})
+@StoreConfig({name: 'submissionStore'})
 @Injectable({providedIn: 'root'})
 export class SubmissionStore extends Store<Submission> {
   constructor() {

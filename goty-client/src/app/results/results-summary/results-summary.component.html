@@ -1,0 +1,8 @@
+<app-loading *ngIf="loading$ | async; else content"></app-loading>
+<ng-template #content>
+  <app-results-table title="Respondents" [rows]="names$ | async" ></app-results-table>
+  <app-results-table styleType="goty" title="Games of the Year" [rows]="gamesOfTheYear$ | async" [columnConfig]="gameOfTheYearColumns"></app-results-table>
+  <app-results-table styleType="single" [title]="oldGameTitle" [rows]="bestOldGames$ | async" [columnConfig]="gameColumns"></app-results-table>
+  <app-results-table styleType="single" title="Most Anticipated Game" [rows]="mostAnticipated$ | async" [columnConfig]="gameColumns"></app-results-table>
+  <app-results-table title="Giveaway entries" [rows]="giveaway$ | async"></app-results-table>
+</ng-template>

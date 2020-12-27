@@ -1,0 +1,16 @@
+<app-info [title]="title" [required]="true">
+  <ng-container *ngIf="!readonly">
+    <p>Rules:</p>
+    <ul>
+      <li>One entry per person</li>
+      <li>The gift card will be given digitially through steam</li>
+      <li>You must have been a user of the TMW discord server prior to the beginning of this contest</li>
+      <li>The winner will be revealed by screen recording the entries and rolling a random number on <a href="https://random.org">random.org</a></li>
+      <li>Entries after {{lastTime}}</li>
+      <li>The winner will be announced and prize distributed within a few days</li>
+    </ul>
+  </ng-container>
+  <ng-container>
+    <app-radio [ngModel]="enteredGiveaway" (ngModelChange)="giveawayChange.emit($event)" [readonly]="readonly"></app-radio>
+  </ng-container>
+</app-info>

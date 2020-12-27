@@ -1,0 +1,13 @@
+<app-search
+  *ngIf="(selectedGameSubject | async) == null; else item"
+  [placeholder]="placeholder"
+  (gameSelected)="selectedGameSubject.next($event)"
+></app-search>
+<ng-template #item>
+  <app-list-item
+    [readonly]="readonly"
+    [orderable]="false"
+    [game]="selectedGameSubject | async"
+    (delete)="selectedGameSubject.next(null)"
+  ></app-list-item>
+</ng-template>

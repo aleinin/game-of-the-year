@@ -1,10 +1,10 @@
 import {Component} from '@angular/core'
-import {AppService} from '../../api/app/app.service'
 import {Router} from '@angular/router'
-import {FormService} from '../../api/form.service'
 import {catchError} from 'rxjs/operators'
 import {of} from 'rxjs'
 import {UIService} from '../../api/ui/ui.service'
+import {SubmissionService} from '../../api/submission/submission.service'
+import {SubmissionHttpService} from '../../api/submission/submission-http.service'
 
 const notNull = (input: string | null | undefined): input is string => {
   return input != null
@@ -19,15 +19,15 @@ const notNull = (input: string | null | undefined): input is string => {
 })
 export class StartPageComponent {
   hasSubmission: boolean
-  constructor(private readonly appService: AppService,
+  constructor(private readonly submissionService: SubmissionService,
               private readonly uiService: UIService,
               private readonly router: Router,
-              private readonly formService: FormService) {
-    this.appService.clear()
+              private readonly submissionHttpService: SubmissionHttpService) {
+    this.submissionService.clear()
     const submissionUUID = localStorage.getItem('submissionUUID')
     this.hasSubmission = notNull(submissionUUID)
     if (this.hasSubmission) {
-      this.formService.getForm(submissionUUID).pipe(
+      this.submissionHttpService.getSubmission(submissionUUID).pipe(
         catchError((error) => {
           this.hasSubmission = false
           console.error(error)

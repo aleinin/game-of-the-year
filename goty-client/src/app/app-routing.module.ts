@@ -1,10 +1,13 @@
-import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
+import {NgModule} from '@angular/core'
+import {RouterModule, Routes} from '@angular/router'
 import {StartPageComponent} from './start-page/start-page.component'
-import {FormComponent} from './form/form.component'
 import {EndPageComponent} from './end-page/end-page.component'
 import {EndGuard, FormGuard} from '../api/ui/ui.guard'
 import {RecoveryComponent} from './recovery/recovery.component'
+import {ResultsComponent} from './results/results.component'
+import {ResultsSubmissionComponent} from './results/results-submission/results-submission.component'
+import {ResultsSummaryComponent} from './results/results-summary/results-summary.component'
+import {SubmissionComponent} from './submission/submission.component'
 
 const routes: Routes = [
   {
@@ -13,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'form',
-    component: FormComponent,
+    component: SubmissionComponent,
     canActivate: [FormGuard]
   },
   {
@@ -26,6 +29,25 @@ const routes: Routes = [
     component: RecoveryComponent
   },
   {
+    path: 'results', // TODO GUARD,
+    component: ResultsComponent,
+    children: [
+      {
+        path: 'summary',
+        component: ResultsSummaryComponent
+      },
+      {
+        path: 'individual',
+        component: ResultsSubmissionComponent
+      },
+      {
+        path: '',
+        redirectTo: 'summary',
+        pathMatch: 'full'
+      }
+    ]
+  },
+  {
     path: '**',
     redirectTo: 'start',
     pathMatch: 'full'
@@ -36,4 +58,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core'
 import {catchError} from 'rxjs/operators'
 import {HttpClient} from '@angular/common/http'
 import {defaultHeaders, genericErrorHandler} from './api-config'
+import {constants} from './constants'
 
 export interface Game {
   id: string,
@@ -10,12 +11,12 @@ export interface Game {
 
 @Injectable({providedIn: 'root'})
 export class GameService {
-
+  readonly gamesUrl = `${constants.baseUrl}/games`
   constructor(private readonly httpClient: HttpClient) {
   }
 
   searchGames(input: string, limit: number, year?: number) {
-    let url = `https://goty.gorlah.com/games?title=${input}&limit=${limit}`
+    let url = `${this.gamesUrl}?title=${input}&limit=${limit}`
     if (year != null) {
       url = `${url}&year=${year}`
     }

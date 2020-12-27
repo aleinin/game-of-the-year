@@ -1,5 +1,33 @@
-// TODO externalize
-export const tiePoints = [
+import {HttpClient} from '@angular/common/http'
+import {BehaviorSubject, of} from 'rxjs'
+import {catchError, first, tap} from 'rxjs/operators'
+
+export interface Constants {
+  tiePoints: number[],
+  year: number,
+  closeDate: string,
+  lastTime: string,
+  giveaway: boolean,
+  giveawayAmountUSD: number,
+  baseUrl: string
+}
+
+const constantsSubject = new BehaviorSubject<Constants | null>(null)
+const checkType = <T>(a: any, b: T): a is T => typeof a === typeof b
+const safeAccessor = <T>(prop: keyof Constants, defaultValue: T): T => {
+  const constantsValue = constantsSubject.getValue()
+  if (constantsValue == null) {
+    return defaultValue
+  }
+  const value = constantsValue[prop]
+  if (checkType(value, defaultValue)) {
+    return value
+  }
+  return defaultValue
+}
+
+const currentYear = () => new Date().getFullYear()
+const defaultTiePoints = [
   15,
   13,
   11,
@@ -11,8 +39,35 @@ export const tiePoints = [
   2,
   1
 ]
-export const year = 2020
-export const closeDate = `1/1/${year + 1}`
-export const lastTime = `12/31/${year} 11:59PM`
-export const giveAway = true
-export const giveAwayAmountUSD = 25
+
+export let constants: Constants = {
+  get tiePoints() {
+    return safeAccessor('tiePoints', defaultTiePoints)
+  },
+  get year() {
+    return safeAccessor('year', currentYear())
+  },
+  get closeDate() {
+    return safeAccessor('closeDate', `1/1/${currentYear() + 1}`)
+  },
+  get lastTime() {
+    return safeAccessor('lastTime', `12/31/${currentYear()} 11:59PM`)
+  },
+  get giveaway() {
+    return safeAccessor('giveaway', false)
+  },
+  get giveawayAmountUSD() {
+    return safeAccessor('giveawayAmountUSD', 0)
+  },
+  get baseUrl() {
+    return safeAccessor('baseUrl', 'https://goty.gorlah.com')
+  }
+}
+
+export const initConstants = (httpClient: HttpClient) => {
+  return () => httpClient.get<Constants>('assets/constants.json').pipe(
+    first(),
+    tap((constantsValue) => constantsSubject.next(constantsValue)),
+    catchError(() => of(null))
+  ).toPromise()
+}

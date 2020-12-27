@@ -17,7 +17,7 @@ export function createInitialState() {
   }
 }
 
-@StoreConfig({name: 'appStep'})
+@StoreConfig({name: 'uiStore'})
 @Injectable({providedIn: 'root'})
 export class UIStore extends Store<UIState> {
   constructor() {

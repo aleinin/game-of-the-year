@@ -1,5 +1,5 @@
 import {Component} from '@angular/core'
-import {closeDate} from '../../api/constants'
+import {constants} from '../../api/constants'
 import {Router} from '@angular/router'
 
 @Component({
@@ -10,7 +10,7 @@ import {Router} from '@angular/router'
 export class EndPageComponent {
   isError = false
   error: any
-  closeDate = closeDate
+  closeDate = constants.closeDate
   constructor(private readonly router: Router) {
     this.isError = this.router.getCurrentNavigation().extras.state.isError
     this.error = this.router.getCurrentNavigation().extras.state.error

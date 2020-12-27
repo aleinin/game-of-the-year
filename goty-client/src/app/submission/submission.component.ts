@@ -11,11 +11,11 @@ export const giveawayRequired = (control: AbstractControl): ValidationErrors | n
   giveAway ? Validators.required(control) : null
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  selector: 'app-submission',
+  templateUrl: './submission.component.html',
+  styleUrls: ['./submission.component.scss']
 })
-export class FormComponent {
+export class SubmissionComponent {
   giveaway = giveAway
   form = this.formBuilder.group({
     submissionUUID: [undefined],

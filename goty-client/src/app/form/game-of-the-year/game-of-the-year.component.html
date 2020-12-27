@@ -6,7 +6,7 @@
     pInputText
     [ngModel]="name"
     placeholder="Your name"
-    (ngModelChange)="appService.setName($event)"
+    (ngModelChange)="submissionService.setName($event)"
   >
 </app-info>
 <app-info [title]="title" [required]="true">
@@ -28,11 +28,11 @@
     class="search"
     *ngIf="!readonly && gamesOfTheYear.length < 10"
     [placeholder]="'Select a game'"
-    (gameSelected)="appService.addGameToGOTY($event)"
+    (gameSelected)="submissionService.addGameToGOTY($event)"
   ></app-search>
   <app-orderable-list
     [games]="gamesOfTheYear"
     [readonly]="readonly"
-    (orderChanges)="appService.setGOTY($event)"
+    (orderChanges)="submissionService.setGOTY($event)"
   ></app-orderable-list>
 </app-info>

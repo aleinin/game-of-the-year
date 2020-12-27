@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core'
 import {lastTime} from 'src/api/constants'
-import {AppService} from '../../../api/app/app.service'
+import {SubmissionService} from '../../../api/submission/submission.service'
 
 @Component({
   selector: 'app-giveaway',
@@ -13,12 +13,12 @@ export class GiveawayComponent {
   title = 'Giveaway'
   lastTime = lastTime
 
-  constructor(public readonly appService: AppService) {
+  constructor(public readonly submissionService: SubmissionService) {
   }
 
   setEnteredGiveaway(enteredGiveaway: boolean) {
     if (!this.readonly) {
-      this.appService.setEnteredGiveaway(enteredGiveaway)
+      this.submissionService.setEnteredGiveaway(enteredGiveaway)
     }
   }
 }

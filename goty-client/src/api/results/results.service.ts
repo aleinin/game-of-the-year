@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http'
 import {tap} from 'rxjs/operators'
 import {Observable} from 'rxjs'
 import {Results, ResultsStore} from './results.store'
-import {Submission} from '../app/app.store'
+import {Submission} from '../submission/submission.store'
 
 @Injectable({providedIn: 'root'})
 export class ResultsService {

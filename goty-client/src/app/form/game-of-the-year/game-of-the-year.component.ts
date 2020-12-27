@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core'
 import {closeDate, tiePoints, year} from 'src/api/constants'
 import {Game} from '../../../api/game.service'
-import {AppService} from '../../../api/app/app.service'
+import {SubmissionService} from '../../../api/submission/submission.service'
 
 @Component({
   selector: 'app-game-of-the-year',
@@ -17,6 +17,6 @@ export class GameOfTheYearComponent {
   tiePoints = tiePoints
   games: Game[] = []
   title = `What are your favorite game(s) of ${year}?`
-  constructor(public readonly appService: AppService) {
+  constructor(public readonly submissionService: SubmissionService) {
   }
 }

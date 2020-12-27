@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core'
-import {Submission, AppStore} from './app.store'
 import {Game} from '../game.service'
+import {Submission, SubmissionStore} from './submission.store'
 
 @Injectable({providedIn: 'root'})
-export class AppService {
+export class SubmissionService {
 
-  constructor(private readonly appStore: AppStore) {
+  constructor(private readonly appStore: SubmissionStore) {
   }
 
   clear() {

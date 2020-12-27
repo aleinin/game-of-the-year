@@ -1,7 +1,7 @@
 import {Query, Store, StoreConfig} from '@datorama/akita'
 import {Injectable} from '@angular/core'
-import {Submission} from '../app/app.store'
 import {map, pluck} from 'rxjs/operators'
+import {Submission} from '../submission/submission.store'
 
 export interface ResultsState {
   results: Results,

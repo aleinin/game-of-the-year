@@ -24,7 +24,7 @@ export function createInitialState(): Submission {
 
 @StoreConfig({name: 'appStore'})
 @Injectable({providedIn: 'root'})
-export class AppStore extends Store<Submission> {
+export class SubmissionStore extends Store<Submission> {
   constructor() {
     super(createInitialState())
   }
@@ -69,8 +69,8 @@ export class AppStore extends Store<Submission> {
 }
 
 @Injectable({providedIn: 'root'})
-export class AppQuery extends Query<Submission> {
-  constructor(protected store: AppStore) {
+export class SubmissionQuery extends Query<Submission> {
+  constructor(protected store: SubmissionStore) {
     super(store)
   }
 

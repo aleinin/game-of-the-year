@@ -1,11 +1,11 @@
 import { Component} from '@angular/core'
 import {giveAway} from '../../api/constants'
 import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms'
-import {AppQuery, Submission} from '../../api/app/app.store'
-import {SubmissionService} from '../../api/submission.service'
 import {first} from 'rxjs/operators'
 import {Router} from '@angular/router'
 import {UIService} from '../../api/ui/ui.service'
+import {Submission, SubmissionQuery} from '../../api/submission/submission.store'
+import {SubmissionHttpService} from '../../api/submission/submission-http.service'
 
 export const giveawayRequired = (control: AbstractControl): ValidationErrors | null =>
   giveAway ? Validators.required(control) : null
@@ -25,17 +25,17 @@ export class FormComponent {
     mostAnticipated: [undefined],
     enteredGiveaway: [undefined, giveawayRequired]
   })
-  name$ = this.appQuery.selectName()
-  gamesOfTheYear$ = this.appQuery.selectGamesOfTheYear()
-  bestOldGame$ = this.appQuery.selectBestOldGame()
-  mostAnticipated$ = this.appQuery.selectMostAnticipated()
-  enteredGiveaway$ = this.appQuery.selectEnteredGiveaway()
-  constructor(private readonly appQuery: AppQuery,
+  name$ = this.submissionQuery.selectName()
+  gamesOfTheYear$ = this.submissionQuery.selectGamesOfTheYear()
+  bestOldGame$ = this.submissionQuery.selectBestOldGame()
+  mostAnticipated$ = this.submissionQuery.selectMostAnticipated()
+  enteredGiveaway$ = this.submissionQuery.selectEnteredGiveaway()
+  constructor(private readonly submissionQuery: SubmissionQuery,
               private readonly formBuilder: FormBuilder,
-              private readonly submissionService: SubmissionService,
+              private readonly submissionHttpService: SubmissionHttpService,
               private readonly router: Router,
               private readonly uiService: UIService) {
-    this.appQuery.select().subscribe((state) => {
+    this.submissionQuery.select().subscribe((state) => {
       this.form.setValue({...state})
     })
   }
@@ -43,13 +43,13 @@ export class FormComponent {
   submit() {
     const state: Submission = this.form.getRawValue()
     if (state.submissionUUID != null) {
-      this.submissionService.updateSubmission(state).pipe(
+      this.submissionHttpService.updateSubmission(state).pipe(
         first(),
       ).subscribe((result) => {
         this.routeToEnd(result)
       })
     } else {
-      this.submissionService.createSubmission(state).pipe(
+      this.submissionHttpService.createSubmission(state).pipe(
         first()
       ).subscribe((result) => {
         this.routeToEnd(result)

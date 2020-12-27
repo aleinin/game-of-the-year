@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core'
 import {year} from 'src/api/constants'
 import {Game} from '../../../api/game.service'
-import {AppService} from '../../../api/app/app.service'
+import {SubmissionService} from '../../../api/submission/submission.service'
 
 @Component({
   selector: 'app-old-game',
@@ -13,10 +13,10 @@ export class OldGameComponent {
   @Input() bestOldGame: Game
   title = `What is your favorite OLD game of ${year}`
   year = year
-  constructor(private readonly appService: AppService) {
+  constructor(private readonly submissionService: SubmissionService) {
   }
 
   gameSelected(bestOldGame: Game) {
-    this.appService.setBestOldGame(bestOldGame)
+    this.submissionService.setBestOldGame(bestOldGame)
   }
 }

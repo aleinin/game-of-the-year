@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core'
-import {AppService} from '../../../api/app/app.service'
 import {Game} from '../../../api/game.service'
+import {SubmissionService} from '../../../api/submission/submission.service'
 
 @Component({
   selector: 'app-most-anticipated',
@@ -11,11 +11,11 @@ export class MostAnticipatedComponent {
   @Input() mostAnticipated: Game
   @Input() readonly = false
   title = 'What game are you looking forward to most?'
-  constructor(private readonly appService: AppService) {
+  constructor(private readonly submissionService: SubmissionService) {
   }
 
   gameSelected(game: Game) {
-    this.appService.setMostAnticipated(game)
+    this.submissionService.setMostAnticipated(game)
   }
 
 }

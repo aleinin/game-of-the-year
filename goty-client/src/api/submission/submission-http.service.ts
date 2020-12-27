@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
-import {Submission} from './app/app.store'
-import {baseUrl, defaultHeaders, genericErrorHandler} from './api-config'
+import {baseUrl, defaultHeaders, genericErrorHandler} from '../api-config'
 import {catchError, tap} from 'rxjs/operators'
-import {Game} from './game.service'
-import {AppService} from './app/app.service'
-import {ResultsService} from './results/results.service'
+import {Game} from '../game.service'
+import {ResultsService} from '../results/results.service'
+import {SubmissionService} from './submission.service'
+import {Submission} from './submission.store'
 
 interface BackendForm {
   id?: string
@@ -42,10 +42,10 @@ const convertFromBackendToAppState = (state: BackendForm): Submission => {
 }
 
 @Injectable({providedIn: 'root'})
-export class SubmissionService {
+export class SubmissionHttpService {
   readonly submissionsUrl = `${baseUrl}/submissions`
   constructor(private readonly httpClient: HttpClient,
-              private readonly appService: AppService,
+              private readonly submissionService: SubmissionService,
               private readonly resultsService: ResultsService ) {
   }
 
@@ -53,7 +53,7 @@ export class SubmissionService {
     const url = `${this.submissionsUrl}/${submissionUUID}`
     return this.httpClient.get<BackendForm>(url, {headers: defaultHeaders}).pipe(
       tap((form) => {
-        this.appService.setForm(convertFromBackendToAppState(form))
+        this.submissionService.setForm(convertFromBackendToAppState(form))
       })
     )
   }

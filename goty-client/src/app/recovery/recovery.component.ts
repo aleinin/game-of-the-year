@@ -1,10 +1,9 @@
 import {Component} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
-import {SubmissionService} from '../../api/submission.service'
 import {first, tap} from 'rxjs/operators'
 import {genericErrorHandler} from '../../api/api-config'
-import {Router} from '@angular/router'
 import {UIService} from '../../api/ui/ui.service'
+import {SubmissionHttpService} from '../../api/submission/submission-http.service'
 
 const uuidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 
@@ -20,16 +19,15 @@ export class RecoveryComponent {
   })
 
   constructor(private readonly formBuilder: FormBuilder,
-              private readonly formService: SubmissionService,
-              private readonly uiService: UIService,
-              private readonly router: Router) {
+              private readonly submissionHttpService: SubmissionHttpService,
+              private readonly uiService: UIService) {
 
   }
 
   submit() {
     this.failed = false
     const uuid = this.recoveryForm.getRawValue().uuid
-    this.formService.getSubmission(uuid).pipe(
+    this.submissionHttpService.getSubmission(uuid).pipe(
       first(),
       tap(() => {
         localStorage.setItem('submissionUUID', uuid)

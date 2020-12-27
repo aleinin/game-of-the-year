@@ -1,7 +1,8 @@
 import {Query, Store, StoreConfig} from '@datorama/akita'
 import {Injectable} from '@angular/core'
-import {map, pluck} from 'rxjs/operators'
+import {filter, map, pluck} from 'rxjs/operators'
 import {Submission} from '../submission/submission.store'
+import {Observable} from 'rxjs'
 
 export interface ResultsState {
   results: Results,
@@ -34,26 +35,6 @@ export function createInitialState(): ResultsState {
   }
 }
 
-export interface Rankable {
-  rank: number
-}
-
-const makeRankHumanReadable = <T extends Rankable> (results: T[]): T[] => {
-  return results.map((result) => ({...result, rank: result.rank + 1}))
-}
-
-const incrementRankInResults = (results: Results): Results => {
-  if (results == null) {
-    return null
-  }
-  return {
-    ...results,
-    gamesOfTheYear: makeRankHumanReadable(results.gamesOfTheYear),
-    mostAnticipated: makeRankHumanReadable(results.mostAnticipated),
-    bestOldGame: makeRankHumanReadable(results.bestOldGame)
-  }
-}
-
 @StoreConfig({name: 'resultStore'})
 @Injectable({providedIn: 'root'})
 export class ResultsStore extends Store<ResultsState> {
@@ -76,39 +57,10 @@ export class ResultsQuery extends Query<ResultsState> {
     super(store)
   }
 
-  selectHumanReadableResults() {
+  selectResults(prop: keyof Results): Observable<any> {
     return this.select('results').pipe(
-      map((results) => incrementRankInResults(results))
-    )
-  }
-
-  selectParticipants() {
-    return this.select('results').pipe(
-      pluck('participants')
-    )
-  }
-
-  selectGiveawayParticipants() {
-    return this.select('results').pipe(
-      pluck('giveawayParticipants')
-    )
-  }
-
-  selectGamesOfTheYear() {
-    return this.selectHumanReadableResults().pipe(
-      pluck('gamesOfTheYear')
-    )
-  }
-
-  selectMostAnticipated() {
-    return this.selectHumanReadableResults().pipe(
-      pluck('mostAnticipated')
-    )
-  }
-
-  selectBestOldGame() {
-    return this.selectHumanReadableResults().pipe(
-      pluck('bestOldGame')
+      filter((results) => results != null),
+      pluck(prop)
     )
   }
 
@@ -121,7 +73,7 @@ export class ResultsQuery extends Query<ResultsState> {
         if (index < 0) {
           return submissions[0]
         }
-        if (index  > submissions.length - 1) {
+        if (index > submissions.length - 1) {
           return submissions[submissions.length - 1]
         }
         return submissions[index]

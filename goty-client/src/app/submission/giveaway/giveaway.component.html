@@ -11,6 +11,6 @@
     </ul>
   </ng-container>
   <ng-container>
-    <app-radio [ngModel]="enteredGiveaway" (ngModelChange)="setEnteredGiveaway($event)" [readonly]="readonly"></app-radio>
+    <app-radio [ngModel]="enteredGiveaway" (ngModelChange)="giveawayChange.emit($event)" [readonly]="readonly"></app-radio>
   </ng-container>
 </app-info>

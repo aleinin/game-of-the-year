@@ -1,6 +1,5 @@
-import {Component, Input} from '@angular/core'
+import {Component, Input, Output, EventEmitter} from '@angular/core'
 import {constants} from 'src/api/constants'
-import {SubmissionService} from '../../../api/submission/submission.service'
 
 @Component({
   selector: 'app-giveaway',
@@ -10,15 +9,7 @@ import {SubmissionService} from '../../../api/submission/submission.service'
 export class GiveawayComponent {
   @Input() enteredGiveaway
   @Input() readonly = false
+  @Output() giveawayChange = new EventEmitter<boolean>()
   title = 'Giveaway'
   lastTime = constants.lastTime
-
-  constructor(public readonly submissionService: SubmissionService) {
-  }
-
-  setEnteredGiveaway(enteredGiveaway: boolean) {
-    if (!this.readonly) {
-      this.submissionService.setEnteredGiveaway(enteredGiveaway)
-    }
-  }
 }

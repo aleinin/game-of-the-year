@@ -1,10 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core'
 import {StyleType} from './results-table.component'
 
-const hasNoStyle = (rank: number, styleType: StyleType) =>
-  styleType === 'none' || (styleType === 'goty' && rank > 3 && rank <= 10)
+const first = 0
+const second = 1
+const third = 2
+const tenth = 9
 
-const missingRankAndOrStyleType = (rank: number, styleType: StyleType) =>
+const isInGOTYTop10ButNotTop3 = (rank: number, styleType: StyleType) =>
+  (styleType === 'goty' && rank > third && rank <= tenth)
+
+const isMissingRankAndOrStyleType = (rank: number, styleType: StyleType) =>
   rank == null || styleType === 'none'
 
 @Pipe({
@@ -12,18 +17,18 @@ const missingRankAndOrStyleType = (rank: number, styleType: StyleType) =>
 })
 export class ResultsTableStylePipe implements PipeTransform {
   transform(rank: number, styleType: StyleType): string {
-    if (missingRankAndOrStyleType(rank, styleType) || hasNoStyle(rank, styleType)) {
+    if (isMissingRankAndOrStyleType(rank, styleType) || isInGOTYTop10ButNotTop3(rank, styleType)) {
       return ''
     }
-    if ((styleType === 'single' && rank > 1) || (styleType === 'goty' && rank > 10)) {
+    if ((styleType === 'single' && rank > first) || (styleType === 'goty' && rank > tenth)) {
       return 'ranked-eliminated'
     }
     switch (rank) {
-      case 1:
+      case first:
         return 'ranked-first'
-      case 2:
+      case second:
         return 'ranked-second'
-      case 3:
+      case third:
         return 'ranked-third'
     }
     return ''

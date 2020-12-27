@@ -6,6 +6,7 @@ import {Router} from '@angular/router'
 import {UIService} from '../../api/ui/ui.service'
 import {Submission, SubmissionQuery} from '../../api/submission/submission.store'
 import {SubmissionHttpService} from '../../api/submission/submission-http.service'
+import {SubmissionService} from '../../api/submission/submission.service'
 
 export const giveawayRequired = (control: AbstractControl): ValidationErrors | null =>
   constants.giveaway ? Validators.required(control) : null
@@ -31,6 +32,7 @@ export class SubmissionComponent {
   mostAnticipated$ = this.submissionQuery.selectMostAnticipated()
   enteredGiveaway$ = this.submissionQuery.selectEnteredGiveaway()
   constructor(private readonly submissionQuery: SubmissionQuery,
+              private readonly submissionService: SubmissionService,
               private readonly formBuilder: FormBuilder,
               private readonly submissionHttpService: SubmissionHttpService,
               private readonly router: Router,
@@ -64,6 +66,10 @@ export class SubmissionComponent {
       error = JSON.stringify(result)
     }
     this.uiService.advanceToEnd(error)
+  }
+
+  setEnteredGiveaway(enteredGiveaway: boolean) {
+    this.submissionService.setEnteredGiveaway(enteredGiveaway)
   }
 }
 

@@ -2,8 +2,8 @@ import {Component} from '@angular/core'
 import {FormBuilder, Validators} from '@angular/forms'
 import {first, tap} from 'rxjs/operators'
 import {genericErrorHandler} from '../../api/api-config'
-import {UIService} from '../../api/ui/ui.service'
 import {SubmissionHttpService} from '../../api/submission/submission-http.service'
+import {SubmissionFlowService} from '../../api/submission-flow/submission-flow.service'
 
 const uuidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 
@@ -20,7 +20,7 @@ export class RecoveryComponent {
 
   constructor(private readonly formBuilder: FormBuilder,
               private readonly submissionHttpService: SubmissionHttpService,
-              private readonly uiService: UIService) {
+              private readonly submissionFlowService: SubmissionFlowService) {
 
   }
 
@@ -31,7 +31,7 @@ export class RecoveryComponent {
       first(),
       tap(() => {
         localStorage.setItem('submissionUUID', uuid)
-        this.uiService.advanceToForm()
+        this.submissionFlowService.advanceToSubmission()
       }, (error) => {
         this.failed = true
         return genericErrorHandler(error, 'Failed to get submission')

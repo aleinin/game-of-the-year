@@ -1,9 +1,15 @@
 .card {
   background-color: rgb(24, 24, 24);
-  padding: 15px;
   margin-bottom: 10px;
   color: white;
   border-radius: 10px;
+  @media only screen and (max-width: 767px) {
+    padding: 5px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    padding: 15px;
+  }
 }
 
 .title {

@@ -2,11 +2,10 @@ import {Component} from '@angular/core'
 import {constants} from '../../api/constants'
 import {AbstractControl, FormBuilder, ValidationErrors, Validators} from '@angular/forms'
 import {first} from 'rxjs/operators'
-import {Router} from '@angular/router'
-import {UIService} from '../../api/ui/ui.service'
 import {Submission, SubmissionQuery} from '../../api/submission/submission.store'
 import {SubmissionHttpService} from '../../api/submission/submission-http.service'
 import {SubmissionService} from '../../api/submission/submission.service'
+import {SubmissionFlowService} from '../../api/submission-flow/submission-flow.service'
 
 export const giveawayRequired = (control: AbstractControl): ValidationErrors | null =>
   constants.giveaway ? Validators.required(control) : null
@@ -35,8 +34,7 @@ export class SubmissionComponent {
               private readonly submissionService: SubmissionService,
               private readonly formBuilder: FormBuilder,
               private readonly submissionHttpService: SubmissionHttpService,
-              private readonly router: Router,
-              private readonly uiService: UIService) {
+              private readonly submissionFlowService: SubmissionFlowService) {
     this.submissionQuery.select().subscribe((state) => {
       this.form.setValue({...state})
     })
@@ -65,7 +63,7 @@ export class SubmissionComponent {
     if (isError) {
       error = JSON.stringify(result)
     }
-    this.uiService.advanceToEnd(error)
+    this.submissionFlowService.advanceToEnd(error)
   }
 
   setEnteredGiveaway(enteredGiveaway: boolean) {

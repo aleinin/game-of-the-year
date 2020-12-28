@@ -2,9 +2,9 @@ import {Component} from '@angular/core'
 import {Router} from '@angular/router'
 import {catchError} from 'rxjs/operators'
 import {of} from 'rxjs'
-import {UIService} from '../../api/ui/ui.service'
 import {SubmissionService} from '../../api/submission/submission.service'
 import {SubmissionHttpService} from '../../api/submission/submission-http.service'
+import {SubmissionFlowService} from '../../api/submission-flow/submission-flow.service'
 
 const notNull = (input: string | null | undefined): input is string => {
   return input != null
@@ -20,7 +20,7 @@ const notNull = (input: string | null | undefined): input is string => {
 export class StartPageComponent {
   hasSubmission: boolean
   constructor(private readonly submissionService: SubmissionService,
-              private readonly uiService: UIService,
+              private readonly submissionFlowService: SubmissionFlowService,
               private readonly router: Router,
               private readonly submissionHttpService: SubmissionHttpService) {
     this.submissionService.clear()
@@ -41,6 +41,6 @@ export class StartPageComponent {
   }
 
   route() {
-    this.uiService.advanceToForm()
+    this.submissionFlowService.advanceToSubmission()
   }
 }

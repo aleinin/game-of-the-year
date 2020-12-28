@@ -15,7 +15,4 @@ export class ListItemComponent {
   @Output() delete = new EventEmitter<number>()
   @Output() moveUp = new EventEmitter<number>()
   @Output() moveDown = new EventEmitter<number>()
-
-  constructor() {
-  }
 }

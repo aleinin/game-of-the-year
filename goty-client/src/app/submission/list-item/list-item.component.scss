@@ -41,6 +41,12 @@
   background-color: rgb(40, 40, 40);
 }
 
+.controls {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
 .disabled {
   color: #3A3B3C;
 }

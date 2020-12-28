@@ -7,6 +7,7 @@ import {Component, Input} from '@angular/core'
 })
 export class InfoComponent {
   @Input() title = ''
+  @Input() subtitle
   @Input() required = false
   @Input() style = 'title'
   constructor() { }

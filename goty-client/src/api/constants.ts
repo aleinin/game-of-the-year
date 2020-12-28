@@ -54,10 +54,10 @@ export let constants: Constants = {
     return safeAccessor('lastTime', `12/31/${currentYear()} 11:59PM`)
   },
   get giveaway() {
-    return safeAccessor('giveaway', false)
+    return safeAccessor('giveaway', true)
   },
   get giveawayAmountUSD() {
-    return safeAccessor('giveawayAmountUSD', 0)
+    return safeAccessor('giveawayAmountUSD', 25)
   },
   get baseUrl() {
     return safeAccessor('baseUrl', 'https://goty.gorlah.com')

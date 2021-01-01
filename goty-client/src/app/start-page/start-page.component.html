@@ -1,14 +1,14 @@
 <ng-container *ngIf="gotyConcluded; else submissions">
-  <app-info>
+  <app-card>
     <h2>Game of the Year {{year}} has concluded</h2>
     <p>Thank you to all who participated</p>
-  </app-info>
-  <app-info title="Results" titleFontSize="2em">
+  </app-card>
+  <app-card title="Results" titleFontSize="2em">
     <app-results-summary></app-results-summary>
-  </app-info>
+  </app-card>
 </ng-container>
 <ng-template #submissions>
-  <app-info>
+  <app-card>
     <div class="button-set">
       <div>
         <p-button [disabled]="hasSubmission" [style]="{'width': '100%'}" label="New Submission" (click)="route()"></p-button>
@@ -17,5 +17,5 @@
         <p-button [disabled]="!hasSubmission" [style]="{'width': '100%'}" label="Edit Submission" (click)="route()"></p-button>
       </div>
     </div>
-  </app-info>
+  </app-card>
 </ng-template>

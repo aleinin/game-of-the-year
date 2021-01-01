@@ -1,4 +1,4 @@
-<app-info [title]="title">
+<app-card [title]="title">
   <div class="p-field-radiobutton">
     <p-radioButton [disabled]="readonly" [value]="true" [(ngModel)]="value" inputId="yes"></p-radioButton>
     <label class="label" for="yes">Yes</label>
@@ -7,4 +7,4 @@
     <p-radioButton [disabled]="readonly" [value]="false" [(ngModel)]="value" inputId="no"></p-radioButton>
     <label class="label" for="no">No</label>
   </div>
-</app-info>
+</app-card>

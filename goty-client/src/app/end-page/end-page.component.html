@@ -1,4 +1,4 @@
-<app-info>
+<app-card>
   <ng-container *ngIf="!isError; else errorSection">
     <h1>Thank you!</h1>
     <h2>Your submission has been received</h2>
@@ -11,4 +11,4 @@
     <h3>Please contact Kherven or Gorlah and give them the following: </h3>
     <p>{{error | json}}</p>
   </ng-template>
-</app-info>
+</app-card>

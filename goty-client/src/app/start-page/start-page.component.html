@@ -1,8 +1,12 @@
-<app-info *ngIf="gotyConcluded; else submissions">
-  <h2>Game of the Year {{year}} has concluded</h2>
-  <p>Thank you to all who participated</p>
-  <p>Results can be seen <a [routerLink]="'/results'">here</a></p>
-</app-info>
+<ng-container *ngIf="gotyConcluded; else submissions">
+  <app-info>
+    <h2>Game of the Year {{year}} has concluded</h2>
+    <p>Thank you to all who participated</p>
+  </app-info>
+  <app-info title="Results" titleFontSize="2em">
+    <app-results-summary></app-results-summary>
+  </app-info>
+</ng-container>
 <ng-template #submissions>
   <app-info>
     <div class="button-set">

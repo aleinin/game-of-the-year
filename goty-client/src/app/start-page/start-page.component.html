@@ -1,10 +1,17 @@
-<app-info>
-  <div class="button-set">
-    <div>
-      <p-button [disabled]="hasSubmission" [style]="{'width': '100%'}" label="New Submission" (click)="route()"></p-button>
-    </div>
-    <div>
-      <p-button [disabled]="!hasSubmission" [style]="{'width': '100%'}" label="Edit Submission" (click)="route()"></p-button>
-    </div>
-  </div>
+<app-info *ngIf="gotyConcluded; else submissions">
+  <h2>Game of the Year {{year}} has concluded</h2>
+  <p>Thank you to all who participated</p>
+  <p>Results can be seen <a [routerLink]="'/results'">here</a></p>
 </app-info>
+<ng-template #submissions>
+  <app-info>
+    <div class="button-set">
+      <div>
+        <p-button [disabled]="hasSubmission" [style]="{'width': '100%'}" label="New Submission" (click)="route()"></p-button>
+      </div>
+      <div>
+        <p-button [disabled]="!hasSubmission" [style]="{'width': '100%'}" label="Edit Submission" (click)="route()"></p-button>
+      </div>
+    </div>
+  </app-info>
+</ng-template>

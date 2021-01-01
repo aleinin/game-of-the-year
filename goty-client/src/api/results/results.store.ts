@@ -6,7 +6,9 @@ import {Observable} from 'rxjs'
 
 export interface ResultsState {
   results: Results,
-  submissions: Submission[]
+  submissions: Submission[],
+  hasResults: boolean
+  hasSubmissions: boolean
 }
 
 export interface GameOfTheYearResult extends GameResult {
@@ -31,7 +33,9 @@ export interface Results {
 export function createInitialState(): ResultsState {
   return {
     results: null,
-    submissions: []
+    submissions: [],
+    hasResults: false,
+    hasSubmissions: false
   }
 }
 
@@ -43,11 +47,19 @@ export class ResultsStore extends Store<ResultsState> {
   }
 
   setResults(results: Results) {
-    this.update((state) => ({...state, results}))
+    this.update((state) => ({
+      ...state,
+      results,
+      hasResults: true
+    }))
   }
 
   setSubmissions(submissions: Submission[]) {
-    this.update((state) => ({...state, submissions}))
+    this.update((state) => ({
+      ...state,
+      submissions,
+      hasSubmissions: true
+    }))
   }
 }
 
@@ -85,5 +97,13 @@ export class ResultsQuery extends Query<ResultsState> {
     return this.select('submissions').pipe(
       map((submissions) => Array.isArray(submissions) ? submissions.length : 0)
     )
+  }
+
+  selectHasResults() {
+    return this.select('hasResults')
+  }
+
+  selectHasSubmissions() {
+    return this.select('hasSubmissions')
   }
 }

@@ -2,31 +2,37 @@ import {Injectable} from '@angular/core'
 import {defaultHeaders, genericErrorHandler} from '../api-config'
 import {HttpClient} from '@angular/common/http'
 import {tap} from 'rxjs/operators'
-import {Observable} from 'rxjs'
 import {Results, ResultsStore} from './results.store'
-import {Submission} from '../submission/submission.store'
 import {constants} from '../constants'
+import {SubmissionHttpService} from '../submission/submission-http.service'
 
 @Injectable({providedIn: 'root'})
 export class ResultsService {
-  readonly resultsUrl = `${constants.baseUrl}/results`
+  private readonly resultsUrl = `${constants.baseUrl}/results`
 
   constructor(private readonly httpClient: HttpClient,
-              private readonly resultsStore: ResultsStore) {
+              private readonly resultsStore: ResultsStore,
+              private readonly submissionHttpService: SubmissionHttpService) {
   }
 
-  fetchResults(): Observable<Results> {
+  fetchResults() {
     this.resultsStore.setLoading(true)
     return this.httpClient.get<Results>(this.resultsUrl, {headers: defaultHeaders, observe: 'body'}).pipe(
       tap((results) => {
-        this.resultsStore.setLoading(false)
-        this.resultsStore.setResults(results)
-      }, (error) => genericErrorHandler(error, 'Failed to fetch results')),
-    )
+          this.resultsStore.setLoading(false)
+          this.resultsStore.setResults(results)
+        },
+        (error) => genericErrorHandler(error, 'Failed to fetch results'))    )
   }
 
-  setSubmissions(submissions: Submission[]) {
-    this.resultsStore.setSubmissions(submissions)
+  fetchSubmissions() {
+    this.resultsStore.setLoading(true)
+    return this.submissionHttpService.getAllSubmissions().pipe(
+      tap((submissions) => {
+          this.resultsStore.setLoading(false)
+          this.resultsStore.setSubmissions(submissions)
+        },
+        (error) => genericErrorHandler(error, 'Failed to fetch submissions'))    )
   }
 }
 

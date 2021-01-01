@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http'
 import {defaultHeaders, genericErrorHandler} from '../api-config'
 import {catchError, tap} from 'rxjs/operators'
 import {Game} from '../game.service'
-import {ResultsService} from '../results/results.service'
 import {SubmissionService} from './submission.service'
 import {Submission} from './submission.store'
 import {constants} from '../constants'
@@ -46,8 +45,7 @@ const convertFromBackendToSubmission = (state: BackendSubmission): Submission =>
 export class SubmissionHttpService {
   readonly submissionsUrl = `${constants.baseUrl}/submissions`
   constructor(private readonly httpClient: HttpClient,
-              private readonly submissionService: SubmissionService,
-              private readonly resultsService: ResultsService ) {
+              private readonly submissionService: SubmissionService) {
   }
 
   getSubmission(submissionUUID: string) {
@@ -59,12 +57,8 @@ export class SubmissionHttpService {
     )
   }
 
-  getAllSubmissions() {
-    return this.httpClient.get<Submission[]>(this.submissionsUrl, {headers: defaultHeaders, observe: 'body'}).pipe(
-      tap((submissions) => this.resultsService.setSubmissions(submissions)),
-      catchError((error) => genericErrorHandler(error, 'Failed to get all submissions'))
-    )
-  }
+  getAllSubmissions = () =>
+    this.httpClient.get<Submission[]>(this.submissionsUrl, {headers: defaultHeaders, observe: 'body'})
 
   createSubmission(state: Submission) {
     return this.httpClient.post<BackendSubmission>(this.submissionsUrl, convertToBackendSubmission(state), {headers: defaultHeaders}).pipe(

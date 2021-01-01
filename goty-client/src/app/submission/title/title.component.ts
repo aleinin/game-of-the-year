@@ -8,7 +8,4 @@ import {constants} from 'src/api/constants'
 })
 export class TitleComponent {
   year = constants.year
-
-  constructor() {
-  }
 }

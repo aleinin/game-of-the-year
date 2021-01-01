@@ -26,5 +26,4 @@ export class ResultsTableComponent<T> {
   @Input() styleType: StyleType = 'none'
   stringArr = false
   values: T[]
-  constructor() { }
 }

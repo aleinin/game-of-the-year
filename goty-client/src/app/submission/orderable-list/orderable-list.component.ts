@@ -16,9 +16,6 @@ export class OrderableListComponent {
   @Input() games: Game[]
   @Output() orderChanges = new EventEmitter<Game[]>()
 
-  constructor() {
-  }
-
   deleteGame(index: number) {
     if (index > -1 && index < this.games.length) {
       const newList = this.games.filter((game, i) => i !== index)

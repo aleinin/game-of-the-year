@@ -10,5 +10,4 @@ export class InfoComponent {
   @Input() subtitle
   @Input() required = false
   @Input() style = 'title'
-  constructor() { }
 }

@@ -9,8 +9,6 @@ export class PaginatorComponent {
   pageIndex = 0
   @Input() totalPages = 0
   @Output() pageChange = new EventEmitter<number>()
-  constructor() {
-  }
 
   left() {
     const nextPage = this.pageIndex - 1

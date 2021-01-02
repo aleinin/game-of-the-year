@@ -1,6 +1,8 @@
 import {Component} from '@angular/core'
 import {constants} from '../../../api/constants'
 import {GameOfTheYearResult, GameResult, ResultsQuery} from '../../../api/results/results.store'
+import {ResultsService} from '../../../api/results/results.service'
+import {filter, first, switchMap} from 'rxjs/operators'
 
 @Component({
   selector: 'app-results-summary',
@@ -18,6 +20,12 @@ export class ResultsSummaryComponent {
   giveaway$ = this.resultsQuery.selectResults('giveawayParticipants')
   loading$ = this.resultsQuery.selectLoading()
 
-  constructor(private readonly resultsQuery: ResultsQuery) {
+  constructor(private readonly resultsQuery: ResultsQuery,
+              private readonly resultsService: ResultsService) {
+    this.resultsQuery.selectHasResults().pipe(
+      first(),
+      filter((hasResults) => !hasResults),
+      switchMap(() => this.resultsService.fetchResults())
+    ).subscribe()
   }
 }

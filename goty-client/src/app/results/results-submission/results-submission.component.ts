@@ -1,7 +1,8 @@
 import {Component} from '@angular/core'
 import {ResultsQuery} from '../../../api/results/results.store'
-import {switchMap} from 'rxjs/operators'
+import {filter, first, switchMap} from 'rxjs/operators'
 import {BehaviorSubject} from 'rxjs'
+import {ResultsService} from '../../../api/results/results.service'
 
 @Component({
   selector: 'app-results-submission',
@@ -16,7 +17,13 @@ export class ResultsSubmissionComponent {
   totalSubmissions$ = this.resultsQuery.selectLengthOfSubmissions()
   loading$ = this.resultsQuery.selectLoading()
 
-  constructor(private readonly resultsQuery: ResultsQuery) {
+  constructor(private readonly resultsQuery: ResultsQuery,
+              private readonly resultsService: ResultsService) {
+    this.resultsQuery.selectHasSubmissions().pipe(
+      first(),
+      filter((hasSubmissions) => !hasSubmissions),
+      switchMap(() => this.resultsService.fetchSubmissions())
+    ).subscribe()
   }
 
 }

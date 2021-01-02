@@ -35,9 +35,6 @@ export class RadioComponent implements ControlValueAccessor {
     return this.internalValue
   }
 
-  constructor() {
-  }
-
   registerOnChange(fn: any): void {
     this.onChange = fn
   }

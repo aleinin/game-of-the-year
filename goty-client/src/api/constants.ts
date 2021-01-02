@@ -26,7 +26,7 @@ const safeAccessor = <T>(prop: keyof Constants, defaultValue: T): T => {
   return defaultValue
 }
 
-const currentYear = () => new Date().getFullYear()
+export const currentYear = () => new Date().getFullYear()
 const defaultTiePoints = [
   15,
   13,
@@ -48,10 +48,10 @@ export let constants: Constants = {
     return safeAccessor('year', currentYear())
   },
   get closeDate() {
-    return safeAccessor('closeDate', `1/1/${currentYear() + 1}`)
+    return safeAccessor('closeDate', `1/1/${this.year + 1}`)
   },
   get lastTime() {
-    return safeAccessor('lastTime', `12/31/${currentYear()} 11:59PM`)
+    return safeAccessor('lastTime', `12/31/${this.year} 11:59PM`)
   },
   get giveaway() {
     return safeAccessor('giveaway', true)

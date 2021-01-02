@@ -1,4 +1,4 @@
-<app-info [title]="title" [required]="true">
+<app-card [title]="title" [required]="true">
   <ng-container *ngIf="!readonly">
     <p>Rules:</p>
     <ul>
@@ -13,4 +13,4 @@
   <ng-container>
     <app-radio [ngModel]="enteredGiveaway" (ngModelChange)="giveawayChange.emit($event)" [readonly]="readonly"></app-radio>
   </ng-container>
-</app-info>
+</app-card>

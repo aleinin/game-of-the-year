@@ -5,6 +5,7 @@ import {of} from 'rxjs'
 import {SubmissionService} from '../../api/submission/submission.service'
 import {SubmissionHttpService} from '../../api/submission/submission-http.service'
 import {SubmissionFlowService} from '../../api/submission-flow/submission-flow.service'
+import {constants, currentYear} from '../../api/constants'
 
 const notNull = (input: string | null | undefined): input is string => {
   return input != null
@@ -12,18 +13,31 @@ const notNull = (input: string | null | undefined): input is string => {
    && input !== 'null'
 }
 
+const gotyHasConcluded = () => currentYear() > constants.year
+
 @Component({
   selector: 'app-start-page',
   templateUrl: './start-page.component.html',
   styleUrls: ['./start-page.component.scss']
 })
 export class StartPageComponent {
+  year = constants.year
+  gotyConcluded: boolean
   hasSubmission: boolean
   constructor(private readonly submissionService: SubmissionService,
               private readonly submissionFlowService: SubmissionFlowService,
               private readonly router: Router,
               private readonly submissionHttpService: SubmissionHttpService) {
     this.submissionService.clear()
+    this.gotyConcluded = gotyHasConcluded()
+    if (this.gotyConcluded) {
+      localStorage.removeItem('submissionUUID')
+    } else {
+      this.fetchExistingSubmissionIfItExists()
+    }
+  }
+
+  fetchExistingSubmissionIfItExists() {
     const submissionUUID = localStorage.getItem('submissionUUID')
     this.hasSubmission = notNull(submissionUUID)
     if (this.hasSubmission) {

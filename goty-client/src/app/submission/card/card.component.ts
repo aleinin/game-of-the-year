@@ -26,11 +26,11 @@ const validFontSize = (inputFontSize: string) => {
 }
 
 @Component({
-  selector: 'app-info',
-  templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss']
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.scss']
 })
-export class InfoComponent {
+export class CardComponent {
   @Input() title = ''
   @Input() subtitle
   @Input() required = false

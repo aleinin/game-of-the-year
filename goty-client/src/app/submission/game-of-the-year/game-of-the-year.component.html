@@ -1,4 +1,4 @@
-<app-info title="Name:" [required]="true">
+<app-card title="Name:" [required]="true">
   <input
     [disabled]="readonly"
     class="name-input"
@@ -8,8 +8,8 @@
     placeholder="Your name"
     (ngModelChange)="submissionService.setName($event)"
   >
-</app-info>
-<app-info [title]="title" [required]="true">
+</app-card>
+<app-card [title]="title" [required]="true">
   <ng-container *ngIf="!readonly">
     <p>Rules:</p>
     <ul>
@@ -35,4 +35,4 @@
     [readonly]="readonly"
     (orderChanges)="submissionService.setGOTY($event)"
   ></app-orderable-list>
-</app-info>
+</app-card>

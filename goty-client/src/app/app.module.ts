@@ -12,7 +12,7 @@ import { OrderableListComponent } from './submission/orderable-list/orderable-li
 import { ListItemComponent } from './submission/list-item/list-item.component'
 import { IndexToWordPipe } from './submission/list-item/index-to-word.pipe'
 import { GameOfTheYearComponent } from './submission/game-of-the-year/game-of-the-year.component'
-import { InfoComponent } from './submission/info/info.component'
+import { CardComponent } from './submission/card/card.component'
 import { OldGameComponent } from './submission/old-game/old-game.component'
 import { MostAnticipatedComponent } from './submission/most-anticipated/most-anticipated.component'
 import { GiveawayComponent } from './submission/giveaway/giveaway.component'
@@ -47,7 +47,7 @@ import {initConstants} from '../api/constants'
     ListItemComponent,
     IndexToWordPipe,
     GameOfTheYearComponent,
-    InfoComponent,
+    CardComponent,
     OldGameComponent,
     MostAnticipatedComponent,
     GiveawayComponent,

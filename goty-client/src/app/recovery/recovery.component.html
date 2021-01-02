@@ -1,4 +1,4 @@
-<app-info title="Recover Submission">
+<app-card title="Recover Submission">
   <h4>If you've lost your submission and you've been redirected to this page paste the key you were given below:</h4>
   <ng-container *ngIf="failed">
     <h4 class="error">Something went wrong</h4>
@@ -12,4 +12,4 @@
       placeholder="Paste key here">
     <p-button class="submit" [disabled]="!recoveryForm.valid" label="Submit" (click)="submit()"></p-button>
   </div>
-</app-info>
+</app-card>

@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Card } from "./Card"
 
-const MainTitle = styled.h1`
+const Title = styled.h1`
   font-size: 2em;
   font-weight: bold;
 `
@@ -22,11 +22,11 @@ const Footer = styled.div`
     color: white;
   }
 `
-export const Title = (props: { year: number }) => {
+export const Header = (props: { year: number }) => {
   const content = (
     <React.Fragment>
-      <MainTitle>The Midnight Watchmen's</MainTitle>
-      <MainTitle>Top Games of the Year {props.year}</MainTitle>
+      <Title>The Midnight Watchmen's</Title>
+      <Title>Top Games of the Year {props.year}</Title>
       <Footer>
         <a href="https://github.com/aleinin">Frontend by aleinin</a>
         <a href="https://www.igdb.com">Data provided by IGDB</a>
@@ -34,5 +34,5 @@ export const Title = (props: { year: number }) => {
       </Footer>
     </React.Fragment>
   )
-  return <Card title="" content={content} paddingPx={20}></Card>
+  return <Card content={content} paddingPx={20}></Card>
 }

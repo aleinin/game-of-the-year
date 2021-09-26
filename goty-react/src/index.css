@@ -12,3 +12,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.p-button-label {
+  font-size: 1.2em;
+}
+
+.pi-minus {
+  color: #b00020;
+}
+.pi-minus:hover:not(.disabled) {
+  text-shadow: 0 0 5px black;
+  color: #9a001c;
+}
+
+.pi:hover:not(.disabled):not(.pi-minus) {
+  text-shadow: 0 0 5px black;
+  color: rgba(103, 58, 183, 0.92);
+}
+.pi-chevron-up {
+  color: rgb(103, 58, 183);
+  margin-right: 5px;
+}
+.pi-chevron-down {
+  color: rgb(103, 58, 183);
+  margin-right: 5px;
+}
+
+.disabled {
+  color: #3a3b3c;
+}
+
+i.pi.big-pi {
+  font-size: 1.2em;
+}
+
+i.pi.big-pi:not(.disabled) {
+  cursor: pointer;
+}

@@ -8,7 +8,7 @@ export interface GiveawayProps {
   lastTime: string
   readonly: boolean
   enteredGiveaway: boolean | null
-  setEnteredGiveaway: (val: boolean) => void
+  setEnteredGiveaway?: (val: boolean) => void
 }
 
 const rules = (lastTime: string) => [
@@ -29,6 +29,11 @@ const RadioButtonContainer = styled.div`
 `
 
 export const Giveaway = (props: GiveawayProps) => {
+  const handleClick = (enteredGiveaway: boolean) => {
+    if (!props.readonly && props.setEnteredGiveaway != null) {
+      props.setEnteredGiveaway(enteredGiveaway)
+    }
+  }
   return (
     <Card
       title="Giveaway"
@@ -41,7 +46,7 @@ export const Giveaway = (props: GiveawayProps) => {
               inputId="yes"
               value={true}
               name="giveaway"
-              onChange={(e) => props.setEnteredGiveaway(e.value)}
+              onChange={(e) => handleClick(e.value)}
               checked={props.enteredGiveaway === true}
             />
             <label htmlFor="yes">Yes</label>
@@ -51,7 +56,7 @@ export const Giveaway = (props: GiveawayProps) => {
               inputId="no"
               value={false}
               name="giveaway"
-              onChange={(e) => props.setEnteredGiveaway(e.value)}
+              onChange={(e) => handleClick(e.value)}
               checked={props.enteredGiveaway === false}
             />
             <label htmlFor="no">No</label>

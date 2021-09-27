@@ -4,14 +4,20 @@ import styled from "styled-components"
 
 export interface NameProps {
   name: string
-  setName: (value: string) => void
+  readonly: boolean
+  setName?: (value: string) => void
 }
 
 export const NameContainer = styled.div`
   margin-top: 20px;
 `
 
-export const Name = ({ name, setName }: NameProps) => {
+export const Name = ({ name, setName, readonly }: NameProps) => {
+  const handleChange = (name: string) => {
+    if (!readonly && setName != null) {
+      setName(name)
+    }
+  }
   return (
     <Card
       title="Name:"
@@ -20,7 +26,8 @@ export const Name = ({ name, setName }: NameProps) => {
         <NameContainer>
           <InputText
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            readOnly={readonly}
+            onChange={(e) => handleChange(e.target.value)}
             placeholder="Your Name"
           />
         </NameContainer>

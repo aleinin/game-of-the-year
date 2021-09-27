@@ -20,7 +20,7 @@ export const SingleGame = (props: SingleGameProps) => {
           {props.content}
           <SearchInPlace
             readonly={props.readonly}
-            placeholder=""
+            placeholder="Select a game"
             game={props.game}
             handleSelect={props.handleSelect}
           />

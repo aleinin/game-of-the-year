@@ -13,7 +13,6 @@ import { OldGame } from "./OldGame"
 export interface SubmissionProps {
   lastTime: string
   year: number
-  readonly: boolean
   closeDate: string
   maxListSize: number
 }
@@ -27,6 +26,7 @@ export const SubmissionPage = (props: SubmissionProps) => {
   const [enteredGiveaway, setEnteredGiveaway] = useState<boolean | null>(null)
   const handleSubmit = () => {
     const formSubmission: Submission = {
+      submissionUUID: "",
       name,
       gamesOfTheYear,
       mostAnticipated,
@@ -44,13 +44,16 @@ export const SubmissionPage = (props: SubmissionProps) => {
         enteredGiveaway != null
     )
   }, [name, gamesOfTheYear, bestOldGame, mostAnticipated, enteredGiveaway])
+  useEffect(() => {
+    document.title = "TMW GOTY - Submission"
+  }, [])
   return (
     <React.Fragment>
       <Card content={<Required>* Required</Required>} />
-      <Name name={name} setName={setName} />
+      <Name readonly={false} name={name} setName={setName} />
       <GOTY
         games={gamesOfTheYear}
-        readonly={props.readonly}
+        readonly={false}
         closeDate={props.closeDate}
         year={props.year}
         setGames={setGamesOfTheYear}
@@ -58,17 +61,17 @@ export const SubmissionPage = (props: SubmissionProps) => {
       />
       <OldGame
         year={props.year}
-        readonly={props.readonly}
+        readonly={false}
         bestOldGame={bestOldGame}
         setBestOldGame={setBestOldGame}
       />
       <MostAnticipated
-        readonly={props.readonly}
+        readonly={false}
         mostAnticipated={mostAnticipated}
         setMostAnticipated={setMostAnticipated}
       />
       <Giveaway
-        readonly={props.readonly}
+        readonly={false}
         lastTime={props.lastTime}
         enteredGiveaway={enteredGiveaway}
         setEnteredGiveaway={setEnteredGiveaway}

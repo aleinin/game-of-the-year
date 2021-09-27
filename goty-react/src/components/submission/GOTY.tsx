@@ -12,7 +12,7 @@ export interface GOTYProps {
   readonly: boolean
   closeDate: string
   maxListSize: number
-  setGames: (games: Game[]) => void
+  setGames?: (games: Game[]) => void
 }
 
 export enum MoveDirection {
@@ -73,22 +73,33 @@ const swap = (
 }
 
 export const GOTY = (props: GOTYProps) => {
+  const setGames = props.setGames
+  const canSubmit = (
+    setGame?: (games: Game[]) => void
+  ): setGame is (games: Game[]) => void => {
+    return !props.readonly && props.setGames != null
+  }
   const handleAddGame = (gameToAdd: Game) => {
-    if (props.games.length !== props.maxListSize) {
-      props.setGames([
+    if (canSubmit(setGames) && props.games.length !== props.maxListSize) {
+      setGames([
         ...props.games.filter((game) => game.id !== gameToAdd.id),
         gameToAdd,
       ])
     }
   }
   const handleMoveGame = (currentIndex: number, direction: MoveDirection) => {
-    if (inBounds(currentIndex, direction, props.games.length)) {
-      props.setGames(swap(props.games, currentIndex, direction))
+    if (
+      canSubmit(setGames) &&
+      inBounds(currentIndex, direction, props.games.length)
+    ) {
+      setGames(swap(props.games, currentIndex, direction))
     }
   }
 
   const handleDeleteGame = (gameToDelete: Game) => {
-    props.setGames(props.games.filter((game) => game.id !== gameToDelete.id))
+    if (canSubmit(setGames)) {
+      setGames(props.games.filter((game) => game.id !== gameToDelete.id))
+    }
   }
   return (
     <Card
@@ -98,7 +109,9 @@ export const GOTY = (props: GOTYProps) => {
         <React.Fragment>
           {generateRules(props.readonly, getRules(props.closeDate, props.year))}
           {getTieBreaker()}
-          <Search placeholder="Select a game" handleSelect={handleAddGame} />
+          {props.readonly ? null : (
+            <Search placeholder="Select a game" handleSelect={handleAddGame} />
+          )}
           <OrderableList
             games={props.games}
             readonly={props.readonly}

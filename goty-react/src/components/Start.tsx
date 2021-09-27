@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import { Card } from "./Card"
 import { Button } from "primereact/button"
@@ -11,13 +11,16 @@ export interface StartProps {
 }
 
 const concluded = (year: number) => {
-  const thankYouContent = (
-    <React.Fragment>
-      <h2>Game of the Year {year} has concluded</h2>
-      <p>Thank you to all who participated</p>
-    </React.Fragment>
+  const thankYou = (
+    <Card
+      content={
+        <React.Fragment>
+          <h2>Game of the Year {year} has concluded</h2>
+          <p>Thank you to all who participated</p>
+        </React.Fragment>
+      }
+    />
   )
-  const thankYou = <Card content={thankYouContent} />
   const results = (
     <Card
       title="Results"
@@ -48,30 +51,36 @@ const ButtonSet = styled.div`
 `
 
 const submissions = (hasSubmission: boolean, handleClick: () => void) => {
-  const submissionContent = (
-    <ButtonSet>
-      <div>
-        <Button
-          disabled={hasSubmission}
-          style={{ width: "100%" }}
-          label="New Submission"
-          onClick={handleClick}
-        />
-      </div>
-      <div>
-        <Button
-          disabled={!hasSubmission}
-          style={{ width: "100%" }}
-          label="Edit Submission"
-          onClick={handleClick}
-        />
-      </div>
-    </ButtonSet>
+  return (
+    <Card
+      content={
+        <ButtonSet>
+          <div>
+            <Button
+              disabled={hasSubmission}
+              style={{ width: "100%" }}
+              label="New Submission"
+              onClick={handleClick}
+            />
+          </div>
+          <div>
+            <Button
+              disabled={!hasSubmission}
+              style={{ width: "100%" }}
+              label="Edit Submission"
+              onClick={handleClick}
+            />
+          </div>
+        </ButtonSet>
+      }
+    />
   )
-  return <Card content={submissionContent} />
 }
 
 export const Start = (props: StartProps) => {
+  useEffect(() => {
+    document.title = "TMW GOTY - Start"
+  }, [])
   const history = useHistory()
   const handleClick = () => {
     history.push("/submission")

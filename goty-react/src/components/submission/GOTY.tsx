@@ -1,7 +1,7 @@
 import React from "react"
 import { Game } from "../../models/game"
 import { generateRules } from "../../util/generate-rules"
-import { indexToWord } from "../../util/index-to-word"
+import { indexToOrdinal } from "../../util/index-to-ordinal"
 import { Card } from "../Card"
 import { OrderableList } from "./shared/OrderableList"
 import { Search } from "./shared/Search"
@@ -40,7 +40,7 @@ const getTieBreaker = () => {
       <p>Tie-breaker points are awarded as follows:</p>
       <ul>
         {defaultTiePoints.map((tiePoint, index) => (
-          <li key={index}>{`${indexToWord(index)}: ${tiePoint}`}</li>
+          <li key={index}>{`${indexToOrdinal(index)}: ${tiePoint}`}</li>
         ))}
       </ul>
     </React.Fragment>

@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { Game } from "../../../models/game"
-import { indexToWord } from "../../../util/index-to-word"
+import { indexToOrdinal } from "../../../util/index-to-ordinal"
 import { MoveDirection } from "../GOTY"
 
 export interface ListItemProps {
@@ -76,7 +76,7 @@ const getControls = (props: ListItemProps) => {
 const getTitle = ({ orderable, index, game }: ListItemProps) => {
   return (
     <div>
-      {orderable ? <MarginRight>{indexToWord(index)}:</MarginRight> : null}
+      {orderable ? <MarginRight>{indexToOrdinal(index)}:</MarginRight> : null}
       <MarginRight>{game?.title}</MarginRight>
     </div>
   )

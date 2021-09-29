@@ -1,17 +1,16 @@
 import React, { useEffect } from "react"
-import { useHistory } from "react-router"
+import { SubmissionPage } from "../models/SubmissionPage"
 import { LinkButton } from "../util/global-styles"
 import { Card } from "./Card"
 
-export interface EndProps {
+export interface EndProps extends SubmissionPage {
   error?: any
   closeDate: string
 }
 
 export const End = (props: EndProps) => {
-  const history = useHistory()
   const handleEditClick = () => {
-    history.push("/")
+    props.setNextStep()
   }
   useEffect(() => {
     document.title = "TMW GOTY - End"
@@ -33,9 +32,6 @@ export const End = (props: EndProps) => {
         <h2>Your submission has been received</h2>
         <h3>
           You may edit your submission{" "}
-          <a href="/" onClick={handleEditClick}>
-            here
-          </a>
           <LinkButton onClick={handleEditClick}>here</LinkButton>
         </h3>
         <h3>All edits are due by {props.closeDate}</h3>

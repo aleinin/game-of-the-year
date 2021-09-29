@@ -14,4 +14,6 @@ export const LinkButton = styled.button`
   padding: 0;
   font-size: inherit;
   font-family: inherit;
+  color: #551a8b;
+  font-weight: bold;
 `

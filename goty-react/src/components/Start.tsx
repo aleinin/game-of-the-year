@@ -2,9 +2,9 @@ import React, { useEffect } from "react"
 import styled from "styled-components"
 import { Card } from "./Card"
 import { Button } from "primereact/button"
-import { useHistory } from "react-router"
+import { SubmissionPage } from "../models/SubmissionPage"
 
-export interface StartProps {
+export interface StartProps extends SubmissionPage {
   isGotyConcluded: boolean
   hasSubmission: boolean
   year: number
@@ -57,17 +57,8 @@ const submissions = (hasSubmission: boolean, handleClick: () => void) => {
         <ButtonSet>
           <div>
             <Button
-              disabled={hasSubmission}
               style={{ width: "100%" }}
-              label="New Submission"
-              onClick={handleClick}
-            />
-          </div>
-          <div>
-            <Button
-              disabled={!hasSubmission}
-              style={{ width: "100%" }}
-              label="Edit Submission"
+              label={`${hasSubmission ? "Edit" : "New"} Submission`}
               onClick={handleClick}
             />
           </div>
@@ -81,9 +72,8 @@ export const Start = (props: StartProps) => {
   useEffect(() => {
     document.title = "TMW GOTY - Start"
   }, [])
-  const history = useHistory()
   const handleClick = () => {
-    history.push("/submission")
+    props.setNextStep()
   }
   if (props.isGotyConcluded) {
     return concluded(props.year)

@@ -1,5 +1,7 @@
 import { TabView, TabPanel } from "primereact/tabview"
 import React, { useEffect, useState } from "react"
+import { SubmissionService } from "../../api/submissionService"
+import { Submission } from "../../models/submission"
 import { Card } from "../Card"
 import { ResultsTable } from "./ResultsTable"
 import { Submissions } from "./Submissions"
@@ -33,8 +35,10 @@ const mockConfig = ["rank", "title", "votes", "points"]
 
 export const Results = (props: ResultsProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [submissions, setSubmissions] = useState<Submission[]>([])
   useEffect(() => {
     document.title = "TMW GOTY - Results"
+    SubmissionService.getSubmissions().then((subs) => setSubmissions(subs))
   }, [])
   return (
     <Card
@@ -52,6 +56,7 @@ export const Results = (props: ResultsProps) => {
               closeDate={props.closeDate}
               lastTime={props.lastTime}
               maxListSize={props.maxListSize}
+              submissions={submissions}
             />
           </TabPanel>
         </TabView>

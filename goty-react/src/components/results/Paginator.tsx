@@ -96,7 +96,7 @@ export const Paginator = ({
         <Controls>
           <div>
             {totalPages > 1 ? leftControls : null}
-            <Pages>
+            <Pages data-testid="current-page">
               {pageIndex + 1} of {totalPages}
             </Pages>
             {totalPages > 1 ? rightControls : null}

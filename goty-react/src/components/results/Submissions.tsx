@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { theSubmission } from "../../api/mockData"
+import { Submission } from "../../models/submission"
 import { Giveaway } from "../submission/Giveaway"
 import { GOTY } from "../submission/GOTY"
 import { MostAnticipated } from "../submission/MostAnticipated"
@@ -7,46 +7,64 @@ import { Name } from "../submission/Name"
 import { OldGame } from "../submission/OldGame"
 import { Paginator } from "./Paginator"
 
-export interface SubmissionsProps {
+interface CommonProps {
   year: number
   lastTime: string
   closeDate: string
   maxListSize: number
 }
 
+export interface SubmissionsProps extends CommonProps {
+  submissions: Submission[]
+}
+
 export const Submissions = (props: SubmissionsProps) => {
   const [index, setIndex] = useState(0)
   return (
     <React.Fragment>
-      <Paginator totalPages={5} pageIndex={index} setIndex={setIndex} />
-      <SubmissionResult {...props}></SubmissionResult>
+      <Paginator
+        totalPages={props.submissions.length}
+        pageIndex={index}
+        setIndex={setIndex}
+      />
+      <SubmissionResult
+        lastTime={props.lastTime}
+        year={props.year}
+        closeDate={props.closeDate}
+        maxListSize={props.maxListSize}
+        submission={props.submissions[index]}
+      ></SubmissionResult>
     </React.Fragment>
   )
 }
 
-const SubmissionResult = (props: SubmissionsProps) => {
+export interface SubmissionResultProps extends CommonProps {
+  submission: Submission
+}
+
+const SubmissionResult = (props: SubmissionResultProps) => {
   return (
     <React.Fragment>
-      <Name readonly name={theSubmission.name} />
+      <Name readonly name={props.submission.name} />
       <GOTY
         readonly
-        games={theSubmission.gamesOfTheYear}
+        games={props.submission.gamesOfTheYear}
         year={props.year}
         closeDate={props.closeDate}
         maxListSize={props.maxListSize}
       />
       <OldGame
         readonly
-        bestOldGame={theSubmission.bestOldGame}
+        bestOldGame={props.submission.bestOldGame}
         year={props.year}
       />
       <MostAnticipated
         readonly
-        mostAnticipated={theSubmission.mostAnticipated}
+        mostAnticipated={props.submission.mostAnticipated}
       />
       <Giveaway
         readonly
-        enteredGiveaway={theSubmission.enteredGiveaway}
+        enteredGiveaway={props.submission.enteredGiveaway}
         lastTime={props.lastTime}
       />
     </React.Fragment>

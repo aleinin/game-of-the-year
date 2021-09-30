@@ -1,7 +1,7 @@
-import styled from "styled-components"
-import { Game } from "../../../models/game"
-import { indexToOrdinal } from "../../../util/index-to-ordinal"
-import { MoveDirection } from "../GOTY"
+import styled from 'styled-components'
+import { Game } from '../../../models/game'
+import { indexToOrdinal } from '../../../util/index-to-ordinal'
+import { MoveDirection } from '../GOTY'
 
 export interface ListItemProps {
   readonly: boolean
@@ -54,7 +54,7 @@ const getControls = (props: ListItemProps) => {
     <Controls>
       <i
         className={`pi pi-chevron-up big-pi ${
-          props.index === 0 ? "disabled" : ""
+          props.index === 0 ? 'disabled' : ''
         }`}
         onClick={() =>
           props.handleMove(props.index, MoveDirection.IncreaseRank)
@@ -62,7 +62,7 @@ const getControls = (props: ListItemProps) => {
       />
       <i
         className={`pi pi-chevron-down big-pi ${
-          props.index === props.currentListLength - 1 ? "disabled" : ""
+          props.index === props.currentListLength - 1 ? 'disabled' : ''
         }`}
         onClick={() =>
           props.handleMove(props.index, MoveDirection.DecreaseRank)

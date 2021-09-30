@@ -1,22 +1,22 @@
-import "primereact/resources/primereact.min.css"
-import "primeicons/primeicons.css"
-import "primereact/resources/themes/mdc-dark-deeppurple/theme.css"
-import { Header } from "./Header"
-import styled from "styled-components"
+import 'primereact/resources/primereact.min.css'
+import 'primeicons/primeicons.css'
+import 'primereact/resources/themes/mdc-dark-deeppurple/theme.css'
+import { Header } from './Header'
+import styled from 'styled-components'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from "react-router-dom"
-import { Start } from "./Start"
-import { SubmissionForm } from "./submission/SubmissionForm"
-import { End } from "./End"
-import { Recovery } from "./Recovery"
-import { Results } from "./results/Results"
-import { useEffect, useState } from "react"
-import { Submission } from "../models/submission"
-import { SubmissionService } from "../api/submissionService"
+} from 'react-router-dom'
+import { Start } from './Start'
+import { SubmissionForm } from './submission/SubmissionForm'
+import { End } from './End'
+import { Recovery } from './Recovery'
+import { Results } from './results/Results'
+import { useEffect, useState } from 'react'
+import { Submission } from '../models/submission'
+import { SubmissionService } from '../api/submissionService'
 
 const AppRoot = styled.div`
   margin-left: auto;
@@ -25,7 +25,7 @@ const AppRoot = styled.div`
 `
 
 const notNull = (input: string | null | undefined): input is string => {
-  return input != null && input !== "undefined" && input !== "null"
+  return input != null && input !== 'undefined' && input !== 'null'
 }
 
 export enum SubmissionStep {
@@ -41,7 +41,7 @@ export const App = () => {
   )
   const [submissionError, setSubmissionError] = useState<any>(null)
   useEffect(() => {
-    const submissionUUID = localStorage.getItem("submissionUUID")
+    const submissionUUID = localStorage.getItem('submissionUUID')
     if (notNull(submissionUUID)) {
       SubmissionService.getSubmission(submissionUUID).then((submission) => {
         setSubmission(submission)

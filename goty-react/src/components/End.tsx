@@ -1,7 +1,7 @@
-import React, { useEffect } from "react"
-import { SubmissionPage } from "../models/SubmissionPage"
-import { LinkButton } from "../util/global-styles"
-import { Card } from "./Card"
+import React, { useEffect } from 'react'
+import { SubmissionPage } from '../models/SubmissionPage'
+import { LinkButton } from '../util/global-styles'
+import { Card } from './Card'
 
 export interface EndProps extends SubmissionPage {
   error?: any
@@ -13,7 +13,7 @@ export const End = (props: EndProps) => {
     props.setNextStep()
   }
   useEffect(() => {
-    document.title = "TMW GOTY - End"
+    document.title = 'TMW GOTY - End'
   }, [])
   let content: JSX.Element
   if (props.error != null) {
@@ -31,7 +31,7 @@ export const End = (props: EndProps) => {
         <h1>Thank you!</h1>
         <h2>Your submission has been received</h2>
         <h3>
-          You may edit your submission{" "}
+          You may edit your submission{' '}
           <LinkButton onClick={handleEditClick}>here</LinkButton>
         </h3>
         <h3>All edits are due by {props.closeDate}</h3>

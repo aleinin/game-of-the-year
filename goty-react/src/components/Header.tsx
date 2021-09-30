@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { Card } from "./Card"
+import React from 'react'
+import styled from 'styled-components'
+import { Card } from './Card'
 
 const Title = styled.h1`
   font-size: 2em;

@@ -1,6 +1,6 @@
-import styled from "styled-components"
-import "typeface-roboto"
-import { Required } from "../util/global-styles"
+import styled from 'styled-components'
+import 'typeface-roboto'
+import { Required } from '../util/global-styles'
 
 export interface CardProps {
   title?: string
@@ -12,11 +12,11 @@ export interface CardProps {
 }
 
 export interface TitleFont {
-  fontType: "px" | "em"
+  fontType: 'px' | 'em'
   fontSize: number
 }
 
-const CardContainer = styled("div")<{ paddingPx?: number }>`
+const CardContainer = styled('div')<{ paddingPx?: number }>`
   background-color: rgb(24, 24, 24);
   margin-bottom: 10px;
   color: white;
@@ -26,7 +26,7 @@ const CardContainer = styled("div")<{ paddingPx?: number }>`
   }
 
   @media only screen and (min-width: 768px) {
-    padding: ${(props) => props.paddingPx ?? "15"}px;
+    padding: ${(props) => props.paddingPx ?? '15'}px;
   }
 `
 
@@ -35,9 +35,9 @@ const Header = styled.div`
   justify-content: space-between;
 `
 
-const Title = styled("span")<{ titleFont?: TitleFont }>`
+const Title = styled('span')<{ titleFont?: TitleFont }>`
   font-size: ${({ titleFont }) =>
-    titleFont ? `${titleFont.fontSize}${titleFont.fontType}` : "20px"};
+    titleFont ? `${titleFont.fontSize}${titleFont.fontType}` : '20px'};
   font-weight: bold;
 `
 

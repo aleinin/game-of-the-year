@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
-import styled from "styled-components"
-import { Card } from "./Card"
-import { Button } from "primereact/button"
-import { SubmissionPage } from "../models/SubmissionPage"
+import React, { useEffect } from 'react'
+import styled from 'styled-components'
+import { Card } from './Card'
+import { Button } from 'primereact/button'
+import { SubmissionPage } from '../models/SubmissionPage'
 
 export interface StartProps extends SubmissionPage {
   isGotyConcluded: boolean
@@ -24,7 +24,7 @@ const concluded = (year: number) => {
   const results = (
     <Card
       title="Results"
-      titleFontSize={{ fontSize: 2, fontType: "em" }}
+      titleFontSize={{ fontSize: 2, fontType: 'em' }}
       content={<p>TODO RESULTS</p>}
     />
   )
@@ -57,8 +57,8 @@ const submissions = (hasSubmission: boolean, handleClick: () => void) => {
         <ButtonSet>
           <div>
             <Button
-              style={{ width: "100%" }}
-              label={`${hasSubmission ? "Edit" : "New"} Submission`}
+              style={{ width: '100%' }}
+              label={`${hasSubmission ? 'Edit' : 'New'} Submission`}
               onClick={handleClick}
             />
           </div>
@@ -70,7 +70,7 @@ const submissions = (hasSubmission: boolean, handleClick: () => void) => {
 
 export const Start = (props: StartProps) => {
   useEffect(() => {
-    document.title = "TMW GOTY - Start"
+    document.title = 'TMW GOTY - Start'
   }, [])
   const handleClick = () => {
     props.setNextStep()

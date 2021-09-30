@@ -1,6 +1,6 @@
-import { Game } from "../../models/game"
-import { generateRules } from "../../util/generate-rules"
-import { SingleGame } from "./shared/SingleGame"
+import { Game } from '../../models/game'
+import { generateRules } from '../../util/generate-rules'
+import { SingleGame } from './shared/SingleGame'
 
 export interface OldGameProps {
   year: number

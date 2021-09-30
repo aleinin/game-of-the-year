@@ -1,5 +1,5 @@
-import { Submission } from "../models/submission"
-import { allSubmissions, theSubmission } from "./mockData"
+import { Submission } from '../models/submission'
+import { allSubmissions, theSubmission } from './mockData'
 
 export const SubmissionService = {
   getSubmission: (submissionUUID: string): Promise<Submission> => {

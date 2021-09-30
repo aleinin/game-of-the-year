@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { Card } from "../Card"
+import React from 'react'
+import styled from 'styled-components'
+import { Card } from '../Card'
 
 export interface PaginatorProps {
   totalPages: number
@@ -65,11 +65,11 @@ export const Paginator = ({
   const leftControls = (
     <React.Fragment>
       <i
-        className={`pi pi-angle-double-left ${pageIndex > 0 ? "" : "disabled"}`}
+        className={`pi pi-angle-double-left ${pageIndex > 0 ? '' : 'disabled'}`}
         onClick={() => handleMove(MoveType.JumpLeft)}
       />
       <i
-        className={`pi pi-angle-left ${pageIndex > 0 ? "" : "disabled"}`}
+        className={`pi pi-angle-left ${pageIndex > 0 ? '' : 'disabled'}`}
         onClick={() => handleMove(MoveType.Left)}
       />
     </React.Fragment>
@@ -78,13 +78,13 @@ export const Paginator = ({
     <React.Fragment>
       <i
         className={`pi pi-angle-right ${
-          pageIndex < totalPages - 1 ? "" : "disabled"
+          pageIndex < totalPages - 1 ? '' : 'disabled'
         }`}
         onClick={() => handleMove(MoveType.Right)}
       />
       <i
         className={`pi pi-angle-double-right ${
-          pageIndex < totalPages - 1 ? "" : "disabled"
+          pageIndex < totalPages - 1 ? '' : 'disabled'
         }`}
         onClick={() => handleMove(MoveType.JumpRight)}
       />

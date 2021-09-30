@@ -1,6 +1,6 @@
-import { Card } from "../Card"
-import { InputText } from "primereact/inputtext"
-import styled from "styled-components"
+import { Card } from '../Card'
+import { InputText } from 'primereact/inputtext'
+import styled from 'styled-components'
 
 export interface NameProps {
   name: string

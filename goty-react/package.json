@@ -30,7 +30,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "node_modules/.bin/eslint . --ext .ts,.tsx",
+    "lint:fix": "node_modules/.bin/eslint . --ext .ts,.tsx --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +43,10 @@
       "semi": [
         "error",
         "never"
+      ],
+      "quotes": [
+        "error",
+        "single"
       ]
     }
   },

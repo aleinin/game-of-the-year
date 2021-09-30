@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 
-const isString = (val: any): val is string => typeof val === "string"
+const isString = (val: any): val is string => typeof val === 'string'
 
 export const generateRules = (
   readonly: boolean,

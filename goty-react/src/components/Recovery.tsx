@@ -1,9 +1,9 @@
-import { Button } from "primereact/button"
-import { InputText } from "primereact/inputtext"
-import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router"
-import styled from "styled-components"
-import { Card } from "./Card"
+import { Button } from 'primereact/button'
+import { InputText } from 'primereact/inputtext'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
+import styled from 'styled-components'
+import { Card } from './Card'
 
 export interface RecoveryProps {}
 
@@ -40,20 +40,20 @@ export const Recovery = () => {
   const history = useHistory()
   const [failed, setFailed] = useState(false)
   const [valid, setValid] = useState(false)
-  const [uuid, setUuid] = useState("")
+  const [uuid, setUuid] = useState('')
   useEffect(() => {
     setFailed(false)
     setValid(uuidPattern.test(uuid))
   }, [uuid])
   useEffect(() => {
-    document.title = "TMW GOTY - Recovery"
+    document.title = 'TMW GOTY - Recovery'
   }, [])
   const handleSubmit = () => {
     // todo some http call
     const success = false
     if (success) {
-      localStorage.setItem("submissionUUID", uuid)
-      history.push("/submission")
+      localStorage.setItem('submissionUUID', uuid)
+      history.push('/submission')
     } else {
       setValid(false)
       setFailed(true)

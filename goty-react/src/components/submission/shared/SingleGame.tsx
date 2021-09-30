@@ -1,7 +1,7 @@
-import React from "react"
-import { Game } from "../../../models/game"
-import { Card } from "../../Card"
-import { SearchInPlace } from "./SearchInPlace"
+import React from 'react'
+import { Game } from '../../../models/game'
+import { Card } from '../../Card'
+import { SearchInPlace } from './SearchInPlace'
 
 export interface SingleGameProps {
   title: string

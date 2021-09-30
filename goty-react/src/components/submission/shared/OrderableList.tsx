@@ -1,7 +1,7 @@
-import React from "react"
-import { Game } from "../../../models/game"
-import { MoveDirection } from "../GOTY"
-import { ListItem } from "./ListItem"
+import React from 'react'
+import { Game } from '../../../models/game'
+import { MoveDirection } from '../GOTY'
+import { ListItem } from './ListItem'
 
 export interface OrderableListProps {
   games: Game[]

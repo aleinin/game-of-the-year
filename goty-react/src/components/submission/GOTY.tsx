@@ -1,10 +1,10 @@
-import React from "react"
-import { Game } from "../../models/game"
-import { generateRules } from "../../util/generate-rules"
-import { indexToOrdinal } from "../../util/index-to-ordinal"
-import { Card } from "../Card"
-import { OrderableList } from "./shared/OrderableList"
-import { Search } from "./shared/Search"
+import React from 'react'
+import { Game } from '../../models/game'
+import { generateRules } from '../../util/generate-rules'
+import { indexToOrdinal } from '../../util/index-to-ordinal'
+import { Card } from '../Card'
+import { OrderableList } from './shared/OrderableList'
+import { Search } from './shared/Search'
 
 export interface GOTYProps {
   games: Game[]
@@ -22,13 +22,13 @@ export enum MoveDirection {
 
 const getRules = (closeDate: string, year: number) => [
   <li key="gotyClose">Voting Closes {closeDate}</li>,
-  "You may nominate as many games as you want up to a total of 10. Only the GOTY is required, but I encourage you all to answer the bonus questions!",
+  'You may nominate as many games as you want up to a total of 10. Only the GOTY is required, but I encourage you all to answer the bonus questions!',
   <li key="gotyYear">
     Eligible games must have been released in {year}. Early Access games are
-    fine as long as they were released in {year}.{" "}
+    fine as long as they were released in {year}.{' '}
   </li>,
-  "DLC is not eligible",
-  "Games will be rated based on number of votes. In the event of a tie points will be awarded based off the ranking in your list. ",
+  'DLC is not eligible',
+  'Games will be rated based on number of votes. In the event of a tie points will be awarded based off the ranking in your list. ',
 ]
 
 // todo externalize

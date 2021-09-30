@@ -1,7 +1,7 @@
-import React from "react"
-import { Game } from "../../models/game"
-import { generateRules } from "../../util/generate-rules"
-import { SingleGame } from "./shared/SingleGame"
+import React from 'react'
+import { Game } from '../../models/game'
+import { generateRules } from '../../util/generate-rules'
+import { SingleGame } from './shared/SingleGame'
 
 export interface MostAnticipatedProps {
   readonly: boolean
@@ -9,7 +9,7 @@ export interface MostAnticipatedProps {
   setMostAnticipated?: (game: Game | null) => void
 }
 
-const rules: (string | JSX.Element)[] = ["Anything not released"]
+const rules: (string | JSX.Element)[] = ['Anything not released']
 
 export const MostAnticipated = (props: MostAnticipatedProps) => {
   const handleSelect = (mostAnticipated: Game | null) => {

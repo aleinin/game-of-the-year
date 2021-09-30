@@ -1,6 +1,6 @@
-import { Game } from "../../../models/game"
-import { ListItem } from "./ListItem"
-import { Search } from "./Search"
+import { Game } from '../../../models/game'
+import { ListItem } from './ListItem'
+import { Search } from './Search'
 
 export interface SearchInPlaceProps {
   readonly: boolean

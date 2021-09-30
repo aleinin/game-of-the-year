@@ -1,11 +1,11 @@
-import React, { useState } from "react"
-import { Submission } from "../../models/submission"
-import { Giveaway } from "../submission/Giveaway"
-import { GOTY } from "../submission/GOTY"
-import { MostAnticipated } from "../submission/MostAnticipated"
-import { Name } from "../submission/Name"
-import { OldGame } from "../submission/OldGame"
-import { Paginator } from "./Paginator"
+import React, { useState } from 'react'
+import { Submission } from '../../models/submission'
+import { Giveaway } from '../submission/Giveaway'
+import { GOTY } from '../submission/GOTY'
+import { MostAnticipated } from '../submission/MostAnticipated'
+import { Name } from '../submission/Name'
+import { OldGame } from '../submission/OldGame'
+import { Paginator } from './Paginator'
 
 interface CommonProps {
   year: number

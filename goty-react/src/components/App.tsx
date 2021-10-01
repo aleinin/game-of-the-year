@@ -13,7 +13,7 @@ import { Start } from './Start'
 import { SubmissionForm } from './submission/SubmissionForm'
 import { End } from './End'
 import { Recovery } from './Recovery'
-import { Results } from './results/Results'
+import { ResultsComponent } from './results/Results'
 import { useEffect, useState } from 'react'
 import { Submission } from '../models/submission'
 import { SubmissionService } from '../api/submissionService'
@@ -107,7 +107,7 @@ export const App = () => {
             <Recovery />
           </Route>
           <Route path="/results">
-            <Results
+            <ResultsComponent
               year={2021}
               lastTime="TODO"
               closeDate="TODO"

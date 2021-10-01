@@ -3,13 +3,13 @@ body {
   font-family: Roboto, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("./images/pattern.gif");
+  background-image: url('./images/pattern.gif');
 
   font-size: 1.3em;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -48,4 +48,22 @@ i.pi.big-pi {
 
 i.pi.big-pi:not(.disabled) {
   cursor: pointer;
+}
+
+.p-datatable .p-datatable-tbody tr.ranked-first {
+  background-color: #ffd70099;
+  color: black;
+}
+
+.p-datatable .p-datatable-tbody tr.ranked-second {
+  background-color: #6c7a86;
+}
+
+.p-datatable .p-datatable-tbody tr.ranked-third {
+  background-color: #915c1d;
+}
+
+.p-datatable .p-datatable-tbody tr.ranked-eliminated {
+  background-color: #5555555e;
+  color: gray;
 }

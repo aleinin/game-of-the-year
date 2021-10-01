@@ -1,34 +1,98 @@
 import React from 'react'
+import { GameOfTheYearResult, GameResult, Results } from '../../models/results'
 import { ResultsTable } from './ResultsTable'
 
-export const Summary = ({
-  mockRows,
-  year,
-}: {
-  mockRows: any[]
-  year: number
-}) => (
-  <React.Fragment>
-    <Respondents rows={mockRows} />
-    <GOTYResults rows={mockRows} />
-    <BestOldGameResults rows={mockRows} year={year} />
-    <MostAnticipatedResults rows={mockRows} />
-    <GiveawayEntries rows={mockRows} />
-  </React.Fragment>
-)
+const gameColumns = ['rank', 'title', 'votes']
+const gameOfTheYearColumns = [...gameColumns, 'points']
 
-const Respondents = ({ rows }: { rows: any[] }) => (
-  <ResultsTable title="Respondents" rows={rows} />
+export interface SummaryProps {
+  year: number
+  results: Results | null
+  maxListSize: number
+}
+
+export const Summary = ({ results, year }: SummaryProps) => {
+  if (results == null) {
+    return <React.Fragment />
+  }
+  return (
+    <React.Fragment>
+      <Respondents rows={results.participants} />
+      <GOTYResults rows={results.gamesOfTheYear} />
+      <BestOldGameResults rows={results.bestOldGames} year={year} />
+      <MostAnticipatedResults rows={results.mostAnticipated} />
+      <GiveawayEntries rows={results.giveawayEntries} />
+    </React.Fragment>
+  )
+}
+
+interface ResultSummaryProps {
+  rows: string[] | GameResult[] | GameOfTheYearResult[]
+  year?: number
+  maxListSize?: number
+}
+
+const buildGetGOTYStyle = (maxListSize?: number): ((row: any) => object) => {
+  return (row: any) => {
+    const rank = row.rank
+    switch (rank) {
+      case 1:
+        return { 'ranked-first': true }
+      case 2:
+        return { 'ranked-second': true }
+      case 3:
+        return { 'ranked-third': true }
+      default:
+        return { 'ranked-eliminated': rank > (maxListSize ?? 10) }
+    }
+  }
+}
+
+const getGameResultStyle = (row: any): object => {
+  const rank = row.rank
+  if (rank === 1) {
+    return { 'ranked-first': true }
+  }
+  return { 'ranked-eliminated': true }
+}
+
+const Respondents = ({ rows }: ResultSummaryProps) => (
+  <ResultsTable
+    title="Respondents"
+    rows={rows}
+    columnConfig={[]}
+    rowStyle={() => ({})}
+  />
 )
-const GOTYResults = ({ rows }: { rows: any[] }) => (
-  <ResultsTable title="Games of the Year" rows={rows} />
+const GOTYResults = ({ rows, maxListSize }: ResultSummaryProps) => (
+  <ResultsTable
+    title="Games of the Year"
+    rows={rows}
+    columnConfig={gameOfTheYearColumns}
+    rowStyle={buildGetGOTYStyle(maxListSize)}
+  />
 )
-const BestOldGameResults = ({ rows, year }: { rows: any[]; year: number }) => (
-  <ResultsTable title={`Old game of ${year}`} rows={rows} />
+const BestOldGameResults = ({ rows, year }: ResultSummaryProps) => (
+  <ResultsTable
+    title={`Old game of ${year ?? new Date().getFullYear()}`}
+    rows={rows}
+    columnConfig={gameColumns}
+    rowStyle={getGameResultStyle}
+  />
 )
-const MostAnticipatedResults = ({ rows }: { rows: any[] }) => (
-  <ResultsTable title="Most Anticipated Game" rows={rows} />
+const MostAnticipatedResults = ({ rows }: ResultSummaryProps) => (
+  <ResultsTable
+    title="Most Anticipated Game"
+    rows={rows}
+    columnConfig={gameColumns}
+    rowStyle={getGameResultStyle}
+  />
 )
-const GiveawayEntries = ({ rows }: { rows: any[] }) => (
-  <ResultsTable title="Giveaway entries" rows={rows} />
+const GiveawayEntries = ({ rows }: ResultSummaryProps) => (
+  <ResultsTable
+    title="Giveaway entries"
+    rows={rows}
+    columnConfig={[]}
+    rowStyle={() => ({})}
+  />
 )

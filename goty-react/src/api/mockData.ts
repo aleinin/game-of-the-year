@@ -303,3 +303,18 @@ export const theResults: Results = {
     'Belmon',
   ],
 }
+
+export const searchResults: Game[] = [
+  { id: '1', title: 'Sierra' },
+  { id: '2', title: 'Eric' },
+  { id: '3', title: 'Kristina' },
+  { id: '4', title: 'Andrew' },
+  { id: '5', title: 'Patrick' },
+  { id: '6', title: 'Ashleigh' },
+  { id: '7', title: 'Bryce' },
+  { id: '8', title: 'Emmett' },
+  { id: '9', title: 'Prairie' },
+  { id: '10', title: 'Alex' },
+  { id: '11', title: 'Cody' },
+  { id: '12', title: 'Aric' },
+]

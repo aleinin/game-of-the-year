@@ -108,7 +108,11 @@ export const GOTY = (props: GOTYProps) => {
           {generateRules(props.readonly, getRules(props.closeDate, props.year))}
           {props.tiePoints ? getTieBreaker(props.tiePoints) : null}
           {props.readonly ? null : (
-            <Search placeholder="Select a game" handleSelect={handleAddGame} />
+            <Search
+              placeholder="Select a game"
+              handleSelect={handleAddGame}
+              year={props.year}
+            />
           )}
           <OrderableList
             games={props.games}

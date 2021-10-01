@@ -1,43 +1,23 @@
 import { Game } from '../../../models/game'
-import {
-  AutoComplete,
-  AutoCompleteCompleteMethodParams,
-} from 'primereact/autocomplete'
+import { AutoComplete } from 'primereact/autocomplete'
 import { useState } from 'react'
+import { GameService } from '../../../api/gameService'
 
 export interface SearchProps {
   placeholder: string
+  year: number
   handleSelect: (game: Game) => void
-}
-
-// TODO
-const mockSearch = (
-  event: AutoCompleteCompleteMethodParams,
-  set: (games: Game[]) => void
-) => {
-  setTimeout(() => {
-    set([
-      { id: '1', title: 'Sierra' },
-      { id: '2', title: 'Eric' },
-      { id: '3', title: 'Kristina' },
-      { id: '4', title: 'Andrew' },
-      { id: '5', title: 'Patrick' },
-      { id: '6', title: 'Ashleigh' },
-      { id: '7', title: 'Bryce' },
-      { id: '8', title: 'Emmett' },
-      { id: '9', title: 'Prairie' },
-      { id: '10', title: 'Alex' },
-      { id: '11', title: 'Cody' },
-      { id: '12', title: 'Aric' },
-    ])
-  }, 250)
 }
 
 export const Search = (props: SearchProps) => {
   const [suggestions, setSuggestions] = useState<Game[]>([])
+  const handleSearch = (searchText: string) =>
+    GameService.searchGames(searchText, 10, props.year).then((results) =>
+      setSuggestions(results)
+    )
   return (
     <AutoComplete
-      completeMethod={(e) => mockSearch(e, setSuggestions)}
+      completeMethod={(e) => handleSearch(e.query)}
       onSelect={(e) => props.handleSelect(e.value)}
       dropdown={true}
       inputStyle={{ width: '100%' }}

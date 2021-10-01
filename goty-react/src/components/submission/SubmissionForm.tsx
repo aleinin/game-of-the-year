@@ -19,6 +19,7 @@ export interface SubmissionFormProps extends SubmissionPage {
   closeDate: string
   maxListSize: number
   submission: Submission | null
+  tiePoints: number[]
 }
 
 export const SubmissionForm = (props: SubmissionFormProps) => {
@@ -84,6 +85,7 @@ export const SubmissionForm = (props: SubmissionFormProps) => {
         year={props.year}
         setGames={setGamesOfTheYear}
         maxListSize={props.maxListSize}
+        tiePoints={props.tiePoints}
       />
       <OldGame
         year={props.year}

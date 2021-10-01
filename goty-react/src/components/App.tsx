@@ -17,6 +17,7 @@ import { ResultsComponent } from './results/Results'
 import { useEffect, useState } from 'react'
 import { Submission } from '../models/submission'
 import { SubmissionService } from '../api/submissionService'
+import { Constants } from '../models/constants'
 
 const AppRoot = styled.div`
   margin-left: auto;
@@ -26,6 +27,19 @@ const AppRoot = styled.div`
 
 const notNull = (input: string | null | undefined): input is string => {
   return input != null && input !== 'undefined' && input !== 'null'
+}
+
+// todo externalize
+const constants: Constants = {
+  tiePoints: [15, 13, 11, 7, 6, 5, 4, 3, 2, 1],
+  year: 2021,
+  closeDate: '1/1/2022',
+  lastTime: '12/31/2021 11:59PM',
+  hasGiveaway: false, // todo implement
+  giveawayAmountUSD: 0, // todo implement
+  baseUrl: '',
+  maxListSize: 10,
+  isGotyConcluded: false,
 }
 
 export enum SubmissionStep {
@@ -70,27 +84,28 @@ export const App = () => {
       case SubmissionStep.Start:
         return (
           <Start
-            isGotyConcluded={false}
+            isGotyConcluded={constants.isGotyConcluded}
             hasSubmission={submission != null}
-            year={2021}
+            year={constants.year}
             setNextStep={setNextStep}
           />
         )
       case SubmissionStep.Form:
         return (
           <SubmissionForm
-            year={2021}
-            lastTime="TODO"
-            closeDate="TODO"
-            maxListSize={10}
+            year={constants.year}
+            lastTime={constants.lastTime}
+            closeDate={constants.closeDate}
+            maxListSize={constants.maxListSize}
             submission={submission}
             setNextStep={setNextStep}
+            tiePoints={constants.tiePoints}
           />
         )
       case SubmissionStep.End:
         return (
           <End
-            closeDate="TODO"
+            closeDate={constants.closeDate}
             error={submissionError}
             setNextStep={setNextStep}
           />
@@ -99,7 +114,7 @@ export const App = () => {
   }
   return (
     <AppRoot>
-      <Header year={2021} />
+      <Header year={constants.year} />
       <Router>
         <Switch>
           <Route path="/submission">{getSubmissionStep()}</Route>
@@ -108,10 +123,10 @@ export const App = () => {
           </Route>
           <Route path="/results">
             <ResultsComponent
-              year={2021}
-              lastTime="TODO"
-              closeDate="TODO"
-              maxListSize={10}
+              year={constants.year}
+              lastTime={constants.lastTime}
+              closeDate={constants.closeDate}
+              maxListSize={constants.maxListSize}
             />
           </Route>
           <Redirect from="*" to="/submission" />

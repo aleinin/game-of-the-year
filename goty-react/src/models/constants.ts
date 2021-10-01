@@ -3,7 +3,9 @@ export interface Constants {
   year: number
   closeDate: string
   lastTime: string
-  giveaway: boolean
+  hasGiveaway: boolean
   giveawayAmountUSD: number
   baseUrl: string
+  maxListSize: number
+  isGotyConcluded: boolean
 }

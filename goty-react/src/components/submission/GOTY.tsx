@@ -12,6 +12,7 @@ export interface GOTYProps {
   readonly: boolean
   closeDate: string
   maxListSize: number
+  tiePoints?: number[]
   setGames?: (games: Game[]) => void
 }
 
@@ -31,15 +32,12 @@ const getRules = (closeDate: string, year: number) => [
   'Games will be rated based on number of votes. In the event of a tie points will be awarded based off the ranking in your list. ',
 ]
 
-// todo externalize
-const defaultTiePoints = [15, 13, 11, 7, 6, 5, 4, 3, 2, 1]
-
-const getTieBreaker = () => {
+const getTieBreaker = (tiePoints: number[]) => {
   return (
     <React.Fragment>
       <p>Tie-breaker points are awarded as follows:</p>
       <ul>
-        {defaultTiePoints.map((tiePoint, index) => (
+        {tiePoints.map((tiePoint, index) => (
           <li key={index}>{`${indexToOrdinal(index)}: ${tiePoint}`}</li>
         ))}
       </ul>
@@ -108,7 +106,7 @@ export const GOTY = (props: GOTYProps) => {
       content={
         <React.Fragment>
           {generateRules(props.readonly, getRules(props.closeDate, props.year))}
-          {getTieBreaker()}
+          {props.tiePoints ? getTieBreaker(props.tiePoints) : null}
           {props.readonly ? null : (
             <Search placeholder="Select a game" handleSelect={handleAddGame} />
           )}

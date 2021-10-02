@@ -9,6 +9,7 @@ export interface CardProps {
   subtitle?: string
   content: JSX.Element
   paddingPx?: number
+  border?: boolean
 }
 
 export interface TitleFont {
@@ -16,7 +17,7 @@ export interface TitleFont {
   fontSize: number
 }
 
-const CardContainer = styled('div')<{ paddingPx?: number }>`
+const CardContainer = styled('div')<{ paddingPx?: number; border: boolean }>`
   background-color: rgb(24, 24, 24);
   margin-bottom: 10px;
   color: white;
@@ -28,7 +29,7 @@ const CardContainer = styled('div')<{ paddingPx?: number }>`
   @media only screen and (min-width: 768px) {
     padding: ${(props) => props.paddingPx ?? '15'}px;
   }
-  border: 1px solid #575757;
+  ${({ border }) => (border ? 'border: 1px solid #575757;' : '')}
 `
 
 const Header = styled.div`
@@ -58,7 +59,7 @@ export const Card = (props: CardProps) => {
       </Header>
     ) : null
   return (
-    <CardContainer paddingPx={props.paddingPx}>
+    <CardContainer paddingPx={props.paddingPx} border={props.border ?? true}>
       {header}
       <div>{content}</div>
     </CardContainer>

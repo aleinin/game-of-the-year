@@ -94,6 +94,7 @@ export const Paginator = ({
   )
   return (
     <Card
+      border={false}
       content={
         <Controls>
           <div>

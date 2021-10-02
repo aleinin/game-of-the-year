@@ -38,6 +38,7 @@ export const ResultsTable = (props: ResultsTableProps) => {
   }
   return (
     <Card
+      border={false}
       title={props.title}
       subtitle={`${props.rows.length} rows`}
       content={

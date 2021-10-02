@@ -21,18 +21,12 @@ const TableContainer = styled.div`
   margin-top: 10px;
 `
 export const ResultsTable = (props: ResultsTableProps) => {
-  let isStrings: boolean
   let values: any[]
-  let columnConfig: string[]
   let columns: JSX.Element[]
   if (isStringArr(props.rows)) {
-    isStrings = true
-    columnConfig = ['value']
     values = props.rows.map((row) => ({ value: row }))
     columns = [<Column field="value" />]
   } else {
-    isStrings = false
-    columnConfig = props.columnConfig
     values = props.rows.map((row) => ({ ...row, rank: row.rank + 1 }))
     columns = props.columnConfig.map((column) => (
       <Column

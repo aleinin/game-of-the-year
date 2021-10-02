@@ -2,17 +2,19 @@ import { Game } from '../../../models/game'
 import { AutoComplete } from 'primereact/autocomplete'
 import { useState } from 'react'
 import { GameService } from '../../../api/gameService'
+import { useSelector } from 'react-redux'
+import { selectConstants } from '../../../state/constants/selectors'
 
 export interface SearchProps {
   placeholder: string
-  year: number
   handleSelect: (game: Game) => void
 }
 
 export const Search = (props: SearchProps) => {
+  const { year } = useSelector(selectConstants)
   const [suggestions, setSuggestions] = useState<Game[]>([])
   const handleSearch = (searchText: string) =>
-    GameService.searchGames(searchText, 10, props.year).then((results) =>
+    GameService.searchGames(searchText, 10, year).then((results) =>
       setSuggestions(results)
     )
   return (

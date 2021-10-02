@@ -17,7 +17,8 @@ import { ResultsComponent } from './results/Results'
 import { useEffect, useState } from 'react'
 import { Submission } from '../models/submission'
 import { SubmissionService } from '../api/submissionService'
-import { Constants } from '../models/constants'
+import { Provider } from 'react-redux'
+import { configureStore } from '../state/store'
 
 const AppRoot = styled.div`
   margin-left: auto;
@@ -29,19 +30,6 @@ const notNull = (input: string | null | undefined): input is string => {
   return input != null && input !== 'undefined' && input !== 'null'
 }
 
-// todo externalize
-const constants: Constants = {
-  tiePoints: [15, 13, 11, 7, 6, 5, 4, 3, 2, 1],
-  year: 2021,
-  closeDate: '1/1/2022',
-  lastTime: '12/31/2021 11:59PM',
-  hasGiveaway: false, // todo implement
-  giveawayAmountUSD: 0, // todo implement
-  baseUrl: '',
-  maxListSize: 10,
-  isGotyConcluded: false,
-}
-
 export enum SubmissionStep {
   Start,
   Form,
@@ -49,6 +37,7 @@ export enum SubmissionStep {
 }
 
 export const App = () => {
+  const store = configureStore()
   const [submission, setSubmission] = useState<Submission | null>(null)
   const [submissionStep, setSubmissionStep] = useState<SubmissionStep>(
     SubmissionStep.Start
@@ -83,55 +72,33 @@ export const App = () => {
     switch (submissionStep) {
       case SubmissionStep.Start:
         return (
-          <Start
-            isGotyConcluded={constants.isGotyConcluded}
-            hasSubmission={submission != null}
-            year={constants.year}
-            setNextStep={setNextStep}
-          />
+          <Start hasSubmission={submission != null} setNextStep={setNextStep} />
         )
       case SubmissionStep.Form:
         return (
-          <SubmissionForm
-            year={constants.year}
-            lastTime={constants.lastTime}
-            closeDate={constants.closeDate}
-            maxListSize={constants.maxListSize}
-            submission={submission}
-            setNextStep={setNextStep}
-            tiePoints={constants.tiePoints}
-          />
+          <SubmissionForm submission={submission} setNextStep={setNextStep} />
         )
       case SubmissionStep.End:
-        return (
-          <End
-            closeDate={constants.closeDate}
-            error={submissionError}
-            setNextStep={setNextStep}
-          />
-        )
+        return <End error={submissionError} setNextStep={setNextStep} />
     }
   }
   return (
-    <AppRoot>
-      <Header year={constants.year} />
-      <Router>
-        <Switch>
-          <Route path="/submission">{getSubmissionStep()}</Route>
-          <Route path="/recovery">
-            <Recovery />
-          </Route>
-          <Route path="/results">
-            <ResultsComponent
-              year={constants.year}
-              lastTime={constants.lastTime}
-              closeDate={constants.closeDate}
-              maxListSize={constants.maxListSize}
-            />
-          </Route>
-          <Redirect from="*" to="/submission" />
-        </Switch>
-      </Router>
-    </AppRoot>
+    <Provider store={store}>
+      <AppRoot>
+        <Header />
+        <Router>
+          <Switch>
+            <Route path="/submission">{getSubmissionStep()}</Route>
+            <Route path="/recovery">
+              <Recovery />
+            </Route>
+            <Route path="/results">
+              <ResultsComponent />
+            </Route>
+            <Redirect from="*" to="/submission" />
+          </Switch>
+        </Router>
+      </AppRoot>
+    </Provider>
   )
 }

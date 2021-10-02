@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { SubmissionPage } from '../models/SubmissionPage'
+import { selectConstants } from '../state/constants/selectors'
 import { LinkButton } from '../util/global-styles'
 import { Card } from './Card'
 
 export interface EndProps extends SubmissionPage {
   error?: any
-  closeDate: string
 }
 
 export const End = (props: EndProps) => {
+  const { closeDate } = useSelector(selectConstants)
   const handleEditClick = () => {
     props.setNextStep()
   }
@@ -34,7 +36,7 @@ export const End = (props: EndProps) => {
           You may edit your submission{' '}
           <LinkButton onClick={handleEditClick}>here</LinkButton>
         </h3>
-        <h3>All edits are due by {props.closeDate}</h3>
+        <h3>All edits are due by {closeDate}</h3>
       </React.Fragment>
     )
   }

@@ -1,5 +1,7 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Game } from '../../models/game'
+import { selectConstants } from '../../state/constants/selectors'
 import { generateRules } from '../../util/generate-rules'
 import { indexToOrdinal } from '../../util/index-to-ordinal'
 import { Card } from '../Card'
@@ -8,11 +10,7 @@ import { Search } from './shared/Search'
 
 export interface GOTYProps {
   games: Game[]
-  year: number
   readonly: boolean
-  closeDate: string
-  maxListSize: number
-  tiePoints?: number[]
   setGames?: (games: Game[]) => void
 }
 
@@ -71,6 +69,7 @@ const swap = (
 }
 
 export const GOTY = (props: GOTYProps) => {
+  const constants = useSelector(selectConstants)
   const setGames = props.setGames
   const canSubmit = (
     setGame?: (games: Game[]) => void
@@ -78,7 +77,7 @@ export const GOTY = (props: GOTYProps) => {
     return !props.readonly && props.setGames != null
   }
   const handleAddGame = (gameToAdd: Game) => {
-    if (canSubmit(setGames) && props.games.length !== props.maxListSize) {
+    if (canSubmit(setGames) && props.games.length !== constants.maxListSize) {
       setGames([
         ...props.games.filter((game) => game.id !== gameToAdd.id),
         gameToAdd,
@@ -101,18 +100,17 @@ export const GOTY = (props: GOTYProps) => {
   }
   return (
     <Card
-      title={`What are your favorite game(s) of ${props.year}?`}
+      title={`What are your favorite game(s) of ${constants.year}?`}
       required={true}
       content={
         <React.Fragment>
-          {generateRules(props.readonly, getRules(props.closeDate, props.year))}
-          {props.tiePoints ? getTieBreaker(props.tiePoints) : null}
+          {generateRules(
+            props.readonly,
+            getRules(constants.closeDate, constants.year)
+          )}
+          {constants.tiePoints ? getTieBreaker(constants.tiePoints) : null}
           {props.readonly ? null : (
-            <Search
-              placeholder="Select a game"
-              handleSelect={handleAddGame}
-              year={props.year}
-            />
+            <Search placeholder="Select a game" handleSelect={handleAddGame} />
           )}
           <OrderableList
             games={props.games}

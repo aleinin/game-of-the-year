@@ -8,12 +8,7 @@ import { Submissions } from './Submissions'
 import { Summary } from './Summary'
 import { Results } from '../../models/results'
 
-export interface ResultsProps {
-  year: number
-  lastTime: string
-  closeDate: string
-  maxListSize: number
-}
+export interface ResultsProps {}
 
 export const ResultsComponent = (props: ResultsProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -33,20 +28,10 @@ export const ResultsComponent = (props: ResultsProps) => {
           onTabChange={(e) => setActiveIndex(e.index)}
         >
           <TabPanel header="Summary">
-            <Summary
-              results={results}
-              year={props.year}
-              maxListSize={props.maxListSize}
-            />
+            <Summary results={results} />
           </TabPanel>
           <TabPanel header="Individual Responses">
-            <Submissions
-              year={props.year}
-              closeDate={props.closeDate}
-              lastTime={props.lastTime}
-              maxListSize={props.maxListSize}
-              submissions={submissions}
-            />
+            <Submissions submissions={submissions} />
           </TabPanel>
         </TabView>
       }

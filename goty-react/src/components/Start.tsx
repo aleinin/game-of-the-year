@@ -3,11 +3,12 @@ import styled from 'styled-components'
 import { Card } from './Card'
 import { Button } from 'primereact/button'
 import { SubmissionPage } from '../models/SubmissionPage'
+import { Constants } from '../models/constants'
+import { useSelector } from 'react-redux'
+import { selectConstants } from '../state/constants/selectors'
 
 export interface StartProps extends SubmissionPage {
-  isGotyConcluded: boolean
   hasSubmission: boolean
-  year: number
 }
 
 const concluded = (year: number) => {
@@ -69,14 +70,15 @@ const submissions = (hasSubmission: boolean, handleClick: () => void) => {
 }
 
 export const Start = (props: StartProps) => {
+  const constants: Constants = useSelector(selectConstants)
   useEffect(() => {
     document.title = 'TMW GOTY - Start'
   }, [])
   const handleClick = () => {
     props.setNextStep()
   }
-  if (props.isGotyConcluded) {
-    return concluded(props.year)
+  if (constants.isGotyConcluded) {
+    return concluded(constants.year)
   }
   return submissions(props.hasSubmission, handleClick)
 }

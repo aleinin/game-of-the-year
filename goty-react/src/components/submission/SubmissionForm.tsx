@@ -14,12 +14,7 @@ import { SubmissionPage } from '../../models/SubmissionPage'
 import { SubmissionService } from '../../api/submissionService'
 
 export interface SubmissionFormProps extends SubmissionPage {
-  lastTime: string
-  year: number
-  closeDate: string
-  maxListSize: number
   submission: Submission | null
-  tiePoints: number[]
 }
 
 export const SubmissionForm = (props: SubmissionFormProps) => {
@@ -81,14 +76,9 @@ export const SubmissionForm = (props: SubmissionFormProps) => {
       <GOTY
         games={gamesOfTheYear}
         readonly={false}
-        closeDate={props.closeDate}
-        year={props.year}
         setGames={setGamesOfTheYear}
-        maxListSize={props.maxListSize}
-        tiePoints={props.tiePoints}
       />
       <OldGame
-        year={props.year}
         readonly={false}
         bestOldGame={bestOldGame}
         setBestOldGame={setBestOldGame}
@@ -100,7 +90,6 @@ export const SubmissionForm = (props: SubmissionFormProps) => {
       />
       <Giveaway
         readonly={false}
-        lastTime={props.lastTime}
         enteredGiveaway={enteredGiveaway}
         setEnteredGiveaway={setEnteredGiveaway}
       />

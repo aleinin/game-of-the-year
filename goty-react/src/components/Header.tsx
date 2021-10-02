@@ -1,5 +1,7 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { selectConstants } from '../state/constants/selectors'
 import { Card } from './Card'
 
 const Title = styled.h1`
@@ -22,11 +24,12 @@ const Footer = styled.div`
     color: white;
   }
 `
-export const Header = (props: { year: number }) => {
+export const Header = () => {
+  const { year } = useSelector(selectConstants)
   const content = (
     <React.Fragment>
       <Title>The Midnight Watchmen's</Title>
-      <Title>Top Games of the Year {props.year}</Title>
+      <Title>Top Games of the Year {year}</Title>
       <Footer>
         <a href="https://github.com/aleinin">Frontend by aleinin</a>
         <a href="https://www.igdb.com">Data provided by IGDB</a>

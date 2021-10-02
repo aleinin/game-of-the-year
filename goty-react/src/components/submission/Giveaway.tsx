@@ -3,9 +3,10 @@ import { Card } from '../Card'
 import { RadioButton } from 'primereact/radiobutton'
 import { generateRules } from '../../util/generate-rules'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+import { selectConstants } from '../../state/constants/selectors'
 
 export interface GiveawayProps {
-  lastTime: string
   readonly: boolean
   enteredGiveaway: boolean | null
   setEnteredGiveaway?: (val: boolean) => void
@@ -29,6 +30,7 @@ const RadioButtonContainer = styled.div`
 `
 
 export const Giveaway = (props: GiveawayProps) => {
+  const { lastTime } = useSelector(selectConstants)
   const handleClick = (enteredGiveaway: boolean) => {
     if (!props.readonly && props.setEnteredGiveaway != null) {
       props.setEnteredGiveaway(enteredGiveaway)
@@ -40,7 +42,7 @@ export const Giveaway = (props: GiveawayProps) => {
       required={true}
       content={
         <React.Fragment>
-          {generateRules(props.readonly, rules(props.lastTime))}
+          {generateRules(props.readonly, rules(lastTime))}
           <RadioButtonContainer>
             <RadioButton
               inputId="yes"

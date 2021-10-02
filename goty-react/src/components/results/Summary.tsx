@@ -1,17 +1,18 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { GameOfTheYearResult, GameResult, Results } from '../../models/results'
+import { selectConstants } from '../../state/constants/selectors'
 import { ResultsTable } from './ResultsTable'
 
 const gameColumns = ['rank', 'title', 'votes']
 const gameOfTheYearColumns = [...gameColumns, 'points']
 
 export interface SummaryProps {
-  year: number
   results: Results | null
-  maxListSize: number
 }
 
-export const Summary = ({ results, year }: SummaryProps) => {
+export const Summary = ({ results }: SummaryProps) => {
+  const { year } = useSelector(selectConstants)
   if (results == null) {
     return <React.Fragment />
   }

@@ -65,11 +65,13 @@ export const Paginator = ({
   const leftControls = (
     <React.Fragment>
       <i
-        className={`pi pi-angle-double-left ${pageIndex > 0 ? '' : 'disabled'}`}
+        className={`pi pi-angle-double-left big-pi ${
+          pageIndex > 0 ? '' : 'disabled'
+        }`}
         onClick={() => handleMove(MoveType.JumpLeft)}
       />
       <i
-        className={`pi pi-angle-left ${pageIndex > 0 ? '' : 'disabled'}`}
+        className={`pi pi-angle-left big-pi ${pageIndex > 0 ? '' : 'disabled'}`}
         onClick={() => handleMove(MoveType.Left)}
       />
     </React.Fragment>
@@ -77,13 +79,13 @@ export const Paginator = ({
   const rightControls = (
     <React.Fragment>
       <i
-        className={`pi pi-angle-right ${
+        className={`pi pi-angle-right big-pi ${
           pageIndex < totalPages - 1 ? '' : 'disabled'
         }`}
         onClick={() => handleMove(MoveType.Right)}
       />
       <i
-        className={`pi pi-angle-double-right ${
+        className={`pi pi-angle-double-right big-pi ${
           pageIndex < totalPages - 1 ? '' : 'disabled'
         }`}
         onClick={() => handleMove(MoveType.JumpRight)}

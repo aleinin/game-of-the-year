@@ -29,6 +29,10 @@ const RadioButtonContainer = styled.div`
   margin-top: 20px;
 `
 
+const RadioLabel = styled.label`
+  margin-left: 5px;
+`
+
 export const Giveaway = (props: GiveawayProps) => {
   const { lastTime } = useSelector(selectConstants)
   const handleClick = (enteredGiveaway: boolean) => {
@@ -51,7 +55,7 @@ export const Giveaway = (props: GiveawayProps) => {
               onChange={(e) => handleClick(e.value)}
               checked={props.enteredGiveaway === true}
             />
-            <label htmlFor="yes">Yes</label>
+            <RadioLabel htmlFor="yes">Yes</RadioLabel>
           </RadioButtonContainer>
           <RadioButtonContainer>
             <RadioButton
@@ -61,7 +65,7 @@ export const Giveaway = (props: GiveawayProps) => {
               onChange={(e) => handleClick(e.value)}
               checked={props.enteredGiveaway === false}
             />
-            <label htmlFor="no">No</label>
+            <RadioLabel htmlFor="no">No</RadioLabel>
           </RadioButtonContainer>
         </React.Fragment>
       }

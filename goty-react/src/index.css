@@ -3,7 +3,7 @@ body {
   font-family: Roboto, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./images/pattern.gif');
+  background-image: url('./images/pattern.png');
 
   font-size: 1.3em;
 }

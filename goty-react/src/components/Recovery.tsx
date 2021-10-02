@@ -75,7 +75,12 @@ export const Recovery = () => {
               onChange={(e) => setUuid(e.target.value)}
               placeholder="Paste key here"
             />
-            <Button disabled={!valid} label="Submit" onClick={handleSubmit} />
+            <Button
+              disabled={!valid}
+              label="Submit"
+              onClick={handleSubmit}
+              style={{ minWidth: '90px' }}
+            />
           </RecoveryForm>
         </React.Fragment>
       }

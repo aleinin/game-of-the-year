@@ -28,6 +28,7 @@ const CardContainer = styled('div')<{ paddingPx?: number }>`
   @media only screen and (min-width: 768px) {
     padding: ${(props) => props.paddingPx ?? '15'}px;
   }
+  border: 1px solid #575757;
 `
 
 const Header = styled.div`

@@ -25,7 +25,7 @@ export const ResultsTable = (props: ResultsTableProps) => {
   let columns: JSX.Element[]
   if (isStringArr(props.rows)) {
     values = props.rows.map((row) => ({ value: row }))
-    columns = [<Column field="value" />]
+    columns = [<Column key="value" field="value" />]
   } else {
     values = props.rows.map((row) => ({ ...row, rank: row.rank + 1 }))
     columns = props.columnConfig.map((column) => (

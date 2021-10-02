@@ -1,5 +1,5 @@
 import { Button } from 'primereact/button'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Game } from '../../models/game'
 import { Submission } from '../../models/submission'
 import { Required } from '../../util/global-styles'
@@ -33,14 +33,24 @@ export const SubmissionForm = (props: SubmissionFormProps) => {
   const [enteredGiveaway, setEnteredGiveaway] = useState<boolean | null>(
     props.submission?.enteredGiveaway ?? null
   )
-  const getSubmission = (): Submission => ({
-    submissionUUID: props.submission?.submissionUUID ?? '',
-    name,
-    gamesOfTheYear,
-    mostAnticipated,
-    bestOldGame,
-    enteredGiveaway,
-  })
+  const getSubmission = useCallback(
+    () => ({
+      submissionUUID: props.submission?.submissionUUID ?? '',
+      name,
+      gamesOfTheYear,
+      mostAnticipated,
+      bestOldGame,
+      enteredGiveaway,
+    }),
+    [
+      name,
+      gamesOfTheYear,
+      bestOldGame,
+      mostAnticipated,
+      enteredGiveaway,
+      props.submission?.submissionUUID,
+    ]
+  )
   const handleSubmit = () => {
     const service =
       props.submission != null
@@ -65,7 +75,14 @@ export const SubmissionForm = (props: SubmissionFormProps) => {
           enteredGiveaway != null
       )
     }
-  }, [name, gamesOfTheYear, bestOldGame, mostAnticipated, enteredGiveaway])
+  }, [
+    name,
+    gamesOfTheYear,
+    bestOldGame,
+    mostAnticipated,
+    enteredGiveaway,
+    getSubmission,
+  ])
   useEffect(() => {
     document.title = 'TMW GOTY - Submission'
   }, [])

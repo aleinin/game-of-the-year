@@ -1,23 +1,31 @@
 import { Card } from '../Card'
 import { InputText } from 'primereact/inputtext'
 import styled from 'styled-components'
+import { useStore } from 'react-redux'
+import { createUpdateNameAction } from '../../state/submission/actions'
+import { useState } from 'react'
+import { useDebouncedEffect } from '../../util/use-debounced-effect'
 
 export interface NameProps {
   name: string
   readonly: boolean
-  setName?: (value: string) => void
 }
 
 export const NameContainer = styled.div`
   margin-top: 20px;
 `
 
-export const Name = ({ name, setName, readonly }: NameProps) => {
-  const handleChange = (name: string) => {
-    if (!readonly && setName != null) {
-      setName(name)
-    }
-  }
+export const Name = ({ name, readonly }: NameProps) => {
+  const [localName, setLocalName] = useState(name)
+  const store = useStore()
+  useDebouncedEffect(
+    () => store.dispatch(createUpdateNameAction(localName)),
+    [localName],
+    500
+  )
+  const handleChange = (input: string) =>
+    readonly ? () => {} : setLocalName(input)
+  /* TODO why does localName not work? */
   return (
     <Card
       title="Name:"
@@ -25,7 +33,7 @@ export const Name = ({ name, setName, readonly }: NameProps) => {
       content={
         <NameContainer>
           <InputText
-            value={name}
+            value={readonly ? name : localName}
             readOnly={readonly}
             onChange={(e) => handleChange(e.target.value)}
             placeholder="Your Name"

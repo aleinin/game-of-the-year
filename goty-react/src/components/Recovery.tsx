@@ -3,6 +3,7 @@ import { InputText } from 'primereact/inputtext'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
+import { SubmissionService } from '../api/submissionService'
 import { Card } from './Card'
 
 export interface RecoveryProps {}
@@ -41,6 +42,7 @@ export const Recovery = () => {
   const [failed, setFailed] = useState(false)
   const [valid, setValid] = useState(false)
   const [uuid, setUuid] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
     setFailed(false)
     setValid(uuidPattern.test(uuid))
@@ -49,15 +51,19 @@ export const Recovery = () => {
     document.title = 'TMW GOTY - Recovery'
   }, [])
   const handleSubmit = () => {
-    // todo some http call
-    const success = false
-    if (success) {
-      localStorage.setItem('submissionUUID', uuid)
-      history.push('/submission')
-    } else {
-      setValid(false)
-      setFailed(true)
-    }
+    setIsLoading(true)
+    SubmissionService.getSubmission(uuid)
+      .then((submission) => {
+        localStorage.setItem('submissionUUID', uuid)
+        history.push('/submission')
+      })
+      .catch(() => {
+        setValid(false)
+        setFailed(true)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
   return (
     <Card
@@ -79,7 +85,8 @@ export const Recovery = () => {
               disabled={!valid}
               label="Submit"
               onClick={handleSubmit}
-              style={{ minWidth: '90px' }}
+              style={{ minWidth: '120px' }}
+              loading={isLoading}
             />
           </RecoveryForm>
         </React.Fragment>

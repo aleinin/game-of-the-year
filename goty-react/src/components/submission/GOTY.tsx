@@ -1,7 +1,8 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useStore } from 'react-redux'
 import { Game } from '../../models/game'
 import { selectConstants } from '../../state/constants/selectors'
+import { createUpdateGamesOfTheYearAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
 import { indexToOrdinal } from '../../util/index-to-ordinal'
 import { Card } from '../Card'
@@ -11,7 +12,6 @@ import { Search } from './shared/Search'
 export interface GOTYProps {
   games: Game[]
   readonly: boolean
-  setGames?: (games: Game[]) => void
 }
 
 export enum MoveDirection {
@@ -70,14 +70,11 @@ const swap = (
 
 export const GOTY = (props: GOTYProps) => {
   const constants = useSelector(selectConstants)
-  const setGames = props.setGames
-  const canSubmit = (
-    setGame?: (games: Game[]) => void
-  ): setGame is (games: Game[]) => void => {
-    return !props.readonly && props.setGames != null
-  }
+  const store = useStore()
+  const setGames = (games: Game[]) =>
+    store.dispatch(createUpdateGamesOfTheYearAction(games))
   const handleAddGame = (gameToAdd: Game) => {
-    if (canSubmit(setGames) && props.games.length !== constants.maxListSize) {
+    if (!props.readonly && props.games.length !== constants.maxListSize) {
       setGames([
         ...props.games.filter((game) => game.id !== gameToAdd.id),
         gameToAdd,
@@ -86,7 +83,7 @@ export const GOTY = (props: GOTYProps) => {
   }
   const handleMoveGame = (currentIndex: number, direction: MoveDirection) => {
     if (
-      canSubmit(setGames) &&
+      !props.readonly &&
       inBounds(currentIndex, direction, props.games.length)
     ) {
       setGames(swap(props.games, currentIndex, direction))
@@ -94,7 +91,7 @@ export const GOTY = (props: GOTYProps) => {
   }
 
   const handleDeleteGame = (gameToDelete: Game) => {
-    if (canSubmit(setGames)) {
+    if (!props.readonly) {
       setGames(props.games.filter((game) => game.id !== gameToDelete.id))
     }
   }

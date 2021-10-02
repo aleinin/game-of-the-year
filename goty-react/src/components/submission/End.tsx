@@ -1,30 +1,31 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { SubmissionPage } from '../models/SubmissionPage'
-import { selectConstants } from '../state/constants/selectors'
-import { LinkButton } from '../util/global-styles'
-import { Card } from './Card'
+import { useSelector, useStore } from 'react-redux'
+import { selectConstants } from '../../state/constants/selectors'
+import { createNextStepAction } from '../../state/submission/actions'
+import { selectError } from '../../state/submission/selector'
+import { LinkButton } from '../../util/global-styles'
+import { Card } from '../Card'
 
-export interface EndProps extends SubmissionPage {
-  error?: any
-}
+export interface EndProps {}
 
 export const End = (props: EndProps) => {
+  const store = useStore()
   const { closeDate } = useSelector(selectConstants)
+  const error = useSelector(selectError)
   const handleEditClick = () => {
-    props.setNextStep()
+    store.dispatch(createNextStepAction())
   }
   useEffect(() => {
     document.title = 'TMW GOTY - End'
   }, [])
   let content: JSX.Element
-  if (props.error != null) {
+  if (error != null) {
     content = (
       <React.Fragment>
         <h1>Uh oh!</h1>
         <h2>We failed to save your submission</h2>
         <h3>Please contact Kherven or Gorlah and give them the following: </h3>
-        <p>{JSON.stringify(props.error)}</p>
+        <p>{JSON.stringify(error)}</p>
       </React.Fragment>
     )
   } else {

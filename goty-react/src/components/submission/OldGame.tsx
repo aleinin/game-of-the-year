@@ -1,22 +1,23 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useStore } from 'react-redux'
 import { Game } from '../../models/game'
 import { selectConstants } from '../../state/constants/selectors'
+import { createUpdateBestOldGameAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
 import { SingleGame } from './shared/SingleGame'
 
 export interface OldGameProps {
   readonly: boolean
   bestOldGame: Game | null
-  setBestOldGame?: (game: Game | null) => void
 }
 
 const rules = (year: number) => [`Any game released prior to ${year}`]
 
 export const OldGame = (props: OldGameProps) => {
   const { year } = useSelector(selectConstants)
+  const store = useStore()
   const handleSelect = (bestOldGame: Game | null) => {
-    if (!props.readonly && props.setBestOldGame != null) {
-      props.setBestOldGame(bestOldGame)
+    if (!props.readonly) {
+      store.dispatch(createUpdateBestOldGameAction(bestOldGame))
     }
   }
   return (

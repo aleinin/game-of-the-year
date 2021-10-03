@@ -7,23 +7,28 @@ import { GOTY } from './GOTY'
 import { MostAnticipated } from './MostAnticipated'
 import { Name } from './Name'
 import { OldGame } from './OldGame'
-import { useSelector } from 'react-redux'
+import { useSelector, useStore } from 'react-redux'
 import { SubmissionService } from '../../api/submissionService'
 import { selectSubmissionState } from '../../state/submission/selector'
+import {
+  createSubmitFailAction,
+  createSubmitSuccessAction,
+} from '../../state/submission/actions'
 
 export interface FormProps {}
 export const Form = (props: FormProps) => {
+  const store = useStore()
   const { isValid, isEdit, form } = useSelector(selectSubmissionState)
   const handleSubmit = () => {
     const service = isEdit
       ? SubmissionService.updateSubmission
       : SubmissionService.createSubmission
     service(form)
-      .then((success) => {
-        return console.log(success)
+      .then((submission) => {
+        store.dispatch(createSubmitSuccessAction(submission))
       })
       .catch((error) => {
-        return console.error(error)
+        store.dispatch(createSubmitFailAction(error))
       })
   }
   useEffect(() => {

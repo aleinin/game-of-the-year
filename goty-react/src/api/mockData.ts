@@ -1,6 +1,6 @@
-import { Game } from '../models/game'
-import { Results } from '../models/results'
-import { Submission } from '../models/submission'
+import { Game } from './gameService'
+import { Results } from './resultsService'
+import { Submission } from './submissionService'
 
 export const mockGamesSearchResult: Game[] = [
   { id: '1', title: 'Sierra' },

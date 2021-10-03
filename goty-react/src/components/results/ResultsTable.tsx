@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Card } from '../Card'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { Result } from '../../models/results'
+import { Result } from '../../api/resultsService'
 
 export interface ResultsTableProps {
   title: string

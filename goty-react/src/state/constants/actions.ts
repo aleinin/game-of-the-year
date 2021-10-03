@@ -1,4 +1,4 @@
-import { Constants } from '../../models/constants'
+import { Constants } from './reducer'
 
 export const SET_CONSTANTS = 'SET_CONSTANTS'
 

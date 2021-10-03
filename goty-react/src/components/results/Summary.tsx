@@ -1,6 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { GameOfTheYearResult, GameResult, Results } from '../../models/results'
+import {
+  Results,
+  GameResult,
+  GameOfTheYearResult,
+} from '../../api/resultsService'
 import { selectConstants } from '../../state/constants/selectors'
 import { ResultsTable } from './ResultsTable'
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Game } from '../../../models/game'
+import { Game } from '../../../api/gameService'
 import { indexToOrdinal } from '../../../util/index-to-ordinal'
 import { MoveDirection } from '../GOTY'
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Submission } from '../../models/submission'
+import { Submission } from '../../api/submissionService'
 import { Giveaway } from '../submission/Giveaway'
 import { GOTY } from '../submission/GOTY'
 import { MostAnticipated } from '../submission/MostAnticipated'

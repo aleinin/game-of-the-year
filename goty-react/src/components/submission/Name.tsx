@@ -3,7 +3,7 @@ import { InputText } from 'primereact/inputtext'
 import styled from 'styled-components'
 import { useStore } from 'react-redux'
 import { createUpdateNameAction } from '../../state/submission/actions'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDebouncedEffect } from '../../util/use-debounced-effect'
 
 export interface NameProps {
@@ -18,6 +18,9 @@ export const NameContainer = styled.div`
 export const Name = ({ name, readonly }: NameProps) => {
   const [localName, setLocalName] = useState(name)
   const store = useStore()
+  useEffect(() => {
+    setLocalName(name)
+  }, [name])
   useDebouncedEffect(
     () => store.dispatch(createUpdateNameAction(localName)),
     [localName],

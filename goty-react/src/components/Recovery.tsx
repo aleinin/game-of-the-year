@@ -1,9 +1,11 @@
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import React, { useEffect, useState } from 'react'
+import { useStore } from 'react-redux'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import { SubmissionService } from '../api/submissionService'
+import { createNextStepAction } from '../state/submission/actions'
 import { Card } from './Card'
 
 export interface RecoveryProps {}
@@ -36,8 +38,8 @@ const getFailed = () => (
 const uuidPattern =
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 
-// todo css
 export const Recovery = () => {
+  const store = useStore()
   const history = useHistory()
   const [failed, setFailed] = useState(false)
   const [valid, setValid] = useState(false)
@@ -55,14 +57,13 @@ export const Recovery = () => {
     SubmissionService.getSubmission(uuid)
       .then((submission) => {
         localStorage.setItem('submissionUUID', uuid)
+        store.dispatch(createNextStepAction())
         history.push('/submission')
       })
       .catch(() => {
+        setIsLoading(false)
         setValid(false)
         setFailed(true)
-      })
-      .finally(() => {
-        setIsLoading(false)
       })
   }
   return (

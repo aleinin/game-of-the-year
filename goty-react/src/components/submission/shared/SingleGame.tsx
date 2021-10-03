@@ -1,5 +1,5 @@
 import React from 'react'
-import { Game } from '../../../models/game'
+import { Game } from '../../../api/gameService'
 import { Card } from '../../Card'
 import { SearchInPlace } from './SearchInPlace'
 

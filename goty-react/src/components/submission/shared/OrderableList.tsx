@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import React from 'react'
-import { Game } from '../../../models/game'
+import { Game } from '../../../api/gameService'
 import { MoveDirection } from '../GOTY'
 import { ListItem } from './ListItem'
 

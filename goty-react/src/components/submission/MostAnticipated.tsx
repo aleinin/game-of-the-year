@@ -1,6 +1,6 @@
 import React from 'react'
 import { useStore } from 'react-redux'
-import { Game } from '../../models/game'
+import { Game } from '../../api/gameService'
 import { createUpdateMostAnticipatedAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
 import { SingleGame } from './shared/SingleGame'

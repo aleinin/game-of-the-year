@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useStore } from 'react-redux'
-import { Game } from '../../models/game'
+import { Game } from '../../api/gameService'
 import { selectConstants } from '../../state/constants/selectors'
 import { createUpdateGamesOfTheYearAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'

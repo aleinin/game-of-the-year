@@ -1,6 +1,5 @@
 import { combineReducers, createStore, Store } from '@reduxjs/toolkit'
-import { Constants } from '../models/constants'
-import { constantsReducer } from './constants/reducer'
+import { Constants, constantsReducer } from './constants/reducer'
 import { submissionReducer, SubmissionState } from './submission/reducer'
 
 export type AppState = {

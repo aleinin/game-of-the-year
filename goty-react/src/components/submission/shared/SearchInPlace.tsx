@@ -1,4 +1,4 @@
-import { Game } from '../../../models/game'
+import { Game } from '../../../api/gameService'
 import { ListItem } from './ListItem'
 import { Search } from './Search'
 

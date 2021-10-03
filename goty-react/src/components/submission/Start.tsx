@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Card } from '../Card'
 import { Button } from 'primereact/button'
-import { Constants } from '../../models/constants'
 import { useSelector, useStore } from 'react-redux'
 import { selectConstants } from '../../state/constants/selectors'
 import { selectIsEdit } from '../../state/submission/selector'
@@ -81,7 +80,7 @@ const submissions = (
 
 export const Start = (props: StartProps) => {
   const store = useStore()
-  const constants: Constants = useSelector(selectConstants)
+  const constants = useSelector(selectConstants)
   const hasSubmission: boolean = useSelector(selectIsEdit)
   useEffect(() => {
     document.title = 'TMW GOTY - Start'

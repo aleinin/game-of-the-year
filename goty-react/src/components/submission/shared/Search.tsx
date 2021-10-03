@@ -1,7 +1,6 @@
-import { Game } from '../../../models/game'
 import { AutoComplete } from 'primereact/autocomplete'
 import { useState } from 'react'
-import { GameService } from '../../../api/gameService'
+import { Game, GameService } from '../../../api/gameService'
 import { useSelector } from 'react-redux'
 import { selectConstants } from '../../../state/constants/selectors'
 

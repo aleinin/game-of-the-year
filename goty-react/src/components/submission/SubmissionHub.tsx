@@ -22,12 +22,16 @@ export const SubmissionHub = (props: SubmissionStepProps) => {
     const submissionUUID = localStorage.getItem('submissionUUID')
     if (notNull(submissionUUID)) {
       setIsLoading(true)
-      SubmissionService.getSubmission(submissionUUID).then((submission) => {
-        store.dispatch(createSetSubmissionAction(submission))
-        setIsLoading(false)
-      })
+      SubmissionService.getSubmission(submissionUUID)
+        .then((submission) => {
+          store.dispatch(createSetSubmissionAction(submission))
+        })
+        .catch(() => {
+          localStorage.removeItem('submissionUUID')
+        })
+        .finally(() => setIsLoading(false))
     }
-  }, [])
+  }, [store])
   switch (submissionStep) {
     case SubmissionStep.Start:
       return <Start isLoading={isLoading} />

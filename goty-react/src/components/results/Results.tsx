@@ -1,12 +1,10 @@
 import { TabView, TabPanel } from 'primereact/tabview'
 import React, { useEffect, useState } from 'react'
-import { ResultsService } from '../../api/resultsService'
-import { SubmissionService } from '../../api/submissionService'
-import { Submission } from '../../models/submission'
+import { Results, ResultsService } from '../../api/resultsService'
+import { Submission, SubmissionService } from '../../api/submissionService'
 import { Card } from '../Card'
 import { Submissions } from './Submissions'
 import { Summary } from './Summary'
-import { Results } from '../../models/results'
 
 export interface ResultsProps {}
 

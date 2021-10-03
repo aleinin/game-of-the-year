@@ -1,5 +1,9 @@
-import { Game } from '../models/game'
 import { searchResults } from './mockData'
+
+export interface Game {
+  id: string
+  title: string
+}
 
 export const GameService = {
   searchGames: (

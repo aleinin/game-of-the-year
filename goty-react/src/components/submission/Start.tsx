@@ -6,6 +6,7 @@ import { useSelector, useStore } from 'react-redux'
 import { selectConstants } from '../../state/constants/selectors'
 import { selectIsEdit } from '../../state/submission/selector'
 import { createNextStepAction } from '../../state/submission/actions'
+import { ResultsContainer } from '../results/ResultsContainer'
 
 export interface StartProps {
   isLoading: boolean
@@ -36,7 +37,7 @@ const concluded = (year: number) => {
     <Card
       title="Results"
       titleFontSize={{ fontSize: 2, fontType: 'em' }}
-      content={<p>TODO RESULTS</p>}
+      content={<ResultsContainer />}
     />
   )
   return (

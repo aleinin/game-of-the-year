@@ -70,6 +70,7 @@ const swap = (
 
 export const GOTY = (props: GOTYProps) => {
   const constants = useSelector(selectConstants)
+  const { year } = useSelector(selectConstants)
   const store = useStore()
   const setGames = (games: Game[]) =>
     store.dispatch(createUpdateGamesOfTheYearAction(games))
@@ -107,7 +108,11 @@ export const GOTY = (props: GOTYProps) => {
           )}
           {constants.tiePoints ? getTieBreaker(constants.tiePoints) : null}
           {props.readonly ? null : (
-            <Search placeholder="Select a game" handleSelect={handleAddGame} />
+            <Search
+              year={year}
+              placeholder="Select a game"
+              handleSelect={handleAddGame}
+            />
           )}
           <OrderableList
             games={props.games}

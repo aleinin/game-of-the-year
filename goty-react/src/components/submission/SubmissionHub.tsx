@@ -26,8 +26,13 @@ export const SubmissionHub = (props: SubmissionStepProps) => {
         .then((submission) => {
           store.dispatch(createSetSubmissionAction(submission))
         })
-        .catch(() => {
-          localStorage.removeItem('submissionUUID')
+        .catch((error) => {
+          const status = error.response.status
+          if (status === 404 || status === 400) {
+            localStorage.removeItem('submissionUUID')
+          } else {
+            console.error(error)
+          }
         })
         .finally(() => setIsLoading(false))
     }

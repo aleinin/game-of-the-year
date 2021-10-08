@@ -1,4 +1,5 @@
-import { theResults } from './mockData'
+import axios from 'axios'
+import { Converter } from '../util/converter'
 
 export interface GameOfTheYearResult extends GameResult {
   points: number
@@ -16,13 +17,25 @@ export interface Results {
   gamesOfTheYear: GameOfTheYearResult[]
   mostAnticipated: GameResult[]
   bestOldGames: GameResult[]
-  giveawayEntries: string[]
+  giveawayParticipants: string[]
+}
+
+export interface BackendResults {
+  participants: string[]
+  gamesOfTheYear: GameOfTheYearResult[]
+  mostAnticipated: GameResult[]
+  bestOldGame: GameResult[]
+  giveawayParticipants: string[]
 }
 
 export type Result = string[] | GameOfTheYearResult[] | GameResult[]
 
 export const ResultsService = {
   getResults: (): Promise<Results> => {
-    return new Promise((resolve) => setTimeout(() => resolve(theResults), 250))
+    return axios
+      .get<BackendResults>('/results')
+      .then((response) =>
+        Converter.convertFromBackendResultsToResults(response.data)
+      )
   },
 }

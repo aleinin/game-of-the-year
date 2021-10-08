@@ -7,6 +7,7 @@ import { selectConstants } from '../../state/constants/selectors'
 import { selectIsEdit } from '../../state/submission/selector'
 import { createNextStepAction } from '../../state/submission/actions'
 import { ResultsContainer } from '../results/ResultsContainer'
+import { loadResults } from '../../state/results/middleware'
 
 export interface StartProps {
   isLoading: boolean
@@ -22,37 +23,35 @@ const ButtonSet = styled.div`
   }
 `
 
-const concluded = (year: number) => {
-  const thankYou = (
-    <Card
-      content={
-        <React.Fragment>
-          <h2>Game of the Year {year} has concluded</h2>
-          <p>Thank you to all who participated</p>
-        </React.Fragment>
-      }
-    />
-  )
-  const results = (
-    <Card
-      title="Results"
-      titleFontSize={{ fontSize: 2, fontType: 'em' }}
-      content={<ResultsContainer />}
-    />
-  )
+const Concluded = ({ year }: { year: number }) => {
   return (
     <React.Fragment>
-      {thankYou}
-      {results}
+      <Card
+        content={
+          <React.Fragment>
+            <h2>Game of the Year {year} has concluded</h2>
+            <p>Thank you to all who participated</p>
+          </React.Fragment>
+        }
+      />
+      <Card
+        title="Results"
+        titleFontSize={{ fontSize: 2, fontType: 'em' }}
+        content={<ResultsContainer />}
+      />
     </React.Fragment>
   )
 }
 
-const submissions = (
-  hasSubmission: boolean,
-  isLoading: boolean,
+const SubmissionButtons = ({
+  hasSubmission,
+  isLoading,
+  handleClick,
+}: {
+  hasSubmission: boolean
+  isLoading: boolean
   handleClick: () => void
-) => {
+}) => {
   let labelAdjective: string
   if (isLoading) {
     labelAdjective = 'Loading'
@@ -85,12 +84,21 @@ export const Start = (props: StartProps) => {
   const hasSubmission: boolean = useSelector(selectIsEdit)
   useEffect(() => {
     document.title = 'TMW GOTY - Start'
-  }, [])
+    if (constants.isGotyConcluded) {
+      loadResults(store)
+    }
+  }, [constants, store])
   const handleClick = () => {
     store.dispatch(createNextStepAction())
   }
   if (constants.isGotyConcluded) {
-    return concluded(constants.year)
+    return <Concluded year={constants.year} />
   }
-  return submissions(hasSubmission, props.isLoading, handleClick)
+  return (
+    <SubmissionButtons
+      hasSubmission={hasSubmission}
+      isLoading={props.isLoading}
+      handleClick={handleClick}
+    />
+  )
 }

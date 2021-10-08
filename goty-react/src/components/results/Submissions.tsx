@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Submission } from '../../api/submissionService'
+import {
+  selectIsLoading,
+  selectSubmissions,
+} from '../../state/results/selectors'
+import { Loading } from '../Loading'
 import { Giveaway } from '../submission/Giveaway'
 import { GOTY } from '../submission/GOTY'
 import { MostAnticipated } from '../submission/MostAnticipated'
@@ -7,22 +13,26 @@ import { Name } from '../submission/Name'
 import { OldGame } from '../submission/OldGame'
 import { Paginator } from './Paginator'
 
-export interface SubmissionsProps {
-  submissions: Submission[]
-}
+export interface SubmissionsProps {}
 
 export const Submissions = (props: SubmissionsProps) => {
   const [index, setIndex] = useState(0)
+  const isLoading = useSelector(selectIsLoading)
+  const submissions = useSelector(selectSubmissions)
+  if (isLoading) {
+    return <Loading />
+  }
+  if (!(submissions?.length > 0)) {
+    return <h2>No submissions yet</h2>
+  }
   return (
     <React.Fragment>
       <Paginator
-        totalPages={props.submissions.length}
+        totalPages={submissions.length}
         pageIndex={index}
         setIndex={setIndex}
       />
-      <SubmissionResult
-        submission={props.submissions[index]}
-      ></SubmissionResult>
+      <SubmissionResult submission={submissions[index]}></SubmissionResult>
     </React.Fragment>
   )
 }

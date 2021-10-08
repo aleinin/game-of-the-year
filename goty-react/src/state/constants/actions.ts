@@ -7,4 +7,7 @@ export const setConstants = (constants: Partial<Constants>) => ({
   payload: constants,
 })
 
-export type Actions = ReturnType<typeof setConstants>
+export type ConstantsAction = {
+  type: typeof SET_CONSTANTS
+  payload: Partial<Constants>
+}

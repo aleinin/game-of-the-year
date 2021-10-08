@@ -1,4 +1,4 @@
-import { Actions, SET_CONSTANTS } from './actions'
+import { ConstantsAction, SET_CONSTANTS } from './actions'
 
 export interface Constants {
   tiePoints: number[]
@@ -26,7 +26,10 @@ const initialState: Constants = {
   isGotyConcluded: false,
 }
 
-export const constantsReducer = (state = initialState, action: Actions) => {
+export const constantsReducer = (
+  state = initialState,
+  action: ConstantsAction
+) => {
   switch (action.type) {
     case SET_CONSTANTS:
       return {

@@ -1,5 +1,6 @@
+import axios, { AxiosResponse } from 'axios'
+import { Converter } from '../util/converter'
 import { Game } from './gameService'
-import { allSubmissions, theSubmission } from './mockData'
 
 export interface Submission {
   submissionUUID: string
@@ -28,30 +29,43 @@ export interface BackendSubmissionRequest {
 
 export const SubmissionService = {
   getSubmission: (submissionUUID: string): Promise<Submission> => {
-    return new Promise((resolve) =>
-      setTimeout(() => resolve(theSubmission), 250)
-    )
+    return axios
+      .get<BackendSubmission>(`/submissions/${submissionUUID}`)
+      .then((response) =>
+        Converter.convertFromBackendToSubmission(response.data)
+      )
   },
   getSubmissions: (): Promise<Submission[]> => {
-    return new Promise((resolve) =>
-      setTimeout(() => resolve(allSubmissions), 250)
-    )
+    return axios
+      .get<BackendSubmission[]>('/submissions')
+      .then((response) =>
+        response.data.map((submission) =>
+          Converter.convertFromBackendToSubmission(submission)
+        )
+      )
   },
   createSubmission: (submission: Submission): Promise<Submission> => {
-    const fakeUUID = '6f72220e-fed0-4add-9756-690b882c03d0'
-    const fakeReturn: Submission = {
-      ...submission,
-      submissionUUID: fakeUUID,
-    }
-    return new Promise((resolve) => setTimeout(() => resolve(fakeReturn), 250))
+    return axios
+      .post<BackendSubmissionRequest, AxiosResponse<BackendSubmission>>(
+        '/submissions',
+        Converter.convertToBackendSubmissionRequest(submission)
+      )
+      .then((response) =>
+        Converter.convertFromBackendToSubmission(response.data)
+      )
   },
-  // todo return type
   updateSubmission: (submission: Submission): Promise<Submission> => {
-    return new Promise((resolve) => setTimeout(() => resolve(submission), 250))
+    return axios
+      .put<BackendSubmissionRequest, AxiosResponse<BackendSubmission>>(
+        `/submissions/${submission.submissionUUID}`,
+        Converter.convertToBackendSubmissionRequest(submission)
+      )
+      .then((response) =>
+        Converter.convertFromBackendToSubmission(response.data)
+      )
   },
-  // todo return type
+  // TODO #11
   deleteSubmission: (submissionUUID: string): Promise<unknown> => {
-    const success = true
-    return new Promise((resolve) => setTimeout(() => resolve(success), 250))
+    throw new Error('Not implemented')
   },
 }

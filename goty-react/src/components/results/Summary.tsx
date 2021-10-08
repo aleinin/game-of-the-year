@@ -12,21 +12,18 @@ const gameColumns = ['rank', 'title', 'votes']
 const gameOfTheYearColumns = [...gameColumns, 'points']
 
 export interface SummaryProps {
-  results: Results | null
+  results: Results
 }
 
 export const Summary = ({ results }: SummaryProps) => {
   const { year } = useSelector(selectConstants)
-  if (results == null) {
-    return <React.Fragment />
-  }
   return (
     <React.Fragment>
       <Respondents rows={results.participants} />
       <GOTYResults rows={results.gamesOfTheYear} />
       <BestOldGameResults rows={results.bestOldGames} year={year} />
       <MostAnticipatedResults rows={results.mostAnticipated} />
-      <GiveawayEntries rows={results.giveawayEntries} />
+      <GiveawayParticipants rows={results.giveawayParticipants} />
     </React.Fragment>
   )
 }
@@ -93,7 +90,7 @@ const MostAnticipatedResults = ({ rows }: ResultSummaryProps) => (
     rowStyle={getGameResultStyle}
   />
 )
-const GiveawayEntries = ({ rows }: ResultSummaryProps) => (
+const GiveawayParticipants = ({ rows }: ResultSummaryProps) => (
   <ResultsTable
     title="Giveaway entries"
     rows={rows}

@@ -15,6 +15,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.3.0",
     "@types/styled-components": "^5.1.14",
+    "axios": "^0.22.0",
     "framer-motion": "^4.1.17",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",

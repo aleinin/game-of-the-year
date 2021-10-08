@@ -1,6 +1,14 @@
 import { isEqual } from 'lodash'
 import { Submission } from '../../api/submissionService'
-import { Actions, SubmissionActions } from './actions'
+import {
+  NEXT_STEP,
+  RECOVER_SUBMISSION,
+  SET,
+  SubmissionAction,
+  SUBMIT_FAIL,
+  SUBMIT_SUCCESS,
+  UPDATE_FORM,
+} from './actions'
 
 export enum SubmissionStep {
   Start,
@@ -43,23 +51,23 @@ const isValid = (form: Submission, initialForm: Submission) =>
 
 const setExistingSubmission = (
   state: SubmissionState,
-  action: Actions
+  submission: Submission
 ): SubmissionState => ({
   ...state,
   isEdit: true,
-  initialForm: action.payload,
-  form: action.payload,
+  initialForm: submission,
+  form: submission,
   isValid: false,
 })
 
 export const submissionReducer = (
   state = initialState,
-  action: Actions
+  action: SubmissionAction
 ): SubmissionState => {
   switch (action.type) {
-    case SubmissionActions.SET:
-      return setExistingSubmission(state, action)
-    case SubmissionActions.UPDATE_FORM:
+    case SET:
+      return setExistingSubmission(state, action.payload)
+    case UPDATE_FORM:
       const newForm = {
         ...state.form,
         [action.payload.key]: action.payload.value,
@@ -69,7 +77,7 @@ export const submissionReducer = (
         form: newForm,
         isValid: isValid(newForm, state.initialForm),
       }
-    case SubmissionActions.NEXT_STEP:
+    case NEXT_STEP:
       let step: SubmissionStep
       switch (state.step) {
         case SubmissionStep.Start:
@@ -89,17 +97,17 @@ export const submissionReducer = (
         ...state,
         step,
       }
-    case SubmissionActions.RECOVER_SUBMISSION:
+    case RECOVER_SUBMISSION:
       return {
         ...state,
         step: SubmissionStep.Form,
       }
-    case SubmissionActions.SUBMIT_SUCCESS:
+    case SUBMIT_SUCCESS:
       return {
-        ...setExistingSubmission(state, action),
+        ...setExistingSubmission(state, state.form),
         step: SubmissionStep.End,
       }
-    case SubmissionActions.SUBMIT_FAIL:
+    case SUBMIT_FAIL:
       return {
         ...state,
         error: action.payload,

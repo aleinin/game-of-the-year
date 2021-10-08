@@ -1,18 +1,22 @@
-import { searchResults } from './mockData'
+import axios from 'axios'
 
 export interface Game {
   id: string
   title: string
 }
 
+export interface SearchGameParams {
+  title: string
+  limit?: number
+  year?: number
+}
+
 export const GameService = {
-  searchGames: (
-    input: string,
-    limit: number,
-    year?: number
-  ): Promise<Game[]> => {
-    return new Promise((resolve) =>
-      setTimeout(() => resolve(searchResults), 250)
-    )
+  searchGames: (params: SearchGameParams): Promise<Game[]> => {
+    return axios
+      .get<Game[]>('/games', {
+        params,
+      })
+      .then((response) => response.data)
   },
 }

@@ -28,7 +28,6 @@ export const Name = ({ name, readonly }: NameProps) => {
   )
   const handleChange = (input: string) =>
     readonly ? () => {} : setLocalName(input)
-  /* TODO why does localName not work? */
   return (
     <Card
       title="Name:"

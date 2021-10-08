@@ -19,8 +19,8 @@ const initialState: Constants = {
   year: currentYear(),
   closeDate: `1/1/${currentYear() + 1}`,
   lastTime: `12/31/${currentYear()} 11:59PM`,
-  hasGiveaway: false, // todo implement
-  giveawayAmountUSD: 0, // todo implement
+  hasGiveaway: false, // todo #30
+  giveawayAmountUSD: 0, // todo #30
   baseUrl: '',
   maxListSize: 10,
   isGotyConcluded: false,

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card } from '../Card'
-import { RadioButton } from 'primereact/radiobutton'
+
 import { generateRules } from '../../util/generate-rules'
-import styled from 'styled-components'
 import { useSelector, useStore } from 'react-redux'
 import { selectConstants } from '../../state/constants/selectors'
 import { createUpdateEnteredGiveawayAction } from '../../state/submission/actions'
+import { GotyRadioSet, RadioOption } from '../restyled/GotyRadioButton'
 
 export interface GiveawayProps {
   readonly: boolean
@@ -24,15 +24,6 @@ const rules = (lastTime: string) => [
   'The winner will be announced and prize distributed within a few days',
 ]
 
-const RadioButtonContainer = styled.div`
-  margin-bottom: 10px;
-  margin-top: 20px;
-`
-
-const RadioLabel = styled.label`
-  margin-left: 5px;
-`
-
 export const Giveaway = (props: GiveawayProps) => {
   const { lastTime } = useSelector(selectConstants)
   const store = useStore()
@@ -41,35 +32,28 @@ export const Giveaway = (props: GiveawayProps) => {
       store.dispatch(createUpdateEnteredGiveawayAction(enteredGiveaway))
     }
   }
+  const options: RadioOption[] = [
+    {
+      id: 'yes',
+      value: true,
+      label: 'Yes',
+    },
+    {
+      id: 'no',
+      value: false,
+      label: 'No',
+    },
+  ]
   return (
-    <Card
-      title="Giveaway"
-      required={true}
-      content={
-        <React.Fragment>
-          {generateRules(props.readonly, rules(lastTime))}
-          <RadioButtonContainer>
-            <RadioButton
-              inputId="yes"
-              value={true}
-              name="giveaway"
-              onChange={(e) => handleClick(e.value)}
-              checked={props.enteredGiveaway === true}
-            />
-            <RadioLabel htmlFor="yes">Yes</RadioLabel>
-          </RadioButtonContainer>
-          <RadioButtonContainer>
-            <RadioButton
-              inputId="no"
-              value={false}
-              name="giveaway"
-              onChange={(e) => handleClick(e.value)}
-              checked={props.enteredGiveaway === false}
-            />
-            <RadioLabel htmlFor="no">No</RadioLabel>
-          </RadioButtonContainer>
-        </React.Fragment>
-      }
-    />
+    <Card title="Giveaway" required={true}>
+      {generateRules(props.readonly, rules(lastTime))}
+      <GotyRadioSet
+        disabled={props.readonly}
+        name="giveaway"
+        onChange={(e) => handleClick(e.value)}
+        options={options}
+        selectedValue={props.enteredGiveaway}
+      />
+    </Card>
   )
 }

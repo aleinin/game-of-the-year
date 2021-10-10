@@ -1,10 +1,10 @@
 import { Card } from '../Card'
-import { InputText } from 'primereact/inputtext'
 import styled from 'styled-components'
 import { useStore } from 'react-redux'
 import { createUpdateNameAction } from '../../state/submission/actions'
 import { useEffect, useState } from 'react'
 import { useDebouncedEffect } from '../../util/use-debounced-effect'
+import { GotyInputText } from '../restyled/GotyInputText'
 
 export interface NameProps {
   name: string
@@ -29,19 +29,15 @@ export const Name = ({ name, readonly }: NameProps) => {
   const handleChange = (input: string) =>
     readonly ? () => {} : setLocalName(input)
   return (
-    <Card
-      title="Name:"
-      required={true}
-      content={
-        <NameContainer>
-          <InputText
-            value={readonly ? name : localName}
-            readOnly={readonly}
-            onChange={(e) => handleChange(e.target.value)}
-            placeholder="Your Name"
-          />
-        </NameContainer>
-      }
-    />
+    <Card title="Name:" required={true}>
+      <NameContainer>
+        <GotyInputText
+          value={readonly ? name : localName}
+          readOnly={readonly}
+          onChange={(e) => handleChange(e.target.value)}
+          placeholder="Your Name"
+        />
+      </NameContainer>
+    </Card>
   )
 }

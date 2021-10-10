@@ -5,6 +5,7 @@ import {
   selectIsLoading,
   selectSubmissions,
 } from '../../state/results/selectors'
+import { Card } from '../Card'
 import { Loading } from '../Loading'
 import { Giveaway } from '../submission/Giveaway'
 import { GOTY } from '../submission/GOTY'
@@ -23,7 +24,11 @@ export const Submissions = (props: SubmissionsProps) => {
     return <Loading />
   }
   if (!(submissions?.length > 0)) {
-    return <h2>No submissions yet</h2>
+    return (
+      <Card>
+        <h2>No submissions yet</h2>
+      </Card>
+    )
   }
   return (
     <React.Fragment>

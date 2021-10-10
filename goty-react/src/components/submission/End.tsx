@@ -41,5 +41,5 @@ export const End = (props: EndProps) => {
       </React.Fragment>
     )
   }
-  return <Card content={content} />
+  return <Card>{content}</Card>
 }

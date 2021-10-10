@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { Card } from '../Card'
-import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Result } from '../../api/resultsService'
+import { GotyDataTable } from '../restyled/GotyDataTable'
 
 export interface ResultsTableProps {
   title: string
@@ -37,24 +37,19 @@ export const ResultsTable = (props: ResultsTableProps) => {
     ))
   }
   return (
-    <Card
-      border={false}
-      title={props.title}
-      subtitle={`${props.rows.length} rows`}
-      content={
-        <TableContainer>
-          <DataTable
-            value={values}
-            autoLayout
-            paginator
-            rows={10}
-            rowsPerPageOptions={[10, 20, 50]}
-            rowClassName={props.rowStyle}
-          >
-            {columns}
-          </DataTable>
-        </TableContainer>
-      }
-    />
+    <Card title={props.title} subtitle={`${props.rows.length} rows`}>
+      <TableContainer>
+        <GotyDataTable
+          value={values}
+          autoLayout
+          paginator
+          rows={10}
+          rowsPerPageOptions={[10, 20, 50]}
+          rowClassName={props.rowStyle}
+        >
+          {columns}
+        </GotyDataTable>
+      </TableContainer>
+    </Card>
   )
 }

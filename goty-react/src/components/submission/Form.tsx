@@ -1,4 +1,3 @@
-import { Button } from 'primereact/button'
 import React, { useEffect } from 'react'
 import { Required } from '../../util/global-styles'
 import { Card } from '../Card'
@@ -14,6 +13,7 @@ import {
   createSubmitFailAction,
   createSubmitSuccessAction,
 } from '../../state/submission/actions'
+import { GotyButton } from '../restyled/GotyButton'
 
 export interface FormProps {}
 export const Form = (props: FormProps) => {
@@ -36,7 +36,9 @@ export const Form = (props: FormProps) => {
   }, [])
   return (
     <React.Fragment>
-      <Card content={<Required>* Required</Required>} />
+      <Card>
+        <Required>* Required</Required>
+      </Card>
       <Name readonly={false} name={form.name} />
       <GOTY games={form.gamesOfTheYear} readonly={false} />
       <OldGame readonly={false} bestOldGame={form.bestOldGame} />
@@ -45,7 +47,7 @@ export const Form = (props: FormProps) => {
         mostAnticipated={form.mostAnticipated}
       />
       <Giveaway readonly={false} enteredGiveaway={form.enteredGiveaway} />
-      <Button
+      <GotyButton
         style={{ width: '100%' }}
         disabled={!isValid}
         label="Submit"

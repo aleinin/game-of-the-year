@@ -1,5 +1,3 @@
-import { Button } from 'primereact/button'
-import { InputText } from 'primereact/inputtext'
 import React, { useEffect, useState } from 'react'
 import { useStore } from 'react-redux'
 import { useHistory } from 'react-router'
@@ -7,25 +5,12 @@ import styled from 'styled-components'
 import { SubmissionService } from '../api/submissionService'
 import { createNextStepAction } from '../state/submission/actions'
 import { Card } from './Card'
+import { GotyInputWithSubmitButton } from './restyled/GotyInputWithSubmitButton'
 
 export interface RecoveryProps {}
 
 const Error = styled.h4`
   color: #b00020;
-`
-
-const RecoveryForm = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  input {
-    width: 100%;
-    margin-right: 5px;
-  }
-
-  p-button {
-    align-self: center;
-  }
 `
 
 const getFailed = () => (
@@ -67,31 +52,22 @@ export const Recovery = () => {
       })
   }
   return (
-    <Card
-      title="Recover Submission"
-      content={
-        <React.Fragment>
-          <h4>
-            If you've lost your submission and you've been redirected to this
-            page paste the key you were given below:
-          </h4>
-          {failed ? getFailed() : null}
-          <RecoveryForm>
-            <InputText
-              value={uuid}
-              onChange={(e) => setUuid(e.target.value)}
-              placeholder="Paste key here"
-            />
-            <Button
-              disabled={!valid}
-              label="Submit"
-              onClick={handleSubmit}
-              style={{ minWidth: '120px' }}
-              loading={isLoading}
-            />
-          </RecoveryForm>
-        </React.Fragment>
-      }
-    />
+    <Card title="Recover Submission">
+      <h4>
+        If you've lost your submission and you've been redirected to this page
+        paste the key you were given below:
+      </h4>
+      {failed ? getFailed() : null}
+      <GotyInputWithSubmitButton
+        value={uuid}
+        onChange={(e) => setUuid(e.target.value)}
+        placeholder="Paste key here"
+        disabled={!valid}
+        label="Submit"
+        onClick={handleSubmit}
+        buttonStyle={{ minWidth: '120px' }}
+        loading={isLoading}
+      />
+    </Card>
   )
 }

@@ -100,28 +100,25 @@ export const GOTY = (props: GOTYProps) => {
     <Card
       title={`What are your favorite game(s) of ${constants.year}?`}
       required={true}
-      content={
-        <React.Fragment>
-          {generateRules(
-            props.readonly,
-            getRules(constants.closeDate, constants.year)
-          )}
-          {constants.tiePoints ? getTieBreaker(constants.tiePoints) : null}
-          {props.readonly ? null : (
-            <Search
-              year={year}
-              placeholder="Select a game"
-              handleSelect={handleAddGame}
-            />
-          )}
-          <OrderableList
-            games={props.games}
-            readonly={props.readonly}
-            handleDelete={handleDeleteGame}
-            handleMove={handleMoveGame}
-          />
-        </React.Fragment>
-      }
-    />
+    >
+      {generateRules(
+        props.readonly,
+        getRules(constants.closeDate, constants.year)
+      )}
+      {constants.tiePoints ? getTieBreaker(constants.tiePoints) : null}
+      {props.readonly ? null : (
+        <Search
+          year={year}
+          placeholder="Select a game"
+          handleSelect={handleAddGame}
+        />
+      )}
+      <OrderableList
+        games={props.games}
+        readonly={props.readonly}
+        handleDelete={handleDeleteGame}
+        handleMove={handleMoveGame}
+      />
+    </Card>
   )
 }

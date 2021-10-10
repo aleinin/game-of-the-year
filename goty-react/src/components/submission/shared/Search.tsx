@@ -1,6 +1,6 @@
-import { AutoComplete } from 'primereact/autocomplete'
 import { useState } from 'react'
 import { Game, GameService } from '../../../api/gameService'
+import { GotyAutoComplete } from '../../restyled/GotyAutoComplete'
 
 export interface SearchProps {
   placeholder: string
@@ -21,13 +21,12 @@ export const Search = (props: SearchProps) => {
     props.handleSelect(game)
   }
   return (
-    <AutoComplete
+    <GotyAutoComplete
       value={input}
       onChange={(e) => setInput(e.target.value)}
       completeMethod={(e) => handleSearch(e.query)}
       onSelect={(e) => handleSelect(e.value)}
       dropdown={true}
-      inputStyle={{ width: '100%' }}
       minLength={1}
       style={{ display: 'flex', justifyContent: 'center' }}
       suggestions={suggestions}

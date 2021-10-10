@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Game } from '../../../api/gameService'
+import { disableColor } from '../../../util/global-styles'
 import { indexToOrdinal } from '../../../util/index-to-ordinal'
 import { MoveDirection } from '../GOTY'
 
@@ -37,12 +38,45 @@ const Controls = styled.div`
   flex-wrap: nowrap;
 `
 
+const shared = `
+  font-size: 1.2em;
+`
+
+const disabledStyle = `
+  color: ${disableColor}
+`
+
+const enabledReorderStyle = `
+color: rgb(103, 58, 183);
+&:hover:not(.disabled) {
+  text-shadow: 0 0 5px black;
+  color: rgba(103, 58, 183, 0.92);
+}
+cursor: pointer
+`
+
+export const ReorderArrow = styled.i<{ disabled: boolean }>`
+  ${shared}
+  margin-right: 5px;
+  ${({ disabled }) => (disabled ? disabledStyle : enabledReorderStyle)}
+`
+
+export const RemoveMinus = styled.i`
+  ${shared}
+  cursor: pointer;
+  color: #b00020;
+  &:hover {
+    text-shadow: 0 0 5px black;
+    color: #9a001c;
+  }
+`
+
 const getControls = (props: ListItemProps) => {
   if (props.readonly) {
     return null
   }
   const deleteControl = (
-    <i
+    <RemoveMinus
       className="pi pi-minus big-pi"
       onClick={(e) => props.handleDelete(props.game)}
     />
@@ -52,18 +86,16 @@ const getControls = (props: ListItemProps) => {
   }
   return (
     <Controls>
-      <i
-        className={`pi pi-chevron-up big-pi ${
-          props.index === 0 ? 'disabled' : ''
-        }`}
+      <ReorderArrow
+        disabled={props.index === 0}
+        className="pi pi-chevron-up"
         onClick={() =>
           props.handleMove(props.index, MoveDirection.IncreaseRank)
         }
       />
-      <i
-        className={`pi pi-chevron-down big-pi ${
-          props.index === props.currentListLength - 1 ? 'disabled' : ''
-        }`}
+      <ReorderArrow
+        disabled={props.index === props.currentListLength - 1}
+        className="pi pi-chevron-down"
         onClick={() =>
           props.handleMove(props.index, MoveDirection.DecreaseRank)
         }

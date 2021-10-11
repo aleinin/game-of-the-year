@@ -1,9 +1,0 @@
-<app-card [title]="title">
-  <ng-content select="[rules]"></ng-content>
-  <app-search-in-place
-    [readonly]="readonly"
-    [placeholder]="placeholder"
-    [game]="game"
-    (gameSelected)="gameSelected.emit($event)"
-  ></app-search-in-place>
-</app-card>

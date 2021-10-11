@@ -25,6 +25,7 @@ export const Form = (props: FormProps) => {
       : SubmissionService.createSubmission
     service(form)
       .then((submission) => {
+        localStorage.setItem('submissionUUID', submission.submissionUUID)
         store.dispatch(createSubmitSuccessAction(submission))
       })
       .catch((error) => {

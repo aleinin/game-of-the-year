@@ -104,7 +104,7 @@ export const submissionReducer = (
       }
     case SUBMIT_SUCCESS:
       return {
-        ...setExistingSubmission(state, state.form),
+        ...setExistingSubmission(state, action.payload),
         step: SubmissionStep.End,
       }
     case SUBMIT_FAIL:

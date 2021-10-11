@@ -74,6 +74,6 @@ export type SubmissionAction =
   | { type: typeof SET; payload: Submission }
   | { type: typeof UPDATE_FORM; payload: { key: keyof Submission; value: any } }
   | { type: typeof RECOVER_SUBMISSION }
-  | { type: typeof SUBMIT_SUCCESS }
+  | { type: typeof SUBMIT_SUCCESS; payload: Submission }
   | { type: typeof SUBMIT_FAIL; payload: any }
   | { type: typeof NEXT_STEP }

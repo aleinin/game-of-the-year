@@ -1,0 +1,69 @@
+body {
+  margin: 8px;
+  font-family: Roboto, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url('./images/pattern.png');
+
+  font-size: 1.3em;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.p-button-label {
+  font-size: 1.2em;
+}
+
+.pi-minus {
+  color: #b00020;
+}
+.pi-minus:hover:not(.disabled) {
+  text-shadow: 0 0 5px black;
+  color: #9a001c;
+}
+
+.pi:hover:not(.disabled):not(.pi-minus) {
+  text-shadow: 0 0 5px black;
+  color: rgba(103, 58, 183, 0.92);
+}
+.pi-chevron-up {
+  color: rgb(103, 58, 183);
+  margin-right: 5px;
+}
+.pi-chevron-down {
+  color: rgb(103, 58, 183);
+  margin-right: 5px;
+}
+
+.disabled {
+  color: #3a3b3c;
+}
+
+i.pi.big-pi {
+  font-size: 1.2em;
+}
+
+i.pi.big-pi:not(.disabled) {
+  cursor: pointer;
+}
+
+.p-datatable .p-datatable-tbody tr.ranked-first {
+  background-color: #ffd70099;
+  color: black;
+}
+
+.p-datatable .p-datatable-tbody tr.ranked-second {
+  background-color: #6c7a86;
+}
+
+.p-datatable .p-datatable-tbody tr.ranked-third {
+  background-color: #915c1d;
+}
+
+.p-datatable .p-datatable-tbody tr.ranked-eliminated {
+  background-color: #5555555e;
+  color: gray;
+}

@@ -1,51 +1,71 @@
 {
   "name": "goty-client",
-  "version": "0.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint"
-  },
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@angular/animations": "~11.0.3",
-    "@angular/cdk": "^11.0.2",
-    "@angular/common": "~11.0.3",
-    "@angular/compiler": "~11.0.3",
-    "@angular/core": "~11.0.3",
-    "@angular/forms": "~11.0.3",
-    "@angular/platform-browser": "~11.0.3",
-    "@angular/platform-browser-dynamic": "~11.0.3",
-    "@angular/router": "~11.0.3",
-    "@datorama/akita": "^5.3.0",
+    "@reduxjs/toolkit": "^1.6.1",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^26.0.24",
+    "@types/lodash.debounce": "^4.0.6",
+    "@types/lodash.isequal": "^4.5.5",
+    "@types/node": "^12.20.27",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.3.0",
+    "@types/styled-components": "^5.1.14",
+    "axios": "^0.22.0",
+    "framer-motion": "^4.1.17",
+    "lodash.debounce": "^4.0.8",
+    "lodash.isequal": "^4.5.0",
     "primeicons": "^4.1.0",
-    "primeng": "^11.0.0",
-    "rxjs": "~6.6.0",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.10.2"
+    "primereact": "^6.5.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "react-transition-group": "^4.4.2",
+    "styled-components": "^5.3.1",
+    "typeface-roboto": "^1.1.13",
+    "typescript": "^4.4.3",
+    "web-vitals": "^1.1.2"
   },
-  "devDependencies": {
-    "@angular-builders/jest": "^10.0.1",
-    "@angular-devkit/build-angular": "~0.1100.3",
-    "@angular/cli": "~11.0.3",
-    "@angular/compiler-cli": "~11.0.3",
-    "@ngneat/spectator": "^6.1.2",
-    "@types/jasmine": "~3.6.0",
-    "@types/jest": "^26.0.16",
-    "@types/node": "^12.11.1",
-    "codelyzer": "^6.0.0",
-    "jest": "^26.6.3",
-    "jest-preset-angular": "^8.3.2",
-    "ts-node": "~8.3.0",
-    "tslint": "~6.1.0",
-    "typescript": "~4.0.2"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "node_modules/.bin/eslint . --ext .ts,.tsx",
+    "lint:fix": "node_modules/.bin/eslint . --ext .ts,.tsx --fix"
   },
-  "jest": {
-    "preset": "jest-preset-angular",
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupJest.ts"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "semi": [
+        "error",
+        "never"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ]
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

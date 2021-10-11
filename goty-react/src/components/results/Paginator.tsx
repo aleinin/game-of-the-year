@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { disableColor } from '../../util/global-styles'
 import { Card } from '../Card'
 
 export interface PaginatorProps {
@@ -15,6 +16,23 @@ const Controls = styled.div`
   div {
     display: flex;
   }
+`
+
+const disabledStyle = `
+  color: ${disableColor}
+`
+
+const enabledStyle = `
+&:hover:not(.disabled) {
+  text-shadow: 0 0 5px black;
+  color: rgba(103, 58, 183, 0.92);
+}
+cursor: pointer
+`
+
+export const Arrow = styled.i<{ disabled: boolean }>`
+  font-size: 1.2em;
+  ${({ disabled }) => (disabled ? disabledStyle : enabledStyle)}
 `
 
 const Pages = styled.span`
@@ -64,48 +82,43 @@ export const Paginator = ({
   }
   const leftControls = (
     <React.Fragment>
-      <i
-        className={`pi pi-angle-double-left big-pi ${
-          pageIndex > 0 ? '' : 'disabled'
-        }`}
+      <Arrow
+        disabled={pageIndex <= 0}
+        className="pi pi-angle-double-left"
         onClick={() => handleMove(MoveType.JumpLeft)}
       />
-      <i
-        className={`pi pi-angle-left big-pi ${pageIndex > 0 ? '' : 'disabled'}`}
+      <Arrow
+        disabled={pageIndex <= 0}
+        className="pi pi-angle-left"
         onClick={() => handleMove(MoveType.Left)}
       />
     </React.Fragment>
   )
   const rightControls = (
     <React.Fragment>
-      <i
-        className={`pi pi-angle-right big-pi ${
-          pageIndex < totalPages - 1 ? '' : 'disabled'
-        }`}
+      <Arrow
+        disabled={pageIndex >= totalPages - 1}
+        className="pi pi-angle-right"
         onClick={() => handleMove(MoveType.Right)}
       />
-      <i
-        className={`pi pi-angle-double-right big-pi ${
-          pageIndex < totalPages - 1 ? '' : 'disabled'
-        }`}
+      <Arrow
+        disabled={pageIndex >= totalPages - 1}
+        className="pi pi-angle-double-right"
         onClick={() => handleMove(MoveType.JumpRight)}
       />
     </React.Fragment>
   )
   return (
-    <Card
-      border={false}
-      content={
-        <Controls>
-          <div>
-            {totalPages > 1 ? leftControls : null}
-            <Pages data-testid="current-page">
-              {pageIndex + 1} of {totalPages}
-            </Pages>
-            {totalPages > 1 ? rightControls : null}
-          </div>
-        </Controls>
-      }
-    />
+    <Card>
+      <Controls>
+        <div>
+          {totalPages > 1 ? leftControls : null}
+          <Pages data-testid="current-page">
+            {pageIndex + 1} of {totalPages}
+          </Pages>
+          {totalPages > 1 ? rightControls : null}
+        </div>
+      </Controls>
+    </Card>
   )
 }

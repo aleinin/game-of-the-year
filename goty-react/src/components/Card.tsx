@@ -7,7 +7,6 @@ export interface CardProps {
   titleFontSize?: TitleFont
   required?: boolean
   subtitle?: string
-  content: JSX.Element
   paddingPx?: number
   border?: boolean
 }
@@ -43,14 +42,13 @@ const Title = styled('span')<{ titleFont?: TitleFont }>`
   font-weight: bold;
 `
 
-export const Card = (props: CardProps) => {
+export const Card = (props: React.PropsWithChildren<CardProps>) => {
   const title = (
     <Title titleFont={props.titleFontSize}>
       {props.title} {props.required ? <Required>*</Required> : null}
     </Title>
   )
   const subtitle = props.subtitle ? <span>{props.subtitle}</span> : null
-  const content = props.content
   const header =
     props.title || props.required || props.subtitle ? (
       <Header>
@@ -61,7 +59,7 @@ export const Card = (props: CardProps) => {
   return (
     <CardContainer paddingPx={props.paddingPx} border={props.border ?? true}>
       {header}
-      <div>{content}</div>
+      <div>{props.children}</div>
     </CardContainer>
   )
 }

@@ -3,6 +3,7 @@ import { Summary } from './Summary'
 import { useSelector } from 'react-redux'
 import { selectIsLoading, selectResults } from '../../state/results/selectors'
 import { Loading } from '../Loading'
+import { Card } from '../Card'
 
 export interface ResultsContainerProps {}
 
@@ -16,7 +17,11 @@ export const ResultsContainer = (props: ResultsContainerProps) => {
     return <Loading />
   }
   if (isEmptyResults(results)) {
-    return <h2>No results yet</h2>
+    return (
+      <Card>
+        <h2>No results yet</h2>
+      </Card>
+    )
   }
   return <Summary results={results} />
 }

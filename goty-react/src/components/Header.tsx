@@ -26,8 +26,8 @@ const Footer = styled.div`
 `
 export const Header = () => {
   const { year } = useSelector(selectConstants)
-  const content = (
-    <React.Fragment>
+  return (
+    <Card paddingPx={20}>
       <Title>The Midnight Watchmen's</Title>
       <Title>Top Games of the Year {year}</Title>
       <Footer>
@@ -35,7 +35,6 @@ export const Header = () => {
         <a href="https://www.igdb.com">Data provided by IGDB</a>
         <a href="https://github.com/Gorlah">Backend by Gorlah</a>
       </Footer>
-    </React.Fragment>
+    </Card>
   )
-  return <Card content={content} paddingPx={20}></Card>
 }

@@ -13,19 +13,14 @@ export interface SingleGameProps {
 
 export const SingleGame = (props: SingleGameProps) => {
   return (
-    <Card
-      title={props.title}
-      content={
-        <React.Fragment>
-          {props.content}
-          <SearchInPlace
-            readonly={props.readonly}
-            placeholder="Select a game"
-            game={props.game}
-            handleSelect={props.handleSelect}
-          />
-        </React.Fragment>
-      }
-    ></Card>
+    <Card title={props.title}>
+      {props.content}
+      <SearchInPlace
+        readonly={props.readonly}
+        placeholder="Select a game"
+        game={props.game}
+        handleSelect={props.handleSelect}
+      />
+    </Card>
   )
 }

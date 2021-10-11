@@ -1,4 +1,3 @@
-import { TabView, TabPanel } from 'primereact/tabview'
 import React, { useEffect } from 'react'
 import { useStore } from 'react-redux'
 import {
@@ -11,6 +10,7 @@ import {
 import { loadResultsAndSubmissions } from '../../state/results/middleware'
 import { capitalizeFirstLetter } from '../../util/capitalize-first-letter'
 import { Card } from '../Card'
+import { GotyTabPanel, GotyTabView } from '../restyled/GotyTabView'
 import { ResultsContainer } from './ResultsContainer'
 import { Submissions } from './Submissions'
 
@@ -46,27 +46,25 @@ export const ResultsComponent = (props: ResultsProps) => {
     history.push(`${path}/${route}`)
   }
   return (
-    <Card
-      content={
-        <React.Fragment>
-          <TabView
-            activeIndex={activeIndex}
-            onTabChange={(e) => handleRoute(e.index)}
-          >
-            <TabPanel header="Summary"></TabPanel>
-            <TabPanel header="Individual Responses"></TabPanel>
-          </TabView>
-          <Switch>
-            <Route path={`${path}/${RouteMap[0]}`}>
-              <ResultsContainer />
-            </Route>
-            <Route path={`${path}/${RouteMap[1]}`}>
-              <Submissions />
-            </Route>
-            <Redirect exact from={path} to={`${path}/${RouteMap[0]}`} />
-          </Switch>
-        </React.Fragment>
-      }
-    />
+    <React.Fragment>
+      <Card>
+        <GotyTabView
+          activeIndex={activeIndex}
+          onTabChange={(e) => handleRoute(e.index)}
+        >
+          <GotyTabPanel header="Summary" />
+          <GotyTabPanel header="Individual Responses" />
+        </GotyTabView>
+      </Card>
+      <Switch>
+        <Route path={`${path}/${RouteMap[0]}`}>
+          <ResultsContainer />
+        </Route>
+        <Route path={`${path}/${RouteMap[1]}`}>
+          <Submissions />
+        </Route>
+        <Redirect exact from={path} to={`${path}/${RouteMap[0]}`} />
+      </Switch>
+    </React.Fragment>
   )
 }

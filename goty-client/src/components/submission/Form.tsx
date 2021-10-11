@@ -14,11 +14,13 @@ import {
   createSubmitSuccessAction,
 } from '../../state/submission/actions'
 import { GotyButton } from '../restyled/GotyButton'
+import { selectConstants } from '../../state/constants/selectors'
 
 export interface FormProps {}
 export const Form = (props: FormProps) => {
   const store = useStore()
   const { isValid, isEdit, form } = useSelector(selectSubmissionState)
+  const { hasGiveaway } = useSelector(selectConstants)
   const handleSubmit = () => {
     const service = isEdit
       ? SubmissionService.updateSubmission
@@ -47,7 +49,9 @@ export const Form = (props: FormProps) => {
         readonly={false}
         mostAnticipated={form.mostAnticipated}
       />
-      <Giveaway readonly={false} enteredGiveaway={form.enteredGiveaway} />
+      {hasGiveaway ? (
+        <Giveaway readonly={false} enteredGiveaway={form.enteredGiveaway} />
+      ) : null}
       <GotyButton
         style={{ width: '100%' }}
         disabled={!isValid}

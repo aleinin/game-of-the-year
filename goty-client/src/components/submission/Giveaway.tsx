@@ -25,7 +25,7 @@ const rules = (lastTime: string) => [
 ]
 
 export const Giveaway = (props: GiveawayProps) => {
-  const { lastTime } = useSelector(selectConstants)
+  const { lastTime, giveawayAmountUSD } = useSelector(selectConstants)
   const store = useStore()
   const handleClick = (enteredGiveaway: boolean) => {
     if (!props.readonly) {
@@ -45,7 +45,7 @@ export const Giveaway = (props: GiveawayProps) => {
     },
   ]
   return (
-    <Card title="Giveaway" required={true}>
+    <Card title={`$${giveawayAmountUSD} Giveaway`} required={true}>
       {generateRules(props.readonly, rules(lastTime))}
       <GotyRadioSet
         disabled={props.readonly}

@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import { Game } from '../../../api/gameService'
 import { ListItem } from './ListItem'
 import { Search } from './Search'
@@ -8,6 +9,12 @@ export interface SearchInPlaceProps {
   handleSelect: (val: Game | null) => void
   placeholder: string
 }
+
+export const NoSelection = styled.span`
+  display: block;
+  margin-top: 15px;
+  font-size: 17px;
+`
 
 const gameIsDefined = (game: Game | null): game is Game => {
   return game != null
@@ -27,6 +34,9 @@ export const SearchInPlace = (props: SearchInPlaceProps) => {
         currentListLength={1}
       />
     )
+  }
+  if (props.readonly) {
+    return <NoSelection>No selection</NoSelection>
   }
   return (
     <Search placeholder={props.placeholder} handleSelect={props.handleSelect} />

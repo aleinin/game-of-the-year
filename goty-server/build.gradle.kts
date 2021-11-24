@@ -25,7 +25,7 @@ dependencies {
     implementation("com.google.guava:guava:30.0-jre")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.springframework.data:spring-data-elasticsearch")
+    implementation("com.github.husnjak:IGDB-API-JVM:1.0.4")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

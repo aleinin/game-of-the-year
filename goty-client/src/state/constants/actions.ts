@@ -2,7 +2,7 @@ import { Constants } from './reducer'
 
 export const SET_CONSTANTS = 'SET_CONSTANTS'
 
-export const setConstants = (constants: Partial<Constants>) => ({
+export const createSetConstantsAction = (constants: Partial<Constants>) => ({
   type: SET_CONSTANTS,
   payload: constants,
 })

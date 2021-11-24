@@ -4,6 +4,7 @@ import {
   NEXT_STEP,
   RECOVER_SUBMISSION,
   SET,
+  SET_VALIDATOR_FN,
   SubmissionAction,
   SUBMIT_FAIL,
   SUBMIT_SUCCESS,
@@ -23,6 +24,7 @@ export interface SubmissionState {
   initialForm: Submission
   step: SubmissionStep
   error: any
+  validatorFn: (state: SubmissionState) => boolean
 }
 
 const defaultForm: Submission = {
@@ -34,6 +36,14 @@ const defaultForm: Submission = {
   enteredGiveaway: null,
 }
 
+export const isValid = ({ form, initialForm }: SubmissionState) =>
+  !isEqual(form, initialForm) &&
+  form.name?.length > 0 &&
+  form.gamesOfTheYear?.length > 0
+
+const isValidWithGiveaway = (state: SubmissionState) =>
+  isValid(state) && state.form.enteredGiveaway != null
+
 const initialState: SubmissionState = {
   form: defaultForm,
   initialForm: defaultForm,
@@ -41,13 +51,8 @@ const initialState: SubmissionState = {
   isValid: false,
   step: SubmissionStep.Start,
   error: null,
+  validatorFn: isValidWithGiveaway,
 }
-
-const isValid = (form: Submission, initialForm: Submission) =>
-  !isEqual(form, initialForm) &&
-  form.name?.length > 0 &&
-  form.gamesOfTheYear?.length > 0 &&
-  form.enteredGiveaway != null
 
 const setExistingSubmission = (
   state: SubmissionState,
@@ -68,14 +73,16 @@ export const submissionReducer = (
     case SET:
       return setExistingSubmission(state, action.payload)
     case UPDATE_FORM:
-      const newForm = {
-        ...state.form,
-        [action.payload.key]: action.payload.value,
+      const newStateUnvalidated = {
+        ...state,
+        form: {
+          ...state.form,
+          [action.payload.key]: action.payload.value,
+        },
       }
       return {
-        ...state,
-        form: newForm,
-        isValid: isValid(newForm, state.initialForm),
+        ...newStateUnvalidated,
+        isValid: state.validatorFn(newStateUnvalidated),
       }
     case NEXT_STEP:
       let step: SubmissionStep
@@ -112,6 +119,11 @@ export const submissionReducer = (
         ...state,
         error: action.payload,
         step: SubmissionStep.End,
+      }
+    case SET_VALIDATOR_FN:
+      return {
+        ...state,
+        validatorFn: action.payload,
       }
     default: {
       return state

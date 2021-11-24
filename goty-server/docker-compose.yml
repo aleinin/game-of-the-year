@@ -3,20 +3,16 @@ version: '3.9'
 services:
   app:
     build: .
+    env_file:
+      - .env
     ports:
       - 8080:8080
     depends_on:
       - mongo
-      - elasticsearch
   mongo:
     image: 'mongo:latest'
     volumes:
     - mongo_data:/data/db
-  elasticsearch:
-    image: 'bitnami/elasticsearch:latest'
-    volumes:
-    - elasticsearch_data:/bitnami/elasticsearch/data
 
 volumes:
   mongo_data:
-  elasticsearch_data:

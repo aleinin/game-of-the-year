@@ -1,4 +1,4 @@
-package com.aleinin.goty.objectmapper
+package com.aleinin.goty.configuration
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean

@@ -33,10 +33,14 @@ class GameSearchService(
                 .collect(toImmutableList())
     }
 
-    fun buildWhere(year: Int? = Year.now().value, mainGame: Boolean) =
-            if(mainGame) {
+    fun buildWhere(year: Int?, mainGame: Boolean) =
+            if(mainGame && year != null) {
                 "release_dates.y = $year & category = 0"
-            } else {
+            } else if (year != null) {
                 "release_dates.y = $year"
+            } else if (mainGame) {
+                "category = 0"
+            } else {
+                ""
             }
 }

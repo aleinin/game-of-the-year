@@ -14,7 +14,7 @@ class GameController(
     @GetMapping("/games")
     fun gameSearch(
         @RequestParam title: String,
-        @RequestParam(defaultValue = "5") limit: Int,
+        @RequestParam(defaultValue = "10") limit: Int,
         @RequestParam(required = false) year: Int?,
         @RequestParam(defaultValue = "true") mainGame: Boolean,
     ) = gameSearchService.search(GameSearchRequest(title = title, limit = limit, year = year, mainGame = mainGame))

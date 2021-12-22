@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableList.toImmutableList
 import org.springframework.stereotype.Component
+import java.lang.IllegalArgumentException
 import java.time.Year
 import java.util.stream.StreamSupport
 
@@ -22,7 +23,11 @@ class GameSearchService(
         val request = APICalypse()
                 .fields("id, name")
                 .search(gameSearchRequest.title)
-                .where(buildWhere(gameSearchRequest.year, gameSearchRequest.mainGame))
+                .apply {
+                    if(gameSearchRequest.year != null || gameSearchRequest.mainGame) {
+                        where(buildWhere(gameSearchRequest.year, gameSearchRequest.mainGame))
+                    }
+                }
                 .limit(gameSearchRequest.limit)
         val response = igdbWrapper.apiJsonRequest(Endpoints.GAMES, request.buildQuery())
         val responseTree = objectMapper.readTree(response)
@@ -41,6 +46,6 @@ class GameSearchService(
             } else if (mainGame) {
                 "category = 0"
             } else {
-                ""
+                throw IllegalArgumentException("year must be defined and/or main game must be true")
             }
 }

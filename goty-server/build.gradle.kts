@@ -2,11 +2,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    id("org.springframework.boot") version "2.4.1"
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
-    kotlin("jvm") version "1.4.21"
-    kotlin("kapt") version "1.4.21"
-    kotlin("plugin.spring") version "1.4.21"
+    id("org.springframework.boot") version "2.7.1"
+    id("io.spring.dependency-management") version "1.0.14.RELEASE"
+    kotlin("jvm") version "1.7.20"
+    kotlin("plugin.spring") version "1.7.20"
 }
 
 group = "com.aleinin"
@@ -19,13 +18,12 @@ repositories {
 }
 
 dependencies {
-    kapt("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
-    implementation("com.google.guava:guava:30.0-jre")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
+    implementation("com.google.guava:guava:31.1-jre")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.github.husnjak:IGDB-API-JVM:1.0.4")
+    implementation("com.github.husnjak:IGDB-API-JVM:1.0.5")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

@@ -11,3 +11,5 @@ spring:
     mongodb:
       database: goty
       host: mongo
+  profiles:
+    active: igdb

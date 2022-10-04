@@ -1,17 +1,17 @@
-package com.aleinin.goty.game.igdb
+package com.aleinin.goty.game
 
-import com.aleinin.goty.game.GameSearchClient
-import com.aleinin.goty.game.GameSearchResponse
 import com.api.igdb.apicalypse.APICalypse
 import com.api.igdb.request.IGDBWrapper
 import com.api.igdb.utils.Endpoints
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.collect.ImmutableList
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.util.stream.StreamSupport
 
 @Component
+@Profile("igdb")
 class IGDBGameSearchClient(
     private val igdbWrapper: IGDBWrapper,
     private val objectMapper: ObjectMapper,

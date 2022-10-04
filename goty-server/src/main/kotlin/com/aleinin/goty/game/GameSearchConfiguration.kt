@@ -11,11 +11,13 @@ import org.springframework.context.annotation.Profile
 import org.springframework.context.event.ContextRefreshedEvent
 import javax.validation.Valid
 
-private val logger = LoggerFactory.getLogger(DefaultUnconfiguredSearchConfiguration::class.java)
-
 @Configuration
 @Profile("!igdb")
 class DefaultUnconfiguredSearchConfiguration {
+
+    private companion object {
+        private val logger = LoggerFactory.getLogger(DefaultUnconfiguredSearchConfiguration::class.java)
+    }
 
     @Bean
     fun warnUnconfiguredGameSearch() = ApplicationListener<ContextRefreshedEvent> {

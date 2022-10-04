@@ -1,15 +1,19 @@
-package com.aleinin.goty.configuration
+package com.aleinin.goty.game.igdb
 
+import com.aleinin.goty.game.GameSearchClient
 import com.api.igdb.request.IGDBWrapper
 import com.api.igdb.request.TwitchAuthenticator
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.*
 
 @Configuration
 internal class IGDBWrapperConfiguration {
+
     @Bean
+    @ConditionalOnMissingBean(GameSearchClient::class)
     fun igdbWrapper(@Value("\${TWITCH_CLIENT_ID}") clientId: String,
                     @Value("\${TWITCH_CLIENT_SECRET}") clientSecret: String): IGDBWrapper {
         Objects.requireNonNull(clientId)

@@ -1,6 +1,7 @@
 package com.aleinin.goty.submit
 
 import com.aleinin.goty.SubmissionDataHelper
+import com.aleinin.goty.properties.Properties
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -29,7 +30,7 @@ internal class SubmissionControllerTest {
     lateinit var mockMvc: MockMvc
 
     @Autowired
-    lateinit var submissionProperties: SubmissionProperties
+    lateinit var properties: Properties
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
@@ -58,12 +59,12 @@ internal class SubmissionControllerTest {
     fun setup() {
         mockMvc = standaloneSetup(
             SubmissionController(
-                submissionProperties,
+                properties,
                 submissionRepository,
                 clock
             )
         ).build()
-        currentTestTime = submissionProperties.deadline.toInstant().toEpochMilli() - 1
+        currentTestTime = properties.deadline.toInstant().toEpochMilli() - 1
         whenever(clock.millis()).thenReturn(currentTestTime)
         whenever(clock.instant()).thenReturn(Instant.ofEpochMilli(currentTestTime))
     }
@@ -199,7 +200,7 @@ internal class SubmissionControllerTest {
 
     @Test
     fun `Should reject submission after cutoff`() {
-        val deadline = submissionProperties.deadline
+        val deadline = properties.deadline
         whenever(clock.instant()).thenReturn(deadline.toInstant())
         val validSubmissionRequest = SubmissionRequest(
             name = "too late",
@@ -218,7 +219,7 @@ internal class SubmissionControllerTest {
 
     @Test
     fun `Should reject submission update after cutoff`() {
-        val deadline = submissionProperties.deadline
+        val deadline = properties.deadline
         whenever(clock.instant()).thenReturn(deadline.toInstant())
         val validSubmissionRequest = SubmissionRequest(
             name = "too late",

@@ -1,5 +1,6 @@
 package com.aleinin.goty.submit
 
+import com.aleinin.goty.properties.Properties
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,12 +16,12 @@ import java.util.UUID
 @CrossOrigin
 @RestController
 class SubmissionController(
-    private val submissionProperties: SubmissionProperties,
+    private val properties: Properties,
     private val submissionRepository: SubmissionRepository,
     private val clock: Clock
 ) {
 
-    private val deadlineMessage = "Submission deadline of ${submissionProperties.deadline} has been met."
+    private val deadlineMessage = "Submission deadline of ${properties.deadline} has been met."
 
     @GetMapping("/submissions")
     fun getSubmissions() = submissionRepository.findAll()
@@ -69,5 +70,5 @@ class SubmissionController(
         if (beforeCutoff()) perform() else throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
 
     private fun beforeCutoff() =
-        clock.instant().atZone(submissionProperties.deadline.zone).isBefore(submissionProperties.deadline)
+        clock.instant().atZone(properties.deadline.zone).isBefore(properties.deadline)
 }

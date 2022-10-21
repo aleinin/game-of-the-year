@@ -19,12 +19,11 @@ kotlin {
 
 repositories {
     mavenCentral()
-    maven("https://jitpack.io")
 }
 
 dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
-    implementation("com.github.husnjak:IGDB-API-JVM:1.0.5")
+    implementation("io.github.husnjak:igdb-api-jvm:1.0.7")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

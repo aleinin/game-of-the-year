@@ -5,5 +5,10 @@ data class SubmissionRequest(
     val gamesOfTheYear: List<RankedGameSubmission>,
     val mostAnticipated: GameSubmission?,
     val bestOldGame: GameSubmission?,
-    val enteredGiveaway: Boolean = false,
-)
+    val enteredGiveaway: Boolean = false
+) {
+    init {
+        require(name.isNotBlank()) { "Name cannot be blank"}
+        require(gamesOfTheYear.isNotEmpty()) { "gamesOfTheYear cannot be empty"}
+    }
+}

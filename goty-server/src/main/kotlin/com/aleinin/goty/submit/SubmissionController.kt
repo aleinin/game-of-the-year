@@ -1,9 +1,15 @@
 package com.aleinin.goty.submit
 
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
-import java.time.Instant
+import java.time.Clock
 import java.util.UUID
 
 @CrossOrigin
@@ -11,6 +17,7 @@ import java.util.UUID
 class SubmissionController(
     private val submissionProperties: SubmissionProperties,
     private val submissionRepository: SubmissionRepository,
+    private val clock: Clock
 ) {
 
     private val deadlineMessage = "Submission deadline of ${submissionProperties.deadline} has been met."
@@ -29,8 +36,8 @@ class SubmissionController(
                     mostAnticipated = submissionRequest.mostAnticipated,
                     bestOldGame = submissionRequest.bestOldGame,
                     enteredGiveaway = submissionRequest.enteredGiveaway,
-                    enteredOn = System.currentTimeMillis(),
-                    updatedOn = System.currentTimeMillis(),
+                    enteredOn = clock.millis(),
+                    updatedOn = clock.millis(),
                 )
             )
         }
@@ -51,7 +58,7 @@ class SubmissionController(
                         mostAnticipated = submissionRequest.mostAnticipated,
                         bestOldGame = submissionRequest.bestOldGame,
                         enteredGiveaway = submissionRequest.enteredGiveaway,
-                        updatedOn = System.currentTimeMillis(),
+                        updatedOn = clock.millis(),
                     )
                 }
                 .map { submissionRepository.save(it) }
@@ -62,5 +69,5 @@ class SubmissionController(
         if (beforeCutoff()) perform() else throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
 
     private fun beforeCutoff() =
-        Instant.now().atZone(submissionProperties.deadline.zone).isBefore(submissionProperties.deadline)
+        clock.instant().atZone(submissionProperties.deadline.zone).isBefore(submissionProperties.deadline)
 }

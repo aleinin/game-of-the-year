@@ -22,6 +22,9 @@ repositories {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4") {
+        because("ZonedDateTime support for Jackson")
+    }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("io.github.husnjak:igdb-api-jvm:1.0.7")
@@ -31,6 +34,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0") {
+        because("kotlin any() support")
+    }
+    testImplementation("org.mockito:mockito-inline:2.8.47") {
+        because("mocking final classes (ex: IGDBWrapper)")
+    }
 }
 
 tasks.withType<Test>().configureEach {

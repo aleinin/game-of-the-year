@@ -36,14 +36,12 @@ class IGDBGameSearchClient(
             .collect(ImmutableList.toImmutableList())
     }
 
-    fun buildWhere(year: Int?, mainGame: Boolean) =
+    private fun buildWhere(year: Int?, mainGame: Boolean) =
         if (mainGame && year != null) {
             "release_dates.y = $year & category = 0"
         } else if (year != null) {
             "release_dates.y = $year"
-        } else if (mainGame) {
-            "category = 0"
         } else {
-            throw IllegalArgumentException("year must be defined and/or main game must be true")
+            "category = 0"
         }
 }

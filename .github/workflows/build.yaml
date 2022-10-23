@@ -1,10 +1,5 @@
 name: Build GOTY Server
-on: 
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+on: [ push, workflow_dispatch ]
 jobs:
   build:
     runs-on: ubuntu-latest

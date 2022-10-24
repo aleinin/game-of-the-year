@@ -58,7 +58,7 @@ internal class GameControllerTest {
                 .param("title", "a game")
         )
             .andExpect(status().isOk)
-            .andExpect(content().json(objectMapper.writeValueAsString(expected)))
+            .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
     }
 
     @Test
@@ -72,7 +72,7 @@ internal class GameControllerTest {
                 .param("title", "something that doesnt exist")
         )
             .andExpect(status().isOk)
-            .andExpect(content().json(expectedJson))
+            .andExpect(content().json(expectedJson, true))
     }
 }
 

@@ -1,9 +1,9 @@
 package com.aleinin.goty.game
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.whenever
@@ -13,12 +13,8 @@ internal class GameSearchServiceTest {
     @Mock
     lateinit var gameSearchClient: GameSearchClient
 
+    @InjectMocks
     lateinit var gameSearchService: GameSearchService
-
-    @BeforeEach()
-    fun setup() {
-        gameSearchService = GameSearchService(gameSearchClient)
-    }
 
     @Test
     fun `Should return a GameSearchResponse from a GameSearchRequest`() {

@@ -3,9 +3,9 @@ package com.aleinin.goty.result
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameSubmission
 import com.aleinin.goty.submit.RankedGameSubmission
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.whenever
@@ -15,12 +15,8 @@ internal class GameScoringServiceTest {
     @Mock
     lateinit var pointSerice: PointsService
 
+    @InjectMocks
     lateinit var gameScoringService: GameScoringService
-
-    @BeforeEach()
-    fun setup() {
-        gameScoringService = GameScoringService(pointSerice)
-    }
 
     @Test
     fun `Should score a list of RankedGameSubmission`() {

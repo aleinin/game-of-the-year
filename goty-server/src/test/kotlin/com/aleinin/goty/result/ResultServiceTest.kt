@@ -3,9 +3,9 @@ package com.aleinin.goty.result
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.submit.Submission
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
@@ -20,6 +20,7 @@ internal class ResultServiceTest {
     @Mock
     lateinit var gameScoringService: GameScoringService
 
+    @InjectMocks
     lateinit var resultsService: ResultService
 
     private val mockRankedOldGame = listOf(
@@ -47,11 +48,6 @@ internal class ResultServiceTest {
             rank = 0
         )
     )
-
-    @BeforeEach
-    fun setup() {
-        resultsService = ResultService(gameRankingService, gameScoringService)
-    }
 
     @Test
     fun `Should convert a list of Submission into a ResultResponse`() {

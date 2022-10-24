@@ -10,6 +10,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 
 @ExtendWith(MockitoExtension::class)
 internal class ResultServiceTest {
@@ -57,10 +58,10 @@ internal class ResultServiceTest {
         val submissions = SubmissionDataHelper.everything()
         val expectedParticipants = submissions.map { it.name }
         val expectedGiveawayParticipants = submissions.filter { it.enteredGiveaway }.map { it.name }
-        Mockito.`when`(gameScoringService.score(any())).thenReturn(mockGamesOfTheYear)
-        Mockito.`when`(gameRankingService.rank(submissions.mapNotNull { it.mostAnticipated }))
+        whenever(gameScoringService.score(any())).thenReturn(mockGamesOfTheYear)
+        whenever(gameRankingService.rank(submissions.mapNotNull { it.mostAnticipated }))
             .thenReturn(mockRankedAnticipated)
-        Mockito.`when`(gameRankingService.rank(submissions.mapNotNull { it.bestOldGame })).thenReturn(mockRankedOldGame)
+        whenever(gameRankingService.rank(submissions.mapNotNull { it.bestOldGame })).thenReturn(mockRankedOldGame)
         val expected = ResultResponse(
             gamesOfTheYear = mockGamesOfTheYear,
             mostAnticipated = mockRankedAnticipated,
@@ -79,9 +80,9 @@ internal class ResultServiceTest {
         val submissions = listOf(SubmissionDataHelper.maximal())
         val mostAnticipated = listOf(submissions[0].mostAnticipated ?: throw AssertionError())
         val bestOldGame = listOf(submissions[0].bestOldGame ?: throw AssertionError())
-        Mockito.`when`(gameScoringService.score(any())).thenReturn(mockGamesOfTheYear)
-        Mockito.`when`(gameRankingService.rank(mostAnticipated)).thenReturn(mockRankedAnticipated)
-        Mockito.`when`(gameRankingService.rank(bestOldGame)).thenReturn(mockRankedOldGame)
+        whenever(gameScoringService.score(any())).thenReturn(mockGamesOfTheYear)
+        whenever(gameRankingService.rank(mostAnticipated)).thenReturn(mockRankedAnticipated)
+        whenever(gameRankingService.rank(bestOldGame)).thenReturn(mockRankedOldGame)
         val expected =
             ResultResponse(
                 gamesOfTheYear = mockGamesOfTheYear,

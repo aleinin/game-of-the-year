@@ -7,9 +7,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 
 @ExtendWith(MockitoExtension::class)
 internal class IGDBGameSearchClientTest {
@@ -56,7 +56,7 @@ internal class IGDBGameSearchClientTest {
                 }
             ]
         """.trimIndent()
-        Mockito.`when`(igdbWrapper.apiJsonRequest(any(), any())).thenReturn(mockApiResponse)
+        whenever(igdbWrapper.apiJsonRequest(any(), any())).thenReturn(mockApiResponse)
         val expected = listOf(
             GameSearchResponse("123", "A Game"),
             GameSearchResponse("321", "Another Game")

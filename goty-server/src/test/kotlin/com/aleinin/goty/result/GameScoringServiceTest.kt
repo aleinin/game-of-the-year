@@ -7,8 +7,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.whenever
 
 @ExtendWith(MockitoExtension::class)
 internal class GameScoringServiceTest {
@@ -63,9 +63,9 @@ internal class GameScoringServiceTest {
                 votes = 1
             )
         )
-        Mockito.`when`(pointSerice.calculatePoints(0)).thenReturn(15)
-        Mockito.`when`(pointSerice.calculatePoints(1)).thenReturn(13)
-        Mockito.`when`(pointSerice.calculatePoints(2)).thenReturn(11)
+        whenever(pointSerice.calculatePoints(0)).thenReturn(15)
+        whenever(pointSerice.calculatePoints(1)).thenReturn(13)
+        whenever(pointSerice.calculatePoints(2)).thenReturn(11)
         val actual = gameScoringService.score(submissions)
         assertEquals(expected, actual)
     }
@@ -82,7 +82,7 @@ internal class GameScoringServiceTest {
                 votes = 1
             )
         )
-        Mockito.`when`(pointSerice.calculatePoints(0)).thenReturn(15)
+        whenever(pointSerice.calculatePoints(0)).thenReturn(15)
         val actual = gameScoringService.score(submissions)
         assertEquals(expected, actual)
     }

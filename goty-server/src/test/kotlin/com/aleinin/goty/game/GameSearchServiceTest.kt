@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.whenever
 
 @ExtendWith(MockitoExtension::class)
 internal class GameSearchServiceTest {
@@ -38,7 +38,7 @@ internal class GameSearchServiceTest {
                 title = "MyGame 2: Electric Boogaloo"
             )
         )
-        Mockito.`when`(gameSearchClient.findGames(request.title, request.year, request.mainGame, request.limit))
+        whenever(gameSearchClient.findGames(request.title, request.year, request.mainGame, request.limit))
             .thenReturn(expectedResponse)
         val actualResponse = gameSearchService.search(request)
         assertEquals(expectedResponse, actualResponse)

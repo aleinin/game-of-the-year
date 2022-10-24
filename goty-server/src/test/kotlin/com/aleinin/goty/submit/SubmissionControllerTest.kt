@@ -9,6 +9,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.times
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
@@ -65,14 +66,14 @@ internal class SubmissionControllerTest {
                 clock
             )
         ).build()
-        Mockito.`when`(clock.millis()).thenReturn(currentTestTime)
-        Mockito.`when`(clock.instant()).thenReturn(Instant.ofEpochMilli(currentTestTime))
+        whenever(clock.millis()).thenReturn(currentTestTime)
+        whenever(clock.instant()).thenReturn(Instant.ofEpochMilli(currentTestTime))
     }
 
     @Test
     fun `Should return all submissions`() {
         val mockSubmissions = SubmissionDataHelper.everything()
-        Mockito.`when`(submissionRepository.findAll()).thenReturn(mockSubmissions)
+        whenever(submissionRepository.findAll()).thenReturn(mockSubmissions)
         val expectedJson = objectMapper.writeValueAsString(mockSubmissions)
         mockMvc.perform(get("/submissions"))
             .andExpect(status().isOk)
@@ -83,7 +84,7 @@ internal class SubmissionControllerTest {
     @Test
     fun `Should return a specific submission`() {
         val mockSubmission = SubmissionDataHelper.maximal()
-        Mockito.`when`(submissionRepository.findById(mockSubmission.id)).thenReturn(Optional.of(mockSubmission))
+        whenever(submissionRepository.findById(mockSubmission.id)).thenReturn(Optional.of(mockSubmission))
         val expectedJson = objectMapper.writeValueAsString(mockSubmission)
         mockMvc.perform(get("/submissions/${mockSubmission.id}"))
             .andExpect(status().isOk)
@@ -92,7 +93,7 @@ internal class SubmissionControllerTest {
 
     @Test
     fun `Should return Not Found if invalid submission id`() {
-        Mockito.`when`(submissionRepository.findById(any())).thenReturn(Optional.empty())
+        whenever(submissionRepository.findById(any())).thenReturn(Optional.empty())
         mockMvc.perform(get("/submissions/${UUID.randomUUID()}"))
             .andExpect(status().isNotFound)
     }
@@ -107,7 +108,7 @@ internal class SubmissionControllerTest {
             bestOldGame = validSubmission.bestOldGame,
             enteredGiveaway = validSubmission.enteredGiveaway
         )
-        Mockito.`when`(submissionRepository.insert(any<Submission>())).thenReturn(validSubmission)
+        whenever(submissionRepository.insert(any<Submission>())).thenReturn(validSubmission)
         mockMvc.perform(
             post("/submissions")
                 .content(objectMapper.writeValueAsString(validSubmissionRequest))
@@ -153,8 +154,8 @@ internal class SubmissionControllerTest {
             enteredOn = validSubmission.enteredOn,
             updatedOn = currentTestTime
         )
-        Mockito.`when`(submissionRepository.findById(validSubmission.id)).thenReturn(Optional.of(validSubmission))
-        Mockito.`when`(submissionRepository.save(expectedValidSubmission)).thenReturn(expectedValidSubmission)
+        whenever(submissionRepository.findById(validSubmission.id)).thenReturn(Optional.of(validSubmission))
+        whenever(submissionRepository.save(expectedValidSubmission)).thenReturn(expectedValidSubmission)
         mockMvc.perform(
             put("/submissions/${validSubmission.id}")
                 .content(objectMapper.writeValueAsString(validSubmissionRequest))
@@ -169,7 +170,7 @@ internal class SubmissionControllerTest {
         val validGamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear
         val invalidRequestEmptyGOTY = invalidSubmissionRequestJSONGenerator("name", emptyList())
         val invalidRequestBlankName = invalidSubmissionRequestJSONGenerator("", validGamesOfTheYear)
-        Mockito.`when`(submissionRepository.findById(any())).thenReturn(Optional.empty())
+        whenever(submissionRepository.findById(any())).thenReturn(Optional.empty())
         Mockito.verify(submissionRepository, times(0)).save(any())
         mockMvc.perform(
             put("/submissions/${UUID.randomUUID()}")
@@ -189,7 +190,7 @@ internal class SubmissionControllerTest {
     @Test
     fun `Should respond NotFound when attempting to update a submission that doesnt exist`() {
         val validUnsubmittedSubmission = SubmissionDataHelper.maximal()
-        Mockito.`when`(submissionRepository.findById(any())).thenReturn(Optional.empty())
+        whenever(submissionRepository.findById(any())).thenReturn(Optional.empty())
         mockMvc.perform(
             put("/submissions/${validUnsubmittedSubmission.id}")
                 .content(objectMapper.writeValueAsString(validUnsubmittedSubmission))
@@ -201,7 +202,7 @@ internal class SubmissionControllerTest {
     @Test
     fun `Should reject submission after cutoff`() {
         val deadline = submissionProperties.deadline
-        Mockito.`when`(clock.instant()).thenReturn(deadline.toInstant())
+        whenever(clock.instant()).thenReturn(deadline.toInstant())
         val validSubmissionRequest = SubmissionRequest(
             name = "too late",
             gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,
@@ -220,7 +221,7 @@ internal class SubmissionControllerTest {
     @Test
     fun `Should reject submission update after cutoff`() {
         val deadline = submissionProperties.deadline
-        Mockito.`when`(clock.instant()).thenReturn(deadline.toInstant())
+        whenever(clock.instant()).thenReturn(deadline.toInstant())
         val validSubmissionRequest = SubmissionRequest(
             name = "too late",
             gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,

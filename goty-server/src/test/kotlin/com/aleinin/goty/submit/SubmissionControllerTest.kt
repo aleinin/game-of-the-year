@@ -40,7 +40,7 @@ internal class SubmissionControllerTest {
     @Mock
     lateinit var clock: Clock
 
-    private val currentTestTime: Long = 1666501423583
+    var currentTestTime: Long = 0
 
     private fun invalidSubmissionRequestJSONGenerator(
         name: String,
@@ -63,6 +63,7 @@ internal class SubmissionControllerTest {
                 clock
             )
         ).build()
+        currentTestTime = submissionProperties.deadline.toInstant().toEpochMilli() - 1
         whenever(clock.millis()).thenReturn(currentTestTime)
         whenever(clock.instant()).thenReturn(Instant.ofEpochMilli(currentTestTime))
     }

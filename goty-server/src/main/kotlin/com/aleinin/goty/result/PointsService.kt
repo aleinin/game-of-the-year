@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class PointsService {
-
     fun calculatePoints(rank: Int) =
         when (rank) {
             0 -> 15

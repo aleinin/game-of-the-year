@@ -33,7 +33,7 @@ class DefaultUnconfiguredSearchConfiguration {
 
 @Configuration
 @Profile("igdb")
-class IgdbSearchConfiguration {
+class IGDBSearchConfiguration {
 
     @Bean
     fun igdbWrapper(@Valid properties: IGDBProperties): IGDBWrapper {

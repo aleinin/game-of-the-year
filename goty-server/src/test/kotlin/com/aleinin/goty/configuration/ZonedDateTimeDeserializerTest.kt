@@ -20,7 +20,7 @@ internal class ZonedDateTimeDeserializerTest {
     val deserializer = ZonedDateTimeDeserializer()
 
     @Test
-    fun `Should accept supported ISO-8061 compliant strings`() {
+    fun `Should accept supported ISO-8601 compliant strings`() {
         var actual: ZonedDateTime
         val tests: List<Pair<String, ZonedDateTime>> = listOf(
             generateZonedDateTimes("+0200"),

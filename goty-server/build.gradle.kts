@@ -23,7 +23,6 @@ repositories {
 
 dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("io.github.husnjak:igdb-api-jvm:1.0.7")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

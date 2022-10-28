@@ -21,13 +21,13 @@ class DefaultUnconfiguredSearchConfiguration {
 
     @Bean
     fun warnUnconfiguredGameSearch() = ApplicationListener<ContextRefreshedEvent> {
-        logger.warn("Game search is not configured. Consider activating the 'igdb' profile.")
+        logger.warn("Game search is not configured. Consider activating the 'prod' profile.")
     }
 
     @Bean
     fun defaultUnconfiguredSearchClient() = object : GameSearchClient {
         override fun findGames(title: String, year: Int?, mainGame: Boolean, limit: Int) =
-            throw IllegalStateException("Game search is not configured. The 'igdb' profile must be active.")
+            throw IllegalStateException("Game search is not configured. The 'prod' profile must be active.")
     }
 }
 

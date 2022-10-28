@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated
 import javax.validation.constraints.NotEmpty
 
 @ConfigurationProperties("goty.igdb")
-@Profile("igdb")
+@Profile("prod")
 @Validated
 data class IGDBProperties(
     @field:NotEmpty

@@ -17,4 +17,4 @@ goty:
 
 spring:
   profiles:
-    active: default
+    active: test

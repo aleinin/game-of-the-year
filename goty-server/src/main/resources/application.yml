@@ -25,4 +25,4 @@ spring:
       database: goty
       host: mongo
   profiles:
-    active: igdb
+    active: prod

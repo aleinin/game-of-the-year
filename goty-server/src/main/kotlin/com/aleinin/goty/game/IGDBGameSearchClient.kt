@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 import java.util.stream.StreamSupport
 
 @Component
-@Profile("igdb")
+@Profile("prod")
 class IGDBGameSearchClient(
     private val igdbWrapper: IGDBWrapper,
     private val objectMapper: ObjectMapper,

@@ -12,7 +12,7 @@ import org.springframework.context.event.ContextRefreshedEvent
 import javax.validation.Valid
 
 @Configuration
-@Profile("!igdb")
+@Profile("test")
 class DefaultUnconfiguredSearchConfiguration {
 
     private companion object {
@@ -32,7 +32,7 @@ class DefaultUnconfiguredSearchConfiguration {
 }
 
 @Configuration
-@Profile("igdb")
+@Profile("prod")
 class IGDBSearchConfiguration {
 
     @Bean

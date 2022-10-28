@@ -7,16 +7,16 @@ import org.springframework.validation.annotation.Validated
 
 @Service
 class PropertiesService(
-    private val PropertiesRepository: PropertiesRepository,
+    private val propertiesRepository: PropertiesRepository,
     @Validated private val defaultProperties: DefaultProperties
 ) {
 
-    fun getProperties(): Properties = PropertiesRepository
+    fun getProperties(): Properties = propertiesRepository
         .findProperties()
         .orElseGet { defaultProperties.toProperties() }
 
     fun replaceProperties(request: Properties): Properties {
-        return PropertiesRepository.replaceProperties(request)
+        return propertiesRepository.replaceProperties(request)
     }
 
 }

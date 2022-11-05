@@ -8,11 +8,9 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.whenever
-import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
-import java.util.Date
 import java.util.Optional
 
 @ExtendWith(MockitoExtension::class)
@@ -25,13 +23,14 @@ internal class PropertiesRepositoryTest {
 
     private val propertiesId = PropertiesRepository.PROPERTIES_ID
 
+    private val deadline = ZonedDateTime.now().plusSeconds(3600).truncatedTo(ChronoUnit.SECONDS)
+
     @Test
     fun `Should get the Properties`() {
-        val (deadline, deadlineDate) = generateTimes()
         val mockDocument = PropertiesDocument(
             id = propertiesId,
             tiePoints = listOf(3, 2, 1),
-            deadlineDate = deadlineDate,
+            deadline = deadline.toInstant(),
             zoneId = ZoneId.systemDefault(),
             hasGiveaway = true,
             giveawayAmountUSD = 25
@@ -51,7 +50,6 @@ internal class PropertiesRepositoryTest {
 
     @Test
     fun `Should store Properties`() {
-        val (deadline, deadlineDate) = generateTimes()
         val expected = Properties(
             tiePoints = listOf(3, 2, 1),
             deadline = deadline,
@@ -61,7 +59,7 @@ internal class PropertiesRepositoryTest {
         val expectedDocument = PropertiesDocument(
             id = propertiesId,
             tiePoints = listOf(3, 2, 1),
-            deadlineDate = deadlineDate,
+            deadline = deadline.toInstant(),
             zoneId = ZoneId.systemDefault(),
             hasGiveaway = true,
             giveawayAmountUSD = 25
@@ -70,10 +68,5 @@ internal class PropertiesRepositoryTest {
         val actual = propertiesRepository.replaceProperties(expected)
         Mockito.verify(propertiesDocumentRepository, Mockito.times(1)).save(expectedDocument)
         assertEquals(expected, actual)
-    }
-
-    private fun generateTimes(): Pair<ZonedDateTime, Date> {
-        val time = Instant.now().plusSeconds(3600).truncatedTo(ChronoUnit.SECONDS)
-        return Pair(time.atZone(ZoneId.systemDefault()), Date.from(time))
     }
 }

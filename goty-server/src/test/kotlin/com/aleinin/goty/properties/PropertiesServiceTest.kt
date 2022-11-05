@@ -1,8 +1,8 @@
 package com.aleinin.goty.properties
 
-import com.aleinin.goty.TimeHelper.Companion.tomorrow
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.configuration.toProperties
+import com.aleinin.goty.tomorrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

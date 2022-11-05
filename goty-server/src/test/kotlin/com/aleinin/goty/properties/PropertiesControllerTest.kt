@@ -1,16 +1,13 @@
 package com.aleinin.goty.properties
 
-import com.aleinin.goty.TimeHelper.Companion.tomorrow
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.configuration.toProperties
+import com.aleinin.goty.tomorrow
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentCaptor
 import org.mockito.Captor
-import org.mockito.InjectMocks
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.capture
@@ -19,29 +16,29 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import java.time.Instant
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
-import java.util.Date
 import java.util.Optional
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 internal class PropertiesControllerTest {
+
+    @Autowired
     lateinit var mockMvc: MockMvc
 
-    @Mock
+    @MockBean
     lateinit var propertiesDocumentRepository: PropertiesDocumentRepository
-
-    @InjectMocks
-    lateinit var propertiesRepository: PropertiesRepository
 
     @Autowired
     lateinit var defaultProperties: DefaultProperties
@@ -57,24 +54,18 @@ internal class PropertiesControllerTest {
     private val mockPropertiesDocument = PropertiesDocument(
         id = "id",
         tiePoints = listOf(3, 2, 1),
-        deadlineDate = Date.from(Instant.now().plusSeconds(oneDayInSeconds)),
+        deadline = Instant.now().plusSeconds(oneDayInSeconds),
         zoneId = ZoneId.systemDefault(),
         hasGiveaway = true,
         giveawayAmountUSD = 0
     )
-
-    @BeforeEach
-    fun setup() {
-        val propertiesService = PropertiesService(propertiesRepository, defaultProperties)
-        mockMvc = MockMvcBuilders.standaloneSetup(PropertiesController(propertiesService)).build()
-    }
 
     @Test
     fun `Should get stored properties if available`() {
         whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.of(mockPropertiesDocument))
         val expected = Properties(
             tiePoints = mockPropertiesDocument.tiePoints,
-            deadline = mockPropertiesDocument.deadlineDate.toInstant().atZone(mockPropertiesDocument.zoneId),
+            deadline = mockPropertiesDocument.deadline.atZone(mockPropertiesDocument.zoneId),
             hasGiveaway = mockPropertiesDocument.hasGiveaway,
             giveawayAmountUSD = mockPropertiesDocument.giveawayAmountUSD
         )
@@ -105,8 +96,8 @@ internal class PropertiesControllerTest {
         val expectedDocument = PropertiesDocument(
             id = PropertiesRepository.PROPERTIES_ID,
             tiePoints = request.tiePoints,
-            deadlineDate = Date.from(request.deadline.toInstant()),
-            zoneId = request.deadline.offset,
+            deadline = request.deadline.toInstant(),
+            zoneId = request.deadline.zone,
             hasGiveaway = request.hasGiveaway,
             giveawayAmountUSD = request.giveawayAmountUSD
         )

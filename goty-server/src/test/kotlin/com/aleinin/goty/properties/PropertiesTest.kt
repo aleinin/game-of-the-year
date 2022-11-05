@@ -1,10 +1,9 @@
 package com.aleinin.goty.properties
 
-import com.aleinin.goty.TimeHelper.Companion.tomorrow
+import com.aleinin.goty.tomorrow
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 import java.time.ZonedDateTime
 
 internal class PropertiesTest {

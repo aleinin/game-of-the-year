@@ -1,7 +1,7 @@
 package com.aleinin.goty.configuration
 
-import com.aleinin.goty.TimeHelper.Companion.tomorrow
 import com.aleinin.goty.properties.Properties
+import com.aleinin.goty.tomorrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

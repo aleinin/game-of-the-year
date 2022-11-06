@@ -1,7 +1,8 @@
 name: Build GOTY Server
-on: [ push, workflow_dispatch ]
+on: [push, workflow_dispatch]
 jobs:
   build:
+    timeout-minutes: 3
     runs-on: ubuntu-latest
     steps:
       - name: Check out project

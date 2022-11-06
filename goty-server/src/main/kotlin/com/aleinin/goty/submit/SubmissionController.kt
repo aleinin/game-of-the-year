@@ -1,5 +1,6 @@
 package com.aleinin.goty.submit
 
+import com.aleinin.goty.properties.Properties
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,19 +16,20 @@ import java.util.UUID
 @CrossOrigin
 @RestController
 class SubmissionController(
-    private val submissionProperties: SubmissionProperties,
+    private val properties: Properties,
     private val submissionRepository: SubmissionRepository,
     private val clock: Clock
 ) {
 
-    private val deadlineMessage = "Submission deadline of ${submissionProperties.deadline} has been met."
+    private val deadlineMessage = "Submission deadline of ${properties.deadline} has been met."
+    private val tooManyGamesOfTheYearMessage = "Too many games of the year. The maximum allowed is ${properties.tiePoints.size}"
 
     @GetMapping("/submissions")
-    fun getSubmissions() = submissionRepository.findAll()
+    fun getSubmissions(): List<Submission> = submissionRepository.findAll()
 
     @PostMapping("/submissions")
     fun addSubmission(@RequestBody submissionRequest: SubmissionRequest) =
-        beforeCutoff {
+        validate(submissionRequest) {
             submissionRepository.insert(
                 Submission(
                     id = UUID.randomUUID(),
@@ -48,7 +50,7 @@ class SubmissionController(
 
     @PutMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody submissionRequest: SubmissionRequest) =
-        beforeCutoff {
+        validate(submissionRequest) {
             submissionRepository
                 .findById(id)
                 .map {
@@ -65,9 +67,18 @@ class SubmissionController(
                 .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
         }
 
-    private fun beforeCutoff(perform: () -> Submission) =
-        if (beforeCutoff()) perform() else throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
+    private fun validate(request: SubmissionRequest, perform: () -> Submission) =
+        if (afterCutoff()) {
+            throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
+        } else if (tooManyGamesOfTheYear(request)) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, tooManyGamesOfTheYearMessage)
+        } else {
+            perform()
+        }
 
-    private fun beforeCutoff() =
-        clock.instant().atZone(submissionProperties.deadline.zone).isBefore(submissionProperties.deadline)
+    private fun afterCutoff() =
+        !clock.instant().atZone(properties.deadline.zone).isBefore(properties.deadline)
+
+    private fun tooManyGamesOfTheYear(submissionRequest: SubmissionRequest) =
+        submissionRequest.gamesOfTheYear.size > properties.tiePoints.size
 }

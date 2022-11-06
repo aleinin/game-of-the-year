@@ -1,22 +1,42 @@
 package com.aleinin.goty.result
 
+import com.aleinin.goty.properties.Properties
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.whenever
 
+@ExtendWith(MockitoExtension::class)
 internal class PointsServiceTest {
-    private val pointService = PointsService()
+    @Mock
+    lateinit var properties: Properties
+
+    @InjectMocks
+    lateinit var pointService: PointsService
+
+    private val mockTiePoints = listOf(25, 20, 15, 10, 5)
+
+    @BeforeEach
+    fun setup() {
+        whenever(properties.tiePoints).thenReturn(mockTiePoints)
+    }
 
     @Test
     fun `Should handle valid ranks`() {
-        val validRanks = (0..9 ).toList()
-        val expected = listOf(15, 13, 11, 7, 6, 5, 4, 3, 2, 1)
+        val validRanks = listOf(3, 0, 2, 1, 4)
+        val expected = listOf(10, 25, 15, 20, 5)
         val actual = validRanks.map { pointService.calculatePoints(it) }
         assertEquals(expected, actual)
     }
 
     @Test
     fun `Should handle invalid ranks`() {
-        val invalidRanks = listOf(-1, 10)
+        val validRanks = mockTiePoints.indices
+        val invalidRanks = listOf(validRanks.first - 1, validRanks.last + 1)
         val expected = listOf(0, 0)
         val actual = invalidRanks.map { pointService.calculatePoints(it) }
         assertEquals(expected, actual)

@@ -1,6 +1,7 @@
 package com.aleinin.goty.submit
 
 import com.aleinin.goty.SubmissionDataHelper
+import com.aleinin.goty.properties.Properties
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -29,7 +30,7 @@ internal class SubmissionControllerTest {
     lateinit var mockMvc: MockMvc
 
     @Autowired
-    lateinit var submissionProperties: SubmissionProperties
+    lateinit var properties: Properties
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
@@ -58,12 +59,12 @@ internal class SubmissionControllerTest {
     fun setup() {
         mockMvc = standaloneSetup(
             SubmissionController(
-                submissionProperties,
+                properties,
                 submissionRepository,
                 clock
             )
         ).build()
-        currentTestTime = submissionProperties.deadline.toInstant().toEpochMilli() - 1
+        currentTestTime = properties.deadline.toInstant().toEpochMilli() - 1
         whenever(clock.millis()).thenReturn(currentTestTime)
         whenever(clock.instant()).thenReturn(Instant.ofEpochMilli(currentTestTime))
     }
@@ -120,15 +121,56 @@ internal class SubmissionControllerTest {
     fun `Should reject an invalid submission`() {
         val validSubmission = SubmissionDataHelper.maximal()
         val invalidSubmissionRequestEmptyGOTY = invalidSubmissionRequestJSONGenerator(validSubmission.name, emptyList())
-        val invalidSubmissionRequestBlankName = invalidSubmissionRequestJSONGenerator(validSubmission.name, emptyList())
+        val invalidSubmissionRequestBlankName =
+            invalidSubmissionRequestJSONGenerator("", validSubmission.gamesOfTheYear)
         Mockito.verify(submissionRepository, times(0)).insert(any<Submission>())
-        mockMvc.perform(post("/submissions")
-            .content(objectMapper.writeValueAsString(invalidSubmissionRequestEmptyGOTY))
-            .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(
+            post("/submissions")
+                .content(objectMapper.writeValueAsString(invalidSubmissionRequestEmptyGOTY))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
             .andExpect(status().isBadRequest)
-        mockMvc.perform(post("/submissions")
-            .content(objectMapper.writeValueAsString(invalidSubmissionRequestBlankName))
-            .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(
+            post("/submissions")
+                .content(objectMapper.writeValueAsString(invalidSubmissionRequestBlankName))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `Should reject submission after cutoff`() {
+        val deadline = properties.deadline
+        whenever(clock.instant()).thenReturn(deadline.toInstant())
+        val validSubmissionRequest = SubmissionRequest(
+            name = "too late",
+            gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,
+            bestOldGame = null,
+            mostAnticipated = null,
+            enteredGiveaway = false
+        )
+        mockMvc.perform(
+            post("/submissions")
+                .content(objectMapper.writeValueAsString(validSubmissionRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isForbidden)
+    }
+
+    @Test
+    fun `Should reject a submission with too many gamesOfTheYear`() {
+        val request = SubmissionRequest(
+            name = "tooMany",
+            gamesOfTheYear = (1..15).mapIndexed { index, _ -> RankedGameSubmission("", "", index) },
+            mostAnticipated = null,
+            bestOldGame = null,
+            enteredGiveaway = false
+        )
+        mockMvc.perform(
+            post("/submissions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        )
             .andExpect(status().isBadRequest)
     }
 
@@ -198,27 +240,25 @@ internal class SubmissionControllerTest {
     }
 
     @Test
-    fun `Should reject submission after cutoff`() {
-        val deadline = submissionProperties.deadline
-        whenever(clock.instant()).thenReturn(deadline.toInstant())
-        val validSubmissionRequest = SubmissionRequest(
-            name = "too late",
-            gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,
-            bestOldGame = null,
+    fun `Should reject a submission update with too many gamesOfTheYear`() {
+        val request = SubmissionRequest(
+            name = "tooMany",
+            gamesOfTheYear = (1..15).mapIndexed { index, _ -> RankedGameSubmission("", "", index) },
             mostAnticipated = null,
+            bestOldGame = null,
             enteredGiveaway = false
         )
         mockMvc.perform(
-            post("/submissions")
-                .content(objectMapper.writeValueAsString(validSubmissionRequest))
+            put("/submissions/${UUID.randomUUID()}")
                 .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
         )
-            .andExpect(status().isForbidden)
+            .andExpect(status().isBadRequest)
     }
 
     @Test
     fun `Should reject submission update after cutoff`() {
-        val deadline = submissionProperties.deadline
+        val deadline = properties.deadline
         whenever(clock.instant()).thenReturn(deadline.toInstant())
         val validSubmissionRequest = SubmissionRequest(
             name = "too late",

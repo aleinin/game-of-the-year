@@ -8,7 +8,7 @@ data class SubmissionRequest(
     val enteredGiveaway: Boolean = false
 ) {
     init {
-        require(name.isNotBlank()) { "Name cannot be blank"}
+        require(name.isNotBlank()) { "name cannot be blank"}
         require(gamesOfTheYear.isNotEmpty()) { "gamesOfTheYear cannot be empty"}
     }
 }

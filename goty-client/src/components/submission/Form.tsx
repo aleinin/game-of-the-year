@@ -13,7 +13,7 @@ import {
   createSubmitFailAction,
   createSubmitSuccessAction,
 } from '../../state/submission/actions'
-import { GotyButton } from '../restyled/GotyButton'
+import { GotyButton } from '../styled-controls/GotyButton'
 import { selectProperties } from '../../state/properties/selectors'
 
 export interface FormProps {}

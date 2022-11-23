@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Card } from '../Card'
 import { Column } from 'primereact/column'
 import { Result } from '../../api/resultsService'
-import { GotyDataTable } from '../restyled/GotyDataTable'
+import { GotyDataTable } from '../styled-controls/GotyDataTable'
 
 export interface ResultsTableProps {
   title: string

@@ -6,7 +6,7 @@ import { selectIsEdit } from '../../state/submission/selector'
 import { createNextStepAction } from '../../state/submission/actions'
 import { ResultsContainer } from '../results/ResultsContainer'
 import { loadResults } from '../../state/results/middleware'
-import { GotyButton } from '../restyled/GotyButton'
+import { GotyButton } from '../styled-controls/GotyButton'
 import { selectProperties } from '../../state/properties/selectors'
 
 export interface StartProps {

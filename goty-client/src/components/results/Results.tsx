@@ -10,7 +10,7 @@ import {
 import { loadResultsAndSubmissions } from '../../state/results/middleware'
 import { capitalizeFirstLetter } from '../../util/capitalize-first-letter'
 import { Card } from '../Card'
-import { GotyTabPanel, GotyTabView } from '../restyled/GotyTabView'
+import { GotyTabPanel, GotyTabView } from '../styled-controls/GotyTabView'
 import { ResultsContainer } from './ResultsContainer'
 import { Submissions } from './Submissions'
 

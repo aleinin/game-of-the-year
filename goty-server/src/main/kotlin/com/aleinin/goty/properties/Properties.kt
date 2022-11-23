@@ -3,6 +3,7 @@ package com.aleinin.goty.properties
 import java.time.ZonedDateTime
 
 data class Properties(
+    val gotyYear: Int,
     val tiePoints: List<Int>,
     val deadline: ZonedDateTime,
     val hasGiveaway: Boolean,

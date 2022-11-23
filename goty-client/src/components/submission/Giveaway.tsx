@@ -3,7 +3,7 @@ import { Card } from '../Card'
 
 import { generateRules } from '../../util/generate-rules'
 import { useSelector, useStore } from 'react-redux'
-import { selectConstants } from '../../state/constants/selectors'
+import { selectProperties } from '../../state/properties/selectors'
 import { createUpdateEnteredGiveawayAction } from '../../state/submission/actions'
 import { GotyRadioSet, RadioOption } from '../restyled/GotyRadioButton'
 
@@ -25,7 +25,7 @@ const rules = (lastTime: string) => [
 ]
 
 export const Giveaway = (props: GiveawayProps) => {
-  const { lastTime, giveawayAmountUSD } = useSelector(selectConstants)
+  const { deadline, giveawayAmountUSD } = useSelector(selectProperties)
   const store = useStore()
   const handleClick = (enteredGiveaway: boolean) => {
     if (!props.readonly) {
@@ -46,7 +46,7 @@ export const Giveaway = (props: GiveawayProps) => {
   ]
   return (
     <Card title={`$${giveawayAmountUSD} Giveaway`} required={true}>
-      {generateRules(props.readonly, rules(lastTime))}
+      {generateRules(props.readonly, rules(deadline))}
       <GotyRadioSet
         disabled={props.readonly}
         name="giveaway"

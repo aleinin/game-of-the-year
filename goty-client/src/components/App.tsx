@@ -15,12 +15,13 @@ import { Provider, useStore } from 'react-redux'
 import { configureStore } from '../state/store'
 import { SubmissionHub } from './submission/SubmissionHub'
 import React, { useEffect, useState } from 'react'
-import { configService } from '../api/configService'
 import { Loading } from './Loading'
-import { createSetConstantsAction } from '../state/constants/actions'
+import { createSetPropertiesAction } from '../state/properties/actions'
 import axios from 'axios'
 import { createSetValidatorFunctionAction } from '../state/submission/actions'
 import { isValid } from '../state/submission/reducer'
+import { propertiesService } from '../api/propertiesService'
+import { baseUrlService } from '../api/baseUrlService'
 
 export const App = () => {
   const store = configureStore()
@@ -41,18 +42,20 @@ const AppRoot = () => {
   const [appReady, setAppReady] = useState(false)
   const store = useStore()
   useEffect(() => {
-    configService.getConfig().then((constants) => {
-      axios.defaults.baseURL = constants.baseUrl ?? 'http://localhost:8080'
+    baseUrlService.getBaseUrl().then((baseUrl) => {
+      axios.defaults.baseURL = baseUrl ?? 'http://localhost:8080'
       if (axios.defaults.headers) {
         ;(axios.defaults.headers.common as any)['Accept'] = 'application/json'
         ;(axios.defaults.headers.post as any)['Content-Type'] =
           'application/json'
       }
-      store.dispatch(createSetConstantsAction(constants))
-      if (constants.hasGiveaway === false) {
-        store.dispatch(createSetValidatorFunctionAction(isValid))
-      }
-      setAppReady(true)
+      propertiesService.getProperties().then((properties) => {
+        store.dispatch(createSetPropertiesAction(properties))
+        if (properties.hasGiveaway === false) {
+          store.dispatch(createSetValidatorFunctionAction(isValid))
+        }
+        setAppReady(true)
+      })
     })
   }, [store])
   if (!appReady) {

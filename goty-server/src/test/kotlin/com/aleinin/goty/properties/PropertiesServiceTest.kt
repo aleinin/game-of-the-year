@@ -2,6 +2,7 @@ package com.aleinin.goty.properties
 
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.configuration.toProperties
+import com.aleinin.goty.thisYear
 import com.aleinin.goty.tomorrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -20,6 +21,7 @@ internal class PropertiesServiceTest {
     lateinit var propertiesService: PropertiesService
 
     private val defaultProperties = DefaultProperties(
+        gotyYear = thisYear(),
         tiePoints = listOf(9, 8, 7),
         deadline = tomorrow(),
         hasGiveaway = false,
@@ -34,6 +36,7 @@ internal class PropertiesServiceTest {
     @Test
     fun `Should return the stored configuration`() {
         val expectedProperties = Properties(
+            gotyYear = thisYear(),
             tiePoints = listOf(3, 2, 1),
             deadline = tomorrow(),
             hasGiveaway = false,
@@ -54,6 +57,7 @@ internal class PropertiesServiceTest {
     @Test
     fun `Should accept a new configuration`() {
         val expectedConfig = Properties(
+            gotyYear = thisYear(),
             tiePoints = listOf(6, 5, 4),
             deadline = tomorrow(),
             hasGiveaway = false,

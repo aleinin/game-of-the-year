@@ -1,5 +1,6 @@
 package com.aleinin.goty.properties
 
+import com.aleinin.goty.thisYear
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -29,6 +30,7 @@ internal class PropertiesRepositoryTest {
     fun `Should get the Properties`() {
         val mockDocument = PropertiesDocument(
             id = propertiesId,
+            gotyYear = deadline.year,
             tiePoints = listOf(3, 2, 1),
             deadline = deadline.toInstant(),
             zoneId = ZoneId.systemDefault(),
@@ -38,6 +40,7 @@ internal class PropertiesRepositoryTest {
         whenever(propertiesDocumentRepository.findById(propertiesId)).thenReturn(Optional.of(mockDocument))
         val expected = Optional.of(
             Properties(
+                gotyYear = thisYear(),
                 tiePoints = listOf(3, 2, 1),
                 deadline = deadline,
                 hasGiveaway = true,
@@ -51,6 +54,7 @@ internal class PropertiesRepositoryTest {
     @Test
     fun `Should store Properties`() {
         val expected = Properties(
+            gotyYear = thisYear(),
             tiePoints = listOf(3, 2, 1),
             deadline = deadline,
             hasGiveaway = true,
@@ -58,6 +62,7 @@ internal class PropertiesRepositoryTest {
         )
         val expectedDocument = PropertiesDocument(
             id = propertiesId,
+            gotyYear = thisYear(),
             tiePoints = listOf(3, 2, 1),
             deadline = deadline.toInstant(),
             zoneId = ZoneId.systemDefault(),

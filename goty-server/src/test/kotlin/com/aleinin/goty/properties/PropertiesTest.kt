@@ -1,5 +1,6 @@
 package com.aleinin.goty.properties
 
+import com.aleinin.goty.thisYear
 import com.aleinin.goty.tomorrow
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -11,6 +12,7 @@ internal class PropertiesTest {
     fun `Should not allow empty lists for tiePoints`() {
         assertThrows(IllegalArgumentException::class.java) {
             Properties(
+                gotyYear = thisYear(),
                 tiePoints = listOf(),
                 hasGiveaway = false,
                 giveawayAmountUSD = 0,
@@ -23,6 +25,7 @@ internal class PropertiesTest {
     fun `Should not allow tiePoints in a non-descending order`() {
         assertThrows(IllegalArgumentException::class.java) {
             Properties(
+                gotyYear = thisYear(),
                 tiePoints = listOf(3, 1, 2),
                 hasGiveaway = false,
                 giveawayAmountUSD = 0,
@@ -35,6 +38,7 @@ internal class PropertiesTest {
     fun `Should not allow negative giveAwayAmountUSD`() {
         assertThrows(IllegalArgumentException::class.java) {
             Properties(
+                gotyYear = thisYear(),
                 tiePoints = listOf(3, 2, 1),
                 hasGiveaway = false,
                 giveawayAmountUSD = -1,
@@ -47,6 +51,7 @@ internal class PropertiesTest {
     fun `Should not allow deadlines in the past`() {
         assertThrows(IllegalArgumentException::class.java) {
             Properties(
+                gotyYear = thisYear(),
                 tiePoints = listOf(3, 2, 1),
                 hasGiveaway = false,
                 giveawayAmountUSD = -1,
@@ -58,6 +63,7 @@ internal class PropertiesTest {
     @Test
     fun `Should accept valid props`() {
         val actual = Properties(
+            gotyYear = thisYear(),
             tiePoints = listOf(3, 2, 1),
             hasGiveaway = false,
             giveawayAmountUSD = 0,

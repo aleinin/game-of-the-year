@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.PositiveOrZero
 
 fun DefaultProperties.toProperties() = Properties(
+    gotyYear = this.gotyYear,
     tiePoints = this.tiePoints,
     deadline = this.deadline,
     hasGiveaway = this.hasGiveaway,
@@ -22,6 +23,9 @@ fun DefaultProperties.toProperties() = Properties(
 @ConfigurationProperties("goty.default")
 @Validated
 data class DefaultProperties(
+    @field:NotNull
+    val gotyYear: Int,
+
     @field:NotEmpty
     val tiePoints: List<Int>,
 

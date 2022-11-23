@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useStore } from 'react-redux'
 import { Game } from '../../api/gameService'
-import { selectConstants } from '../../state/constants/selectors'
+import { selectProperties } from '../../state/properties/selectors'
 import { createUpdateGamesOfTheYearAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
 import { indexToOrdinal } from '../../util/index-to-ordinal'
@@ -20,7 +20,7 @@ export enum MoveDirection {
 }
 
 const getRules = (closeDate: string, year: number) => [
-  <li key="gotyClose">Voting Closes {closeDate}</li>,
+  <li key="gotyClose">Voting closes {closeDate}</li>,
   'You may nominate as many games as you want up to a total of 10. Only the GOTY is required, but I encourage you all to answer the bonus questions!',
   <li key="gotyYear">
     Eligible games must have been released in {year}. Early Access games are
@@ -69,13 +69,15 @@ const swap = (
 }
 
 export const GOTY = (props: GOTYProps) => {
-  const constants = useSelector(selectConstants)
-  const { year } = useSelector(selectConstants)
+  const properties = useSelector(selectProperties)
   const store = useStore()
   const setGames = (games: Game[]) =>
     store.dispatch(createUpdateGamesOfTheYearAction(games))
   const handleAddGame = (gameToAdd: Game) => {
-    if (!props.readonly && props.games.length !== constants.maxListSize) {
+    if (
+      !props.readonly &&
+      props.games.length !== properties.maxGamesOfTheYear
+    ) {
       setGames([
         ...props.games.filter((game) => game.id !== gameToAdd.id),
         gameToAdd,
@@ -98,17 +100,18 @@ export const GOTY = (props: GOTYProps) => {
   }
   return (
     <Card
-      title={`What are your favorite game(s) of ${constants.year}?`}
+      title={`What are your favorite game(s) of ${properties.year}?`}
       required={true}
     >
       {generateRules(
         props.readonly,
-        getRules(constants.closeDate, constants.year)
+        getRules(properties.deadline, properties.year)
       )}
-      {constants.tiePoints ? getTieBreaker(constants.tiePoints) : null}
-      {props.readonly ? null : (
+      {properties.tiePoints ? getTieBreaker(properties.tiePoints) : null}
+      {props.readonly ||
+      props.games.length === properties.maxGamesOfTheYear ? null : (
         <Search
-          year={year}
+          year={properties.year}
           placeholder="Select a game"
           handleSelect={handleAddGame}
         />

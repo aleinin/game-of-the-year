@@ -1,5 +1,6 @@
 goty:
   default:
+    gotyYear: 2022
     deadline: 2023-01-01T00:00:00-05:00
     hasGiveaway: true
     giveawayAmountUSD: 25

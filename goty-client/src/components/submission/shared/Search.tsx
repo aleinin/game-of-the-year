@@ -27,6 +27,7 @@ export const Search = (props: SearchProps) => {
       completeMethod={(e) => handleSearch(e.query)}
       onSelect={(e) => handleSelect(e.value)}
       dropdown={true}
+      dropdownMode={'current'}
       minLength={1}
       style={{ display: 'flex', justifyContent: 'center' }}
       suggestions={suggestions}

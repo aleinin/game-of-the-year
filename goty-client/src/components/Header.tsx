@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { selectConstants } from '../state/constants/selectors'
+import { selectProperties } from '../state/properties/selectors'
 import { Card } from './Card'
 
 const Title = styled.h1`
@@ -25,7 +25,7 @@ const Footer = styled.div`
   }
 `
 export const Header = () => {
-  const { year } = useSelector(selectConstants)
+  const { year } = useSelector(selectProperties)
   return (
     <Card paddingPx={20}>
       <Title>The Midnight Watchmen's</Title>

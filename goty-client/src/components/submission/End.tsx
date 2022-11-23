@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useStore } from 'react-redux'
-import { selectConstants } from '../../state/constants/selectors'
+import { selectProperties } from '../../state/properties/selectors'
 import { createNextStepAction } from '../../state/submission/actions'
 import { selectError } from '../../state/submission/selector'
 import { LinkButton } from '../../util/global-styles'
@@ -10,7 +10,7 @@ export interface EndProps {}
 
 export const End = (props: EndProps) => {
   const store = useStore()
-  const { closeDate } = useSelector(selectConstants)
+  const { deadline } = useSelector(selectProperties)
   const error = useSelector(selectError)
   const handleEditClick = () => {
     store.dispatch(createNextStepAction())
@@ -37,7 +37,7 @@ export const End = (props: EndProps) => {
           You may edit your submission{' '}
           <LinkButton onClick={handleEditClick}>here</LinkButton>
         </h3>
-        <h3>All edits are due by {closeDate}</h3>
+        <h3>All edits are due by {deadline}</h3>
       </React.Fragment>
     )
   }

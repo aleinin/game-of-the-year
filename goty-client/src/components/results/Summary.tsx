@@ -5,7 +5,7 @@ import {
   GameResult,
   GameOfTheYearResult,
 } from '../../api/resultsService'
-import { selectConstants } from '../../state/constants/selectors'
+import { selectProperties } from '../../state/properties/selectors'
 import { ResultsTable } from './ResultsTable'
 
 const gameColumns = ['rank', 'title', 'votes']
@@ -16,7 +16,7 @@ export interface SummaryProps {
 }
 
 export const Summary = ({ results }: SummaryProps) => {
-  const { year } = useSelector(selectConstants)
+  const { year } = useSelector(selectProperties)
   return (
     <React.Fragment>
       <Respondents rows={results.participants} />

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { SubmissionService } from '../api/submissionService'
 import { createNextStepAction } from '../state/submission/actions'
 import { Card } from './Card'
-import { GotyInputWithSubmitButton } from './restyled/GotyInputWithSubmitButton'
+import { GotyInputWithSubmitButton } from './styled-controls/GotyInputWithSubmitButton'
 
 export interface RecoveryProps {}
 

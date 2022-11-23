@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Game, GameService } from '../../../api/gameService'
-import { GotyAutoComplete } from '../../restyled/GotyAutoComplete'
+import { GotyAutoComplete } from '../../styled-controls/GotyAutoComplete'
 
 export interface SearchProps {
   placeholder: string
@@ -27,6 +27,7 @@ export const Search = (props: SearchProps) => {
       completeMethod={(e) => handleSearch(e.query)}
       onSelect={(e) => handleSelect(e.value)}
       dropdown={true}
+      dropdownMode={'current'}
       minLength={1}
       style={{ display: 'flex', justifyContent: 'center' }}
       suggestions={suggestions}

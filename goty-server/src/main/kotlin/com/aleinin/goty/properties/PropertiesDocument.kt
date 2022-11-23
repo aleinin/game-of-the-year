@@ -5,6 +5,7 @@ import java.time.ZoneId
 
 data class PropertiesDocument(
     val id: String,
+    val gotyYear: Int,
     val tiePoints: List<Int>,
     val deadline: Instant,
     val zoneId: ZoneId,

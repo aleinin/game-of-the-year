@@ -1,6 +1,6 @@
 import { useSelector, useStore } from 'react-redux'
 import { Game } from '../../api/gameService'
-import { selectConstants } from '../../state/constants/selectors'
+import { selectProperties } from '../../state/properties/selectors'
 import { createUpdateBestOldGameAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
 import { SingleGame } from './shared/SingleGame'
@@ -13,7 +13,7 @@ export interface OldGameProps {
 const rules = (year: number) => [`Any game released prior to ${year}`]
 
 export const OldGame = (props: OldGameProps) => {
-  const { year } = useSelector(selectConstants)
+  const { year } = useSelector(selectProperties)
   const store = useStore()
   const handleSelect = (bestOldGame: Game | null) => {
     if (!props.readonly) {

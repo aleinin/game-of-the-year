@@ -2,6 +2,7 @@ package com.aleinin.goty.properties
 
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.configuration.toProperties
+import com.aleinin.goty.thisYear
 import com.aleinin.goty.tomorrow
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -49,12 +50,11 @@ internal class PropertiesControllerTest {
     @Captor
     lateinit var documentCaptor: ArgumentCaptor<PropertiesDocument>
 
-    private val oneDayInSeconds = (24 * 60 * 60).toLong()
-
     private val mockPropertiesDocument = PropertiesDocument(
         id = "id",
+        gotyYear = thisYear(),
         tiePoints = listOf(3, 2, 1),
-        deadline = Instant.now().plusSeconds(oneDayInSeconds),
+        deadline = tomorrow().toInstant(),
         zoneId = ZoneId.systemDefault(),
         hasGiveaway = true,
         giveawayAmountUSD = 0
@@ -64,6 +64,7 @@ internal class PropertiesControllerTest {
     fun `Should get stored properties if available`() {
         whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.of(mockPropertiesDocument))
         val expected = Properties(
+            gotyYear = mockPropertiesDocument.gotyYear,
             tiePoints = mockPropertiesDocument.tiePoints,
             deadline = mockPropertiesDocument.deadline.atZone(mockPropertiesDocument.zoneId),
             hasGiveaway = mockPropertiesDocument.hasGiveaway,
@@ -88,6 +89,7 @@ internal class PropertiesControllerTest {
     @Test
     fun `Should replace the properties`() {
         val request = Properties(
+            gotyYear = thisYear(),
             tiePoints = listOf(15, 13, 11),
             deadline = tomorrow().truncatedTo(ChronoUnit.SECONDS),
             hasGiveaway = false,
@@ -95,6 +97,7 @@ internal class PropertiesControllerTest {
         )
         val expectedDocument = PropertiesDocument(
             id = PropertiesRepository.PROPERTIES_ID,
+            gotyYear = request.gotyYear,
             tiePoints = request.tiePoints,
             deadline = request.deadline.toInstant(),
             zoneId = request.deadline.zone,

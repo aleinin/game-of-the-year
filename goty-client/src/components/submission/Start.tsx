@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Card } from '../Card'
 import { useSelector, useStore } from 'react-redux'
-import { selectConstants } from '../../state/constants/selectors'
 import { selectIsEdit } from '../../state/submission/selector'
 import { createNextStepAction } from '../../state/submission/actions'
 import { ResultsContainer } from '../results/ResultsContainer'
 import { loadResults } from '../../state/results/middleware'
-import { GotyButton } from '../restyled/GotyButton'
+import { GotyButton } from '../styled-controls/GotyButton'
+import { selectProperties } from '../../state/properties/selectors'
 
 export interface StartProps {
   isLoading: boolean
@@ -72,19 +72,19 @@ const SubmissionButtons = ({
 
 export const Start = (props: StartProps) => {
   const store = useStore()
-  const constants = useSelector(selectConstants)
+  const properties = useSelector(selectProperties)
   const hasSubmission: boolean = useSelector(selectIsEdit)
   useEffect(() => {
     document.title = 'TMW GOTY - Start'
-    if (constants.isGotyConcluded) {
+    if (properties.isGotyConcluded) {
       loadResults(store)
     }
-  }, [constants, store])
+  }, [properties, store])
   const handleClick = () => {
     store.dispatch(createNextStepAction())
   }
-  if (constants.isGotyConcluded) {
-    return <Concluded year={constants.year} />
+  if (properties.isGotyConcluded) {
+    return <Concluded year={properties.year} />
   }
   return (
     <SubmissionButtons

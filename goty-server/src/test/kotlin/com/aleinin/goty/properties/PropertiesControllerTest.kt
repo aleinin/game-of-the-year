@@ -21,12 +21,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.time.Instant
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.Optional
@@ -60,6 +60,14 @@ internal class PropertiesControllerTest {
         giveawayAmountUSD = 0
     )
 
+    private val basicRequest = Properties(
+        gotyYear = thisYear(),
+        tiePoints = listOf(15, 13, 11),
+        deadline = tomorrow().truncatedTo(ChronoUnit.SECONDS),
+        hasGiveaway = false,
+        giveawayAmountUSD = 15
+    )
+
     @Test
     fun `Should get stored properties if available`() {
         whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.of(mockPropertiesDocument))
@@ -87,24 +95,18 @@ internal class PropertiesControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = ["ADMIN"])
     fun `Should replace the properties`() {
-        val request = Properties(
-            gotyYear = thisYear(),
-            tiePoints = listOf(15, 13, 11),
-            deadline = tomorrow().truncatedTo(ChronoUnit.SECONDS),
-            hasGiveaway = false,
-            giveawayAmountUSD = 15
-        )
         val expectedDocument = PropertiesDocument(
             id = PropertiesRepository.PROPERTIES_ID,
-            gotyYear = request.gotyYear,
-            tiePoints = request.tiePoints,
-            deadline = request.deadline.toInstant(),
-            zoneId = request.deadline.zone,
-            hasGiveaway = request.hasGiveaway,
-            giveawayAmountUSD = request.giveawayAmountUSD
+            gotyYear = basicRequest.gotyYear,
+            tiePoints = basicRequest.tiePoints,
+            deadline = basicRequest.deadline.toInstant(),
+            zoneId = basicRequest.deadline.zone,
+            hasGiveaway = basicRequest.hasGiveaway,
+            giveawayAmountUSD = basicRequest.giveawayAmountUSD
         )
-        val requestAsJsonString = objectMapper.writeValueAsString(request)
+        val requestAsJsonString = objectMapper.writeValueAsString(basicRequest)
         whenever(propertiesDocumentRepository.save(Mockito.any(PropertiesDocument::class.java))).thenReturn(expectedDocument)
         mockMvc.perform(put("/properties")
             .contentType(MediaType.APPLICATION_JSON)
@@ -114,5 +116,24 @@ internal class PropertiesControllerTest {
         verify(propertiesDocumentRepository, times(1)).save(capture(documentCaptor))
         val actualDocument = documentCaptor.firstValue
         assertEquals(expectedDocument, actualDocument)
+    }
+
+    @Test
+    fun `Should require authentication to replace properties`() {
+        val requestAsJsonString = objectMapper.writeValueAsString(basicRequest)
+        mockMvc.perform(put("/properties")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestAsJsonString))
+            .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    @WithMockUser(roles = ["USER"])
+    fun `Should only allow admins to replace properties`() {
+        val requestAsJsonString = objectMapper.writeValueAsString(basicRequest)
+        mockMvc.perform(put("/properties")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestAsJsonString))
+            .andExpect(status().isForbidden)
     }
 }

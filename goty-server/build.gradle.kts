@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0") {
         because("kotlin any() support")
@@ -38,6 +39,7 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:2.8.47") {
         because("mocking final classes (ex: IGDBWrapper)")
     }
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<Test>().configureEach {

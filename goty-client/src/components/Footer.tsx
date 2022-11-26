@@ -32,7 +32,7 @@ export const Footer = () => (
       <a href="https://www.igdb.com">Data provided by IGDB</a>
     </Credit>
     <Credit>
-      <a href="https://github.com/erichaagdev">Eric Haag</a>
+      <a href="https://github.com/erichaagdev">erichaagdev</a>
     </Credit>
   </FooterStyle>
 )

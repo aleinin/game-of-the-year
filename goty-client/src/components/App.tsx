@@ -22,6 +22,7 @@ import { createSetValidatorFunctionAction } from '../state/submission/actions'
 import { isValid } from '../state/submission/reducer'
 import { propertiesService } from '../api/propertiesService'
 import { baseUrlService } from '../api/baseUrlService'
+import { Footer } from './Footer'
 
 export const App = () => {
   const store = configureStore()
@@ -36,6 +37,13 @@ const AppRootStyle = styled.div`
   margin-left: auto;
   margin-right: auto;
   max-width: 600px;
+  flex: 1;
+`
+
+const Page = styled.div`
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 `
 
 const AppRoot = () => {
@@ -62,22 +70,25 @@ const AppRoot = () => {
     return <Loading></Loading>
   }
   return (
-    <AppRootStyle>
-      <Header />
-      <Router>
-        <Switch>
-          <Route path="/submission">
-            <SubmissionHub />
-          </Route>
-          <Route path="/recovery">
-            <Recovery />
-          </Route>
-          <Route path="/results">
-            <ResultsComponent />
-          </Route>
-          <Redirect from="*" to="/submission" />
-        </Switch>
-      </Router>
-    </AppRootStyle>
+    <Page>
+      <AppRootStyle>
+        <Header />
+        <Router>
+          <Switch>
+            <Route path="/submission">
+              <SubmissionHub />
+            </Route>
+            <Route path="/recovery">
+              <Recovery />
+            </Route>
+            <Route path="/results">
+              <ResultsComponent />
+            </Route>
+            <Redirect from="*" to="/submission" />
+          </Switch>
+        </Router>
+      </AppRootStyle>
+      <Footer></Footer>
+    </Page>
   )
 }

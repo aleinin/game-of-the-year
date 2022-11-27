@@ -45,7 +45,10 @@ export const Giveaway = (props: GiveawayProps) => {
     },
   ]
   return (
-    <Card title={`$${giveawayAmountUSD} Giveaway`} required={true}>
+    <Card
+      title={`Do you want to enter the $${giveawayAmountUSD} Steam GC Giveaway?`}
+      required={true}
+    >
       {generateRules(props.readonly, rules(deadline))}
       <GotyRadioSet
         disabled={props.readonly}

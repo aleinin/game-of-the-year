@@ -10,7 +10,7 @@ export interface BackendProperties {
   giveawayAmountUSD: number
 }
 
-const toBackendPropertiesToProperties = ({
+const toProperties = ({
   tiePoints,
   gotyYear,
   deadline,
@@ -23,14 +23,12 @@ const toBackendPropertiesToProperties = ({
   hasGiveaway,
   giveawayAmountUSD,
   maxGamesOfTheYear: tiePoints.length,
-  isGotyConcluded: false, // todo
+  isGotyConcluded: new Date(deadline) <= new Date(),
 })
 
 export const propertiesService = {
-  getProperties: (): Promise<Properties> => {
-    return axios.get<BackendProperties>('/properties').then((axiosResponse) => {
-      console.log(axiosResponse.data)
-      return toBackendPropertiesToProperties(axiosResponse.data)
-    })
-  },
+  getProperties: (): Promise<Properties> =>
+    axios
+      .get<BackendProperties>('/properties')
+      .then((axiosResponse) => toProperties(axiosResponse.data)),
 }

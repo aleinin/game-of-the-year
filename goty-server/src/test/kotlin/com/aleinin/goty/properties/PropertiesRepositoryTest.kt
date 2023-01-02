@@ -40,7 +40,7 @@ internal class PropertiesRepositoryTest {
         whenever(propertiesDocumentRepository.findById(propertiesId)).thenReturn(Optional.of(mockDocument))
         val expected = Optional.of(
             Properties(
-                gotyYear = thisYear(),
+                gotyYear = deadline.year,
                 tiePoints = listOf(3, 2, 1),
                 deadline = deadline,
                 hasGiveaway = true,

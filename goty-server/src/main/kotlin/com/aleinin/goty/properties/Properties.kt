@@ -13,6 +13,5 @@ data class Properties(
         require(tiePoints.isNotEmpty()) { "tiePoints must not be empty" }
         require(tiePoints.sortedDescending() == tiePoints) { "tiePoints must be in descending order"}
         require(giveawayAmountUSD >= 0) { "giveawayAmountUSD must be greater than or equal to 0" }
-        require(ZonedDateTime.now().isBefore(deadline)) { "deadline cannot be in the past" }
     }
 }

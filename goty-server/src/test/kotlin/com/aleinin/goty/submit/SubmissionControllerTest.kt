@@ -5,28 +5,33 @@ import com.aleinin.goty.properties.Properties
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 import java.time.Clock
 import java.time.Instant
 import java.util.Optional
 import java.util.UUID
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 internal class SubmissionControllerTest {
+    @Autowired
     lateinit var mockMvc: MockMvc
 
     @Autowired
@@ -35,10 +40,10 @@ internal class SubmissionControllerTest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
-    @Mock
+    @MockBean
     lateinit var submissionRepository: SubmissionRepository
 
-    @Mock
+    @MockBean
     lateinit var clock: Clock
 
     var currentTestTime: Long = 0
@@ -57,14 +62,6 @@ internal class SubmissionControllerTest {
 
     @BeforeEach
     fun setup() {
-        mockMvc = standaloneSetup(
-            SubmissionController(
-                properties,
-                submissionRepository,
-                clock
-            )
-        ).build()
-        currentTestTime = properties.deadline.toInstant().toEpochMilli() - 1
         whenever(clock.millis()).thenReturn(currentTestTime)
         whenever(clock.instant()).thenReturn(Instant.ofEpochMilli(currentTestTime))
     }
@@ -230,11 +227,18 @@ internal class SubmissionControllerTest {
     @Test
     fun `Should respond NotFound when attempting to update a submission that doesnt exist`() {
         val validUnsubmittedSubmission = SubmissionDataHelper.maximal()
+        val request = SubmissionRequest(
+            name = validUnsubmittedSubmission.name,
+            gamesOfTheYear = validUnsubmittedSubmission.gamesOfTheYear,
+            mostAnticipated = validUnsubmittedSubmission.mostAnticipated,
+            bestOldGame = validUnsubmittedSubmission.bestOldGame,
+            enteredGiveaway = validUnsubmittedSubmission.enteredGiveaway
+        )
         whenever(submissionRepository.findById(any())).thenReturn(Optional.empty())
         mockMvc.perform(
             put("/submissions/${validUnsubmittedSubmission.id}")
-                .content(objectMapper.writeValueAsString(validUnsubmittedSubmission))
                 .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
         )
             .andExpect(status().isNotFound)
     }
@@ -273,5 +277,88 @@ internal class SubmissionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isForbidden)
+    }
+
+    @Test
+    fun `Should not allow unauthenticated to delete a submission`() {
+        mockMvc.perform(
+            delete("/submissions/${UUID.randomUUID()}")
+        )
+            .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    @WithMockUser(roles = ["USER"])
+    fun `Should only allow admins to delete a submission`() {
+        mockMvc.perform(
+            delete("/submissions/${UUID.randomUUID()}")
+        )
+            .andExpect(status().isForbidden)
+    }
+
+    @Test
+    @WithMockUser(roles = ["ADMIN"])
+    fun `Should respond NotFound when attempting to delete a submission that does not exist`() {
+        mockMvc.perform(
+            delete("/submissions/${UUID.randomUUID()}")
+        ).andExpect(status().isNotFound)
+    }
+
+    @Test
+    @WithMockUser(roles = ["ADMIN"])
+    fun `Should delete a submission`() {
+        val mockSubmission = SubmissionDataHelper.maximal()
+        whenever(submissionRepository.findById(mockSubmission.id)).thenReturn(Optional.of(mockSubmission))
+        mockMvc.perform(
+            delete("/submissions/${mockSubmission.id}")
+        ).andExpect(status().isOk)
+        verify(submissionRepository).delete(mockSubmission)
+    }
+
+    @Test
+    fun `Should not allow unauthenticated to delete all submissions`() {
+        mockMvc.perform(
+            delete("/submissions")
+        )
+            .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    @WithMockUser(roles = ["USER"])
+    fun `Should only allow admins to delete all submission`() {
+        mockMvc.perform(
+            delete("/submissions")
+        )
+            .andExpect(status().isForbidden)
+    }
+
+    @Test
+    @WithMockUser(roles = ["ADMIN"])
+    fun `Should require override when deleting all before deadline`() {
+        mockMvc.perform(
+            delete("/submissions")
+        )
+            .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    @WithMockUser(roles = ["ADMIN"])
+    fun `Should delete all when override supplied before deadline`() {
+        mockMvc.perform(
+            delete("/submissions?override=true")
+        )
+            .andExpect(status().isOk)
+        verify(submissionRepository, times(1)).deleteAll()
+    }
+
+    @Test
+    @WithMockUser(roles = ["ADMIN"])
+    fun `Should not require override when deleting all after deadline`() {
+        whenever(clock.instant()).thenReturn(properties.deadline.toInstant().plusSeconds(1))
+        mockMvc.perform(
+            delete("/submissions")
+        )
+            .andExpect(status().isOk)
+        verify(submissionRepository, times(1)).deleteAll()
     }
 }

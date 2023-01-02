@@ -22,7 +22,7 @@ internal class GameSearchServiceTest {
             title = "MyGame",
             limit = 10,
             year = 2077,
-            mainGame = true
+            mainGame = false
         )
         val expectedResponse = listOf(
             GameSearchResponse(

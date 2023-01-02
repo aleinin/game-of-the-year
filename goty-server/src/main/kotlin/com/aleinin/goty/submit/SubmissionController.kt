@@ -2,12 +2,15 @@ package com.aleinin.goty.submit
 
 import com.aleinin.goty.properties.Properties
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.time.Clock
@@ -22,7 +25,10 @@ class SubmissionController(
 ) {
 
     private val deadlineMessage = "Submission deadline of ${properties.deadline} has been met."
-    private val tooManyGamesOfTheYearMessage = "Too many games of the year. The maximum allowed is ${properties.tiePoints.size}"
+    private val tooManyGamesOfTheYearMessage =
+        "Too many games of the year. The maximum allowed is ${properties.tiePoints.size}."
+    private val overrideRequiredMessage =
+        "Submission deadline of ${properties.deadline} has not been met. You must override to delete all submissions."
 
     @GetMapping("/submissions")
     fun getSubmissions(): List<Submission> = submissionRepository.findAll()
@@ -43,6 +49,11 @@ class SubmissionController(
                 )
             )
         }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/submissions")
+    fun deleteAllSubmissions(@RequestParam(defaultValue = "false") override: Boolean): Unit =
+        validateDeletions(override) { submissionRepository.deleteAll() }
 
     @GetMapping("/submissions/{id}")
     fun getSubmission(@PathVariable id: UUID) =
@@ -67,6 +78,13 @@ class SubmissionController(
                 .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
         }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/submissions/{id}")
+    fun deleteSubmission(@PathVariable id: UUID): Unit =
+        submissionRepository.findById(id)
+            .map { submissionRepository.delete(it) }
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+
     private fun validate(request: SubmissionRequest, perform: () -> Submission) =
         if (afterCutoff()) {
             throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
@@ -74,6 +92,13 @@ class SubmissionController(
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, tooManyGamesOfTheYearMessage)
         } else {
             perform()
+        }
+
+    private fun validateDeletions(override: Boolean, perform: () -> Unit) =
+        if (afterCutoff() || override) {
+            perform()
+        } else {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, overrideRequiredMessage)
         }
 
     private fun afterCutoff() =

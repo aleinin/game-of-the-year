@@ -25,7 +25,7 @@ const ButtonSet = styled.div`
 
 const Concluded = ({ year }: { year: number }) => {
   return (
-    <React.Fragment>
+    <>
       <Card>
         <h2>Game of the Year {year} has concluded</h2>
         <p>Thank you to all who participated</p>
@@ -33,7 +33,7 @@ const Concluded = ({ year }: { year: number }) => {
       <Card title="Results" titleFontSize={{ fontSize: 2, fontType: 'em' }}>
         <ResultsContainer />
       </Card>
-    </React.Fragment>
+    </>
   )
 }
 

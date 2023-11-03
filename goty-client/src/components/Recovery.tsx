@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useStore } from 'react-redux'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { SubmissionService } from '../api/submissionService'
 import { createNextStepAction } from '../state/submission/actions'
@@ -14,10 +14,10 @@ const Error = styled.h4`
 `
 
 const getFailed = () => (
-  <React.Fragment>
+  <>
     <Error>Something went wrong</Error>
     <Error>Unable to recover submission, double check the key</Error>
-  </React.Fragment>
+  </>
 )
 
 const uuidPattern =
@@ -25,7 +25,7 @@ const uuidPattern =
 
 export const Recovery = () => {
   const store = useStore()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [failed, setFailed] = useState(false)
   const [valid, setValid] = useState(false)
   const [uuid, setUuid] = useState('')
@@ -40,10 +40,10 @@ export const Recovery = () => {
   const handleSubmit = () => {
     setIsLoading(true)
     SubmissionService.getSubmission(uuid)
-      .then((submission) => {
+      .then(() => {
         localStorage.setItem('submissionUUID', uuid)
         store.dispatch(createNextStepAction())
-        history.push('/submission')
+          navigate('/submission')
       })
       .catch(() => {
         setIsLoading(false)

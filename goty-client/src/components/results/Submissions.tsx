@@ -31,14 +31,14 @@ export const Submissions = (props: SubmissionsProps) => {
     )
   }
   return (
-    <React.Fragment>
+    <>
       <Paginator
         totalPages={submissions.length}
         pageIndex={index}
         setIndex={setIndex}
       />
       <SubmissionResult submission={submissions[index]}></SubmissionResult>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -48,7 +48,7 @@ export interface SubmissionResultProps {
 
 const SubmissionResult = (props: SubmissionResultProps) => {
   return (
-    <React.Fragment>
+    <>
       <Name readonly name={props.submission.name} />
       <GOTY readonly games={props.submission.gamesOfTheYear} />
       <OldGame readonly bestOldGame={props.submission.bestOldGame} />
@@ -57,6 +57,6 @@ const SubmissionResult = (props: SubmissionResultProps) => {
         mostAnticipated={props.submission.mostAnticipated}
       />
       <Giveaway readonly enteredGiveaway={props.submission.enteredGiveaway} />
-    </React.Fragment>
+    </>
   )
 }

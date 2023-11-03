@@ -1,38 +1,28 @@
 import React, { useEffect } from 'react'
 import { useStore } from 'react-redux'
 import {
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-  useRouteMatch,
+  useNavigate,
 } from 'react-router'
+import {Outlet, useLocation} from 'react-router-dom'
 import { loadResultsAndSubmissions } from '../../state/results/middleware'
 import { capitalizeFirstLetter } from '../../util/capitalize-first-letter'
 import { Card } from '../Card'
-import { GotyTabPanel, GotyTabView } from '../styled-controls/GotyTabView'
-import { ResultsContainer } from './ResultsContainer'
-import { Submissions } from './Submissions'
+import { GotyTabView } from '../styled-controls/GotyTabView'
+import {TabPanel} from 'primereact/tabview'
 
 export const RouteMap = {
   0: 'summary',
   1: 'responses',
 }
 
-export interface ResultsProps {}
-
-export const ResultsComponent = (props: ResultsProps) => {
-  const { path } = useRouteMatch()
+export const ResultsComponent = () => {
   const store = useStore()
   useEffect(() => {
     loadResultsAndSubmissions(store)
   }, [store])
-  const history = useHistory()
-  const activeIndex = history.location.pathname.startsWith(
-    `${path}/${RouteMap[0]}`
-  )
-    ? 0
-    : 1
+  const navigate = useNavigate()
+  const {pathname} = useLocation()
+  const activeIndex = pathname.includes(`/${RouteMap[0]}`) ? 0 : 1
   useEffect(() => {
     document.title = `TMW GOTY - ${capitalizeFirstLetter(
       RouteMap[activeIndex]
@@ -43,28 +33,20 @@ export const ResultsComponent = (props: ResultsProps) => {
       return
     }
     const route = RouteMap[index]
-    history.push(`${path}/${route}`)
+    navigate(`${route}`)
   }
   return (
-    <React.Fragment>
+    <>
       <Card>
         <GotyTabView
           activeIndex={activeIndex}
           onTabChange={(e) => handleRoute(e.index)}
         >
-          <GotyTabPanel header="Summary" />
-          <GotyTabPanel header="Individual Responses" />
+          <TabPanel header="Summary" />
+          <TabPanel header="Individual Responses" />
         </GotyTabView>
       </Card>
-      <Switch>
-        <Route path={`${path}/${RouteMap[0]}`}>
-          <ResultsContainer />
-        </Route>
-        <Route path={`${path}/${RouteMap[1]}`}>
-          <Submissions />
-        </Route>
-        <Redirect exact from={path} to={`${path}/${RouteMap[0]}`} />
-      </Switch>
-    </React.Fragment>
+      <Outlet />
+    </>
   )
 }

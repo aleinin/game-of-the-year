@@ -1,4 +1,4 @@
-import { RadioButton, RadioButtonChangeParams } from 'primereact/radiobutton'
+import {RadioButton, RadioButtonChangeEvent} from 'primereact/radiobutton'
 import styled from 'styled-components'
 
 export interface RadioOption {
@@ -11,7 +11,7 @@ export interface GotyRadioSetProps {
   options: RadioOption[]
   disabled: boolean
   name: string
-  onChange: (event: RadioButtonChangeParams) => void
+  onChange: (event: RadioButtonChangeEvent) => void
   selectedValue: any
 }
 

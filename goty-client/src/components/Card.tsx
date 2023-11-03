@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import 'typeface-roboto'
 import { Required } from '../util/global-styles'
 
 export interface CardProps {
@@ -16,7 +15,7 @@ export interface TitleFont {
   fontSize: number
 }
 
-const CardContainer = styled('div')<{ paddingPx?: number; border: boolean }>`
+const CardContainer = styled('div')<{ $paddingPx?: number; $border: boolean }>`
   background-color: rgb(24, 24, 24);
   margin-bottom: 10px;
   color: white;
@@ -26,9 +25,9 @@ const CardContainer = styled('div')<{ paddingPx?: number; border: boolean }>`
   }
 
   @media only screen and (min-width: 768px) {
-    padding: ${(props) => props.paddingPx ?? '15'}px;
+    padding: ${(props) => props.$paddingPx ?? '15'}px;
   }
-  ${({ border }) => (border ? 'border: 1px solid #575757;' : '')}
+  ${({ $border }) => ($border ? 'border: 1px solid #575757;' : '')}
 `
 
 const Header = styled.div`
@@ -57,7 +56,7 @@ export const Card = (props: React.PropsWithChildren<CardProps>) => {
       </Header>
     ) : null
   return (
-    <CardContainer paddingPx={props.paddingPx} border={props.border ?? true}>
+    <CardContainer $paddingPx={props.paddingPx} $border={props.border ?? true}>
       {header}
       <div>{props.children}</div>
     </CardContainer>

@@ -81,32 +81,36 @@ export const Paginator = ({
     }
   }
   const leftControls = (
-    <React.Fragment>
+    <>
       <Arrow
         disabled={pageIndex <= 0}
         className="pi pi-angle-double-left"
+        data-testid="jump-left"
         onClick={() => handleMove(MoveType.JumpLeft)}
       />
       <Arrow
         disabled={pageIndex <= 0}
         className="pi pi-angle-left"
+        data-testid="left"
         onClick={() => handleMove(MoveType.Left)}
       />
-    </React.Fragment>
+    </>
   )
   const rightControls = (
-    <React.Fragment>
+    <>
       <Arrow
         disabled={pageIndex >= totalPages - 1}
         className="pi pi-angle-right"
+        data-testid="right"
         onClick={() => handleMove(MoveType.Right)}
       />
       <Arrow
         disabled={pageIndex >= totalPages - 1}
         className="pi pi-angle-double-right"
+        data-testid="jump-right"
         onClick={() => handleMove(MoveType.JumpRight)}
       />
-    </React.Fragment>
+    </>
   )
   return (
     <Card>

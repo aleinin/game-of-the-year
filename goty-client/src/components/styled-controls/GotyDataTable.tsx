@@ -28,7 +28,7 @@ const StyleContainer = styled.div`
 `
 
 export const GotyDataTable = (
-  props: React.PropsWithChildren<DataTableProps>
+  props: React.PropsWithChildren<DataTableProps<any>>
 ) => (
   <StyleContainer>
     <DataTable {...props} />

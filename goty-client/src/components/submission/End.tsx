@@ -6,9 +6,7 @@ import { selectError } from '../../state/submission/selector'
 import { LinkButton } from '../../util/global-styles'
 import { Card } from '../Card'
 
-export interface EndProps {}
-
-export const End = (props: EndProps) => {
+export const End = () => {
   const store = useStore()
   const { deadline } = useSelector(selectProperties)
   const error = useSelector(selectError)
@@ -21,16 +19,16 @@ export const End = (props: EndProps) => {
   let content: JSX.Element
   if (error != null) {
     content = (
-      <React.Fragment>
+      <>
         <h1>Uh oh!</h1>
         <h2>We failed to save your submission</h2>
         <h3>Please contact Kherven or Gorlah and give them the following: </h3>
         <p>{JSON.stringify(error)}</p>
-      </React.Fragment>
+      </>
     )
   } else {
     content = (
-      <React.Fragment>
+      <>
         <h1>Thank you!</h1>
         <h2>Your submission has been received</h2>
         <h3>
@@ -38,7 +36,7 @@ export const End = (props: EndProps) => {
           <LinkButton onClick={handleEditClick}>here</LinkButton>
         </h3>
         <h3>All edits are due by {deadline}</h3>
-      </React.Fragment>
+      </>
     )
   }
   return <Card>{content}</Card>

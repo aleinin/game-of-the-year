@@ -4,10 +4,7 @@ import 'primereact/resources/themes/md-dark-deeppurple/theme.css'
 import { Header } from './Header'
 import styled from 'styled-components'
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
+  Navigate, createBrowserRouter, RouterProvider,
 } from 'react-router-dom'
 import { Recovery } from './Recovery'
 import { ResultsComponent } from './results/Results'
@@ -23,6 +20,8 @@ import { isValid } from '../state/submission/reducer'
 import { propertiesService } from '../api/propertiesService'
 import { baseUrlService } from '../api/baseUrlService'
 import { Footer } from './Footer'
+import {ResultsContainer} from './results/ResultsContainer'
+import {Submissions} from './results/Submissions'
 
 export const App = () => {
   const store = configureStore()
@@ -46,6 +45,39 @@ const Page = styled.div`
   flex-direction: column;
 `
 
+const router = createBrowserRouter([
+  {
+    path: '/submission',
+    element: <SubmissionHub />
+  },
+  {
+    path: '/recovery',
+    element: <Recovery />
+  },
+  {
+    path: '/results',
+    element: <ResultsComponent />,
+    children: [
+      {
+        path: 'summary',
+        element: <ResultsContainer />
+      },
+      {
+        path: 'responses',
+        element: <Submissions />
+      },
+      {
+        path: '',
+        element: <Navigate to="summary" replace />
+      }
+    ]
+  },
+  {
+    path: '*',
+    element: <Navigate to="/submission" replace />
+  }
+])
+
 const AppRoot = () => {
   const [appReady, setAppReady] = useState(false)
   const store = useStore()
@@ -59,7 +91,7 @@ const AppRoot = () => {
       }
       propertiesService.getProperties().then((properties) => {
         store.dispatch(createSetPropertiesAction(properties))
-        if (properties.hasGiveaway === false) {
+        if (!properties.hasGiveaway) {
           store.dispatch(createSetValidatorFunctionAction(isValid))
         }
         setAppReady(true)
@@ -73,20 +105,7 @@ const AppRoot = () => {
     <Page>
       <AppRootStyle>
         <Header />
-        <Router>
-          <Switch>
-            <Route path="/submission">
-              <SubmissionHub />
-            </Route>
-            <Route path="/recovery">
-              <Recovery />
-            </Route>
-            <Route path="/results">
-              <ResultsComponent />
-            </Route>
-            <Redirect from="*" to="/submission" />
-          </Switch>
-        </Router>
+        <RouterProvider router={router} />
       </AppRootStyle>
       <Footer></Footer>
     </Page>

@@ -16,8 +16,7 @@ import {
 import { GotyButton } from '../styled-controls/GotyButton'
 import { selectProperties } from '../../state/properties/selectors'
 
-export interface FormProps {}
-export const Form = (props: FormProps) => {
+export const Form = (s) => {
   const store = useStore()
   const { isValid, isEdit, form } = useSelector(selectSubmissionState)
   const { hasGiveaway } = useSelector(selectProperties)
@@ -38,7 +37,7 @@ export const Form = (props: FormProps) => {
     document.title = 'TMW GOTY - Submission'
   }, [])
   return (
-    <React.Fragment>
+    <>
       <Card>
         <Required>* Required</Required>
       </Card>
@@ -58,6 +57,6 @@ export const Form = (props: FormProps) => {
         label="Submit"
         onClick={handleSubmit}
       />
-    </React.Fragment>
+    </>
   )
 }

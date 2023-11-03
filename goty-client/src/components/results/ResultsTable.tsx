@@ -41,7 +41,6 @@ export const ResultsTable = (props: ResultsTableProps) => {
       <TableContainer>
         <GotyDataTable
           value={values}
-          autoLayout
           paginator
           rows={10}
           rowsPerPageOptions={[10, 20, 50]}

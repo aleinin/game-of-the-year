@@ -19,7 +19,7 @@ export interface OrderableListProps {
 
 export const OrderableList = (props: OrderableListProps) => {
   return (
-    <React.Fragment>
+    <>
       {props.games.map((game, index) => (
         <motion.div key={game.id} layout transition={spring}>
           <ListItem
@@ -33,6 +33,6 @@ export const OrderableList = (props: OrderableListProps) => {
           />
         </motion.div>
       ))}
-    </React.Fragment>
+    </>
   )
 }

@@ -5,7 +5,7 @@ import { SearchInPlace } from './SearchInPlace'
 
 export interface SingleGameProps {
   title: string
-  content: JSX.Element
+  content: JSX.Element | null
   readonly: boolean
   game: Game | null
   handleSelect: (val: Game | null) => void

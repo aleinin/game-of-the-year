@@ -32,14 +32,14 @@ const getRules = (closeDate: string, year: number) => [
 
 const getTieBreaker = (tiePoints: number[]) => {
   return (
-    <React.Fragment>
+    <>
       <p>Tie-breaker points are awarded as follows:</p>
       <ul>
         {tiePoints.map((tiePoint, index) => (
           <li key={index}>{`${indexToOrdinal(index)}: ${tiePoint}`}</li>
         ))}
       </ul>
-    </React.Fragment>
+    </>
   )
 }
 

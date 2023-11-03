@@ -18,13 +18,13 @@ export interface SummaryProps {
 export const Summary = ({ results }: SummaryProps) => {
   const { year } = useSelector(selectProperties)
   return (
-    <React.Fragment>
+    <>
       <Respondents rows={results.participants} />
       <GOTYResults rows={results.gamesOfTheYear} />
       <BestOldGameResults rows={results.bestOldGames} year={year} />
       <MostAnticipatedResults rows={results.mostAnticipated} />
       <GiveawayParticipants rows={results.giveawayParticipants} />
-    </React.Fragment>
+    </>
   )
 }
 

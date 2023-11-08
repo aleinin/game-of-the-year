@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Game, GameService } from '../../../api/gameService'
+import { GameService } from '../../../api/gameService'
 import { GotyAutoComplete } from '../../styled-controls/GotyAutoComplete'
+import { Game } from '../../../models/Game'
 
 export interface SearchProps {
   placeholder: string

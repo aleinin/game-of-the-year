@@ -1,11 +1,6 @@
-import 'primereact/resources/primereact.min.css'
-import 'primeicons/primeicons.css'
-import 'primereact/resources/themes/md-dark-deeppurple/theme.css'
 import { Header } from './Header'
 import styled from 'styled-components'
-import {
-  Navigate, createBrowserRouter, RouterProvider,
-} from 'react-router-dom'
+import { Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Recovery } from './Recovery'
 import { ResultsComponent } from './results/Results'
 import { Provider, useStore } from 'react-redux'
@@ -20,8 +15,8 @@ import { isValid } from '../state/submission/reducer'
 import { propertiesService } from '../api/propertiesService'
 import { baseUrlService } from '../api/baseUrlService'
 import { Footer } from './Footer'
-import {ResultsContainer} from './results/ResultsContainer'
-import {Submissions} from './results/Submissions'
+import { ResultsContainer } from './results/ResultsContainer'
+import { Submissions } from './results/Submissions'
 
 export const App = () => {
   const store = configureStore()
@@ -48,11 +43,11 @@ const Page = styled.div`
 const router = createBrowserRouter([
   {
     path: '/submission',
-    element: <SubmissionHub />
+    element: <SubmissionHub />,
   },
   {
     path: '/recovery',
-    element: <Recovery />
+    element: <Recovery />,
   },
   {
     path: '/results',
@@ -60,22 +55,22 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'summary',
-        element: <ResultsContainer />
+        element: <ResultsContainer />,
       },
       {
         path: 'responses',
-        element: <Submissions />
+        element: <Submissions />,
       },
       {
         path: '',
-        element: <Navigate to="summary" replace />
-      }
-    ]
+        element: <Navigate to="summary" replace />,
+      },
+    ],
   },
   {
     path: '*',
-    element: <Navigate to="/submission" replace />
-  }
+    element: <Navigate to="/submission" replace />,
+  },
 ])
 
 const AppRoot = () => {

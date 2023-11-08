@@ -1,12 +1,11 @@
 import styled from 'styled-components'
-import { Game } from '../../../api/gameService'
 import { disableColor } from '../../../util/global-styles'
 import { indexToOrdinal } from '../../../util/index-to-ordinal'
 import { MoveDirection } from '../GOTY'
 
 export interface ListItemProps {
   readonly: boolean
-  orderable: boolean
+  ordered: boolean
   game: Game
   index: number
   currentListLength: number

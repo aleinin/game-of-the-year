@@ -1,9 +1,5 @@
 import axios from 'axios'
-
-export interface Game {
-  id: string
-  title: string
-}
+import { Game } from '../models/Game'
 
 export interface SearchGameParams {
   title: string

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useStore } from 'react-redux'
-import { Game } from '../../api/gameService'
 import { createUpdateMostAnticipatedAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
 import { SingleGame } from './shared/SingleGame'
+import { Game } from '../../models/Game'
 
 export interface MostAnticipatedProps {
   readonly: boolean

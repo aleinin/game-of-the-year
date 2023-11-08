@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector, useStore } from 'react-redux'
-import { Game } from '../../api/gameService'
 import { selectProperties } from '../../state/properties/selectors'
 import { createUpdateGamesOfTheYearAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
@@ -8,6 +7,7 @@ import { indexToOrdinal } from '../../util/index-to-ordinal'
 import { Card } from '../Card'
 import { OrderableList } from './shared/OrderableList'
 import { Search } from './shared/Search'
+import { Game } from '../../models/Game'
 
 export interface GOTYProps {
   games: Game[]
@@ -46,7 +46,7 @@ const getTieBreaker = (tiePoints: number[]) => {
 const inBounds = (
   index: number,
   direction: MoveDirection,
-  numberOfGamesInList: number
+  numberOfGamesInList: number,
 ) => {
   return (
     (direction === MoveDirection.IncreaseRank && index > 0) ||
@@ -58,7 +58,7 @@ const inBounds = (
 const swap = (
   games: Game[],
   index: number,
-  direction: MoveDirection
+  direction: MoveDirection,
 ): Game[] => {
   const moveBy = direction === MoveDirection.DecreaseRank ? 1 : -1
   const newGames = [...games]
@@ -105,7 +105,7 @@ export const GOTY = (props: GOTYProps) => {
     >
       {generateRules(
         props.readonly,
-        getRules(properties.deadline, properties.year)
+        getRules(properties.deadline, properties.year),
       )}
       {properties.tiePoints ? getTieBreaker(properties.tiePoints) : null}
       {props.readonly ||

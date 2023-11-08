@@ -1,5 +1,5 @@
 import { Results } from '../../api/resultsService'
-import { Submission } from '../../api/submissionService'
+import { Submission } from '../../models/Submission'
 
 export const SET_RESULTS = 'SET_RESULTS'
 export const SET_SUBMISSIONS = 'SET_SUBMISSIONS'

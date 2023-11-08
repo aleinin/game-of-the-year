@@ -1,15 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { Converter } from '../util/converter'
-import { Game } from './gameService'
-
-export interface Submission {
-  submissionUUID: string
-  name: string
-  gamesOfTheYear: Game[]
-  bestOldGame: Game | null
-  mostAnticipated: Game | null
-  enteredGiveaway: boolean | null
-}
+import { Submission } from '../models/Submission'
+import { Game } from '../models/Game'
 
 export interface BackendSubmission extends BackendSubmissionRequest {
   id: string
@@ -32,7 +24,7 @@ export const SubmissionService = {
     return axios
       .get<BackendSubmission>(`/submissions/${submissionUUID}`)
       .then((response) =>
-        Converter.convertFromBackendToSubmission(response.data)
+        Converter.convertFromBackendToSubmission(response.data),
       )
   },
   getSubmissions: (): Promise<Submission[]> => {
@@ -40,28 +32,28 @@ export const SubmissionService = {
       .get<BackendSubmission[]>('/submissions')
       .then((response) =>
         response.data.map((submission) =>
-          Converter.convertFromBackendToSubmission(submission)
-        )
+          Converter.convertFromBackendToSubmission(submission),
+        ),
       )
   },
   createSubmission: (submission: Submission): Promise<Submission> => {
     return axios
       .post<BackendSubmissionRequest, AxiosResponse<BackendSubmission>>(
         '/submissions',
-        Converter.convertToBackendSubmissionRequest(submission)
+        Converter.convertToBackendSubmissionRequest(submission),
       )
       .then((response) =>
-        Converter.convertFromBackendToSubmission(response.data)
+        Converter.convertFromBackendToSubmission(response.data),
       )
   },
   updateSubmission: (submission: Submission): Promise<Submission> => {
     return axios
       .put<BackendSubmissionRequest, AxiosResponse<BackendSubmission>>(
         `/submissions/${submission.submissionUUID}`,
-        Converter.convertToBackendSubmissionRequest(submission)
+        Converter.convertToBackendSubmissionRequest(submission),
       )
       .then((response) =>
-        Converter.convertFromBackendToSubmission(response.data)
+        Converter.convertFromBackendToSubmission(response.data),
       )
   },
   // TODO #11

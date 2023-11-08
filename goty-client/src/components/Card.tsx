@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Required } from '../util/global-styles'
+import { CSSProperties } from 'react'
 
 export interface CardProps {
   title?: string
@@ -8,6 +9,7 @@ export interface CardProps {
   subtitle?: string
   paddingPx?: number
   border?: boolean
+  style?: CSSProperties
 }
 
 export interface TitleFont {
@@ -56,7 +58,11 @@ export const Card = (props: React.PropsWithChildren<CardProps>) => {
       </Header>
     ) : null
   return (
-    <CardContainer $paddingPx={props.paddingPx} $border={props.border ?? true}>
+    <CardContainer
+      $paddingPx={props.paddingPx}
+      $border={props.border ?? true}
+      style={props.style}
+    >
       {header}
       <div>{props.children}</div>
     </CardContainer>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Submission } from '../../api/submissionService'
 import {
   selectIsLoading,
   selectSubmissions,

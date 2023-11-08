@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion'
 import React from 'react'
-import { Game } from '../../../api/gameService'
 import { MoveDirection } from '../GOTY'
 import { ListItem } from './ListItem'
+import { Game } from '../../../models/Game'
 
 const spring = {
   type: 'spring',
@@ -24,7 +24,7 @@ export const OrderableList = (props: OrderableListProps) => {
         <motion.div key={game.id} layout transition={spring}>
           <ListItem
             readonly={props.readonly}
-            orderable
+            ordered
             handleDelete={props.handleDelete}
             handleMove={props.handleMove}
             game={game}

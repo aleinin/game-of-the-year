@@ -1,5 +1,3 @@
-import { isEqual } from 'lodash'
-import { Submission } from '../../api/submissionService'
 import {
   NEXT_STEP,
   RECOVER_SUBMISSION,
@@ -10,6 +8,7 @@ import {
   SUBMIT_SUCCESS,
   UPDATE_FORM,
 } from './actions'
+import { isEqual, Submission } from '../../models/Submission'
 
 export enum SubmissionStep {
   Start,
@@ -56,7 +55,7 @@ const initialState: SubmissionState = {
 
 const setExistingSubmission = (
   state: SubmissionState,
-  submission: Submission
+  submission: Submission,
 ): SubmissionState => ({
   ...state,
   isEdit: true,
@@ -67,7 +66,7 @@ const setExistingSubmission = (
 
 export const submissionReducer = (
   state = initialState,
-  action: SubmissionAction
+  action: SubmissionAction,
 ): SubmissionState => {
   switch (action.type) {
     case SET:
@@ -96,8 +95,8 @@ export const submissionReducer = (
         default:
           throw new Error(
             `Bad State/Action: ${JSON.stringify(action)} ${JSON.stringify(
-              state
-            )}`
+              state,
+            )}`,
           )
       }
       return {

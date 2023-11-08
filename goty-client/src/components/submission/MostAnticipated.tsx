@@ -3,7 +3,7 @@ import { useStore } from 'react-redux'
 import { createUpdateMostAnticipatedAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
 import { SingleGame } from './shared/SingleGame'
-import { Game } from '../../models/Game'
+import { Game } from '../../models/game'
 
 export interface MostAnticipatedProps {
   readonly: boolean

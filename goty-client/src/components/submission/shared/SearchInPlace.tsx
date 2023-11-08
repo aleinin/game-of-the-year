@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { ListItem } from './ListItem'
 import { Search } from './Search'
-import { Game } from '../../../models/Game'
+import { Game } from '../../../models/game'
 
 export interface SearchInPlaceProps {
   readonly: boolean

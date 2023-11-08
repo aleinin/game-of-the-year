@@ -12,7 +12,7 @@ import { MostAnticipated } from '../submission/MostAnticipated'
 import { Name } from '../submission/Name'
 import { OldGame } from '../submission/OldGame'
 import { Paginator } from './Paginator'
-import { Submission } from '../../models/Submission'
+import { Submission } from '../../models/submission'
 
 export const Submissions = () => {
   const [index, setIndex] = useState(0)

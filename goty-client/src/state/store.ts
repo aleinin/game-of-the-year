@@ -1,7 +1,8 @@
 import { combineReducers, createStore, Store } from '@reduxjs/toolkit'
-import { Properties, propertiesReducer } from './properties/reducer'
+import { propertiesReducer } from './properties/reducer'
 import { resultsReducer, ResultsState } from './results/reducer'
 import { submissionReducer, SubmissionState } from './submission/reducer'
+import { Properties } from '../models/properties'
 
 export type AppState = {
   properties: Properties

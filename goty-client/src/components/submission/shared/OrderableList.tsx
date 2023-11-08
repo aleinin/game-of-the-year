@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import React from 'react'
 import { MoveDirection } from '../GOTY'
 import { ListItem } from './ListItem'
-import { Game } from '../../../models/Game'
+import { Game } from '../../../models/game'
 
 const spring = {
   type: 'spring',

@@ -1,4 +1,4 @@
-import { Game, isEqual as gameIsEqual } from './Game'
+import { Game, isEqual as gameIsEqual } from './game'
 
 export interface Submission {
   submissionUUID: string

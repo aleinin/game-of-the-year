@@ -7,7 +7,7 @@ import { indexToOrdinal } from '../../util/index-to-ordinal'
 import { Card } from '../Card'
 import { OrderableList } from './shared/OrderableList'
 import { Search } from './shared/Search'
-import { Game } from '../../models/Game'
+import { Game } from '../../models/game'
 
 export interface GOTYProps {
   games: Game[]

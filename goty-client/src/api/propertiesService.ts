@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { Properties } from '../state/properties/reducer'
 import { dateStringToTwelveHourString } from '../util/time'
+import { Properties } from '../models/properties'
 
 export interface BackendProperties {
   tiePoints: number[]

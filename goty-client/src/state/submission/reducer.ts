@@ -8,7 +8,7 @@ import {
   SUBMIT_SUCCESS,
   UPDATE_FORM,
 } from './actions'
-import { isEqual, Submission } from '../../models/Submission'
+import { isEqual, Submission } from '../../models/submission'
 
 export enum SubmissionStep {
   Start,

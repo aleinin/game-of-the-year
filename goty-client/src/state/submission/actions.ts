@@ -1,6 +1,6 @@
 import { SubmissionState } from './reducer'
-import { Submission } from '../../models/Submission'
-import { Game } from '../../models/Game'
+import { Submission } from '../../models/submission'
+import { Game } from '../../models/game'
 
 export const SET = 'SET'
 export const UPDATE_FORM = 'UPDATE_FORM'

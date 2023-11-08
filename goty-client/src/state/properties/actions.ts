@@ -1,4 +1,4 @@
-import { Properties } from './reducer'
+import { Properties } from '../../models/properties'
 
 export const SET_PROPERTIES = 'SET_PROPERTIES'
 

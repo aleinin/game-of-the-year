@@ -1,14 +1,5 @@
 import { PropertiesActions, SET_PROPERTIES } from './actions'
-
-export interface Properties {
-  tiePoints: number[]
-  year: number
-  deadline: string
-  hasGiveaway: boolean
-  giveawayAmountUSD: number
-  maxGamesOfTheYear: number
-  isGotyConcluded: boolean
-}
+import { Properties } from '../../models/properties'
 
 const currentYear = () => new Date().getFullYear()
 

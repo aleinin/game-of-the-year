@@ -1,9 +1,9 @@
-import { Results } from '../../api/resultsService'
 import { Summary } from './Summary'
 import { useSelector } from 'react-redux'
 import { selectIsLoading, selectResults } from '../../state/results/selectors'
 import { Loading } from '../Loading'
 import { Card } from '../Card'
+import { Results } from '../../models/results'
 
 export interface ResultsContainerProps {}
 

@@ -1,12 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import {
-  Results,
-  GameResult,
-  GameOfTheYearResult,
-} from '../../api/resultsService'
 import { selectProperties } from '../../state/properties/selectors'
 import { ResultsTable } from './ResultsTable'
+import { Results } from '../../models/results'
+import { GameResult } from '../../models/gameResult'
+import { GameOfTheYearResult } from '../../models/gameOfTheYearResult'
 
 const gameColumns = ['rank', 'title', 'votes']
 const gameOfTheYearColumns = [...gameColumns, 'points']

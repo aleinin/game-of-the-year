@@ -1,11 +1,11 @@
-import { Results } from '../../api/resultsService'
 import {
   ResultsAction,
   SET_LOADING,
   SET_RESULTS,
   SET_SUBMISSIONS,
 } from './actions'
-import { Submission } from '../../models/Submission'
+import { Submission } from '../../models/submission'
+import { Results } from '../../models/results'
 
 export interface ResultsState {
   results: Results

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { disableColor } from '../../../util/global-styles'
 import { indexToOrdinal } from '../../../util/index-to-ordinal'
 import { MoveDirection } from '../GOTY'
-import { Game } from '../../../models/Game'
+import { Game } from '../../../models/game'
 
 export interface ListItemProps {
   readonly: boolean

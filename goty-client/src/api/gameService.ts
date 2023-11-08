@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Game } from '../models/Game'
+import { Game } from '../models/game'
 
 export interface SearchGameParams {
   title: string

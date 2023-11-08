@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { Converter } from '../util/converter'
-import { Submission } from '../models/Submission'
-import { Game } from '../models/Game'
+import { Submission } from '../models/submission'
+import { Game } from '../models/game'
 
 export interface BackendSubmission extends BackendSubmissionRequest {
   id: string

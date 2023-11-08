@@ -1,9 +1,10 @@
-import { BackendResults, Results } from '../api/resultsService'
+import { BackendResults } from '../api/resultsService'
 import {
   BackendSubmission,
   BackendSubmissionRequest,
 } from '../api/submissionService'
-import { Submission } from '../models/Submission'
+import { Submission } from '../models/submission'
+import { Results } from '../models/results'
 
 export const Converter = {
   convertToBackendSubmissionRequest: (

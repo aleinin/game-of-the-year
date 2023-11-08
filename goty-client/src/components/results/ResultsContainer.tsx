@@ -5,12 +5,10 @@ import { Loading } from '../Loading'
 import { Card } from '../Card'
 import { Results } from '../../models/results'
 
-export interface ResultsContainerProps {}
-
 const isEmptyResults = (results: Results) =>
   Object.values(results).every((value) => value.length === 0)
 
-export const ResultsContainer = (props: ResultsContainerProps) => {
+export const ResultsContainer = () => {
   const isLoading = useSelector(selectIsLoading)
   const results = useSelector(selectResults)
   if (isLoading) {

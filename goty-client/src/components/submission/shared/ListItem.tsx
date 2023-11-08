@@ -62,7 +62,7 @@ export const ReorderArrow = styled.i<{ disabled: boolean }>`
 `
 
 export const RemoveMinus = styled.i`
-  ${shared}
+  ${shared};
   cursor: pointer;
   color: #b00020;
   &:hover {
@@ -78,7 +78,7 @@ const getControls = (props: ListItemProps) => {
   const deleteControl = (
     <RemoveMinus
       className="pi pi-minus big-pi"
-      onClick={(e) => props.handleDelete(props.game)}
+      onClick={() => props.handleDelete(props.game)}
     />
   )
   if (!props.ordered) {

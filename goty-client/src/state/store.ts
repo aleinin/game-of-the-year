@@ -16,11 +16,9 @@ const rootReducer = combineReducers<AppState>({
   results: resultsReducer,
 })
 
-export const configureStore = (): Store<AppState> => {
-  const store = createStore(
+export const configureStore = (): Store<AppState> =>
+  createStore(
     rootReducer,
     (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-      (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__()
   )
-  return store
-}

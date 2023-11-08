@@ -5,9 +5,13 @@ import styled from 'styled-components'
 import { SubmissionService } from '../api/submissionService'
 import { createNextStepAction } from '../state/submission/actions'
 import { Card } from './Card'
-import { GotyInputWithSubmitButton } from './styled-controls/GotyInputWithSubmitButton'
+import { TextInput } from './controls/TextInput'
+import { Button } from './controls/Button'
 
-export interface RecoveryProps {}
+const StyledContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+`
 
 const Error = styled.h4`
   color: #b00020;
@@ -43,7 +47,7 @@ export const Recovery = () => {
       .then(() => {
         localStorage.setItem('submissionUUID', uuid)
         store.dispatch(createNextStepAction())
-          navigate('/submission')
+        navigate('/submission')
       })
       .catch(() => {
         setIsLoading(false)
@@ -58,16 +62,21 @@ export const Recovery = () => {
         paste the key you were given below:
       </h4>
       {failed ? getFailed() : null}
-      <GotyInputWithSubmitButton
-        value={uuid}
-        onChange={(e) => setUuid(e.target.value)}
-        placeholder="Paste key here"
-        disabled={!valid}
-        label="Submit"
-        onClick={handleSubmit}
-        buttonStyle={{ minWidth: '120px' }}
-        loading={isLoading}
-      />
+      <StyledContainer>
+        <TextInput
+          id="recovery"
+          value={uuid}
+          onChange={setUuid}
+          placeholder="Paste key here"
+        />
+        <Button
+          disabled={!valid}
+          label="Submit"
+          onClick={handleSubmit}
+          style={{ minWidth: '120px' }}
+          loading={isLoading}
+        />
+      </StyledContainer>
     </Card>
   )
 }

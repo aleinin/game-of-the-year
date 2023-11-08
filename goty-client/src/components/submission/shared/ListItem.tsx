@@ -2,6 +2,10 @@ import styled from 'styled-components'
 import { disableColor } from '../../../util/global-styles'
 import { indexToOrdinal } from '../../../util/index-to-ordinal'
 import { MoveDirection } from '../GOTY'
+import { IconButton } from '../../controls/table/IconButton'
+import { ChevronUp } from '../../../icons/chevron/ChevronUp'
+import { ChevronDown } from '../../../icons/chevron/ChevronDown'
+import { Minus } from '../../../icons/minus/Minus'
 import { Game } from '../../../models/game'
 
 export interface ListItemProps {
@@ -32,7 +36,7 @@ const MarginRight = styled.span`
   margin-right: 5px;
 `
 
-const Controls = styled.div`
+const ControlsStyle = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -71,57 +75,70 @@ export const RemoveMinus = styled.i`
   }
 `
 
-const getControls = (props: ListItemProps) => {
-  if (props.readonly) {
-    return null
-  }
-  const deleteControl = (
-    <RemoveMinus
-      className="pi pi-minus big-pi"
-      onClick={() => props.handleDelete(props.game)}
-    />
-  )
-  if (!props.ordered) {
-    return <Controls>{deleteControl}</Controls>
-  }
-  return (
-    <Controls>
-      <ReorderArrow
-        disabled={props.index === 0}
-        className="pi pi-chevron-up"
-        onClick={() =>
-          props.handleMove(props.index, MoveDirection.IncreaseRank)
-        }
-      />
-      <ReorderArrow
-        disabled={props.index === props.currentListLength - 1}
-        className="pi pi-chevron-down"
-        onClick={() =>
-          props.handleMove(props.index, MoveDirection.DecreaseRank)
-        }
-      />
-      {deleteControl}
-    </Controls>
-  )
-}
-
-const getTitle = ({ ordered, index, game }: ListItemProps) => {
-  return (
-    <div>
-      {ordered ? <MarginRight>{indexToOrdinal(index)}:</MarginRight> : null}
-      <MarginRight>{game?.title}</MarginRight>
-    </div>
-  )
-}
-
-export const ListItem = (props: ListItemProps) => {
-  if (!props.game) {
+export const ListItem = ({
+  index,
+  handleMove,
+  handleDelete,
+  ordered,
+  currentListLength,
+  readonly,
+  game,
+}: ListItemProps) => {
+  if (!game) {
     return null
   }
   return (
     <ListItemContainer>
-      {getTitle(props)}
-      {getControls(props)}
+      <div>
+        {ordered ? <MarginRight>{indexToOrdinal(index)}:</MarginRight> : null}
+        <MarginRight>{game?.title}</MarginRight>
+      </div>
+      {!readonly && (
+        <Controls
+          index={index}
+          handleMove={handleMove}
+          handleDelete={() => handleDelete(game)}
+          ordered={ordered}
+          currentListLength={currentListLength}
+        />
+      )}
     </ListItemContainer>
   )
 }
+
+interface ControlsProps {
+  index: number
+  handleMove: (index: number, direction: MoveDirection) => void
+  handleDelete: () => void
+  ordered: boolean
+  currentListLength: number
+}
+const Controls = ({
+  index,
+  handleMove,
+  handleDelete,
+  ordered,
+  currentListLength,
+}: ControlsProps) => (
+  <ControlsStyle>
+    {ordered && (
+      <>
+        <IconButton
+          disabled={index === 0}
+          onClick={() => handleMove(index, MoveDirection.IncreaseRank)}
+        >
+          <ChevronUp />
+        </IconButton>
+        <IconButton
+          disabled={index === currentListLength - 1}
+          onClick={() => handleMove(index, MoveDirection.DecreaseRank)}
+        >
+          <ChevronDown />
+        </IconButton>
+      </>
+    )}
+    <IconButton onClick={() => handleDelete()}>
+      <Minus />
+    </IconButton>
+  </ControlsStyle>
+)

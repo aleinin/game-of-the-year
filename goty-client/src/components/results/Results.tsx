@@ -1,18 +1,27 @@
 import React, { useEffect } from 'react'
 import { useStore } from 'react-redux'
-import {
-  useNavigate,
-} from 'react-router'
-import {Outlet, useLocation} from 'react-router-dom'
+import { useNavigate } from 'react-router'
+import { Outlet, useLocation } from 'react-router-dom'
 import { loadResultsAndSubmissions } from '../../state/results/middleware'
-import { capitalizeFirstLetter } from '../../util/capitalize-first-letter'
 import { Card } from '../Card'
-import { GotyTabView } from '../styled-controls/GotyTabView'
-import {TabPanel} from 'primereact/tabview'
+import { TabButtons } from '../controls/Tabs'
 
-export const RouteMap = {
-  0: 'summary',
-  1: 'responses',
+export enum Tabs {
+  SUMMARY = 'Summary',
+  RESPONSES = 'Responses',
+}
+
+const tabs = [Tabs.SUMMARY, Tabs.RESPONSES]
+
+const getActiveTab = (path: string) => {
+  if (path.includes(`/${Tabs.SUMMARY}`)) {
+    return Tabs.SUMMARY
+  }
+  if (path.includes(`/${Tabs.RESPONSES}`)) {
+    return Tabs.RESPONSES
+  }
+  console.warn(`Unknown path: ${path}`)
+  return Tabs.SUMMARY
 }
 
 export const ResultsComponent = () => {
@@ -21,30 +30,20 @@ export const ResultsComponent = () => {
     loadResultsAndSubmissions(store)
   }, [store])
   const navigate = useNavigate()
-  const {pathname} = useLocation()
-  const activeIndex = pathname.includes(`/${RouteMap[0]}`) ? 0 : 1
+  const { pathname } = useLocation()
+  const activeTab = getActiveTab(pathname)
   useEffect(() => {
-    document.title = `TMW GOTY - ${capitalizeFirstLetter(
-      RouteMap[activeIndex]
-    )}`
-  }, [activeIndex])
-  const handleRoute = (index: number) => {
-    if (index !== 0 && index !== 1) {
-      return
-    }
-    const route = RouteMap[index]
-    navigate(`${route}`)
-  }
+    document.title = `TMW GOTY - ${activeTab}`
+  }, [activeTab])
+  const handleTabChange = (tab: string) => navigate(`${tab}`)
   return (
     <>
       <Card>
-        <GotyTabView
-          activeIndex={activeIndex}
-          onTabChange={(e) => handleRoute(e.index)}
-        >
-          <TabPanel header="Summary" />
-          <TabPanel header="Individual Responses" />
-        </GotyTabView>
+        <TabButtons
+          tabs={tabs}
+          onChange={handleTabChange}
+          selectedTab={activeTab}
+        />
       </Card>
       <Outlet />
     </>

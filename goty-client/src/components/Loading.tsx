@@ -1,12 +1,3 @@
-import { ProgressSpinner } from 'primereact/progressspinner'
-import styled from 'styled-components'
+import { Spinner } from './controls/Spinner'
 
-const LoadingContainer = styled.div`
-  display: flex;
-`
-
-export const Loading = () => (
-  <LoadingContainer>
-    <ProgressSpinner />
-  </LoadingContainer>
-)
+export const Loading = () => <Spinner sizePx={80} />

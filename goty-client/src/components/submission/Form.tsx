@@ -13,8 +13,8 @@ import {
   createSubmitFailAction,
   createSubmitSuccessAction,
 } from '../../state/submission/actions'
-import { GotyButton } from '../styled-controls/GotyButton'
 import { selectProperties } from '../../state/properties/selectors'
+import { Button } from '../controls/Button'
 
 export const Form = () => {
   const store = useStore()
@@ -51,10 +51,11 @@ export const Form = () => {
       {hasGiveaway ? (
         <Giveaway readonly={false} enteredGiveaway={form.enteredGiveaway} />
       ) : null}
-      <GotyButton
+      <Button
         style={{ width: '100%' }}
+        label={'Submit'}
         disabled={!isValid}
-        label="Submit"
+        loading={false}
         onClick={handleSubmit}
       />
     </>

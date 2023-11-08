@@ -6,8 +6,8 @@ import { selectIsEdit } from '../../state/submission/selector'
 import { createNextStepAction } from '../../state/submission/actions'
 import { ResultsContainer } from '../results/ResultsContainer'
 import { loadResults } from '../../state/results/middleware'
-import { GotyButton } from '../styled-controls/GotyButton'
 import { selectProperties } from '../../state/properties/selectors'
+import { Button } from '../controls/Button'
 
 export interface StartProps {
   isLoading: boolean
@@ -58,12 +58,11 @@ const SubmissionButtons = ({
   return (
     <Card>
       <ButtonSet>
-        <GotyButton
-          style={{ width: '100%' }}
+        <Button
           label={`${labelAdjective} Submission`}
-          onClick={handleClick}
           disabled={isLoading}
           loading={isLoading}
+          onClick={handleClick}
         />
       </ButtonSet>
     </Card>

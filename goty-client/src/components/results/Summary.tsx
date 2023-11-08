@@ -2,12 +2,53 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectProperties } from '../../state/properties/selectors'
 import { ResultsTable } from './ResultsTable'
-import { Results } from '../../models/results'
-import { GameResult } from '../../models/gameResult'
+import { Table } from '../controls/table/Table'
+import { Card } from '../Card'
+import { Header } from '../controls/table/Table.types'
 import { GameOfTheYearResult } from '../../models/gameOfTheYearResult'
+import { GameResult } from '../../models/gameResult'
+import { Results } from '../../models/results'
 
 const gameColumns = ['rank', 'title', 'votes']
-const gameOfTheYearColumns = [...gameColumns, 'points']
+const gameHeaders: Header<GameResult>[] = [
+  {
+    label: 'Rank',
+    accessorFn: (game: GameResult) => game.rank,
+    key: 'rank',
+  },
+  {
+    label: 'Title',
+    accessorFn: (game: GameResult) => game.title,
+    key: 'title',
+  },
+  {
+    label: 'Votes',
+    accessorFn: (game: GameResult) => game.votes,
+    key: 'votes',
+  },
+]
+const gotyHeaders: Header<GameOfTheYearResult>[] = [
+  {
+    label: 'Rank',
+    accessorFn: (game: GameOfTheYearResult) => game.rank,
+    key: 'rank',
+  },
+  {
+    label: 'Title',
+    accessorFn: (game: GameOfTheYearResult) => game.title,
+    key: 'title',
+  },
+  {
+    label: 'Votes',
+    accessorFn: (game: GameOfTheYearResult) => game.votes,
+    key: 'votes',
+  },
+  {
+    label: 'Points',
+    accessorFn: (game: GameOfTheYearResult) => game.points,
+    key: 'points',
+  },
+]
 
 export interface SummaryProps {
   results: Results
@@ -17,11 +58,11 @@ export const Summary = ({ results }: SummaryProps) => {
   const { year } = useSelector(selectProperties)
   return (
     <>
-      <Respondents rows={results.participants} />
+      {/*<Respondents rows={results.participants} />*/}
       <GOTYResults rows={results.gamesOfTheYear} />
       <BestOldGameResults rows={results.bestOldGames} year={year} />
       <MostAnticipatedResults rows={results.mostAnticipated} />
-      <GiveawayParticipants rows={results.giveawayParticipants} />
+      {/*<GiveawayParticipants rows={results.giveawayParticipants} />*/}
     </>
   )
 }
@@ -56,43 +97,63 @@ const getGameResultStyle = (row: any): object => {
   return { 'ranked-eliminated': true }
 }
 
-const Respondents = ({ rows }: ResultSummaryProps) => (
+// const Respondents = ({ rows }: ResultSummaryProps) => (
+//   <ResultsTable
+//     title="Respondents"
+//     rows={rows}
+//     columnConfig={[]}
+//     rowStyle={() => ({})}
+//   />
+// )
+const GOTYResults = ({ rows }: { rows: GameOfTheYearResult[] }) => (
   <ResultsTable
-    title="Respondents"
-    rows={rows}
-    columnConfig={[]}
-    rowStyle={() => ({})}
-  />
-)
-const GOTYResults = ({ rows, maxListSize }: ResultSummaryProps) => (
-  <ResultsTable
+    id={'gotyTable'}
     title="Games of the Year"
     rows={rows}
-    columnConfig={gameOfTheYearColumns}
-    rowStyle={buildGetGOTYStyle(maxListSize)}
+    headers={gotyHeaders}
   />
 )
-const BestOldGameResults = ({ rows, year }: ResultSummaryProps) => (
+// const gen = () => {
+//   const d = []
+//   for (let i = 0; i < 26; i++) {
+//     d.push({
+//       id: i.toString(),
+//       rank: i,
+//       title: `game ${i + 1}`,
+//       votes: 26 - i,
+//       points: 100 - i,
+//     })
+//   }
+//   return d
+// }
+
+const BestOldGameResults = ({
+  rows,
+  year,
+}: {
+  rows: GameResult[]
+  year?: number
+}) => (
   <ResultsTable
+    id={'bestOldGameTable'}
     title={`Old game of ${year ?? new Date().getFullYear()}`}
     rows={rows}
-    columnConfig={gameColumns}
-    rowStyle={getGameResultStyle}
+    headers={gameHeaders}
   />
 )
-const MostAnticipatedResults = ({ rows }: ResultSummaryProps) => (
+const MostAnticipatedResults = ({ rows }: { rows: GameResult[] }) => (
   <ResultsTable
+    id="mostAnticipatedGameTable"
     title="Most Anticipated Game"
     rows={rows}
-    columnConfig={gameColumns}
-    rowStyle={getGameResultStyle}
+    headers={gameHeaders}
   />
 )
-const GiveawayParticipants = ({ rows }: ResultSummaryProps) => (
-  <ResultsTable
-    title="Giveaway entries"
-    rows={rows}
-    columnConfig={[]}
-    rowStyle={() => ({})}
-  />
-)
+// const GiveawayParticipants = ({ rows }: ResultSummaryProps) => (
+//   <ResultsTable
+//     title="Giveaway entries"
+//     rows={rows}
+//     columnConfig={[]}
+//     rowStyle={() => ({})}
+//   />
+// )

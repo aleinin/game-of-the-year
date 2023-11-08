@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { disableColor } from '../../../util/global-styles'
 import { indexToOrdinal } from '../../../util/index-to-ordinal'
 import { MoveDirection } from '../GOTY'
+import { Game } from '../../../models/Game'
 
 export interface ListItemProps {
   readonly: boolean
@@ -55,7 +56,7 @@ cursor: pointer
 `
 
 export const ReorderArrow = styled.i<{ disabled: boolean }>`
-  ${shared}
+  ${shared};
   margin-right: 5px;
   ${({ disabled }) => (disabled ? disabledStyle : enabledReorderStyle)}
 `
@@ -80,7 +81,7 @@ const getControls = (props: ListItemProps) => {
       onClick={(e) => props.handleDelete(props.game)}
     />
   )
-  if (!props.orderable) {
+  if (!props.ordered) {
     return <Controls>{deleteControl}</Controls>
   }
   return (
@@ -104,10 +105,10 @@ const getControls = (props: ListItemProps) => {
   )
 }
 
-const getTitle = ({ orderable, index, game }: ListItemProps) => {
+const getTitle = ({ ordered, index, game }: ListItemProps) => {
   return (
     <div>
-      {orderable ? <MarginRight>{indexToOrdinal(index)}:</MarginRight> : null}
+      {ordered ? <MarginRight>{indexToOrdinal(index)}:</MarginRight> : null}
       <MarginRight>{game?.title}</MarginRight>
     </div>
   )

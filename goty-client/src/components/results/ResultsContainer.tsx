@@ -1,16 +1,14 @@
-import { Results } from '../../api/resultsService'
 import { Summary } from './Summary'
 import { useSelector } from 'react-redux'
 import { selectIsLoading, selectResults } from '../../state/results/selectors'
 import { Loading } from '../Loading'
 import { Card } from '../Card'
-
-export interface ResultsContainerProps {}
+import { Results } from '../../models/results'
 
 const isEmptyResults = (results: Results) =>
   Object.values(results).every((value) => value.length === 0)
 
-export const ResultsContainer = (props: ResultsContainerProps) => {
+export const ResultsContainer = () => {
   const isLoading = useSelector(selectIsLoading)
   const results = useSelector(selectResults)
   if (isLoading) {

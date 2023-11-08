@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { Game } from '../../../api/gameService'
 import { ListItem } from './ListItem'
 import { Search } from './Search'
+import { Game } from '../../../models/game'
 
 export interface SearchInPlaceProps {
   readonly: boolean
@@ -26,7 +26,7 @@ export const SearchInPlace = (props: SearchInPlaceProps) => {
     return (
       <ListItem
         readonly={props.readonly}
-        orderable={false}
+        ordered={false}
         game={props.game}
         handleDelete={handleDelete}
         handleMove={() => {}}

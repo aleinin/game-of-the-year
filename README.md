@@ -26,10 +26,10 @@ The app was built to be easily customizable and reusable year to year while stil
 ## Tech Stack
 
 - Frontend:
-  - React 17
+  - React 18
   - Styled Components
   - Redux
-  - Typescript 4.4
+  - Typescript
   - Axios
   - PrimeReact
   - Jest

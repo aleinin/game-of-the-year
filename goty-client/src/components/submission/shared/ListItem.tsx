@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import { Game } from '../../../api/gameService'
 import { disableColor } from '../../../util/global-styles'
 import { indexToOrdinal } from '../../../util/index-to-ordinal'
 import { MoveDirection } from '../GOTY'
+import { Game } from '../../../models/game'
 
 export interface ListItemProps {
   readonly: boolean
-  orderable: boolean
+  ordered: boolean
   game: Game
   index: number
   currentListLength: number
@@ -56,13 +56,13 @@ cursor: pointer
 `
 
 export const ReorderArrow = styled.i<{ disabled: boolean }>`
-  ${shared}
+  ${shared};
   margin-right: 5px;
   ${({ disabled }) => (disabled ? disabledStyle : enabledReorderStyle)}
 `
 
 export const RemoveMinus = styled.i`
-  ${shared}
+  ${shared};
   cursor: pointer;
   color: #b00020;
   &:hover {
@@ -78,10 +78,10 @@ const getControls = (props: ListItemProps) => {
   const deleteControl = (
     <RemoveMinus
       className="pi pi-minus big-pi"
-      onClick={(e) => props.handleDelete(props.game)}
+      onClick={() => props.handleDelete(props.game)}
     />
   )
-  if (!props.orderable) {
+  if (!props.ordered) {
     return <Controls>{deleteControl}</Controls>
   }
   return (
@@ -105,10 +105,10 @@ const getControls = (props: ListItemProps) => {
   )
 }
 
-const getTitle = ({ orderable, index, game }: ListItemProps) => {
+const getTitle = ({ ordered, index, game }: ListItemProps) => {
   return (
     <div>
-      {orderable ? <MarginRight>{indexToOrdinal(index)}:</MarginRight> : null}
+      {ordered ? <MarginRight>{indexToOrdinal(index)}:</MarginRight> : null}
       <MarginRight>{game?.title}</MarginRight>
     </div>
   )

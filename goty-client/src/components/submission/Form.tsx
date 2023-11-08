@@ -16,7 +16,7 @@ import {
 import { GotyButton } from '../styled-controls/GotyButton'
 import { selectProperties } from '../../state/properties/selectors'
 
-export const Form = (s) => {
+export const Form = () => {
   const store = useStore()
   const { isValid, isEdit, form } = useSelector(selectSubmissionState)
   const { hasGiveaway } = useSelector(selectProperties)

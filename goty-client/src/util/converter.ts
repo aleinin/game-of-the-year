@@ -1,13 +1,14 @@
-import { BackendResults, Results } from '../api/resultsService'
+import { BackendResults } from '../api/resultsService'
 import {
   BackendSubmission,
   BackendSubmissionRequest,
-  Submission,
 } from '../api/submissionService'
+import { Submission } from '../models/submission'
+import { Results } from '../models/results'
 
 export const Converter = {
   convertToBackendSubmissionRequest: (
-    submission: Submission
+    submission: Submission,
   ): BackendSubmissionRequest => ({
     name: submission.name,
     gamesOfTheYear: submission.gamesOfTheYear.map((game, i) => ({
@@ -19,7 +20,7 @@ export const Converter = {
     enteredGiveaway: submission.enteredGiveaway,
   }),
   convertFromBackendToSubmission: (
-    backendSubmission: BackendSubmission
+    backendSubmission: BackendSubmission,
   ): Submission => ({
     submissionUUID: backendSubmission.id,
     name: backendSubmission.name,
@@ -32,7 +33,7 @@ export const Converter = {
     enteredGiveaway: backendSubmission.enteredGiveaway,
   }),
   convertFromBackendResultsToResults: (
-    backendResults: BackendResults
+    backendResults: BackendResults,
   ): Results => ({
     participants: backendResults.participants,
     gamesOfTheYear: backendResults.gamesOfTheYear,

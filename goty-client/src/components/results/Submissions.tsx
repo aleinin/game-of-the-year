@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Submission } from '../../api/submissionService'
 import {
   selectIsLoading,
   selectSubmissions,
@@ -13,10 +12,9 @@ import { MostAnticipated } from '../submission/MostAnticipated'
 import { Name } from '../submission/Name'
 import { OldGame } from '../submission/OldGame'
 import { Paginator } from './Paginator'
+import { Submission } from '../../models/submission'
 
-export interface SubmissionsProps {}
-
-export const Submissions = (props: SubmissionsProps) => {
+export const Submissions = () => {
   const [index, setIndex] = useState(0)
   const isLoading = useSelector(selectIsLoading)
   const submissions = useSelector(selectSubmissions)

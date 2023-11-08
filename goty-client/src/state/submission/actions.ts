@@ -1,6 +1,6 @@
-import { Game } from '../../api/gameService'
-import { Submission } from '../../api/submissionService'
 import { SubmissionState } from './reducer'
+import { Submission } from '../../models/submission'
+import { Game } from '../../models/game'
 
 export const SET = 'SET'
 export const UPDATE_FORM = 'UPDATE_FORM'
@@ -54,21 +54,21 @@ export const createUpdateBestOldGameAction = (bestOldGame: Game | null) => ({
 })
 
 export const createUpdateMostAnticipatedAction = (
-  mostAnticipated: Game | null
+  mostAnticipated: Game | null,
 ) => ({
   type: UPDATE_FORM,
   payload: { key: 'mostAnticipated', value: mostAnticipated },
 })
 
 export const createUpdateEnteredGiveawayAction = (
-  enteredGiveaway: boolean
+  enteredGiveaway: boolean,
 ) => ({
   type: UPDATE_FORM,
   payload: { key: 'enteredGiveaway', value: enteredGiveaway },
 })
 
 export const createSetValidatorFunctionAction = (
-  validatorFn: (state: SubmissionState) => boolean
+  validatorFn: (state: SubmissionState) => boolean,
 ) => ({
   type: SET_VALIDATOR_FN,
   payload: validatorFn,

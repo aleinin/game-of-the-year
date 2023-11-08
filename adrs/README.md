@@ -17,4 +17,3 @@ With so much time passing, my philosophy often has changed as I've grown as a de
 * The backend used to harvest from IGDB and load into an Elasticsearch, now it queries IGDB directly.
 
 All these decisions had a reason, but as the years go on I forget. So, going forward i'm going to attempt to write -why- I made a decision so when I come back the next year, i can remind myself. 
-

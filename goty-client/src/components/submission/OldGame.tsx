@@ -1,9 +1,9 @@
 import { useSelector, useStore } from 'react-redux'
-import { Game } from '../../api/gameService'
 import { selectProperties } from '../../state/properties/selectors'
 import { createUpdateBestOldGameAction } from '../../state/submission/actions'
 import { generateRules } from '../../util/generate-rules'
 import { SingleGame } from './shared/SingleGame'
+import { Game } from '../../models/game'
 
 export interface OldGameProps {
   readonly: boolean

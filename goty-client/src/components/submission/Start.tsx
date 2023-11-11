@@ -6,8 +6,8 @@ import { selectIsEdit } from '../../state/submission/selector'
 import { createNextStepAction } from '../../state/submission/actions'
 import { ResultsContainer } from '../results/ResultsContainer'
 import { loadResults } from '../../state/results/middleware'
-import { GotyButton } from '../styled-controls/GotyButton'
 import { selectProperties } from '../../state/properties/selectors'
+import { Button } from '../controls/Button/Button'
 
 export interface StartProps {
   isLoading: boolean
@@ -17,10 +17,6 @@ const ButtonSet = styled.div`
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr;
-
-  p-button {
-    margin-top: 10px;
-  }
 `
 
 const Concluded = ({ year }: { year: number }) => {
@@ -58,13 +54,9 @@ const SubmissionButtons = ({
   return (
     <Card>
       <ButtonSet>
-        <GotyButton
-          style={{ width: '100%' }}
-          label={`${labelAdjective} Submission`}
-          onClick={handleClick}
-          disabled={isLoading}
-          loading={isLoading}
-        />
+        <Button disabled={isLoading} onClick={handleClick}>
+          {labelAdjective} Submission
+        </Button>
       </ButtonSet>
     </Card>
   )

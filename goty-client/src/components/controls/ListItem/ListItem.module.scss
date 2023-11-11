@@ -1,0 +1,33 @@
+@import "@/src/colors";
+
+.container {
+  border-radius: 25px;
+  padding: 10px 15px;
+  width: 100%;
+  box-sizing: border-box;
+  height: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  vertical-align: center;
+  align-items: center;
+  background-color: $contentBackgroundLight;
+}
+
+.margin-right-5 {
+  margin-right: 5px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .delete-button {
+    &:hover {
+      color: $red;
+    }
+  }
+}
+

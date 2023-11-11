@@ -107,7 +107,7 @@ export const GOTY = (props: GOTYProps) => {
         props.readonly,
         getRules(properties.deadline, properties.year),
       )}
-      {properties.tiePoints ? getTieBreaker(properties.tiePoints) : null}
+      {!props.readonly && getTieBreaker(properties.tiePoints)}
       {props.readonly ||
       props.games.length === properties.maxGamesOfTheYear ? null : (
         <Search

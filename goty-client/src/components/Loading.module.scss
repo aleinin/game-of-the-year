@@ -1,0 +1,9 @@
+@import "@/src/colors";
+
+.loading {
+  color: $text;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-top: 10px;
+}

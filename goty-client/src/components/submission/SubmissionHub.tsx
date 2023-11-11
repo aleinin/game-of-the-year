@@ -6,15 +6,13 @@ import { SubmissionStep } from '../../state/submission/reducer'
 import { selectSubmissionStep } from '../../state/submission/selector'
 import { End } from './End'
 import { Start } from './Start'
-import { Form } from './Form'
-
-export interface SubmissionStepProps {}
+import { Form } from './Form/Form'
 
 const notNull = (input: string | null | undefined): input is string => {
   return input != null && input !== 'undefined' && input !== 'null'
 }
 
-export const SubmissionHub = (props: SubmissionStepProps) => {
+export const SubmissionHub = () => {
   const store = useStore()
   const [isLoading, setIsLoading] = useState(false)
   const submissionStep = useSelector(selectSubmissionStep)

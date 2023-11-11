@@ -4,7 +4,7 @@ import { useStore } from 'react-redux'
 import { createUpdateNameAction } from '../../state/submission/actions'
 import { useEffect, useState } from 'react'
 import { useDebouncedEffect } from '../../util/use-debounced-effect'
-import { GotyInputText } from '../styled-controls/GotyInputText'
+import { TextInput } from '../controls/TextInput/TextInput'
 
 export interface NameProps {
   name: string
@@ -24,17 +24,18 @@ export const Name = ({ name, readonly }: NameProps) => {
   useDebouncedEffect(
     () => store.dispatch(createUpdateNameAction(localName)),
     [localName],
-    500
+    500,
   )
   const handleChange = (input: string) =>
     readonly ? () => {} : setLocalName(input)
   return (
     <Card title="Name:" required={true}>
       <NameContainer>
-        <GotyInputText
+        <TextInput
+          id="name"
           value={readonly ? name : localName}
-          readOnly={readonly}
-          onChange={(e) => handleChange(e.target.value)}
+          disabled={readonly}
+          onChange={handleChange}
           placeholder="Your Name"
         />
       </NameContainer>

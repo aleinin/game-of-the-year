@@ -5,7 +5,7 @@ import { generateRules } from '../../util/generate-rules'
 import { useSelector, useStore } from 'react-redux'
 import { selectProperties } from '../../state/properties/selectors'
 import { createUpdateEnteredGiveawayAction } from '../../state/submission/actions'
-import { GotyRadioSet, RadioOption } from '../styled-controls/GotyRadioButton'
+import { RadioOption, RadioSet } from '../controls/RadioSet/RadioSet'
 
 export interface GiveawayProps {
   readonly: boolean
@@ -50,11 +50,11 @@ export const Giveaway = (props: GiveawayProps) => {
       required={true}
     >
       {generateRules(props.readonly, rules(deadline))}
-      <GotyRadioSet
+      <RadioSet
         disabled={props.readonly}
         name="giveaway"
-        onChange={(e) => handleClick(e.value)}
         options={options}
+        onChange={handleClick}
         selectedValue={props.enteredGiveaway}
       />
     </Card>

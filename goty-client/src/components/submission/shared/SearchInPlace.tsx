@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ListItem } from './ListItem'
+import { ListItem } from '../../controls/ListItem/ListItem'
 import { Search } from './Search'
 import { Game } from '../../../models/game'
 

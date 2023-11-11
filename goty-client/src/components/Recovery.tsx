@@ -5,9 +5,13 @@ import styled from 'styled-components'
 import { SubmissionService } from '../api/submissionService'
 import { createNextStepAction } from '../state/submission/actions'
 import { Card } from './Card'
-import { GotyInputWithSubmitButton } from './styled-controls/GotyInputWithSubmitButton'
+import { TextInput } from './controls/TextInput/TextInput'
+import { Button } from './controls/Button/Button'
 
-export interface RecoveryProps {}
+const StyledContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+`
 
 const Error = styled.h4`
   color: #b00020;
@@ -29,7 +33,6 @@ export const Recovery = () => {
   const [failed, setFailed] = useState(false)
   const [valid, setValid] = useState(false)
   const [uuid, setUuid] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
     setFailed(false)
     setValid(uuidPattern.test(uuid))
@@ -38,15 +41,13 @@ export const Recovery = () => {
     document.title = 'TMW GOTY - Recovery'
   }, [])
   const handleSubmit = () => {
-    setIsLoading(true)
     SubmissionService.getSubmission(uuid)
       .then(() => {
         localStorage.setItem('submissionUUID', uuid)
         store.dispatch(createNextStepAction())
-          navigate('/submission')
+        navigate('/submission')
       })
       .catch(() => {
-        setIsLoading(false)
         setValid(false)
         setFailed(true)
       })
@@ -58,16 +59,21 @@ export const Recovery = () => {
         paste the key you were given below:
       </h4>
       {failed ? getFailed() : null}
-      <GotyInputWithSubmitButton
-        value={uuid}
-        onChange={(e) => setUuid(e.target.value)}
-        placeholder="Paste key here"
-        disabled={!valid}
-        label="Submit"
-        onClick={handleSubmit}
-        buttonStyle={{ minWidth: '120px' }}
-        loading={isLoading}
-      />
+      <StyledContainer>
+        <TextInput
+          id="recovery"
+          value={uuid}
+          onChange={setUuid}
+          placeholder="Paste key here"
+        />
+        <Button
+          disabled={!valid}
+          onClick={handleSubmit}
+          style={{ minWidth: '120px' }}
+        >
+          Submit
+        </Button>
+      </StyledContainer>
     </Card>
   )
 }

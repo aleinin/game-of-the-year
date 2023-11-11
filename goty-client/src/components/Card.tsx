@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { Required } from '../util/global-styles'
 import { CSSProperties } from 'react'
-
 export interface CardProps {
   title?: string
   titleFontSize?: TitleFont

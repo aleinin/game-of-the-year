@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Container, ValueContainer } from './Dropdown.styles'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
 import styles from './Dropdown.module.scss'
@@ -51,7 +50,11 @@ export const Dropdown = <T,>({
     }
   }, [handleDocumentClick])
   return (
-    <Container ref={ref} $width={width}>
+    <div
+      className={styles.container}
+      ref={ref}
+      style={{ width: `${width ?? '100%'}` }}
+    >
       <div
         className={styles.control}
         role="button"
@@ -60,10 +63,10 @@ export const Dropdown = <T,>({
         onKeyDown={handleClick}
         aria-haspopup="listbox"
       >
-        <ValueContainer>
+        <div className={styles.value}>
           {selected === undefined ? placeholder : accessorFn(selected)}
           <ChevronDown />
-        </ValueContainer>
+        </div>
       </div>
       {isOpen && (
         <DropdownMenu
@@ -73,6 +76,6 @@ export const Dropdown = <T,>({
           accessorFn={accessorFn}
         />
       )}
-    </Container>
+    </div>
   )
 }

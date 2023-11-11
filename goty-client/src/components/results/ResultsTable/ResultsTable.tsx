@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import { Card } from '../Card'
-import { Table } from '../controls/Table/Table'
-import { Header } from '../controls/Table/Table.types'
+import { Card } from '../../controls/Card/Card'
+import { Table } from '../../controls/Table/Table'
+import { Header } from '../../controls/Table/Table.types'
+import styles from './ResultsTable.module.scss'
 
 export interface ResultsTableProps<T> {
   id: string
@@ -11,15 +11,12 @@ export interface ResultsTableProps<T> {
   rowStyleFn?: (row: T) => string
 }
 
-const TableContainer = styled.div`
-  margin-top: 10px;
-`
 export const ResultsTable = <T,>(props: ResultsTableProps<T>) => (
   <Card
     title={props.title}
     subtitle={`${props.rows.length} row${props.rows.length !== 1 ? 's' : ''}`}
   >
-    <TableContainer>
+    <div className={styles.marginTop5}>
       <Table
         headers={props.headers}
         id={props.id}
@@ -27,6 +24,6 @@ export const ResultsTable = <T,>(props: ResultsTableProps<T>) => (
         rowsPerPageOptions={[10, 20, 50]}
         rowStyleFn={props.rowStyleFn}
       />
-    </TableContainer>
+    </div>
   </Card>
 )

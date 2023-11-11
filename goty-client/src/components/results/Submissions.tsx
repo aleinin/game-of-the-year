@@ -4,12 +4,12 @@ import {
   selectIsLoading,
   selectSubmissions,
 } from '../../state/results/selectors'
-import { Card } from '../Card'
+import { Card } from '../controls/Card/Card'
 import { Loading } from '../Loading'
 import { Giveaway } from '../submission/Giveaway'
 import { GOTY } from '../submission/GOTY'
 import { MostAnticipated } from '../submission/MostAnticipated'
-import { Name } from '../submission/Name'
+import { Name } from '../submission/Name/Name'
 import { OldGame } from '../submission/OldGame'
 import { Paginator } from '../controls/Paginator/Paginator'
 import { Submission } from '../../models/submission'

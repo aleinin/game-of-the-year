@@ -2,7 +2,7 @@ import { Summary } from './Summary/Summary'
 import { useSelector } from 'react-redux'
 import { selectIsLoading, selectResults } from '../../state/results/selectors'
 import { Loading } from '../Loading'
-import { Card } from '../Card'
+import { Card } from '../controls/Card/Card'
 import { Results } from '../../models/results'
 
 const isEmptyResults = (results: Results) =>

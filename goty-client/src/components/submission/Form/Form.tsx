@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import { Required } from '../../../util/global-styles'
-import { Card } from '../../Card'
+import { Card } from '../../controls/Card/Card'
 import { Giveaway } from '../Giveaway'
 import { GOTY } from '../GOTY'
 import { MostAnticipated } from '../MostAnticipated'
-import { Name } from '../Name'
+import { Name } from '../Name/Name'
 import { OldGame } from '../OldGame'
 import { useSelector, useStore } from 'react-redux'
 import { SubmissionService } from '../../../api/submissionService'
@@ -40,7 +39,7 @@ export const Form = () => {
   return (
     <>
       <Card>
-        <Required>* Required</Required>
+        <span className={styles.required}>* Required</span>
       </Card>
       <Name readonly={false} name={form.name} />
       <GOTY games={form.gamesOfTheYear} readonly={false} />

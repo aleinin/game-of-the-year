@@ -1,19 +1,15 @@
-import { Card } from '../Card'
-import styled from 'styled-components'
+import { Card } from '../../controls/Card/Card'
 import { useStore } from 'react-redux'
-import { createUpdateNameAction } from '../../state/submission/actions'
+import { createUpdateNameAction } from '../../../state/submission/actions'
 import { useEffect, useState } from 'react'
-import { useDebouncedEffect } from '../../util/use-debounced-effect'
-import { TextInput } from '../controls/TextInput/TextInput'
+import { useDebouncedEffect } from '../../../util/use-debounced-effect'
+import { TextInput } from '../../controls/TextInput/TextInput'
+import styles from './Name.module.scss'
 
 export interface NameProps {
   name: string
   readonly: boolean
 }
-
-export const NameContainer = styled.div`
-  margin-top: 20px;
-`
 
 export const Name = ({ name, readonly }: NameProps) => {
   const [localName, setLocalName] = useState(name)
@@ -30,7 +26,7 @@ export const Name = ({ name, readonly }: NameProps) => {
     readonly ? () => {} : setLocalName(input)
   return (
     <Card title="Name:" required={true}>
-      <NameContainer>
+      <div className={styles.marginTop20}>
         <TextInput
           id="name"
           value={readonly ? name : localName}
@@ -38,7 +34,7 @@ export const Name = ({ name, readonly }: NameProps) => {
           onChange={handleChange}
           placeholder="Your Name"
         />
-      </NameContainer>
+      </div>
     </Card>
   )
 }

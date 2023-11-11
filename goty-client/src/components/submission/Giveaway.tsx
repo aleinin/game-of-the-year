@@ -1,6 +1,5 @@
 import React from 'react'
-import { Card } from '../Card'
-
+import { Card } from '../controls/Card/Card'
 import { generateRules } from '../../util/generate-rules'
 import { useSelector, useStore } from 'react-redux'
 import { selectProperties } from '../../state/properties/selectors'

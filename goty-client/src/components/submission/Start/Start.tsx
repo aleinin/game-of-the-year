@@ -1,23 +1,17 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import { Card } from '../Card'
+import { Card } from '../../controls/Card/Card'
 import { useSelector, useStore } from 'react-redux'
-import { selectIsEdit } from '../../state/submission/selector'
-import { createNextStepAction } from '../../state/submission/actions'
-import { ResultsContainer } from '../results/ResultsContainer'
-import { loadResults } from '../../state/results/middleware'
-import { selectProperties } from '../../state/properties/selectors'
-import { Button } from '../controls/Button/Button'
+import { selectIsEdit } from '../../../state/submission/selector'
+import { createNextStepAction } from '../../../state/submission/actions'
+import { ResultsContainer } from '../../results/ResultsContainer'
+import { loadResults } from '../../../state/results/middleware'
+import { selectProperties } from '../../../state/properties/selectors'
+import { Button } from '../../controls/Button/Button'
+import styles from './Start.module.scss'
 
 export interface StartProps {
   isLoading: boolean
 }
-
-const ButtonSet = styled.div`
-  display: grid;
-  justify-content: center;
-  grid-template-columns: 1fr;
-`
 
 const Concluded = ({ year }: { year: number }) => {
   return (
@@ -26,7 +20,7 @@ const Concluded = ({ year }: { year: number }) => {
         <h2>Game of the Year {year} has concluded</h2>
         <p>Thank you to all who participated</p>
       </Card>
-      <Card title="Results" titleFontSize={{ fontSize: 2, fontType: 'em' }}>
+      <Card title="Results" titleFontSize="2em">
         <ResultsContainer />
       </Card>
     </>
@@ -53,11 +47,11 @@ const SubmissionButtons = ({
 
   return (
     <Card>
-      <ButtonSet>
+      <div className={styles.buttonSet}>
         <Button disabled={isLoading} onClick={handleClick}>
           {labelAdjective} Submission
         </Button>
-      </ButtonSet>
+      </div>
     </Card>
   )
 }

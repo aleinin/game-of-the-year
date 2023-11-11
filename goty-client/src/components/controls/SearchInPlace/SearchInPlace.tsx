@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import { ListItem } from '../../controls/ListItem/ListItem'
-import { Search } from './Search'
+import { ListItem } from '../ListItem/ListItem'
+import { Search } from '../../submission/shared/Search'
 import { Game } from '../../../models/game'
+import styles from './SearchInPlace.module.scss'
 
 export interface SearchInPlaceProps {
   readonly: boolean
@@ -9,12 +9,6 @@ export interface SearchInPlaceProps {
   handleSelect: (val: Game | null) => void
   placeholder: string
 }
-
-export const NoSelection = styled.span`
-  display: block;
-  margin-top: 15px;
-  font-size: 17px;
-`
 
 const gameIsDefined = (game: Game | null): game is Game => {
   return game != null
@@ -36,7 +30,7 @@ export const SearchInPlace = (props: SearchInPlaceProps) => {
     )
   }
   if (props.readonly) {
-    return <NoSelection>No selection</NoSelection>
+    return <span className={styles.noSelection}>No selection</span>
   }
   return (
     <Search placeholder={props.placeholder} handleSelect={props.handleSelect} />

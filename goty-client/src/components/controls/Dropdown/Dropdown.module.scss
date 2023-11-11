@@ -17,3 +17,14 @@
     outline: #02b3e6 2px solid;
   }
 }
+
+.value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+}

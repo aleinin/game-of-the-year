@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useSelector, useStore } from 'react-redux'
-import { selectProperties } from '../../state/properties/selectors'
-import { createNextStepAction } from '../../state/submission/actions'
-import { selectError } from '../../state/submission/selector'
-import { LinkButton } from '../../util/global-styles'
-import { Card } from '../Card'
+import { selectProperties } from '../../../state/properties/selectors'
+import { createNextStepAction } from '../../../state/submission/actions'
+import { selectError } from '../../../state/submission/selector'
+import { Card } from '../../controls/Card/Card'
+import styles from './End.module.scss'
 
 export const End = () => {
   const store = useStore()
@@ -33,7 +33,9 @@ export const End = () => {
         <h2>Your submission has been received</h2>
         <h3>
           You may edit your submission{' '}
-          <LinkButton onClick={handleEditClick}>here</LinkButton>
+          <button className={styles.link} onClick={handleEditClick}>
+            here
+          </button>
         </h3>
         <h3>All edits are due by {deadline}</h3>
       </>

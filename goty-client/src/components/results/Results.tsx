@@ -3,7 +3,7 @@ import { useStore } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { Outlet, useLocation } from 'react-router-dom'
 import { loadResultsAndSubmissions } from '../../state/results/middleware'
-import { Card } from '../Card'
+import { Card } from '../controls/Card/Card'
 import { TabButtons } from '../controls/Tabs/Tabs'
 
 export enum Tabs {

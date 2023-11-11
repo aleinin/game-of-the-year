@@ -1,0 +1,25 @@
+@import "@/src/colors";
+
+.credit {
+  flex: 1;
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  background-color: $background;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  margin-top: 30px;
+
+  a {
+    font-size: 0.8em;
+    color: $placeholder;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $text;
+  }
+}

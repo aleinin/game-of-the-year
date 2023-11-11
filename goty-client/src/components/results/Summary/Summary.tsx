@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectProperties } from '../../../state/properties/selectors'
-import { ResultsTable } from '../ResultsTable'
+import { ResultsTable } from '../ResultsTable/ResultsTable'
 import { Header } from '../../controls/Table/Table.types'
 import { GameOfTheYearResult } from '../../../models/gameOfTheYearResult'
 import { GameResult } from '../../../models/gameResult'

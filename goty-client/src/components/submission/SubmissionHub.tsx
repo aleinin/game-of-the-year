@@ -4,8 +4,8 @@ import { SubmissionService } from '../../api/submissionService'
 import { createSetSubmissionAction } from '../../state/submission/actions'
 import { SubmissionStep } from '../../state/submission/reducer'
 import { selectSubmissionStep } from '../../state/submission/selector'
-import { End } from './End'
-import { Start } from './Start'
+import { End } from './End/End'
+import { Start } from './Start/Start'
 import { Form } from './Form/Form'
 
 const notNull = (input: string | null | undefined): input is string => {

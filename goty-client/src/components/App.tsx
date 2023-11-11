@@ -1,5 +1,4 @@
 import { Header } from './Header'
-import styled from 'styled-components'
 import { Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Recovery } from './Recovery'
 import { ResultsComponent } from './results/Results'
@@ -17,6 +16,7 @@ import { baseUrlService } from '../api/baseUrlService'
 import { Footer } from './Footer'
 import { ResultsContainer } from './results/ResultsContainer'
 import { Submissions } from './results/Submissions'
+import styles from './App.module.scss'
 
 export const App = () => {
   const store = configureStore()
@@ -26,19 +26,6 @@ export const App = () => {
     </Provider>
   )
 }
-
-const AppRootStyle = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 600px;
-  flex: 1;
-`
-
-const Page = styled.div`
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-`
 
 const router = createBrowserRouter([
   {
@@ -97,12 +84,12 @@ const AppRoot = () => {
     return <Loading></Loading>
   }
   return (
-    <Page>
-      <AppRootStyle>
+    <div className={styles.page}>
+      <div className={styles.root}>
         <Header />
         <RouterProvider router={router} />
-      </AppRootStyle>
+      </div>
       <Footer></Footer>
-    </Page>
+    </div>
   )
 }

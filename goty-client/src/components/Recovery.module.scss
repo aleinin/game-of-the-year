@@ -1,0 +1,10 @@
+@import "@/src/colors";
+
+.container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.error {
+  color: $required
+}

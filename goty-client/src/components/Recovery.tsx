@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useStore } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 import { SubmissionService } from '../api/submissionService'
 import { createNextStepAction } from '../state/submission/actions'
-import { Card } from './Card'
+import { Card } from './controls/Card/Card'
 import { TextInput } from './controls/TextInput/TextInput'
 import { Button } from './controls/Button/Button'
-
-const StyledContainer = styled.div`
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-`
-
-const Error = styled.h4`
-  color: #b00020;
-`
+import styles from './Recovery.module.scss'
 
 const getFailed = () => (
   <>
-    <Error>Something went wrong</Error>
-    <Error>Unable to recover submission, double check the key</Error>
+    <h4 className={styles.error}>Something went wrong</h4>
+    <h4 className={styles.error}>
+      Unable to recover submission, double check the key
+    </h4>
   </>
 )
 
@@ -59,7 +52,7 @@ export const Recovery = () => {
         paste the key you were given below:
       </h4>
       {failed ? getFailed() : null}
-      <StyledContainer>
+      <div className={styles.container}>
         <TextInput
           id="recovery"
           value={uuid}
@@ -73,7 +66,7 @@ export const Recovery = () => {
         >
           Submit
         </Button>
-      </StyledContainer>
+      </div>
     </Card>
   )
 }

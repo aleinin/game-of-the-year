@@ -6,7 +6,7 @@ import { SubmissionStep } from '../../state/submission/reducer'
 import { selectSubmissionStep } from '../../state/submission/selector'
 import { End } from './End'
 import { Start } from './Start'
-import { Form } from './Form'
+import { Form } from './Form/Form'
 
 export interface SubmissionStepProps {}
 

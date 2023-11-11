@@ -1,0 +1,35 @@
+@import "@/src/colors";
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid $border;
+  position: relative;
+}
+
+.tab-button {
+  height: 100%;
+  background: none;
+  color: inherit;
+  padding: 10px;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  margin-right: 20px;
+  border-radius:  0;
+
+  &:hover:not(:disabled) {
+    background-color: $contentBackgroundLight;
+  }
+}
+
+.selected {
+  color: $accent;
+}
+
+.bar {
+  background: $accent;
+  height: 2px;
+  bottom: 0;
+  position: absolute;
+  transition: 500ms cubic-bezier(0.35, 0, 0.25, 1);
+}

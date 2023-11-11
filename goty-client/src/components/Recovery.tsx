@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { SubmissionService } from '../api/submissionService'
 import { createNextStepAction } from '../state/submission/actions'
 import { Card } from './Card'
-import { TextInput } from './controls/TextInput'
-import { Button } from './controls/Button'
+import { TextInput } from './controls/TextInput/TextInput'
+import { Button } from './controls/Button/Button'
 
 const StyledContainer = styled.div`
   display: grid;
@@ -33,7 +33,6 @@ export const Recovery = () => {
   const [failed, setFailed] = useState(false)
   const [valid, setValid] = useState(false)
   const [uuid, setUuid] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
     setFailed(false)
     setValid(uuidPattern.test(uuid))
@@ -42,7 +41,6 @@ export const Recovery = () => {
     document.title = 'TMW GOTY - Recovery'
   }, [])
   const handleSubmit = () => {
-    setIsLoading(true)
     SubmissionService.getSubmission(uuid)
       .then(() => {
         localStorage.setItem('submissionUUID', uuid)
@@ -50,7 +48,6 @@ export const Recovery = () => {
         navigate('/submission')
       })
       .catch(() => {
-        setIsLoading(false)
         setValid(false)
         setFailed(true)
       })
@@ -71,11 +68,11 @@ export const Recovery = () => {
         />
         <Button
           disabled={!valid}
-          label="Submit"
           onClick={handleSubmit}
           style={{ minWidth: '120px' }}
-          loading={isLoading}
-        />
+        >
+          Submit
+        </Button>
       </StyledContainer>
     </Card>
   )

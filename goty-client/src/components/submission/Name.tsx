@@ -4,7 +4,7 @@ import { useStore } from 'react-redux'
 import { createUpdateNameAction } from '../../state/submission/actions'
 import { useEffect, useState } from 'react'
 import { useDebouncedEffect } from '../../util/use-debounced-effect'
-import { TextInput } from '../controls/TextInput'
+import { TextInput } from '../controls/TextInput/TextInput'
 
 export interface NameProps {
   name: string

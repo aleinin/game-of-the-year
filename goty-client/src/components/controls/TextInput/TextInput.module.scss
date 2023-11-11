@@ -1,0 +1,41 @@
+@import "@/src/colors";
+
+.text-container {
+  position: relative;
+  max-width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: $contentBackground;
+  color: $text;
+  border: 2px solid $border;
+  box-sizing: border-box;
+  font-size: 0.9em;
+
+  &:focus {
+    outline: none;
+    border-color: $accent;
+  }
+
+  &:hover:not(:focus):not(:disabled) {
+    border-color: $borderHover;
+  }
+
+  ::placeholder {
+    color: $placeholder;
+  }
+
+  &:disabled {
+    color: $placeholder
+  }
+
+}
+
+.loading {
+  position: absolute;
+  right: 10px;
+  top: calc(50% - 12px);
+}

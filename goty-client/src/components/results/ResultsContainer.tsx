@@ -1,4 +1,4 @@
-import { Summary } from './Summary'
+import { Summary } from './Summary/Summary'
 import { useSelector } from 'react-redux'
 import { selectIsLoading, selectResults } from '../../state/results/selectors'
 import { Loading } from '../Loading'

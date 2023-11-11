@@ -1,5 +1,5 @@
 import { CSSProperties, useCallback } from 'react'
-import { MenuContainer, NoResults, OptionContainer } from './Dropdown.styles'
+import styles from './DropdownMenu.module.scss'
 
 export interface DropdownMenuProps<T> {
   options: T[]
@@ -32,33 +32,33 @@ export const DropdownMenu = <T,>({
 
   if (!options || options.length === 0) {
     return showNoOptions ? (
-      <MenuContainer aria-expanded="true">
-        <NoResults>No options found</NoResults>
-      </MenuContainer>
+      <div className={styles.menu} aria-expanded="true">
+        <div className={styles.noResults}>No options found</div>
+      </div>
     ) : (
       <></>
     )
   }
 
   return (
-    <MenuContainer aria-expanded="true" style={style}>
+    <div className={styles.menu} aria-expanded="true" style={style}>
       {options.map((option) => {
         const isSelected = option === selected
         const label = accessorFn(option)
         return (
-          <OptionContainer
+          <div
             key={label}
             tabIndex={0}
-            className={isSelected ? 'is-selected' : ''}
+            className={`${styles.options}${isSelected ? ' is-selected' : ''}`}
             onMouseDown={handleSelectCallback(option)}
             onKeyDown={keyDownHandler(option)}
             role="option"
             aria-selected={isSelected ? 'true' : 'false'}
           >
             {label}
-          </OptionContainer>
+          </div>
         )
       })}
-    </MenuContainer>
+    </div>
   )
 }

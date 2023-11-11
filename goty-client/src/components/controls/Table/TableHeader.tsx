@@ -1,10 +1,4 @@
 import { Header } from './Table.types'
-import styled from 'styled-components'
-
-const ThStyle = styled.th`
-  text-align: left;
-`
-const TrHeaderStyle = styled.tr``
 
 export interface TableHeaderProps<T> {
   headers: Header<T>[]
@@ -12,10 +6,10 @@ export interface TableHeaderProps<T> {
 
 export const TableHeader = <T,>({ headers }: TableHeaderProps<T>) => (
   <thead>
-    <TrHeaderStyle>
+    <tr>
       {headers.map((header) => (
-        <ThStyle key={header.key}>{header.label}</ThStyle>
+        <th key={header.key}>{header.label}</th>
       ))}
-    </TrHeaderStyle>
+    </tr>
   </thead>
 )

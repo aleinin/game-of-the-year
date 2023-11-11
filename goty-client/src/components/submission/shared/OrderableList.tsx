@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 import { MoveDirection } from '../GOTY'
-import { ListItem } from './ListItem'
+import { ListItem } from '../../controls/ListItem/ListItem'
 import { Game } from '../../../models/game'
 
 const spring = {

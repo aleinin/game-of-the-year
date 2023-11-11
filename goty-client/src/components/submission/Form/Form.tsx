@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react'
-import { Required } from '../../util/global-styles'
-import { Card } from '../Card'
-import { Giveaway } from './Giveaway'
-import { GOTY } from './GOTY'
-import { MostAnticipated } from './MostAnticipated'
-import { Name } from './Name'
-import { OldGame } from './OldGame'
+import { Required } from '../../../util/global-styles'
+import { Card } from '../../Card'
+import { Giveaway } from '../Giveaway'
+import { GOTY } from '../GOTY'
+import { MostAnticipated } from '../MostAnticipated'
+import { Name } from '../Name'
+import { OldGame } from '../OldGame'
 import { useSelector, useStore } from 'react-redux'
-import { SubmissionService } from '../../api/submissionService'
-import { selectSubmissionState } from '../../state/submission/selector'
+import { SubmissionService } from '../../../api/submissionService'
+import { selectSubmissionState } from '../../../state/submission/selector'
 import {
   createSubmitFailAction,
   createSubmitSuccessAction,
-} from '../../state/submission/actions'
-import { selectProperties } from '../../state/properties/selectors'
-import { Button } from '../controls/Button'
+} from '../../../state/submission/actions'
+import { selectProperties } from '../../../state/properties/selectors'
+import { Button } from '../../controls/Button/Button'
+import styles from './Form.module.scss'
 
 export const Form = () => {
   const store = useStore()
@@ -52,12 +53,12 @@ export const Form = () => {
         <Giveaway readonly={false} enteredGiveaway={form.enteredGiveaway} />
       ) : null}
       <Button
-        style={{ width: '100%' }}
-        label={'Submit'}
+        className={styles.submitButton}
         disabled={!isValid}
-        loading={false}
         onClick={handleSubmit}
-      />
+      >
+        Submit
+      </Button>
     </>
   )
 }

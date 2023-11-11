@@ -1,0 +1,12 @@
+@import "@/src/colors";
+
+.paginator {
+  height: 100%;
+  display: flex;
+}
+
+.index {
+  color: $text;
+  display: flex;
+  align-items: center;
+}

@@ -1,19 +1,10 @@
-import styled from 'styled-components'
-import { TextInput } from './TextInput'
-import { ChevronDown } from '../../icons/chevron/ChevronDown'
-import { IconButton } from './table/IconButton'
+import { TextInput } from '../TextInput/TextInput'
+import { ChevronDown } from '../../../icons/chevron/ChevronDown'
+import { Button } from '../Button/Button'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { DropdownMenu } from './dropdown/DropdownMenu'
-import { useDebouncedEffect } from '../../util/use-debounced-effect'
-
-const AutoCompleteContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 50px;
-`
-
-const ComboBoxContainer = styled.div`
-  position: relative;
-`
+import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
+import { useDebouncedEffect } from '../../../util/use-debounced-effect'
+import styles from './AutoComplete.module.scss'
 
 export interface AutoCompleteProps<T> {
   id: string
@@ -21,7 +12,7 @@ export interface AutoCompleteProps<T> {
   value: string
   queryFn?: (query: string) => Promise<any>
   onChange?: (value: string) => void
-  onSelect?: (selected: T) => void // todo
+  onSelect?: (selected: T) => void
   options: T[]
   accessorFn: (selected: T) => string
 }
@@ -72,8 +63,8 @@ export const AutoComplete = <T = any,>({
   )
   useDebouncedEffect(search(true), [value], 500)
   return (
-    <AutoCompleteContainer ref={ref}>
-      <ComboBoxContainer>
+    <div className={styles.container} ref={ref}>
+      <div className={styles.comboBox}>
         <TextInput
           style={{ borderRadius: 0 }}
           id={`${id}-text`}
@@ -91,13 +82,10 @@ export const AutoComplete = <T = any,>({
             showNoOptions={false}
           />
         )}
-      </ComboBoxContainer>
-      <IconButton
-        style={{ background: 'purple', borderRadius: '0px' }}
-        onClick={search(false)}
-      >
+      </div>
+      <Button className={styles.dropdownButton} onClick={search(false)}>
         <ChevronDown />
-      </IconButton>
-    </AutoCompleteContainer>
+      </Button>
+    </div>
   )
 }

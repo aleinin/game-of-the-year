@@ -1,0 +1,45 @@
+@import "@/src/colors";
+.button {
+  color: $text;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+
+  &:hover:not(:disabled) {
+    transition: background-color 200ms linear;
+  }
+
+  &:disabled {
+    cursor: inherit;
+  }
+}
+
+.icon {
+  background: none;
+  &:hover:not(:disabled) {
+    color: $accent;
+  }
+  &:disabled {
+    color: $placeholder;
+  }
+
+}
+
+.text {
+  background: $accent;
+  &:hover:not(:disabled) {
+    background: $accentDark;
+  }
+  &:disabled {
+    background: $disabled;
+    color: $placeholder
+  }
+}
+

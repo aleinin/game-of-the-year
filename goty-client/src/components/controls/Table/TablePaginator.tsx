@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { Paginator } from '../Paginator'
-import { Dropdown } from '../dropdown/Dropdown'
+import { Paginator } from '../Paginator/Paginator'
+import { Dropdown } from '../Dropdown/Dropdown'
+import styles from './Table.module.scss'
 
 export interface TablePaginatorProps {
   pageIndex: number
@@ -11,11 +11,6 @@ export interface TablePaginatorProps {
   setRowsPerPage: (rowsPerPage: number) => void
 }
 
-const TablePaginatorStyle = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-`
-
 export const TablePaginator = ({
   pageIndex,
   rowsPerPage,
@@ -25,12 +20,14 @@ export const TablePaginator = ({
   setPage,
 }: TablePaginatorProps) => {
   return (
-    <TablePaginatorStyle>
-      <Paginator
-        totalPages={totalPages}
-        pageIndex={pageIndex}
-        setIndex={setPage}
-      />
+    <div className={styles.paginatorContainer}>
+      <div className={styles.tablePaginator}>
+        <Paginator
+          totalPages={totalPages}
+          pageIndex={pageIndex}
+          setIndex={setPage}
+        />
+      </div>
       <Dropdown<number>
         value={rowsPerPage}
         options={rowsPerPageOptions}
@@ -38,6 +35,6 @@ export const TablePaginator = ({
         width={'65px'}
         accessorFn={(value) => `${value}`}
       />
-    </TablePaginatorStyle>
+    </div>
   )
 }

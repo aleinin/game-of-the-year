@@ -1,12 +1,11 @@
-import styled from 'styled-components'
-import { disableColor } from '../../../util/global-styles'
 import { indexToOrdinal } from '../../../util/index-to-ordinal'
-import { MoveDirection } from '../GOTY'
-import { IconButton } from '../../controls/table/IconButton'
+import { MoveDirection } from '../../submission/GOTY'
+import { Button } from '../Button/Button'
 import { ChevronUp } from '../../../icons/chevron/ChevronUp'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { Minus } from '../../../icons/minus/Minus'
 import { Game } from '../../../models/game'
+import styles from './ListItem.module.scss'
 
 export interface ListItemProps {
   readonly: boolean
@@ -17,63 +16,6 @@ export interface ListItemProps {
   handleDelete: (game: Game) => void
   handleMove: (index: number, direction: MoveDirection) => void
 }
-
-const ListItemContainer = styled.div`
-  border-radius: 25px;
-  padding: 20px;
-  width: 100%;
-  height: 50px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  vertical-align: center;
-  align-items: center;
-  background-color: rgb(40, 40, 40);
-`
-
-const MarginRight = styled.span`
-  margin-right: 5px;
-`
-
-const ControlsStyle = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-`
-
-const shared = `
-  font-size: 1.2em;
-`
-
-const disabledStyle = `
-  color: ${disableColor}
-`
-
-const enabledReorderStyle = `
-color: rgb(103, 58, 183);
-&:hover:not(.disabled) {
-  text-shadow: 0 0 5px black;
-  color: rgba(103, 58, 183, 0.92);
-}
-cursor: pointer
-`
-
-export const ReorderArrow = styled.i<{ disabled: boolean }>`
-  ${shared};
-  margin-right: 5px;
-  ${({ disabled }) => (disabled ? disabledStyle : enabledReorderStyle)}
-`
-
-export const RemoveMinus = styled.i`
-  ${shared};
-  cursor: pointer;
-  color: #b00020;
-  &:hover {
-    text-shadow: 0 0 5px black;
-    color: #9a001c;
-  }
-`
 
 export const ListItem = ({
   index,
@@ -88,10 +30,12 @@ export const ListItem = ({
     return null
   }
   return (
-    <ListItemContainer>
+    <div className={styles.container}>
       <div>
-        {ordered ? <MarginRight>{indexToOrdinal(index)}:</MarginRight> : null}
-        <MarginRight>{game?.title}</MarginRight>
+        {ordered ? (
+          <span className={styles.marginRight5}>{indexToOrdinal(index)}:</span>
+        ) : null}
+        <span className={styles.marginRight5}>{game?.title}</span>
       </div>
       {!readonly && (
         <Controls
@@ -102,7 +46,7 @@ export const ListItem = ({
           currentListLength={currentListLength}
         />
       )}
-    </ListItemContainer>
+    </div>
   )
 }
 
@@ -120,25 +64,31 @@ const Controls = ({
   ordered,
   currentListLength,
 }: ControlsProps) => (
-  <ControlsStyle>
+  <div className={styles.controls}>
     {ordered && (
       <>
-        <IconButton
+        <Button
+          isIcon={true}
           disabled={index === 0}
           onClick={() => handleMove(index, MoveDirection.IncreaseRank)}
         >
           <ChevronUp />
-        </IconButton>
-        <IconButton
+        </Button>
+        <Button
+          isIcon={true}
           disabled={index === currentListLength - 1}
           onClick={() => handleMove(index, MoveDirection.DecreaseRank)}
         >
           <ChevronDown />
-        </IconButton>
+        </Button>
       </>
     )}
-    <IconButton onClick={() => handleDelete()}>
+    <Button
+      isIcon={true}
+      className={styles.deleteButton}
+      onClick={() => handleDelete()}
+    >
       <Minus />
-    </IconButton>
-  </ControlsStyle>
+    </Button>
+  </div>
 )

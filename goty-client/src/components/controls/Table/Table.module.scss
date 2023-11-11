@@ -1,0 +1,42 @@
+@import "@/src/colors";
+
+.container {
+
+}
+
+.paginator-container {
+  display: grid;
+  grid-auto-flow: column;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $border;
+}
+
+.table-paginator {
+  display: flex;
+  justify-content: right;
+  margin-right: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: $contentBackground;
+
+  th,td {
+    text-align: left;
+    padding: 15px;
+  }
+  tr:not(:first-child) {
+    border-top: 1px solid $border
+  }
+  tr:last-child {
+    border-bottom: 1px solid $border
+  }
+
+}
+
+.no-results {
+  margin-top: 10px;
+  font-size: 0.8em;
+}

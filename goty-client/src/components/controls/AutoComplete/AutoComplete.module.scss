@@ -1,0 +1,19 @@
+@import "@/src/colors";
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+}
+
+.combo-box {
+  position: relative;
+}
+
+.dropdown-button {
+  background: $accent;
+  border-radius: 0;
+
+  &:hover:not(:disabled) {
+    color: $placeholder;
+  }
+}

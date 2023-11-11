@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { GameService } from '../../../api/gameService'
 import { Game } from '../../../models/game'
-import { AutoComplete } from '../../controls/AutoComplete'
+import { AutoComplete } from '../../controls/AutoComplete/AutoComplete'
 
 export interface SearchProps {
   placeholder: string

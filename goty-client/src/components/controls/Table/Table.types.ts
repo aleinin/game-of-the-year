@@ -9,5 +9,6 @@ export interface TableProps<T> {
   headers: Header<T>[]
   rows: T[]
   rowsPerPageOptions: number[]
+  rowStyleFn?: (row: T) => string
 }
 export type Primitive = string | number | boolean

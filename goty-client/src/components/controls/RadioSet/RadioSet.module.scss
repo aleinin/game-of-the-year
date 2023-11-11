@@ -1,0 +1,53 @@
+@import "@/src/colors";
+
+.radio {
+  display: grid;
+  margin-top: 10px;
+
+  label {
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+
+    &:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+
+  input[type="radio"] {
+    appearance: none;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1em;
+    height: 1em;
+    border: 0.15em solid currentColor;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+
+    &:disabled {
+      color: $placeholder;
+    }
+  }
+
+  input[type="radio"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em $accent;
+  }
+
+  input[type="radio"]:checked::before {
+    transform: scale(1);
+  }
+
+  input[type="radio"]:focus:not(:disabled) {
+    outline: 1px solid currentColor;
+    outline-offset: 2px;
+  }
+
+}

@@ -1,23 +1,6 @@
-import styled from 'styled-components'
 import { ChangeEvent, CSSProperties, useCallback } from 'react'
-import { Spinner } from '../../icons/spinner/Spinner'
-
-const StyledInput = styled.input`
-  width: 100%;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid gray;
-
-  &:focus {
-    outline: none;
-    border-color: purple;
-  }
-`
-const StyledLabel = styled.label``
-
-const TextContainer = styled.div`
-  position: relative;
-`
+import { Spinner } from '../../../icons/spinner/Spinner'
+import styles from './TextInput.module.scss'
 
 export interface TextInputProps {
   id: string
@@ -46,12 +29,11 @@ export const TextInput = ({
     [onChange],
   )
   return (
-    <TextContainer>
-      {label && <StyledLabel htmlFor={id}>{label}</StyledLabel>}
-      {isLoading && (
-        <Spinner style={{ position: 'absolute', right: '10px', top: '10px' }} />
-      )}
-      <StyledInput
+    <div className={styles.textContainer}>
+      {label && <label htmlFor={id}>{label}</label>}
+      {isLoading && <Spinner className={styles.loading} />}
+      <input
+        className={styles.input}
         style={style}
         disabled={disabled}
         onChange={onChangeCallback}
@@ -60,6 +42,6 @@ export const TextInput = ({
         placeholder={placeholder}
         name={id}
       />
-    </TextContainer>
+    </div>
   )
 }

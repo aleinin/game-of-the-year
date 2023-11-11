@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Container, Control, ValueContainer } from './Dropdown.styles'
+import { Container, ValueContainer } from './Dropdown.styles'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
-import { DropdownMenu } from './DropdownMenu'
+import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
+import styles from './Dropdown.module.scss'
 
 interface DropdownProps<T = any> {
   value?: T
@@ -51,7 +52,8 @@ export const Dropdown = <T,>({
   }, [handleDocumentClick])
   return (
     <Container ref={ref} $width={width}>
-      <Control
+      <div
+        className={styles.control}
         role="button"
         tabIndex={0}
         onMouseDown={handleClick}
@@ -62,7 +64,7 @@ export const Dropdown = <T,>({
           {selected === undefined ? placeholder : accessorFn(selected)}
           <ChevronDown />
         </ValueContainer>
-      </Control>
+      </div>
       {isOpen && (
         <DropdownMenu
           options={options}

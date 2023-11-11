@@ -11,7 +11,7 @@ import { GOTY } from '../submission/GOTY'
 import { MostAnticipated } from '../submission/MostAnticipated'
 import { Name } from '../submission/Name'
 import { OldGame } from '../submission/OldGame'
-import { Paginator } from '../controls/Paginator'
+import { Paginator } from '../controls/Paginator/Paginator'
 import { Submission } from '../../models/submission'
 
 export const Submissions = () => {
@@ -30,7 +30,7 @@ export const Submissions = () => {
   }
   return (
     <>
-      <Card style={{ display: 'flex', justifyContent: 'center' }}>
+      <Card style={{ display: 'flex', justifyContent: 'center', padding: '0' }}>
         <Paginator
           totalPages={submissions.length}
           pageIndex={index}

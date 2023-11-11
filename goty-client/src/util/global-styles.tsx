@@ -4,8 +4,6 @@ export const Required = styled.span`
   color: #b00020;
 `
 
-export const disableColor = '#3a3b3c'
-
 export const LinkButton = styled.button`
   background-color: transparent;
   border: none;

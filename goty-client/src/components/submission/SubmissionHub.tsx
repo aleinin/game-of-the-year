@@ -8,13 +8,11 @@ import { End } from './End'
 import { Start } from './Start'
 import { Form } from './Form/Form'
 
-export interface SubmissionStepProps {}
-
 const notNull = (input: string | null | undefined): input is string => {
   return input != null && input !== 'undefined' && input !== 'null'
 }
 
-export const SubmissionHub = (props: SubmissionStepProps) => {
+export const SubmissionHub = () => {
   const store = useStore()
   const [isLoading, setIsLoading] = useState(false)
   const submissionStep = useSelector(selectSubmissionStep)

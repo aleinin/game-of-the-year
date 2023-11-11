@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import styles from './Tabs.module.scss'
 import { Button } from '../Button/Button'
 

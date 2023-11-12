@@ -16,9 +16,28 @@ export const isEqual = (
   return (
     one?.submissionUUID === two?.submissionUUID &&
     one?.name === two?.name &&
-    one?.gamesOfTheYear?.length === two?.gamesOfTheYear.length &&
+    gamesOfTheYearIsEqual(one?.gamesOfTheYear, two?.gamesOfTheYear) &&
     gameIsEqual(one?.bestOldGame, two?.bestOldGame) &&
     gameIsEqual(one?.mostAnticipated, two?.mostAnticipated) &&
     one?.enteredGiveaway === two?.enteredGiveaway
   )
+}
+
+const gamesOfTheYearIsEqual = (
+  one: Game[] | undefined,
+  two: Game[] | undefined,
+) => {
+  if (one === two) {
+    return true
+  }
+  if (one == null || two == null) {
+    return false
+  }
+  if (one.length !== two.length) {
+    return false
+  }
+  for (let i = 0; i < one.length; i++) {
+    if (one[i] !== two[i]) return false
+  }
+  return true
 }

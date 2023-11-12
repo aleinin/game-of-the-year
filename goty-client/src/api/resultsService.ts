@@ -1,8 +1,8 @@
-import axios from 'axios'
 import { Converter } from '../util/converter'
 import { Results } from '../models/results'
 import { GameResult } from '../models/gameResult'
 import { GameOfTheYearResult } from '../models/gameOfTheYearResult'
+import fetcher from './fetcher'
 
 export interface BackendResults {
   participants: string[]
@@ -16,10 +16,8 @@ export type Result = string[] | GameOfTheYearResult[] | GameResult[]
 
 export const ResultsService = {
   getResults: (): Promise<Results> => {
-    return axios
+    return fetcher
       .get<BackendResults>('/results')
-      .then((response) =>
-        Converter.convertFromBackendResultsToResults(response.data)
-      )
+      .then(Converter.convertFromBackendResultsToResults)
   },
 }

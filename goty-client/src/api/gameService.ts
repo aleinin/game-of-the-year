@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { Game } from '../models/game'
+import fetcher from './fetcher'
 
 export interface SearchGameParams {
   title: string
@@ -9,10 +9,12 @@ export interface SearchGameParams {
 
 export const GameService = {
   searchGames: (params: SearchGameParams): Promise<Game[]> => {
-    return axios
-      .get<Game[]>('/games', {
-        params,
-      })
-      .then((response) => response.data)
+    return fetcher.get<Game[]>('/games', {
+      params: new URLSearchParams({
+        title: params.title,
+        ...(params.limit && { limit: params.limit.toString() }),
+        ...(params.year && { year: params.year.toString() }),
+      }),
+    })
   },
 }

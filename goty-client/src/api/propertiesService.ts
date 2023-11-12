@@ -1,6 +1,6 @@
-import axios from 'axios'
 import { dateStringToTwelveHourString } from '../util/time'
 import { Properties } from '../models/properties'
+import fetcher from './fetcher'
 
 export interface BackendProperties {
   tiePoints: number[]
@@ -28,7 +28,5 @@ const toProperties = ({
 
 export const propertiesService = {
   getProperties: (): Promise<Properties> =>
-    axios
-      .get<BackendProperties>('/properties')
-      .then((axiosResponse) => toProperties(axiosResponse.data)),
+    fetcher.get<BackendProperties>('/properties').then(toProperties),
 }

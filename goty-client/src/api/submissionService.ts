@@ -1,7 +1,7 @@
-import axios, { AxiosResponse } from 'axios'
 import { Converter } from '../util/converter'
 import { Submission } from '../models/submission'
 import { Game } from '../models/game'
+import fetcher from './fetcher'
 
 export interface BackendSubmission extends BackendSubmissionRequest {
   id: string
@@ -21,43 +21,31 @@ export interface BackendSubmissionRequest {
 
 export const SubmissionService = {
   getSubmission: (submissionUUID: string): Promise<Submission> => {
-    return axios
+    return fetcher
       .get<BackendSubmission>(`/submissions/${submissionUUID}`)
-      .then((response) =>
-        Converter.convertFromBackendToSubmission(response.data),
-      )
+      .then(Converter.convertFromBackendToSubmission)
   },
   getSubmissions: (): Promise<Submission[]> => {
-    return axios
+    return fetcher
       .get<BackendSubmission[]>('/submissions')
       .then((response) =>
-        response.data.map((submission) =>
-          Converter.convertFromBackendToSubmission(submission),
-        ),
+        response.map(Converter.convertFromBackendToSubmission),
       )
   },
   createSubmission: (submission: Submission): Promise<Submission> => {
-    return axios
-      .post<BackendSubmissionRequest, AxiosResponse<BackendSubmission>>(
+    return fetcher
+      .post<BackendSubmissionRequest, BackendSubmission>(
         '/submissions',
         Converter.convertToBackendSubmissionRequest(submission),
       )
-      .then((response) =>
-        Converter.convertFromBackendToSubmission(response.data),
-      )
+      .then(Converter.convertFromBackendToSubmission)
   },
   updateSubmission: (submission: Submission): Promise<Submission> => {
-    return axios
-      .put<BackendSubmissionRequest, AxiosResponse<BackendSubmission>>(
+    return fetcher
+      .put<BackendSubmissionRequest, BackendSubmission>(
         `/submissions/${submission.submissionUUID}`,
         Converter.convertToBackendSubmissionRequest(submission),
       )
-      .then((response) =>
-        Converter.convertFromBackendToSubmission(response.data),
-      )
-  },
-  // TODO #11
-  deleteSubmission: (submissionUUID: string): Promise<unknown> => {
-    throw new Error('Not implemented')
+      .then(Converter.convertFromBackendToSubmission)
   },
 }

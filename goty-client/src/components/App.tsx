@@ -8,11 +8,9 @@ import { SubmissionHub } from './submission/SubmissionHub'
 import React, { useEffect, useState } from 'react'
 import { Loading } from './Loading'
 import { createSetPropertiesAction } from '../state/properties/actions'
-import axios from 'axios'
 import { createSetValidatorFunctionAction } from '../state/submission/actions'
 import { isValid } from '../state/submission/reducer'
 import { propertiesService } from '../api/propertiesService'
-import { baseUrlService } from '../api/baseUrlService'
 import { Footer } from './Footer'
 import { ResultsContainer } from './results/ResultsContainer'
 import { Submissions } from './results/Submissions'
@@ -64,20 +62,12 @@ const AppRoot = () => {
   const [appReady, setAppReady] = useState(false)
   const store = useStore()
   useEffect(() => {
-    baseUrlService.getBaseUrl().then((baseUrl) => {
-      axios.defaults.baseURL = baseUrl ?? 'http://localhost:8080'
-      if (axios.defaults.headers) {
-        ;(axios.defaults.headers.common as any)['Accept'] = 'application/json'
-        ;(axios.defaults.headers.post as any)['Content-Type'] =
-          'application/json'
+    propertiesService.getProperties().then((properties) => {
+      store.dispatch(createSetPropertiesAction(properties))
+      if (!properties.hasGiveaway) {
+        store.dispatch(createSetValidatorFunctionAction(isValid))
       }
-      propertiesService.getProperties().then((properties) => {
-        store.dispatch(createSetPropertiesAction(properties))
-        if (!properties.hasGiveaway) {
-          store.dispatch(createSetValidatorFunctionAction(isValid))
-        }
-        setAppReady(true)
-      })
+      setAppReady(true)
     })
   }, [store])
   if (!appReady) {

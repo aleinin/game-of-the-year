@@ -15,7 +15,7 @@ export const Search = (props: SearchProps) => {
   const handleSearch = (searchText: string) =>
     GameService.searchGames({
       title: searchText,
-      ...(props.year && { year: props.year }),
+      year: props.year,
     }).then((results) => setSuggestions(results))
   const handleSelect = (game: Game) => {
     setInput('')

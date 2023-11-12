@@ -22,7 +22,7 @@ export const End = () => {
       <>
         <h1>Uh oh!</h1>
         <h2>We failed to save your submission</h2>
-        <h3>Please contact Kherven or Gorlah and give them the following: </h3>
+        <h3>Please contact Kherven and give them the following: </h3>
         <p>{JSON.stringify(error)}</p>
       </>
     )

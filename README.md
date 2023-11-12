@@ -27,13 +27,13 @@ The app was built to be easily customizable and reusable year to year while stil
 
 - Frontend:
   - React 18
-  - Styled Components
   - Redux
   - Typescript
-  - Axios
-  - PrimeReact
   - Jest
   - Prettier
+  - ESLint
+  - Vite
+  - CSS Modules
 - Backend:
   - SpringBoot 2.7
   - Kotlin

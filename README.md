@@ -4,17 +4,17 @@
 
 The Midnight Watchmen discord runs a yearly game of the year vote. For the first few years it was run using a combination of Google Forms and Google Sheets. As of 2020 we transitioned to using this game-of-the-year app to handle both the client side submission, server side handling, and storing of game of the year submissions
 
-The app was built to be easily customizable and reusable year to year while still including date-sensitive features like submission deadlines and result showcases.
+The app was built to be easily customizable and reusable year-to-year while still including date-sensitive features like submission deadlines and result showcases.
 
 ## Features
 
 - Submissions
-  - IGDB backed game selections using real IGDB data rather than arbitary text submisisons
+  - IGDB backed game selections using real IGDB data rather than arbitrary text submissions
   - Submission confirmation
   - Submission editing
   - Submission recovery (new browser, different computer, etc)
   - Submission deadlines
-  - Reorderable Top 10 games of the year (current year games only)
+  - Reorder-able Top 10 games of the year (current year games only)
   - Most Anticipated (any year) & Best Old Game (any year)
   - Giveaway entry (optional & amount customizable)
 - Results
@@ -35,7 +35,8 @@ The app was built to be easily customizable and reusable year to year while stil
   - Vite
   - CSS Modules
 - Backend:
-  - SpringBoot 2.7
+  - Java 21
+  - SpringBoot 3
   - Kotlin
   - Gradle
   - MongoDB

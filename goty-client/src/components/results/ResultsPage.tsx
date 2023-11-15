@@ -24,7 +24,7 @@ const getActiveTab = (path: string) => {
   return Tabs.SUMMARY
 }
 
-export const ResultsComponent = () => {
+export const ResultsPage = () => {
   const store = useStore()
   useEffect(() => {
     loadResultsAndSubmissions(store)

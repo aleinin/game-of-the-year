@@ -3,11 +3,11 @@ import { Card } from '../../controls/Card/Card'
 import { useSelector, useStore } from 'react-redux'
 import { selectIsEdit } from '../../../state/submission/selector'
 import { createNextStepAction } from '../../../state/submission/actions'
-import { ResultsContainer } from '../../results/ResultsContainer'
 import { loadResults } from '../../../state/results/middleware'
 import { selectProperties } from '../../../state/properties/selectors'
 import { Button } from '../../controls/Button/Button'
 import styles from './Start.module.scss'
+import { Summary } from '../../results/Summary/Summary'
 
 export interface StartProps {
   isLoading: boolean
@@ -21,7 +21,7 @@ const Concluded = ({ year }: { year: number }) => {
         <p>Thank you to all who participated</p>
       </Card>
       <Card title="Results" titleFontSize="2em">
-        <ResultsContainer />
+        <Summary />
       </Card>
     </>
   )

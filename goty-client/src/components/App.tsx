@@ -1,7 +1,6 @@
 import { Header } from './Header'
 import { Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Recovery } from './Recovery'
-import { ResultsComponent } from './results/Results'
 import { Provider, useStore } from 'react-redux'
 import { configureStore } from '../state/store'
 import { SubmissionHub } from './submission/SubmissionHub'
@@ -12,9 +11,10 @@ import { createSetValidatorFunctionAction } from '../state/submission/actions'
 import { isValid } from '../state/submission/reducer'
 import { propertiesService } from '../api/propertiesService'
 import { Footer } from './Footer'
-import { ResultsContainer } from './results/ResultsContainer'
-import { Submissions } from './results/Submissions'
 import styles from './App.module.scss'
+import { Responses } from './results/Responses/Responses'
+import { ResultsPage } from './results/ResultsPage'
+import { Summary } from './results/Summary/Summary'
 
 export const App = () => {
   const store = configureStore()
@@ -36,15 +36,15 @@ const router = createBrowserRouter([
   },
   {
     path: '/results',
-    element: <ResultsComponent />,
+    element: <ResultsPage />,
     children: [
       {
         path: 'summary',
-        element: <ResultsContainer />,
+        element: <Summary />,
       },
       {
         path: 'responses',
-        element: <Submissions />,
+        element: <Responses />,
       },
       {
         path: '',

@@ -22,6 +22,7 @@ export const Button = ({
   children,
   className,
   isIcon = false,
+  style,
 }: PropsWithChildren<ButtonProps>) => {
   const onClickCallback = useCallback(() => onClick && onClick(), [onClick])
   const buttonClass = useMemo(
@@ -36,6 +37,7 @@ export const Button = ({
       className={buttonClass}
       onClick={onClickCallback}
       disabled={disabled}
+      style={style}
     >
       {children}
     </button>

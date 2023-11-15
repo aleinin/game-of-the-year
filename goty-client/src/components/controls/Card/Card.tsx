@@ -40,7 +40,7 @@ export const Card = (props: React.PropsWithChildren<CardProps>) => {
       )}
     >
       {header}
-      <div>{props.children}</div>
+      {props.children}
     </div>
   )
 }

@@ -21,7 +21,9 @@ const getActiveTab = (path: string) => {
   if (path.includes(`/${Tabs.RESPONSES}`)) {
     return Tabs.RESPONSES
   }
-  console.warn(`Unknown path: ${path}`)
+  if (path !== '/results') {
+    console.warn(`Unknown path: ${path}`)
+  }
   return Tabs.SUMMARY
 }
 

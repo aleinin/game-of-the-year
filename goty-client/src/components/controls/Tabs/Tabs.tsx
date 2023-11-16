@@ -23,7 +23,8 @@ export const TabButtons = ({
   if (div) {
     const startDivLeft = div.children[0].getBoundingClientRect().left
     const newSelected: any = Array.from(div.children).find(
-      (element) => element.innerHTML === selectedTab,
+      (element) =>
+        element.innerHTML.toLowerCase() === selectedTab?.toLowerCase(),
     )
     if (newSelected) {
       width = newSelected?.offsetWidth ?? 0

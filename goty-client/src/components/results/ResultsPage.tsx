@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react'
-import { useSelector, useStore } from 'react-redux'
+import { useStore } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { Outlet, useLocation } from 'react-router-dom'
 import { loadResultsAndSubmissions } from '../../state/results/middleware'
 import { Card } from '../controls/Card/Card'
 import { TabButtons } from '../controls/Tabs/Tabs'
-import { Button } from '../controls/Button/Button'
-import styles from './ResultsPage.module.scss'
-import { Export } from '../../icons/export/Export'
-import { downloadCSV } from './downloadCSV'
-import { selectProperties } from '../../state/properties/selectors'
-import { selectSubmissions } from '../../state/results/selectors'
+import { ExportButton } from './ExportButton/ExportButton'
 
 export enum Tabs {
-  SUMMARY = 'Summary',
-  RESPONSES = 'Responses',
+  SUMMARY = 'summary',
+  RESPONSES = 'responses',
 }
 
 const tabs = [Tabs.SUMMARY, Tabs.RESPONSES]
@@ -38,21 +33,15 @@ export const ResultsPage = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const activeTab = getActiveTab(pathname)
-  const properties = useSelector(selectProperties)
-  const submissions = useSelector(selectSubmissions)
   useEffect(() => {
     document.title = `TMW GOTY - ${activeTab}`
   }, [activeTab])
   const handleTabChange = (tab: string) => navigate(`${tab}`)
-  const handleExport = () => {
-    downloadCSV(submissions, properties)
-  }
+
   return (
     <>
       <Card style={{ position: 'relative' }}>
-        <Button isIcon className={styles.exportButton} onClick={handleExport}>
-          <Export />
-        </Button>
+        <ExportButton />
         <TabButtons
           tabs={tabs}
           onChange={handleTabChange}

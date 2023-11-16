@@ -46,7 +46,7 @@ export const TabButtons = ({
             key={tab}
             onClick={onChangeCallback(tab)}
           >
-            {tab}
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </Button>
         )
       })}

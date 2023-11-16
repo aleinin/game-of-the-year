@@ -1,14 +1,18 @@
-import { Submission } from '../../models/submission'
-import { Properties } from '../../models/properties'
-import { indexToOrdinal } from '../../util/index-to-ordinal'
+export interface Column<T> {
+  label: string
+  accessorFn?: (obj: T) => any
+  accessorKey?: keyof T
+}
+export interface Section<T> {
+  title?: string
+  columns: Column<T>[]
+  data: T[] | T
+}
 
 const TEXT_CSV = 'text/csv'
-export const downloadCSV = (
-  submissions: Submission[],
-  properties: Properties,
-) => {
-  const fileName = `goty-${properties.year}-results.csv`
-  const csvString = getCSVData(submissions, properties)
+type CSV = any[][]
+export const downloadCSV = (fileName: string, sections: Section<any>[]) => {
+  const csvString = getCSVData(sections)
   const blob = new Blob([csvString], {
     type: TEXT_CSV,
   })
@@ -24,53 +28,47 @@ export const downloadCSV = (
   aTag.remove()
 }
 
-const submissionsHeaders = [
-  'ID',
-  'Name',
-  'Best Old Game',
-  'Most Anticipated',
-  'Entered Giveaway',
-]
-const propertiesHeaders = 'Properties'
-
-const getCSVData = (
-  submissions: Submission[],
-  properties: Properties,
-): string => {
-  // Submissions
-  const firstRow = [
-    ...submissionsHeaders,
-    ...[...Array(properties.maxGamesOfTheYear)].map((_, index) =>
-      indexToOrdinal(index),
-    ),
-  ]
-  const rows = []
-  rows.push(firstRow)
-  submissions.forEach((submission) => {
-    const row = []
-    row.push(submission.submissionUUID)
-    row.push(submission.name)
-    row.push(submission.bestOldGame?.title ?? '')
-    row.push(submission.mostAnticipated?.title ?? '')
-    row.push(submission.enteredGiveaway ? 'Yes' : 'No')
-    submission.gamesOfTheYear.forEach((game) => {
-      row.push(game.title)
-    })
-    rows.push(row)
+const getCSVData = (sections: Section<any>[]): string => {
+  const rows: CSV = []
+  sections.forEach((section) => {
+    addSection(rows, section.columns, section.data, section.title)
+    addEmptyRow(rows)
   })
-  rows.push([]) // intentional space
-  // Properties
-  rows.push([propertiesHeaders])
-  rows.push(['gotyYear', properties.year])
-  rows.push(['deadline', properties.deadline])
-  rows.push(['hasGiveaway', properties.hasGiveaway])
-  rows.push(['giveawayAmountUSD', properties.giveawayAmountUSD])
-  rows.push(['tiePoints', ...properties.tiePoints])
   padRowsWithCorrectNumberOfColumns(rows)
   return rows.map((row) => row.join(',')).join('\n')
 }
 
-const padRowsWithCorrectNumberOfColumns = (rows: any[][]) => {
+const addSection = <T>(
+  rows: CSV,
+  columns: Column<T>[],
+  data: T[] | T,
+  title?: string,
+) => {
+  title && rows.push([title])
+  rows.push(columns.map((column) => column.label))
+  const addRow = (dataRow: T) => {
+    const row: any[] = []
+    columns.forEach((column) => {
+      if (column.accessorKey != null) {
+        row.push(dataRow[column.accessorKey])
+      } else if (column.accessorFn != null) {
+        row.push(column.accessorFn(dataRow))
+      } else {
+        row.push(dataRow)
+      }
+    })
+    rows.push(row)
+  }
+  if (Array.isArray(data)) {
+    data.forEach(addRow)
+  } else {
+    addRow(data)
+  }
+}
+
+const addEmptyRow = (rows: CSV) => rows.push([])
+
+const padRowsWithCorrectNumberOfColumns = (rows: CSV) => {
   const numberOfColumns = rows.reduce(
     (mostColumns: number, columns: any[]) =>
       columns.length > mostColumns ? columns.length : mostColumns,

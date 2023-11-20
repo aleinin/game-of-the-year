@@ -86,4 +86,3 @@ internal class ResultControllerTest {
             .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
     }
 }
-

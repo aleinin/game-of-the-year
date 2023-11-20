@@ -15,7 +15,7 @@ export const CodeBox = ({ content }: CodeBoxProps) => {
       setButtonText(COPY)
     }, 3000)
     navigator.clipboard.writeText(content).then(() => setButtonText(COPIED))
-  }, [])
+  }, [content])
   return (
     <div className={styles.codeContainer}>
       <div className={styles.codeBox}>{content}</div>

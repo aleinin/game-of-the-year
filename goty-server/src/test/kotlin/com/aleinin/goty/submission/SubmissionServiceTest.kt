@@ -200,7 +200,7 @@ class SubmissionServiceTest {
     fun `Should return a submission when updating`() {
         val secretSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal())
         val id = secretSubmission.id
-        val millis = testTime.toInstant().toEpochMilli();
+        val millis = testTime.toInstant().toEpochMilli()
         val request = SubmissionUpdateRequest(
             name = "name",
             secret = secretSubmission.secret,

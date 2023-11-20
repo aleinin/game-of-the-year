@@ -34,10 +34,6 @@ class SubmissionServiceTest {
     @InjectMocks
     lateinit var submissionService: SubmissionService
 
-    @BeforeEach
-    fun setup() {
-
-    }
     private val testTime = ZonedDateTime.of(2023, 1, 5, 0, 0, 0, 0, ZoneId.of("UTC"))
 
     private fun setupBeforeDeadline() {

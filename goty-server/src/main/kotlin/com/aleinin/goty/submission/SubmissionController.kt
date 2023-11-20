@@ -23,10 +23,14 @@ class SubmissionController(
     @GetMapping("/submissions")
     fun getSubmissions(): List<Submission> = submissionService.getAllSubmissions()
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/submissions/secret")
+    fun getSecretSubmissions(): List<SecretSubmission> = submissionService.getAllSecretSubmissions()
+
     @PostMapping("/submissions")
-    fun addSubmission(@RequestBody submissionRequest: SubmissionRequest) =
+    fun addSubmission(@RequestBody submissionCreationRequest: SubmissionCreationRequest) =
         try {
-            submissionService.saveSubmission(submissionRequest)
+            submissionService.saveSubmission(submissionCreationRequest)
         } catch (e: AfterDeadlineException) {
             throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
         } catch (e: TooManyGamesException) {

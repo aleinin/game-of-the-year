@@ -1,6 +1,6 @@
 package com.aleinin.goty.submission
 
-data class SubmissionRequest(
+data class SubmissionCreationRequest(
     val name: String,
     val gamesOfTheYear: List<RankedGameSubmission>,
     val mostAnticipated: GameSubmission?,

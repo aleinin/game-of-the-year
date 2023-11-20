@@ -15,23 +15,25 @@ class SubmissionService(
 
     fun getAllSubmissions(): List<Submission> = submissionRepository.findAllSubmissions()
 
+    fun getAllSecretSubmissions(): List<SecretSubmission> = secretSubmissionRepository.findAll()
+
     fun getSubmission(id: UUID): Optional<Submission> = submissionRepository.findSubmissionById(id)
 
-    fun saveSubmission(submissionRequest: SubmissionRequest): SecretSubmission =
+    fun saveSubmission(submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
         if (afterDeadline()) {
             throw AfterDeadlineException()
-        } else if (tooManyGamesOfTheYear(submissionRequest.gamesOfTheYear)) {
+        } else if (tooManyGamesOfTheYear(submissionCreationRequest.gamesOfTheYear)) {
             throw TooManyGamesException()
         } else {
             secretSubmissionRepository.save(
                 SecretSubmission(
                     id = UUID.randomUUID(),
                     secret = UUID.randomUUID(),
-                    name = submissionRequest.name,
-                    gamesOfTheYear = submissionRequest.gamesOfTheYear,
-                    mostAnticipated = submissionRequest.mostAnticipated,
-                    bestOldGame = submissionRequest.bestOldGame,
-                    enteredGiveaway = submissionRequest.enteredGiveaway,
+                    name = submissionCreationRequest.name,
+                    gamesOfTheYear = submissionCreationRequest.gamesOfTheYear,
+                    mostAnticipated = submissionCreationRequest.mostAnticipated,
+                    bestOldGame = submissionCreationRequest.bestOldGame,
+                    enteredGiveaway = submissionCreationRequest.enteredGiveaway,
                     enteredOn = clock.millis(),
                     updatedOn = clock.millis(),
                 )

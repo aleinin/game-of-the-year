@@ -58,6 +58,13 @@ class SubmissionServiceTest {
     }
 
     @Test
+    fun `Should get all secret submissions`() {
+        val secretSubmissions = SubmissionDataHelper.secret(SubmissionDataHelper.everything())
+        whenever(secretSubmissionRepository.findAll()).thenReturn(secretSubmissions)
+        assertEquals(secretSubmissions, submissionService.getAllSecretSubmissions())
+    }
+
+    @Test
     fun `should get submissions by id`() {
         val expected = SubmissionDataHelper.maximal()
         whenever(submissionRepository.findSubmissionById(expected.id)).thenReturn(Optional.of(expected))
@@ -74,7 +81,7 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should not allow submissions after the deadline when saving a submission`() {
-        val request = SubmissionRequest(
+        val request = SubmissionCreationRequest(
             name = "name",
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game"),
             mostAnticipated = null,
@@ -87,7 +94,7 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should not allow too many games of the year when saving a submission`() {
-        val request = SubmissionRequest(
+        val request = SubmissionCreationRequest(
             name = "name",
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game1", "game2", "game3", "gaem4"),
             mostAnticipated = null,

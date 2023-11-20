@@ -99,7 +99,7 @@ internal class SubmissionControllerTest {
     @Test
     fun `Should accept a valid SubmissionRequest and return a SecretSubmission`() {
         val validSubmission = SubmissionDataHelper.maximal()
-        val validSubmissionRequest = SubmissionRequest(
+        val validSubmissionCreationRequest = SubmissionCreationRequest(
             name = validSubmission.name,
             gamesOfTheYear = validSubmission.gamesOfTheYear,
             mostAnticipated = validSubmission.mostAnticipated,
@@ -111,7 +111,7 @@ internal class SubmissionControllerTest {
         setupBeforeDeadline()
         mockMvc.perform(
             post("/submissions")
-                .content(objectMapper.writeValueAsString(validSubmissionRequest))
+                .content(objectMapper.writeValueAsString(validSubmissionCreationRequest))
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isOk)
@@ -142,7 +142,7 @@ internal class SubmissionControllerTest {
     @Test
     fun `Should reject submission after deadline`() {
         setupAfterDeadline()
-        val validSubmissionRequest = SubmissionRequest(
+        val validSubmissionCreationRequest = SubmissionCreationRequest(
             name = "too late",
             gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,
             bestOldGame = null,
@@ -151,7 +151,7 @@ internal class SubmissionControllerTest {
         )
         mockMvc.perform(
             post("/submissions")
-                .content(objectMapper.writeValueAsString(validSubmissionRequest))
+                .content(objectMapper.writeValueAsString(validSubmissionCreationRequest))
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isForbidden)
@@ -160,7 +160,7 @@ internal class SubmissionControllerTest {
     @Test
     fun `Should reject a submission with too many gamesOfTheYear`() {
         setupBeforeDeadline()
-        val request = SubmissionRequest(
+        val request = SubmissionCreationRequest(
             name = "tooMany",
             gamesOfTheYear = (1..15).mapIndexed { index, _ -> RankedGameSubmission("", "", index) },
             mostAnticipated = null,
@@ -375,5 +375,35 @@ internal class SubmissionControllerTest {
         )
             .andExpect(status().isOk)
         verify(secretSubmissionRepository, times(1)).deleteAll()
+    }
+
+    @Test
+    fun `Should not allow unauthenticated to get secret submissions`() {
+        mockMvc.perform(
+            get("/submissions/secret")
+        )
+            .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    @WithMockUser(roles = ["USER"])
+    fun `Should only allow admins to get secret submissions`() {
+        mockMvc.perform(
+            get("/submissions/secret")
+        )
+            .andExpect(status().isForbidden)
+    }
+
+    @Test
+    @WithMockUser(roles = ["ADMIN"])
+    fun `Should get secret submissions`() {
+        val submissions = SubmissionDataHelper.secret(SubmissionDataHelper.everything())
+        whenever(secretSubmissionRepository.findAll()).thenReturn(submissions)
+        val expectedJson = objectMapper.writeValueAsString(submissions)
+        mockMvc.perform(
+            get("/submissions/secret")
+        )
+            .andExpect(status().isOk)
+            .andExpect(content().json(expectedJson, true))
     }
 }

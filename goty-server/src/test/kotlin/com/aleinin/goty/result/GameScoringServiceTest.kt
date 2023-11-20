@@ -1,7 +1,7 @@
 package com.aleinin.goty.result
 
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameSubmission
-import com.aleinin.goty.submit.RankedGameSubmission
+import com.aleinin.goty.submission.RankedGameSubmission
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

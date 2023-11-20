@@ -1,7 +1,7 @@
 package com.aleinin.goty.result
 
 import com.aleinin.goty.SubmissionDataHelper
-import com.aleinin.goty.submit.Submission
+import com.aleinin.goty.submission.Submission
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

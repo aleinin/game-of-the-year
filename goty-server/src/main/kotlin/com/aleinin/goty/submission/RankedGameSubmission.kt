@@ -1,4 +1,4 @@
-package com.aleinin.goty.submit
+package com.aleinin.goty.submission
 
 data class RankedGameSubmission(
     val id: String,

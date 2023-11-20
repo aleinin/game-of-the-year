@@ -1,9 +1,8 @@
-package com.aleinin.goty.submit
+package com.aleinin.goty.submission
 
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.properties.Properties
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
@@ -24,7 +23,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.Clock
-import java.time.Instant
 import java.util.Optional
 import java.util.UUID
 
@@ -41,12 +39,21 @@ internal class SubmissionControllerTest {
     lateinit var objectMapper: ObjectMapper
 
     @MockBean
-    lateinit var submissionRepository: SubmissionRepository
+    lateinit var secretSubmissionRepository: SecretSubmissionRepository
 
     @MockBean
     lateinit var clock: Clock
 
     var currentTestTime: Long = 0
+
+
+    private fun setupBeforeDeadline() {
+        whenever(clock.instant()).thenReturn(properties.deadline.toInstant().minusSeconds(1))
+    }
+
+    private fun setupAfterDeadline() {
+        whenever(clock.instant()).thenReturn(properties.deadline.toInstant())
+    }
 
     private fun invalidSubmissionRequestJSONGenerator(
         name: String,
@@ -60,42 +67,37 @@ internal class SubmissionControllerTest {
         }
     """.trimIndent()
 
-    @BeforeEach
-    fun setup() {
-        whenever(clock.millis()).thenReturn(currentTestTime)
-        whenever(clock.instant()).thenReturn(Instant.ofEpochMilli(currentTestTime))
-    }
-
     @Test
-    fun `Should return all submissions`() {
-        val mockSubmissions = SubmissionDataHelper.everything()
-        whenever(submissionRepository.findAll()).thenReturn(mockSubmissions)
-        val expectedJson = objectMapper.writeValueAsString(mockSubmissions)
+    fun `Should return all Submissions`() {
+        val submissions = SubmissionDataHelper.everything()
+        val secretSubmissions = SubmissionDataHelper.secret(submissions)
+        whenever(secretSubmissionRepository.findAll()).thenReturn(secretSubmissions)
+        val expectedJson = objectMapper.writeValueAsString(submissions)
         mockMvc.perform(get("/submissions"))
             .andExpect(status().isOk)
             .andExpect(content().json(expectedJson, true))
-
     }
 
     @Test
-    fun `Should return a specific submission`() {
-        val mockSubmission = SubmissionDataHelper.maximal()
-        whenever(submissionRepository.findById(mockSubmission.id)).thenReturn(Optional.of(mockSubmission))
-        val expectedJson = objectMapper.writeValueAsString(mockSubmission)
-        mockMvc.perform(get("/submissions/${mockSubmission.id}"))
+    fun `Should return a specific Submission`() {
+        val submission = SubmissionDataHelper.maximal()
+        val secretSubmission = SubmissionDataHelper.secret(submission)
+        whenever(secretSubmissionRepository.findById(secretSubmission.id)).thenReturn(Optional.of(secretSubmission))
+        val expectedJson = objectMapper.writeValueAsString(submission)
+        mockMvc.perform(get("/submissions/${submission.id}"))
             .andExpect(status().isOk)
             .andExpect(content().json(expectedJson, true))
     }
 
     @Test
     fun `Should return Not Found if invalid submission id`() {
-        whenever(submissionRepository.findById(any())).thenReturn(Optional.empty())
+        whenever(secretSubmissionRepository.findById(any())).thenReturn(Optional.empty())
         mockMvc.perform(get("/submissions/${UUID.randomUUID()}"))
             .andExpect(status().isNotFound)
     }
 
     @Test
-    fun `Should accept a valid submission`() {
+    fun `Should accept a valid SubmissionRequest and return a SecretSubmission`() {
         val validSubmission = SubmissionDataHelper.maximal()
         val validSubmissionRequest = SubmissionRequest(
             name = validSubmission.name,
@@ -104,14 +106,16 @@ internal class SubmissionControllerTest {
             bestOldGame = validSubmission.bestOldGame,
             enteredGiveaway = validSubmission.enteredGiveaway
         )
-        whenever(submissionRepository.insert(any<Submission>())).thenReturn(validSubmission)
+        val secretSubmission = SubmissionDataHelper.secret(validSubmission)
+        whenever(secretSubmissionRepository.save(any<SecretSubmission>())).thenReturn(secretSubmission)
+        setupBeforeDeadline()
         mockMvc.perform(
             post("/submissions")
                 .content(objectMapper.writeValueAsString(validSubmissionRequest))
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isOk)
-            .andExpect(content().json(objectMapper.writeValueAsString(validSubmission), true))
+            .andExpect(content().json(objectMapper.writeValueAsString(secretSubmission), true))
     }
 
     @Test
@@ -120,7 +124,6 @@ internal class SubmissionControllerTest {
         val invalidSubmissionRequestEmptyGOTY = invalidSubmissionRequestJSONGenerator(validSubmission.name, emptyList())
         val invalidSubmissionRequestBlankName =
             invalidSubmissionRequestJSONGenerator("", validSubmission.gamesOfTheYear)
-        Mockito.verify(submissionRepository, times(0)).insert(any<Submission>())
         mockMvc.perform(
             post("/submissions")
                 .content(objectMapper.writeValueAsString(invalidSubmissionRequestEmptyGOTY))
@@ -133,12 +136,12 @@ internal class SubmissionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isBadRequest)
+        Mockito.verify(secretSubmissionRepository, times(0)).save(any<SecretSubmission>())
     }
 
     @Test
-    fun `Should reject submission after cutoff`() {
-        val deadline = properties.deadline
-        whenever(clock.instant()).thenReturn(deadline.toInstant())
+    fun `Should reject submission after deadline`() {
+        setupAfterDeadline()
         val validSubmissionRequest = SubmissionRequest(
             name = "too late",
             gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,
@@ -156,6 +159,7 @@ internal class SubmissionControllerTest {
 
     @Test
     fun `Should reject a submission with too many gamesOfTheYear`() {
+        setupBeforeDeadline()
         val request = SubmissionRequest(
             name = "tooMany",
             gamesOfTheYear = (1..15).mapIndexed { index, _ -> RankedGameSubmission("", "", index) },
@@ -173,33 +177,38 @@ internal class SubmissionControllerTest {
 
     @Test
     fun `Should accept a valid submission update`() {
-        val validSubmission = SubmissionDataHelper.maximal()
-        val validSubmissionRequest = SubmissionRequest(
-            name = validSubmission.name,
-            gamesOfTheYear = validSubmission.gamesOfTheYear,
-            mostAnticipated = validSubmission.mostAnticipated,
+        val submission = SubmissionDataHelper.maximal()
+        val secretSubmission = SubmissionDataHelper.secret(submission)
+        val validSubmissionRequest = SubmissionUpdateRequest(
+            secret = secretSubmission.secret,
+            name = secretSubmission.name,
+            gamesOfTheYear = secretSubmission.gamesOfTheYear,
+            mostAnticipated = secretSubmission.mostAnticipated,
             bestOldGame = null, // removed best old game entry
-            enteredGiveaway = validSubmission.enteredGiveaway
+            enteredGiveaway = secretSubmission.enteredGiveaway
         )
-        val expectedValidSubmission = Submission(
-            id = validSubmission.id,
-            name = validSubmission.name,
-            gamesOfTheYear = validSubmission.gamesOfTheYear,
-            mostAnticipated = validSubmission.mostAnticipated,
+        val updatedSecretSubmission = SecretSubmission(
+            id = submission.id,
+            secret = secretSubmission.secret,
+            name = submission.name,
+            gamesOfTheYear = submission.gamesOfTheYear,
+            mostAnticipated = submission.mostAnticipated,
             bestOldGame = null,
-            enteredGiveaway = validSubmission.enteredGiveaway,
-            enteredOn = validSubmission.enteredOn,
+            enteredGiveaway = submission.enteredGiveaway,
+            enteredOn = submission.enteredOn,
             updatedOn = currentTestTime
         )
-        whenever(submissionRepository.findById(validSubmission.id)).thenReturn(Optional.of(validSubmission))
-        whenever(submissionRepository.save(expectedValidSubmission)).thenReturn(expectedValidSubmission)
+        val expectedUpdatedSubmission = updatedSecretSubmission.toSubmission()
+        setupBeforeDeadline()
+        whenever(secretSubmissionRepository.findById(secretSubmission.id)).thenReturn(Optional.of(secretSubmission))
+        whenever(secretSubmissionRepository.save(updatedSecretSubmission)).thenReturn(updatedSecretSubmission)
         mockMvc.perform(
-            put("/submissions/${validSubmission.id}")
+            put("/submissions/${submission.id}")
                 .content(objectMapper.writeValueAsString(validSubmissionRequest))
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isOk)
-            .andExpect(content().json(objectMapper.writeValueAsString(expectedValidSubmission), true))
+            .andExpect(content().json(objectMapper.writeValueAsString(expectedUpdatedSubmission), true))
     }
 
     @Test
@@ -207,8 +216,8 @@ internal class SubmissionControllerTest {
         val validGamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear
         val invalidRequestEmptyGOTY = invalidSubmissionRequestJSONGenerator("name", emptyList())
         val invalidRequestBlankName = invalidSubmissionRequestJSONGenerator("", validGamesOfTheYear)
-        whenever(submissionRepository.findById(any())).thenReturn(Optional.empty())
-        Mockito.verify(submissionRepository, times(0)).save(any())
+        whenever(secretSubmissionRepository.findById(any())).thenReturn(Optional.empty())
+        Mockito.verify(secretSubmissionRepository, times(0)).save(any())
         mockMvc.perform(
             put("/submissions/${UUID.randomUUID()}")
                 .content(invalidRequestEmptyGOTY)
@@ -223,20 +232,21 @@ internal class SubmissionControllerTest {
             .andExpect(status().isBadRequest)
     }
 
-
     @Test
     fun `Should respond NotFound when attempting to update a submission that doesnt exist`() {
-        val validUnsubmittedSubmission = SubmissionDataHelper.maximal()
-        val request = SubmissionRequest(
-            name = validUnsubmittedSubmission.name,
-            gamesOfTheYear = validUnsubmittedSubmission.gamesOfTheYear,
-            mostAnticipated = validUnsubmittedSubmission.mostAnticipated,
-            bestOldGame = validUnsubmittedSubmission.bestOldGame,
-            enteredGiveaway = validUnsubmittedSubmission.enteredGiveaway
+        val validUnsubmittedSecretSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal())
+        val request = SubmissionUpdateRequest(
+            name = validUnsubmittedSecretSubmission.name,
+            secret = validUnsubmittedSecretSubmission.secret,
+            gamesOfTheYear = validUnsubmittedSecretSubmission.gamesOfTheYear,
+            mostAnticipated = validUnsubmittedSecretSubmission.mostAnticipated,
+            bestOldGame = validUnsubmittedSecretSubmission.bestOldGame,
+            enteredGiveaway = validUnsubmittedSecretSubmission.enteredGiveaway
         )
-        whenever(submissionRepository.findById(any())).thenReturn(Optional.empty())
+        setupBeforeDeadline()
+        whenever(secretSubmissionRepository.findById(any())).thenReturn(Optional.empty())
         mockMvc.perform(
-            put("/submissions/${validUnsubmittedSubmission.id}")
+            put("/submissions/${validUnsubmittedSecretSubmission.id}")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
         )
@@ -245,13 +255,15 @@ internal class SubmissionControllerTest {
 
     @Test
     fun `Should reject a submission update with too many gamesOfTheYear`() {
-        val request = SubmissionRequest(
+        val request = SubmissionUpdateRequest(
             name = "tooMany",
+            secret = UUID.randomUUID(),
             gamesOfTheYear = (1..15).mapIndexed { index, _ -> RankedGameSubmission("", "", index) },
             mostAnticipated = null,
             bestOldGame = null,
             enteredGiveaway = false
         )
+        setupBeforeDeadline()
         mockMvc.perform(
             put("/submissions/${UUID.randomUUID()}")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -261,11 +273,11 @@ internal class SubmissionControllerTest {
     }
 
     @Test
-    fun `Should reject submission update after cutoff`() {
-        val deadline = properties.deadline
-        whenever(clock.instant()).thenReturn(deadline.toInstant())
-        val validSubmissionRequest = SubmissionRequest(
+    fun `Should reject submission update after deadline`() {
+        setupAfterDeadline()
+        val validSubmissionRequest = SubmissionUpdateRequest(
             name = "too late",
+            secret = UUID.randomUUID(),
             gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,
             bestOldGame = null,
             mostAnticipated = null,
@@ -307,12 +319,12 @@ internal class SubmissionControllerTest {
     @Test
     @WithMockUser(roles = ["ADMIN"])
     fun `Should delete a submission`() {
-        val mockSubmission = SubmissionDataHelper.maximal()
-        whenever(submissionRepository.findById(mockSubmission.id)).thenReturn(Optional.of(mockSubmission))
+        val secretSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal())
+        whenever(secretSubmissionRepository.findById(secretSubmission.id)).thenReturn(Optional.of(secretSubmission))
         mockMvc.perform(
-            delete("/submissions/${mockSubmission.id}")
+            delete("/submissions/${secretSubmission.id}")
         ).andExpect(status().isOk)
-        verify(submissionRepository).delete(mockSubmission)
+        verify(secretSubmissionRepository).deleteById(secretSubmission.id)
     }
 
     @Test
@@ -332,9 +344,11 @@ internal class SubmissionControllerTest {
             .andExpect(status().isForbidden)
     }
 
+
     @Test
     @WithMockUser(roles = ["ADMIN"])
     fun `Should require override when deleting all before deadline`() {
+        setupBeforeDeadline()
         mockMvc.perform(
             delete("/submissions")
         )
@@ -344,21 +358,22 @@ internal class SubmissionControllerTest {
     @Test
     @WithMockUser(roles = ["ADMIN"])
     fun `Should delete all when override supplied before deadline`() {
+        setupBeforeDeadline()
         mockMvc.perform(
             delete("/submissions?override=true")
         )
             .andExpect(status().isOk)
-        verify(submissionRepository, times(1)).deleteAll()
+        verify(secretSubmissionRepository, times(1)).deleteAll()
     }
 
     @Test
     @WithMockUser(roles = ["ADMIN"])
     fun `Should not require override when deleting all after deadline`() {
-        whenever(clock.instant()).thenReturn(properties.deadline.toInstant().plusSeconds(1))
+        setupAfterDeadline()
         mockMvc.perform(
             delete("/submissions")
         )
             .andExpect(status().isOk)
-        verify(submissionRepository, times(1)).deleteAll()
+        verify(secretSubmissionRepository, times(1)).deleteAll()
     }
 }

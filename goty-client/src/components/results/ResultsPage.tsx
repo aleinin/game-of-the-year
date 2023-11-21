@@ -14,6 +14,7 @@ export enum Tabs {
 
 const tabs = [Tabs.SUMMARY, Tabs.RESPONSES]
 
+const pathRegex = new RegExp(/\/results\/?/)
 const getActiveTab = (path: string) => {
   if (path.includes(`/${Tabs.SUMMARY}`)) {
     return Tabs.SUMMARY
@@ -21,7 +22,7 @@ const getActiveTab = (path: string) => {
   if (path.includes(`/${Tabs.RESPONSES}`)) {
     return Tabs.RESPONSES
   }
-  if (path !== '/results') {
+  if (!pathRegex.test(path)) {
     console.warn(`Unknown path: ${path}`)
   }
   return Tabs.SUMMARY

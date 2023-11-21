@@ -1,0 +1,14 @@
+@import "@/src/colors";
+
+.code-box {
+  color: $placeholder;
+  word-wrap: break-word;
+  padding: 10px;
+  background: $contentBackgroundLight;
+  font-size: 1em;
+}
+
+.code-container {
+  display: flex;
+  flex-direction: column;
+}

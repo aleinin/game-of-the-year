@@ -1,51 +1,59 @@
-import { Converter } from '../util/converter'
 import { Submission } from '../models/submission'
-import { Game } from '../models/game'
 import fetcher from './fetcher'
-
-export interface BackendSubmission extends BackendSubmissionRequest {
-  id: string
-}
-
-interface BackendGamesOfTheYear extends Game {
-  rank: number
-}
-
-export interface BackendSubmissionRequest {
-  name: string
-  gamesOfTheYear: BackendGamesOfTheYear[]
-  mostAnticipated: Game | null
-  bestOldGame: Game | null
-  enteredGiveaway: boolean | null
-}
+import { localStorageService } from './localStorageService'
+import {
+  BackendSubmission,
+  fromBackendSubmissionToSubmission,
+} from './backendModels/backendSubmission'
+import {
+  BackendSubmissionCreationRequest,
+  fromSubmissionToBackendSubmissionCreationRequest,
+} from './backendModels/backendSubmissionCreationRequest'
+import { BackendSecretSubmission } from './backendModels/backendSecretSubmission'
+import { fromSubmissionToBackendSubmissionUpdateRequest } from './backendModels/backendSubmissionUpdateRequest'
 
 export const SubmissionService = {
   getSubmission: (submissionUUID: string): Promise<Submission> => {
     return fetcher
       .get<BackendSubmission>(`/submissions/${submissionUUID}`)
-      .then(Converter.convertFromBackendToSubmission)
+      .then(fromBackendSubmissionToSubmission)
   },
   getSubmissions: (): Promise<Submission[]> => {
     return fetcher
       .get<BackendSubmission[]>('/submissions')
-      .then((response) =>
-        response.map(Converter.convertFromBackendToSubmission),
-      )
+      .then((response) => response.map(fromBackendSubmissionToSubmission))
   },
   createSubmission: (submission: Submission): Promise<Submission> => {
     return fetcher
-      .post<BackendSubmissionRequest, BackendSubmission>(
+      .post<BackendSubmissionCreationRequest, BackendSecretSubmission>(
         '/submissions',
-        Converter.convertToBackendSubmissionRequest(submission),
+        fromSubmissionToBackendSubmissionCreationRequest(submission),
       )
-      .then(Converter.convertFromBackendToSubmission)
+      .then((secretSubmission): BackendSubmission => {
+        const { secret, ...submission } = secretSubmission
+        localStorageService.setSubmissionIds(secretSubmission.id, secret)
+        return submission
+      })
+      .then(fromBackendSubmissionToSubmission)
   },
   updateSubmission: (submission: Submission): Promise<Submission> => {
     return fetcher
-      .put<BackendSubmissionRequest, BackendSubmission>(
+      .put<BackendSubmissionCreationRequest, BackendSubmission>(
         `/submissions/${submission.submissionUUID}`,
-        Converter.convertToBackendSubmissionRequest(submission),
+        fromSubmissionToBackendSubmissionUpdateRequest(submission),
       )
-      .then(Converter.convertFromBackendToSubmission)
+      .then(fromBackendSubmissionToSubmission)
+      .catch((error) => {
+        if (error?.cause?.status === 404) {
+          const { id, secret } = localStorageService.getSubmissionIds()
+          localStorageService.clearIds()
+          throw new Error(
+            `404: Submission could not be found/verified for id=${id} and secret=${secret}. Submission: ${JSON.stringify(
+              submission,
+            )}`,
+          )
+        }
+        throw new Error(error)
+      })
   },
 }

@@ -2,14 +2,29 @@ package com.aleinin.goty
 
 import com.aleinin.goty.result.RankedGameResult
 import com.aleinin.goty.result.ScoredGameResult
-import com.aleinin.goty.submit.GameSubmission
-import com.aleinin.goty.submit.RankedGameSubmission
-import com.aleinin.goty.submit.Submission
+import com.aleinin.goty.submission.GameSubmission
+import com.aleinin.goty.submission.RankedGameSubmission
+import com.aleinin.goty.submission.SecretSubmission
+import com.aleinin.goty.submission.Submission
 import java.util.UUID
 
 // Helper class with representative data to make testing easier
 class SubmissionDataHelper {
     companion object {
+
+        fun secret(submissions: List<Submission>): List<SecretSubmission> = submissions.map { secret(it) }
+        fun secret(submission: Submission): SecretSubmission =
+            SecretSubmission(
+                id = submission.id,
+                secret = UUID.randomUUID(),
+                name = submission.name,
+                gamesOfTheYear = submission.gamesOfTheYear,
+                mostAnticipated = submission.mostAnticipated,
+                bestOldGame = submission.bestOldGame,
+                enteredGiveaway = submission.enteredGiveaway,
+                enteredOn = submission.enteredOn,
+                updatedOn = submission.updatedOn
+            )
         fun everything(): List<Submission> = listOf(
             theMaximalSubmission,
             theMinimalSubmission,

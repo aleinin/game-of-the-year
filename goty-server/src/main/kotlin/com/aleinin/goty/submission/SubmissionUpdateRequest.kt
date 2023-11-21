@@ -1,7 +1,10 @@
-package com.aleinin.goty.submit
+package com.aleinin.goty.submission
 
-data class SubmissionRequest(
+import java.util.UUID
+
+data class SubmissionUpdateRequest(
     val name: String,
+    val secret: UUID,
     val gamesOfTheYear: List<RankedGameSubmission>,
     val mostAnticipated: GameSubmission?,
     val bestOldGame: GameSubmission?,

@@ -1,6 +1,6 @@
 package com.aleinin.goty.result
 
-import com.aleinin.goty.submit.GameSubmission
+import com.aleinin.goty.submission.GameSubmission
 import org.springframework.stereotype.Component
 
 @Component

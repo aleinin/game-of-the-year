@@ -3,8 +3,8 @@ package com.aleinin.goty.result
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameResult
 import com.aleinin.goty.SubmissionDataHelper.Companion.aScoredGameResult
-import com.aleinin.goty.submit.Submission
-import com.aleinin.goty.submit.SubmissionRepository
+import com.aleinin.goty.submission.Submission
+import com.aleinin.goty.submission.SubmissionRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,7 +46,7 @@ internal class ResultControllerTest {
             participants = emptyList(),
             giveawayParticipants = emptyList()
         )
-        whenever(submissionRepository.findAll()).thenReturn(mockSubmissions)
+        whenever(submissionRepository.findAllSubmissions()).thenReturn(mockSubmissions)
         mockMvc.perform(get("/results")
             .contentType("application/json"))
             .andExpect(status().isOk)
@@ -79,11 +79,10 @@ internal class ResultControllerTest {
             participants = mockSubmissions.map { it.name },
             giveawayParticipants = mockSubmissions.filter { it.enteredGiveaway }.map { it.name }
         )
-        whenever(submissionRepository.findAll()).thenReturn(mockSubmissions)
+        whenever(submissionRepository.findAllSubmissions()).thenReturn(mockSubmissions)
         mockMvc.perform(get("/results")
             .contentType("application/json"))
             .andExpect(status().isOk)
             .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
     }
 }
-

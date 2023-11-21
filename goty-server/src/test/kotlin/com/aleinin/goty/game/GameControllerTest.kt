@@ -75,4 +75,3 @@ internal class GameControllerTest {
             .andExpect(content().json(expectedJson, true))
     }
 }
-

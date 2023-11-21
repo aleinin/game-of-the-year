@@ -1,7 +1,8 @@
 package com.aleinin.goty.submission
 
 import org.springframework.stereotype.Repository
-import java.util.*
+import java.util.Optional
+import java.util.UUID
 
 @Repository
 class SubmissionRepository(private val secretSubmissionRepository: SecretSubmissionRepository) {

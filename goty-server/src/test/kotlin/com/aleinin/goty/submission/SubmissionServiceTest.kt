@@ -3,7 +3,6 @@ package com.aleinin.goty.submission
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.properties.Properties
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -15,7 +14,8 @@ import org.mockito.kotlin.whenever
 import java.time.Clock
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.Optional
+import java.util.UUID
 
 @ExtendWith(MockitoExtension::class)
 class SubmissionServiceTest {

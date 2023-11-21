@@ -3,7 +3,8 @@ package com.aleinin.goty.submission
 import com.aleinin.goty.properties.Properties
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.util.*
+import java.util.Optional
+import java.util.UUID
 
 @Service
 class SubmissionService(

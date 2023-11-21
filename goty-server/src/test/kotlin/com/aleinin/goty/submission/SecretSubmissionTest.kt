@@ -3,7 +3,7 @@ package com.aleinin.goty.submission
 import com.aleinin.goty.SubmissionDataHelper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.UUID
 
 class SecretSubmissionTest {
     @Test

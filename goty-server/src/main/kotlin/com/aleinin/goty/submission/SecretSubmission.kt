@@ -1,6 +1,6 @@
 package com.aleinin.goty.submission
 
-import java.util.*
+import java.util.UUID
 
 fun SecretSubmission.toSubmission() = Submission(
     id = this.id,

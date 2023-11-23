@@ -1,6 +1,7 @@
 package com.aleinin.goty.result
 
 import com.aleinin.goty.properties.Properties
+import com.aleinin.goty.properties.PropertiesService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -15,6 +16,9 @@ internal class PointsServiceTest {
     @Mock
     lateinit var properties: Properties
 
+    @Mock
+    lateinit var propertiesService: PropertiesService
+
     @InjectMocks
     lateinit var pointService: PointsService
 
@@ -22,6 +26,7 @@ internal class PointsServiceTest {
 
     @BeforeEach
     fun setup() {
+        whenever(propertiesService.getProperties()).thenReturn(properties)
         whenever(properties.tiePoints).thenReturn(mockTiePoints)
     }
 

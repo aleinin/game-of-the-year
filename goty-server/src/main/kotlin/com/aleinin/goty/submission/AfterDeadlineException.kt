@@ -1,3 +1,3 @@
 package com.aleinin.goty.submission
 
-class AfterDeadlineException : Exception()
+class AfterDeadlineException(message: String) : Exception(message)

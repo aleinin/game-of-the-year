@@ -1,6 +1,5 @@
 package com.aleinin.goty.submission
 
-import com.aleinin.goty.properties.Properties
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -18,15 +17,8 @@ import java.util.UUID
 @CrossOrigin
 @RestController
 class SubmissionController(
-    properties: Properties,
     private val submissionService: SubmissionService,
 ) {
-
-    private val deadlineMessage = "Submission deadline of ${properties.deadline} has been met."
-    private val tooManyGamesOfTheYearMessage =
-        "Too many games of the year. The maximum allowed is ${properties.tiePoints.size}."
-    private val overrideRequiredMessage =
-        "Submission deadline of ${properties.deadline} has not been met. You must override to delete all submissions."
 
     @GetMapping("/submissions")
     fun getSubmissions(): List<Submission> = submissionService.getAllSubmissions()
@@ -40,9 +32,9 @@ class SubmissionController(
         try {
             submissionService.saveSubmission(submissionCreationRequest)
         } catch (e: AfterDeadlineException) {
-            throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
+            throw ResponseStatusException(HttpStatus.FORBIDDEN, e.message)
         } catch (e: TooManyGamesException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, tooManyGamesOfTheYearMessage)
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
         }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -51,7 +43,7 @@ class SubmissionController(
         try {
             submissionService.deleteAllSubmissions(override)
         } catch (e: OverrideRequiredException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, overrideRequiredMessage)
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
         }
 
 
@@ -65,9 +57,9 @@ class SubmissionController(
             submissionService.updateSubmission(id, submissionUpdateRequest)
                 .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
         } catch (e: AfterDeadlineException) {
-            throw ResponseStatusException(HttpStatus.FORBIDDEN, deadlineMessage)
+            throw ResponseStatusException(HttpStatus.FORBIDDEN, e.message)
         } catch (e: TooManyGamesException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, tooManyGamesOfTheYearMessage)
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
         }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

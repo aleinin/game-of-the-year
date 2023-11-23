@@ -1,3 +1,3 @@
 package com.aleinin.goty.submission
 
-class OverrideRequiredException: Exception()
+class OverrideRequiredException(message: String): Exception(message)

@@ -9,9 +9,9 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableMethodSecurity
-class SecurityConfiguration {
+open class SecurityConfiguration {
     @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain = http
+    open fun filterChain(http: HttpSecurity): SecurityFilterChain = http
         .csrf { csrf -> csrf.disable() }
             .authorizeHttpRequests { auth -> auth.anyRequest().permitAll()}
             .httpBasic(Customizer.withDefaults())

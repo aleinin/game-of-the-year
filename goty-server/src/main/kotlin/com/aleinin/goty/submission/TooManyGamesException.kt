@@ -1,3 +1,3 @@
 package com.aleinin.goty.submission
 
-class TooManyGamesException: Exception()
+class TooManyGamesException(message: String) : Exception(message)

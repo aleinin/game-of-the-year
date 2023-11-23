@@ -2,6 +2,7 @@ package com.aleinin.goty.submission
 
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.properties.Properties
+import com.aleinin.goty.properties.PropertiesService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -19,11 +20,15 @@ import java.util.UUID
 
 @ExtendWith(MockitoExtension::class)
 class SubmissionServiceTest {
+
+    @Mock
+    lateinit var properties: Properties
+
     @Mock
     lateinit var clock: Clock
 
     @Mock
-    lateinit var properties: Properties
+    lateinit var propertiesService: PropertiesService
 
     @Mock
     lateinit var submissionRepository: SubmissionRepository
@@ -35,15 +40,28 @@ class SubmissionServiceTest {
     lateinit var submissionService: SubmissionService
 
     private val testTime = ZonedDateTime.of(2023, 1, 5, 0, 0, 0, 0, ZoneId.of("UTC"))
+    private fun getExpectedAfterDeadlineMessage(deadline: ZonedDateTime) = "Submission deadline of $deadline has been met."
+    private fun getExpectedTooManyGamesMessage(tiePoints: List<Int>) = "Too many games of the year. The maximum allowed is ${tiePoints.size}."
+    private fun getExpectedOverrideRequiredMessage(deadline: ZonedDateTime) = "Submission deadline of $deadline has not been met. You must override to delete all submissions."
 
-    private fun setupBeforeDeadline() {
+
+    private fun setupBeforeDeadline(): ZonedDateTime {
+        whenever(propertiesService.getProperties()).thenReturn(properties)
         whenever(properties.deadline).thenReturn(testTime)
         whenever(clock.instant()).thenReturn(testTime.toInstant().minusSeconds(1))
+        return testTime
     }
 
-    private fun setupAfterDeadline() {
+    private fun setupAfterDeadline(): ZonedDateTime {
+        whenever(propertiesService.getProperties()).thenReturn(properties)
         whenever(properties.deadline).thenReturn(testTime)
         whenever(clock.instant()).thenReturn(testTime.toInstant().plusSeconds(1))
+        return testTime
+    }
+
+    private fun mockTiePoints(mock: List<Int>) {
+        whenever(propertiesService.getProperties()).thenReturn(properties)
+        whenever(properties.tiePoints).thenReturn(mock)
     }
 
     @Test
@@ -84,8 +102,9 @@ class SubmissionServiceTest {
             bestOldGame = null,
             enteredGiveaway = false
         )
-        setupAfterDeadline()
-        assertThrows<AfterDeadlineException> { submissionService.saveSubmission(request) }
+        val deadline = setupAfterDeadline()
+        val thrown = assertThrows<AfterDeadlineException> { submissionService.saveSubmission(request) }
+        assertEquals(getExpectedAfterDeadlineMessage(deadline), thrown.message)
     }
 
     @Test
@@ -98,8 +117,10 @@ class SubmissionServiceTest {
             enteredGiveaway = false
         )
         setupBeforeDeadline()
-        whenever(properties.tiePoints).thenReturn(listOf(3, 2, 1))
-        assertThrows<TooManyGamesException> { submissionService.saveSubmission(request) }
+        val tiePoints = listOf(3, 2, 1)
+        mockTiePoints(tiePoints)
+        val thrown = assertThrows<TooManyGamesException> { submissionService.saveSubmission(request) }
+        assertEquals(getExpectedTooManyGamesMessage(tiePoints), thrown.message)
     }
 
     @Test
@@ -111,8 +132,9 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should require override if before the deadline when attempting to delete all`() {
-        setupBeforeDeadline()
-        assertThrows<OverrideRequiredException> { submissionService.deleteAllSubmissions(false) }
+        val deadline = setupBeforeDeadline()
+        val thrown = assertThrows<OverrideRequiredException> { submissionService.deleteAllSubmissions(false) }
+        assertEquals(getExpectedOverrideRequiredMessage(deadline), thrown.message)
         assertDoesNotThrow { submissionService.deleteAllSubmissions(true) }
     }
 
@@ -142,8 +164,9 @@ class SubmissionServiceTest {
             bestOldGame = null,
             enteredGiveaway = false
         )
-        setupAfterDeadline()
-        assertThrows<AfterDeadlineException> { submissionService.updateSubmission(id, request) }
+        val deadline = setupAfterDeadline()
+        val thrown = assertThrows<AfterDeadlineException> { submissionService.updateSubmission(id, request) }
+        assertEquals(getExpectedAfterDeadlineMessage(deadline), thrown.message)
     }
 
     @Test
@@ -159,8 +182,10 @@ class SubmissionServiceTest {
             enteredGiveaway = false
         )
         setupBeforeDeadline()
-        whenever(properties.tiePoints).thenReturn(listOf(3, 2, 1))
-        assertThrows<TooManyGamesException> { submissionService.updateSubmission(id, request) }
+        val tiePoints = listOf(3, 2, 1)
+        mockTiePoints(tiePoints)
+        val thrown = assertThrows<TooManyGamesException> { submissionService.updateSubmission(id, request) }
+        assertEquals(getExpectedTooManyGamesMessage(tiePoints), thrown.message)
     }
 
     @Test
@@ -176,7 +201,7 @@ class SubmissionServiceTest {
             enteredGiveaway = false
         )
         whenever(secretSubmissionRepository.findById(id)).thenReturn(Optional.empty())
-        whenever(properties.tiePoints).thenReturn(listOf(3, 2, 1))
+        mockTiePoints(listOf(3, 2, 1))
         setupBeforeDeadline()
         assertEquals(Optional.empty<Submission>(), submissionService.updateSubmission(id, request))
     }
@@ -194,7 +219,7 @@ class SubmissionServiceTest {
             enteredGiveaway = false
         )
         whenever(secretSubmissionRepository.findById(id)).thenReturn(Optional.of(secretSubmission))
-        whenever(properties.tiePoints).thenReturn(listOf(3, 2, 1))
+        mockTiePoints(listOf(3, 2, 1))
         setupBeforeDeadline()
         assertEquals(Optional.empty<Submission>(), submissionService.updateSubmission(id, request))
     }
@@ -224,7 +249,7 @@ class SubmissionServiceTest {
             updatedOn = millis
         )
         whenever(secretSubmissionRepository.findById(id)).thenReturn(Optional.of(secretSubmission))
-        whenever(properties.tiePoints).thenReturn(listOf(3, 2, 1))
+        mockTiePoints(listOf(3, 2, 1))
         whenever(secretSubmissionRepository.save(expected)).thenReturn(expected)
         whenever(clock.millis()).thenReturn(millis)
         setupBeforeDeadline()

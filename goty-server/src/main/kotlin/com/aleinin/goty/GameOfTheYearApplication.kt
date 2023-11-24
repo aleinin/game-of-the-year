@@ -6,7 +6,7 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-open class GameOfTheYearApplication
+class GameOfTheYearApplication
 
 fun main(args: Array<String>) {
     runApplication<GameOfTheYearApplication>(*args)

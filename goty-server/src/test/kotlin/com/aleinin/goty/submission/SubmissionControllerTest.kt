@@ -1,8 +1,11 @@
 package com.aleinin.goty.submission
 
 import com.aleinin.goty.SubmissionDataHelper
-import com.aleinin.goty.properties.Properties
+import com.aleinin.goty.configuration.DefaultProperties
+import com.aleinin.goty.configuration.toProperties
+import com.aleinin.goty.properties.PropertiesService
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
@@ -10,6 +13,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -28,15 +32,19 @@ import java.util.UUID
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@EnableConfigurationProperties
 internal class SubmissionControllerTest {
     @Autowired
     lateinit var mockMvc: MockMvc
 
     @Autowired
-    lateinit var properties: Properties
+    lateinit var objectMapper: ObjectMapper
 
     @Autowired
-    lateinit var objectMapper: ObjectMapper
+    lateinit var defaultProperties: DefaultProperties
+
+    @MockBean
+    lateinit var propertiesService: PropertiesService
 
     @MockBean
     lateinit var secretSubmissionRepository: SecretSubmissionRepository
@@ -44,15 +52,22 @@ internal class SubmissionControllerTest {
     @MockBean
     lateinit var clock: Clock
 
-    var currentTestTime: Long = 0
+    private var currentTestTime: Long = 0
+
+    @BeforeEach()
+    fun setup() {
+        whenever(propertiesService.getProperties()).thenReturn(defaultProperties.toProperties())
+    }
 
 
     private fun setupBeforeDeadline() {
-        whenever(clock.instant()).thenReturn(properties.deadline.toInstant().minusSeconds(1))
+        val deadline = propertiesService.getProperties().deadline
+        whenever(clock.instant()).thenReturn(deadline.toInstant().minusSeconds(1))
     }
 
     private fun setupAfterDeadline() {
-        whenever(clock.instant()).thenReturn(properties.deadline.toInstant())
+        val deadline = propertiesService.getProperties().deadline
+        whenever(clock.instant()).thenReturn(deadline.toInstant())
     }
 
     private fun invalidSubmissionRequestJSONGenerator(

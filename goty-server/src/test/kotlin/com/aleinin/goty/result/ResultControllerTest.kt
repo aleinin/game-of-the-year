@@ -3,24 +3,31 @@ package com.aleinin.goty.result
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameResult
 import com.aleinin.goty.SubmissionDataHelper.Companion.aScoredGameResult
+import com.aleinin.goty.properties.PropertiesDocumentRepository
 import com.aleinin.goty.submission.Submission
 import com.aleinin.goty.submission.SubmissionRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
+import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
+import java.util.Optional
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal class ResultControllerTest {
     lateinit var mockMvc: MockMvc
+
+    @MockBean
+    lateinit var propertiesDocumentRepository: PropertiesDocumentRepository
 
     @Autowired
     lateinit var resultService: ResultService
@@ -34,6 +41,7 @@ internal class ResultControllerTest {
     @BeforeEach
     fun setup() {
         mockMvc = standaloneSetup(ResultController(submissionRepository, resultService)).build()
+        whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.empty())
     }
 
     @Test

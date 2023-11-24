@@ -1,11 +1,11 @@
 package com.aleinin.goty.result
 
-import com.aleinin.goty.properties.Properties
+import com.aleinin.goty.properties.PropertiesService
 import org.springframework.stereotype.Component
 
 @Component
-class PointsService(private val properties: Properties) {
+class PointsService(private val propertiesService: PropertiesService) {
 
     fun calculatePoints(rank: Int): Int =
-        properties.tiePoints.getOrNull(rank) ?: 0
+        propertiesService.getProperties().tiePoints.getOrNull(rank) ?: 0
 }

@@ -4,7 +4,7 @@
 
 Text in the frontend is currently hardcoded, which requires code changes for small changes to questions
 
-This also limits the usefulness to other people in the (rare) chacne someone else wanted to use this app
+This also limits the usefulness to other people in the (rare) chance someone else wanted to use this app
 
 ## Decision
 
@@ -25,7 +25,7 @@ One challenge is showing the users the deadline in their local time. Whenever a 
 
 For example, GET /properties?localTimeZone=America/Chicago would return the formatted date in Chicago time (CST or CDT)
 
-If no localTimeZone is provided, the user can also provide a defaultLocalTimeZone in their `Properties` that will be used instead
+If no localTimeZone is provided, the admin can also provide a defaultLocalTimeZone in their `Properties` that will be used instead
 
 if no localTimeZone and no defaultLocalTimeZone exist, then UTC will be used.
 

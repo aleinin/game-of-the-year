@@ -5,17 +5,23 @@
   border: 1px solid $border;
   border-radius: 4px;
   box-sizing: border-box;
-  cursor: default;
   outline: none;
   padding: 5px;
   box-shadow: rgba(0, 0, 0, 0.16) 0 4px 4px 0;
   font-size: 14px;
   min-width: 65px;
   height: 100%;
-
-  &:focus {
-    outline: #02b3e6 2px solid;
+  &:not(.disabled) {
+    cursor: pointer;
   }
+  &:focus:not(.disabled) {
+    outline: $accent 2px solid;
+  }
+}
+
+.disabled {
+  color: $disabled;
+  border-color: $disabled;
 }
 
 .value {

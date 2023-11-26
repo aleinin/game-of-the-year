@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
 import styles from './Dropdown.module.scss'
+import classNames from 'classnames'
 
 interface DropdownProps<T = any> {
   value?: T
@@ -10,6 +11,7 @@ interface DropdownProps<T = any> {
   onChange?: (value: T) => void
   placeholder?: string
   width?: string
+  disabled?: boolean
 }
 
 export const Dropdown = <T,>({
@@ -19,6 +21,7 @@ export const Dropdown = <T,>({
   placeholder = 'Select a value',
   width,
   accessorFn,
+  disabled = false,
 }: DropdownProps<T>) => {
   const ref = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -32,8 +35,10 @@ export const Dropdown = <T,>({
     [setSelected, setIsOpen, onChange],
   )
   const handleClick = useCallback(() => {
-    setIsOpen(!isOpen)
-  }, [setIsOpen, isOpen])
+    if (!disabled) {
+      setIsOpen(!isOpen)
+    }
+  }, [setIsOpen, isOpen, disabled])
   const handleDocumentClick = useCallback(
     (event: any) => {
       if (!event.composedPath().includes(ref.current)) {
@@ -56,7 +61,7 @@ export const Dropdown = <T,>({
       style={{ width: `${width ?? '100%'}` }}
     >
       <div
-        className={styles.control}
+        className={classNames(styles.control, { [styles.disabled]: disabled })}
         role="button"
         tabIndex={0}
         onMouseDown={handleClick}

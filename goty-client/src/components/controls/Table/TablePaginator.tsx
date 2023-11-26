@@ -9,6 +9,7 @@ export interface TablePaginatorProps {
   totalPages: number
   setPage: (pageIndex: number) => void
   setRowsPerPage: (rowsPerPage: number) => void
+  disabled?: boolean
 }
 
 export const TablePaginator = ({
@@ -18,6 +19,7 @@ export const TablePaginator = ({
   setRowsPerPage,
   totalPages,
   setPage,
+  disabled = false,
 }: TablePaginatorProps) => {
   return (
     <div className={styles.paginatorContainer}>
@@ -29,6 +31,7 @@ export const TablePaginator = ({
         />
       </div>
       <Dropdown<number>
+        disabled={disabled}
         value={rowsPerPage}
         options={rowsPerPageOptions}
         onChange={setRowsPerPage}

@@ -27,16 +27,19 @@ const gameHeaders: Header<GameResult>[] = [
     label: 'Rank',
     accessorFn: (game: GameResult) => game.rank + 1,
     key: 'rank',
+    size: '1fr',
   },
   {
     label: 'Title',
     accessorFn: (game: GameResult) => game.title,
     key: 'title',
+    size: '3fr',
   },
   {
     label: 'Votes',
     accessorFn: (game: GameResult) => game.votes,
     key: 'votes',
+    size: '1fr',
   },
 ]
 const gotyHeaders: Header<GameOfTheYearResult>[] = [
@@ -44,21 +47,25 @@ const gotyHeaders: Header<GameOfTheYearResult>[] = [
     label: 'Rank',
     accessorFn: (game: GameOfTheYearResult) => game.rank + 1,
     key: 'rank',
+    size: '1fr',
   },
   {
     label: 'Title',
     accessorFn: (game: GameOfTheYearResult) => game.title,
     key: 'title',
+    size: '3fr',
   },
   {
     label: 'Votes',
     accessorFn: (game: GameOfTheYearResult) => game.votes,
     key: 'votes',
+    size: '1fr',
   },
   {
     label: 'Points',
     accessorFn: (game: GameOfTheYearResult) => game.points,
     key: 'points',
+    size: '1fr',
   },
 ]
 

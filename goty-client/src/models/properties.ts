@@ -1,6 +1,6 @@
 export interface Properties {
   title: string
-  goty: {
+  gotyQuestion: {
     title: string
     question: string
     rules: string[]

@@ -4,7 +4,7 @@ import { Properties } from '../../models/properties'
 const currentYear = () => new Date().getFullYear()
 
 const initialState: Properties = {
-  goty: { question: '', rules: [''], title: '' },
+  gotyQuestion: { question: '', rules: [''], title: '' },
   title: '',
   tiePoints: [],
   year: currentYear(),

@@ -9,7 +9,7 @@ interface ResolvedTemplate {
 export interface BackendProperties {
   title: ResolvedTemplate
   year: number
-  goty: {
+  gotyQuestion: {
     title: ResolvedTemplate
     question: ResolvedTemplate
     rules: ResolvedTemplate[]
@@ -23,7 +23,7 @@ export interface BackendProperties {
 
 export const fromBackendPropertiesToProperties = ({
   title,
-  goty,
+  gotyQuestion,
   tiePoints,
   year,
   deadline,
@@ -31,10 +31,10 @@ export const fromBackendPropertiesToProperties = ({
   giveawayAmountUSD,
 }: BackendProperties): Properties => ({
   title: title.text,
-  goty: {
-    title: goty.title.text,
-    question: goty.question.text,
-    rules: goty.rules.map((rule) => rule.text),
+  gotyQuestion: {
+    title: gotyQuestion.title.text,
+    question: gotyQuestion.question.text,
+    rules: gotyQuestion.rules.map((rule) => rule.text),
   },
   tiePoints,
   year,

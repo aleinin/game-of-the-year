@@ -85,9 +85,9 @@ export const GOTY = (props: GOTYProps) => {
     }
   }
   return (
-    <Card title={properties.goty.title} required={true}>
-      <span>{properties.goty.question}</span>
-      <Rules readonly={props.readonly} rules={properties.goty.rules} />
+    <Card title={properties.gotyQuestion.title} required={true}>
+      <span>{properties.gotyQuestion.question}</span>
+      <Rules readonly={props.readonly} rules={properties.gotyQuestion.rules} />
       {!props.readonly && getTieBreaker(properties.tiePoints)}
       {props.readonly ||
       props.games.length === properties.tiePoints.length ? null : (

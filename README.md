@@ -65,7 +65,7 @@ curl --location --request PUT 'http://localhost:8080/properties?localTimeZone=Am
 --header 'Authorization: Basic PASSWORD' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "title": "The Midnight Watchmen'\''s\nTop Games of the Year ${year}",
+    "title": "My Top Games of the Year ${year}",
     "year": 2023,
     "gotyQuestion": {
         "title": "Games of the Year",

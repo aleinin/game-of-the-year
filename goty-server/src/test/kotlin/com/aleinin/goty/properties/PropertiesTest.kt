@@ -14,7 +14,7 @@ internal class PropertiesTest {
             Properties(
                 title = "",
                 year = 2023,
-                goty = GotyQuestion("", "", emptyList()),
+                gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = emptyList(),
                 hasGiveaway = false,
                 giveawayAmountUSD = 0,
@@ -30,7 +30,7 @@ internal class PropertiesTest {
             Properties(
                 title = "",
                 year = 2023,
-                goty = GotyQuestion("", "", emptyList()),
+                gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(3, 1, 2),
                 hasGiveaway = false,
                 giveawayAmountUSD = 0,
@@ -44,7 +44,7 @@ internal class PropertiesTest {
     fun `Should accept valid props`() {
         val actual = Properties(
             title =  "",
-            goty = GotyQuestion("", "", emptyList()),
+            gotyQuestion = GotyQuestion("", "", emptyList()),
             year = 2023,
             tiePoints = listOf(3, 2, 1),
             hasGiveaway = false,

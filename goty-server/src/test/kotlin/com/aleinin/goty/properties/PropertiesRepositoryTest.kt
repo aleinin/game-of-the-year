@@ -31,7 +31,7 @@ internal class PropertiesRepositoryTest {
         val mockDocument = PropertiesDocument(
             id = propertiesId,
             title = "Hello World",
-            goty = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
+            gotyQuestion = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
             year = deadline.year,
             tiePoints = listOf(3, 2, 1),
             deadline = deadline.toInstant(),
@@ -44,7 +44,7 @@ internal class PropertiesRepositoryTest {
         val expected = Optional.of(
             Properties(
                 title = "Hello World",
-                goty = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
+                gotyQuestion = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
                 year = deadline.year,
                 tiePoints = listOf(3, 2, 1),
                 deadline = deadline,
@@ -61,7 +61,7 @@ internal class PropertiesRepositoryTest {
     fun `Should store Properties`() {
         val expected = Properties(
             title = "Hello World",
-            goty = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
+            gotyQuestion = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
             year = deadline.year,
             tiePoints = listOf(3, 2, 1),
             deadline = deadline,
@@ -72,7 +72,7 @@ internal class PropertiesRepositoryTest {
         val expectedDocument = PropertiesDocument(
             id = "properties",
             title = "Hello World",
-            goty = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
+            gotyQuestion = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
             year = deadline.year,
             tiePoints = listOf(3, 2, 1),
             deadline = deadline.toInstant(),

@@ -14,7 +14,7 @@ import java.time.ZoneId
 
 fun DefaultProperties.toProperties() = Properties(
     title = this.title,
-    goty = this.goty,
+    gotyQuestion = this.gotyQuestion,
     year = this.year,
     tiePoints = this.tiePoints,
     deadline = this.deadline,
@@ -30,7 +30,7 @@ data class DefaultProperties(
     val title: String,
 
     @field:NotNull
-    val goty: GotyQuestion,
+    val gotyQuestion: GotyQuestion,
 
     @field:Positive
     val year: Int,

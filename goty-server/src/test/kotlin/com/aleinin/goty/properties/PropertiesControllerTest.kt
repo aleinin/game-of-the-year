@@ -56,7 +56,7 @@ internal class PropertiesControllerTest {
         id = "id",
         title = "goty",
         year = 2050,
-        goty = GotyQuestion("title", "question", emptyList()),
+        gotyQuestion = GotyQuestion("title", "question", emptyList()),
         tiePoints = listOf(3, 2, 1),
         deadline = deadline.toInstant(),
         zoneId = UTC,
@@ -68,7 +68,7 @@ internal class PropertiesControllerTest {
     private val basicRequest = Properties(
         title = "goty",
         year = 2050,
-        goty = GotyQuestion("title", "question", emptyList()),
+        gotyQuestion = GotyQuestion("title", "question", emptyList()),
         tiePoints = listOf(15, 13, 11),
         deadline = deadline,
         hasGiveaway = false,
@@ -82,9 +82,9 @@ internal class PropertiesControllerTest {
         val expected = PropertiesResponse(
             title = ResolvedTemplate(mockPropertiesDocument.title, mockPropertiesDocument.title),
             year = mockPropertiesDocument.year,
-            goty = GotyQuestionResponse(
-                ResolvedTemplate(mockPropertiesDocument.goty.title, mockPropertiesDocument.goty.title),
-                ResolvedTemplate(mockPropertiesDocument.goty.question, mockPropertiesDocument.goty.question),
+            gotyQuestion = GotyQuestionResponse(
+                ResolvedTemplate(mockPropertiesDocument.gotyQuestion.title, mockPropertiesDocument.gotyQuestion.title),
+                ResolvedTemplate(mockPropertiesDocument.gotyQuestion.question, mockPropertiesDocument.gotyQuestion.question),
                 emptyList()
             ),
             tiePoints = mockPropertiesDocument.tiePoints,
@@ -103,13 +103,13 @@ internal class PropertiesControllerTest {
     fun `Should get the default properties if none are stored`() {
         whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.empty())
         val default = defaultProperties.toProperties()
-        val rule = defaultProperties.goty.rules[0]
+        val rule = defaultProperties.gotyQuestion.rules[0]
         val expected = PropertiesResponse(
             title = ResolvedTemplate(default.title, default.title),
             year = default.year,
-            goty = GotyQuestionResponse(
-                ResolvedTemplate(default.goty.title, default.goty.title),
-                ResolvedTemplate(default.goty.question, "What are your favorite game(s) of ${defaultProperties.year}?"),
+            gotyQuestion = GotyQuestionResponse(
+                ResolvedTemplate(default.gotyQuestion.title, default.gotyQuestion.title),
+                ResolvedTemplate(default.gotyQuestion.question, "What are your favorite game(s) of ${defaultProperties.year}?"),
                 listOf(ResolvedTemplate(rule, rule))
             ),
             tiePoints = default.tiePoints,
@@ -130,7 +130,7 @@ internal class PropertiesControllerTest {
         val expectedDocument = PropertiesDocument(
             id = PropertiesRepository.PROPERTIES_ID,
             title = basicRequest.title,
-            goty = GotyQuestion(basicRequest.goty.title, basicRequest.goty.question, basicRequest.goty.rules),
+            gotyQuestion = GotyQuestion(basicRequest.gotyQuestion.title, basicRequest.gotyQuestion.question, basicRequest.gotyQuestion.rules),
             year = basicRequest.year,
             tiePoints = basicRequest.tiePoints,
             deadline = basicRequest.deadline.toInstant(),
@@ -141,9 +141,9 @@ internal class PropertiesControllerTest {
         )
         val expectedResponse = PropertiesResponse(
             title = ResolvedTemplate(basicRequest.title, basicRequest.title),
-            goty = GotyQuestionResponse(
-                ResolvedTemplate(basicRequest.goty.title, basicRequest.goty.title),
-                ResolvedTemplate(basicRequest.goty.question, basicRequest.goty.question),
+            gotyQuestion = GotyQuestionResponse(
+                ResolvedTemplate(basicRequest.gotyQuestion.title, basicRequest.gotyQuestion.title),
+                ResolvedTemplate(basicRequest.gotyQuestion.question, basicRequest.gotyQuestion.question),
                 emptyList()
             ),
             year = basicRequest.year,

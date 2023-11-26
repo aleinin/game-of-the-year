@@ -16,7 +16,7 @@ class TemplateServiceTest {
         val properties = Properties(
             title="",
             year = 2077,
-            goty = GotyQuestion("", "", emptyList()),
+            gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
             deadline = deadline,
             hasGiveaway = true,
@@ -50,7 +50,7 @@ class TemplateServiceTest {
         val properties = Properties(
             title="",
             year = 2077,
-            goty = GotyQuestion("", "", emptyList()),
+            gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
             deadline = deadline,
             hasGiveaway = true,
@@ -68,7 +68,7 @@ class TemplateServiceTest {
         val properties = Properties(
             title="",
             year = 2077,
-            goty = GotyQuestion("", "", emptyList()),
+            gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
             deadline = deadline,
             hasGiveaway = true,
@@ -86,7 +86,7 @@ class TemplateServiceTest {
         val properties = Properties(
             title="",
             year = 2077,
-            goty = GotyQuestion("", "", emptyList()),
+            gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
             deadline = deadline,
             hasGiveaway = true,
@@ -106,7 +106,7 @@ class TemplateServiceTest {
         val properties = Properties(
                 title="",
                 year = 2077,
-                goty = GotyQuestion("", "", emptyList()),
+                gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(9, 8, 7),
                 deadline = deadline,
                 hasGiveaway = true,
@@ -125,7 +125,7 @@ class TemplateServiceTest {
         val properties = Properties(
                 title="",
                 year = 2077,
-                goty = GotyQuestion("", "", emptyList()),
+                gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(9, 8, 7),
                 deadline = deadline,
                 hasGiveaway = true,

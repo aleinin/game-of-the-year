@@ -6,7 +6,7 @@ import java.util.Optional
 fun Properties.toDocument() = PropertiesDocument(
     id = PropertiesRepository.PROPERTIES_ID,
     title = this.title,
-    goty = this.goty,
+    gotyQuestion = this.gotyQuestion,
     year = this.year,
     tiePoints = this.tiePoints,
     deadline = this.deadline.toInstant(),
@@ -19,7 +19,7 @@ fun Properties.toDocument() = PropertiesDocument(
 fun PropertiesDocument.toProperties() = Properties(
     year = this.year,
     title = this.title,
-    goty = this.goty,
+    gotyQuestion = this.gotyQuestion,
     tiePoints = this.tiePoints,
     deadline = this.deadline.atZone(this.zoneId),
     hasGiveaway = this.hasGiveaway,

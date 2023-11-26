@@ -26,7 +26,7 @@ class PropertiesService(
         return PropertiesResponse(
             title = templateService.toResolvedTemplate(properties.title, properties, localTimeZone),
             year = properties.year,
-            goty = templateService.toGotyQuestionResponse(properties.goty, properties, localTimeZone),
+            gotyQuestion = templateService.toGotyQuestionResponse(properties.gotyQuestion, properties, localTimeZone),
             tiePoints = properties.tiePoints,
             deadline = properties.deadline,
             giveawayAmountUSD = properties.giveawayAmountUSD,

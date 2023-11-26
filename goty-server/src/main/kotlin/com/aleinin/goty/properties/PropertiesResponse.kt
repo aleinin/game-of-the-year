@@ -6,7 +6,7 @@ import java.time.ZonedDateTime
 data class PropertiesResponse(
     val title: ResolvedTemplate,
     val year: Int,
-    val goty: GotyQuestionResponse,
+    val gotyQuestion: GotyQuestionResponse,
     val tiePoints: List<Int>,
     val deadline: ZonedDateTime,
     val hasGiveaway: Boolean,

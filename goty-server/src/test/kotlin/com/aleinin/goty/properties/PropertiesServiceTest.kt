@@ -28,7 +28,7 @@ internal class PropertiesServiceTest {
 
     private val defaultProperties = DefaultProperties(
         title = "Default Title",
-        goty = GotyQuestion(title = "Default tile", question = "Defautl question", rules = listOf("Default rules")),
+        gotyQuestion = GotyQuestion(title = "Default tile", question = "Defautl question", rules = listOf("Default rules")),
         year = 2023,
         tiePoints = listOf(9, 8, 7),
         deadline = ZonedDateTime.of(2024, 1, 1, 0, 0, 0, 0, UTC),
@@ -59,7 +59,7 @@ internal class PropertiesServiceTest {
         val expectedProperties = Properties(
             title = "Game of the Year",
             year = 2023,
-            goty=GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
+            gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
             tiePoints = listOf(3, 2, 1),
             deadline = deadline,
             hasGiveaway = false,
@@ -84,7 +84,7 @@ internal class PropertiesServiceTest {
         val storedProperties = Properties(
                 title = "Game of the Year",
                 year = 2023,
-                goty=GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
+                gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
                 tiePoints = listOf(3, 2, 1),
                 deadline = deadline,
                 hasGiveaway = false,
@@ -94,10 +94,10 @@ internal class PropertiesServiceTest {
         val expectedResponse = PropertiesResponse(
             title = ResolvedTemplate(storedProperties.title, storedProperties.title),
             year = storedProperties.year,
-            goty = GotyQuestionResponse(
-                ResolvedTemplate(storedProperties.goty.title, storedProperties.goty.title),
-                ResolvedTemplate(storedProperties.goty.question, storedProperties.goty.question),
-                storedProperties.goty.rules.map { ResolvedTemplate(it, it) }
+            gotyQuestion = GotyQuestionResponse(
+                ResolvedTemplate(storedProperties.gotyQuestion.title, storedProperties.gotyQuestion.title),
+                ResolvedTemplate(storedProperties.gotyQuestion.question, storedProperties.gotyQuestion.question),
+                storedProperties.gotyQuestion.rules.map { ResolvedTemplate(it, it) }
             ),
             tiePoints = storedProperties.tiePoints,
             deadline = storedProperties.deadline,
@@ -118,10 +118,10 @@ internal class PropertiesServiceTest {
         val expected = PropertiesResponse(
             title = ResolvedTemplate(defaultProperties.title, defaultProperties.title),
             year = defaultProperties.year,
-            goty = GotyQuestionResponse(
-                    ResolvedTemplate(defaultProperties.goty.title, defaultProperties.goty.title),
-                    ResolvedTemplate(defaultProperties.goty.question, defaultProperties.goty.question),
-                    defaultProperties.goty.rules.map { ResolvedTemplate(it, it) }
+            gotyQuestion = GotyQuestionResponse(
+                    ResolvedTemplate(defaultProperties.gotyQuestion.title, defaultProperties.gotyQuestion.title),
+                    ResolvedTemplate(defaultProperties.gotyQuestion.question, defaultProperties.gotyQuestion.question),
+                    defaultProperties.gotyQuestion.rules.map { ResolvedTemplate(it, it) }
             ),
             tiePoints = defaultProperties.tiePoints,
             deadline = defaultProperties.deadline,
@@ -137,7 +137,7 @@ internal class PropertiesServiceTest {
         setupTemplateMock()
         val request = Properties(
             title = "new title",
-            goty = GotyQuestion(title = "new goty title", question = "new goty question", rules = listOf("new goty rules")),
+            gotyQuestion = GotyQuestion(title = "new goty title", question = "new goty question", rules = listOf("new goty rules")),
             year = 2077,
             tiePoints = listOf(6, 5, 4),
             deadline = deadline,
@@ -147,7 +147,7 @@ internal class PropertiesServiceTest {
         )
         val expectedResponse = PropertiesResponse(
             title = ResolvedTemplate("new title", "new title"),
-            goty = GotyQuestionResponse(
+            gotyQuestion = GotyQuestionResponse(
                 title = ResolvedTemplate("new goty title", "new goty title"),
                 question = ResolvedTemplate("new goty question", "new goty question"),
                 rules = listOf(ResolvedTemplate("new goty rules", "new goty rules"))

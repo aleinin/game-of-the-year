@@ -10,7 +10,7 @@ This also limits the usefulness to other people in the (rare) chance someone els
 
 The web page title, goty question title, goty question, and goty rules will be moved to the backend via `Properties`
 
-In order to support variables in the strings there will be a small templating system like shown:
+In order to support variables in the strings Apache Commons [StringSubstitutor](https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/StringSubstitutor.html) will be used
 
 template: "It is ${year}"
 
@@ -47,4 +47,3 @@ Resolved templates will be part of a `PropertiesResponse` which is returned when
   * ${year} -> properties.year
   * ${maxGames} -> properties.tiePoints.size
   * ${deadline} -> properties.deadline in "MM:DD:YYYY hh:MM AM/PM" format according to localTimeZone, or defaultLocalTimeZone, or UTC
-* No escape support for now (although i'm not sure why you'd need to write ${year} as plaintext)

@@ -1,7 +1,7 @@
 goty:
   default:
     title: Top Games of the Year ${year}
-    goty:
+    gotyQuestion:
       title: Games of the Year
       question: What are your favorite game(s) of ${year}?
       rules:

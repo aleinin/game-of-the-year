@@ -7,7 +7,7 @@ data class PropertiesDocument(
     val id: String,
     val title: String,
     val year: Int,
-    val goty: GotyQuestion,
+    val gotyQuestion: GotyQuestion,
     val tiePoints: List<Int>,
     val deadline: Instant,
     val zoneId: ZoneId,

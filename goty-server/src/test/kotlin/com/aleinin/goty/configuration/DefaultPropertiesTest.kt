@@ -13,7 +13,7 @@ internal class DefaultPropertiesTest {
     fun `Should convert DefaultProperties to Properties`() {
         val defaultProperties = DefaultProperties(
             title = "Hello",
-            goty = GotyQuestion(title = "GOTY", question = "?", rules = listOf("None!")),
+            gotyQuestion = GotyQuestion(title = "GOTY", question = "?", rules = listOf("None!")),
             year = 2022,
             tiePoints = listOf(3, 2, 1),
             deadline = ZonedDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
@@ -23,7 +23,7 @@ internal class DefaultPropertiesTest {
         )
         val expected = Properties(
             title = defaultProperties.title,
-            goty = defaultProperties.goty,
+            gotyQuestion = defaultProperties.gotyQuestion,
             year = defaultProperties.year,
             tiePoints = defaultProperties.tiePoints,
             deadline = defaultProperties.deadline,

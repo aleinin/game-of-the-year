@@ -1,6 +1,7 @@
 package com.aleinin.goty.properties
 
-import com.aleinin.goty.thisYear
+import com.aleinin.goty.EasternTime
+import com.aleinin.goty.UTC
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -9,7 +10,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.whenever
-import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Optional
@@ -24,26 +24,32 @@ internal class PropertiesRepositoryTest {
 
     private val propertiesId = PropertiesRepository.PROPERTIES_ID
 
-    private val deadline = ZonedDateTime.now().plusSeconds(3600).truncatedTo(ChronoUnit.SECONDS)
+    private val deadline = ZonedDateTime.of(2023, 11, 24, 0, 0, 0, 0, UTC).truncatedTo(ChronoUnit.SECONDS)
 
     @Test
     fun `Should get the Properties`() {
         val mockDocument = PropertiesDocument(
             id = propertiesId,
-            gotyYear = deadline.year,
+            title = "Hello World",
+            goty = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
+            year = deadline.year,
             tiePoints = listOf(3, 2, 1),
             deadline = deadline.toInstant(),
-            zoneId = ZoneId.systemDefault(),
+            zoneId = UTC,
             hasGiveaway = true,
+            defaultLocalTimeZone = EasternTime,
             giveawayAmountUSD = 25
         )
         whenever(propertiesDocumentRepository.findById(propertiesId)).thenReturn(Optional.of(mockDocument))
         val expected = Optional.of(
             Properties(
-                gotyYear = deadline.year,
+                title = "Hello World",
+                goty = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
+                year = deadline.year,
                 tiePoints = listOf(3, 2, 1),
                 deadline = deadline,
                 hasGiveaway = true,
+                defaultLocalTimeZone = EasternTime,
                 giveawayAmountUSD = 25
             )
         )
@@ -54,19 +60,25 @@ internal class PropertiesRepositoryTest {
     @Test
     fun `Should store Properties`() {
         val expected = Properties(
-            gotyYear = thisYear(),
+            title = "Hello World",
+            goty = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
+            year = deadline.year,
             tiePoints = listOf(3, 2, 1),
             deadline = deadline,
             hasGiveaway = true,
+            defaultLocalTimeZone = EasternTime,
             giveawayAmountUSD = 25
         )
         val expectedDocument = PropertiesDocument(
-            id = propertiesId,
-            gotyYear = thisYear(),
+            id = "properties",
+            title = "Hello World",
+            goty = GotyQuestion(title = "GOTY", question = "Question", rules = listOf("rule")),
+            year = deadline.year,
             tiePoints = listOf(3, 2, 1),
             deadline = deadline.toInstant(),
-            zoneId = ZoneId.systemDefault(),
+            zoneId = UTC,
             hasGiveaway = true,
+            defaultLocalTimeZone = EasternTime,
             giveawayAmountUSD = 25
         )
         whenever(propertiesDocumentRepository.save(Mockito.any(PropertiesDocument::class.java))).thenReturn(expectedDocument)

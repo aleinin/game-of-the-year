@@ -37,7 +37,7 @@ export const ResultsPage = () => {
   const { pathname } = useLocation()
   const activeTab = getActiveTab(pathname)
   useEffect(() => {
-    document.title = `TMW GOTY - ${activeTab}`
+    document.title = `GOTY - ${activeTab}`
   }, [activeTab])
   const handleTabChange = (tab: string) => navigate(`${tab}`)
 

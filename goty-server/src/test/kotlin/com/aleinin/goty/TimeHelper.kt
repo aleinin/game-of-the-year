@@ -1,7 +1,6 @@
 package com.aleinin.goty
 
-import java.time.ZonedDateTime
+import java.time.ZoneId
 
-fun tomorrow(): ZonedDateTime = ZonedDateTime.now().plusDays(1)
-
-fun thisYear(): Int = ZonedDateTime.now().year
+val UTC = ZoneId.of("Etc/GMT");
+val EasternTime = ZoneId.of("America/New_York")

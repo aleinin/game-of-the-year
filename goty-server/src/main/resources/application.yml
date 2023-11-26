@@ -1,9 +1,18 @@
 goty:
   default:
-    gotyYear: 2022
+    title: Top Games of the Year ${year}
+    goty:
+      title: Games of the Year
+      question: What are your favorite game(s) of ${year}?
+      rules:
+        - Voting closes ${deadline}
+        - You may nominate as many games as you want up to a total of ${maxGames}
+        - Must have been released in ${year}
+    year: 2022
     deadline: 2023-01-01T00:00:00-05:00
     hasGiveaway: true
     giveawayAmountUSD: 25
+    defaultLocalTimeZone: America/New_York
     tiePoints:
       - 15
       - 13

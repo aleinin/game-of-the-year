@@ -15,7 +15,7 @@ export const End = () => {
     store.dispatch(createNextStepAction())
   }
   useEffect(() => {
-    document.title = 'TMW GOTY - End'
+    document.title = 'GOTY - End'
   }, [])
   return (
     <Card>

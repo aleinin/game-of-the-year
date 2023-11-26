@@ -6,7 +6,7 @@ export interface CardProps {
   title?: string
   titleFontSize?: string
   required?: boolean
-  subtitle?: string
+  index?: string
   border?: boolean
   className?: string
   style?: CSSProperties
@@ -16,18 +16,18 @@ export const Card = (props: React.PropsWithChildren<CardProps>) => {
   const title = (
     <span
       className={styles.title}
-      style={{ fontSize: `${props.titleFontSize ?? '20px'}` }}
+      style={{ fontSize: `${props.titleFontSize ?? '1.5em'}` }}
     >
       {props.title}{' '}
       {props.required ? <span className={styles.required}>*</span> : null}
     </span>
   )
-  const subtitle = props.subtitle ? <span>{props.subtitle}</span> : null
+  const index = props.index ? <span>{props.index}</span> : null
   const header =
-    props.title || props.required || props.subtitle ? (
+    props.title || props.required || props.index ? (
       <div className={styles.header}>
         {title}
-        {subtitle}
+        {index}
       </div>
     ) : null
   return (

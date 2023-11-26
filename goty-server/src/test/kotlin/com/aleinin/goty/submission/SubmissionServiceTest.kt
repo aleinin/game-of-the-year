@@ -44,7 +44,6 @@ class SubmissionServiceTest {
     private fun getExpectedTooManyGamesMessage(tiePoints: List<Int>) = "Too many games of the year. The maximum allowed is ${tiePoints.size}."
     private fun getExpectedOverrideRequiredMessage(deadline: ZonedDateTime) = "Submission deadline of $deadline has not been met. You must override to delete all submissions."
 
-
     private fun setupBeforeDeadline(): ZonedDateTime {
         whenever(propertiesService.getProperties()).thenReturn(properties)
         whenever(properties.deadline).thenReturn(testTime)

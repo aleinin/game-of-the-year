@@ -8,6 +8,7 @@ import { selectProperties } from '../../../state/properties/selectors'
 import { Button } from '../../controls/Button/Button'
 import styles from './Start.module.scss'
 import { Summary } from '../../results/Summary/Summary'
+import { isGotyConcluded } from '../../../util/isGotyConcluded'
 
 export interface StartProps {
   isLoading: boolean
@@ -61,15 +62,15 @@ export const Start = (props: StartProps) => {
   const properties = useSelector(selectProperties)
   const hasSubmission: boolean = useSelector(selectIsEdit)
   useEffect(() => {
-    document.title = 'TMW GOTY - Start'
-    if (properties.isGotyConcluded) {
+    document.title = 'GOTY - Start'
+    if (isGotyConcluded(properties.deadline)) {
       loadResults(store)
     }
   }, [properties, store])
   const handleClick = () => {
     store.dispatch(createNextStepAction())
   }
-  if (properties.isGotyConcluded) {
+  if (isGotyConcluded(properties.deadline)) {
     return <Concluded year={properties.year} />
   }
   return (

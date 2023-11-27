@@ -1,22 +1,25 @@
 package com.aleinin.goty.properties
 
-import com.aleinin.goty.thisYear
-import com.aleinin.goty.tomorrow
+import com.aleinin.goty.UTC
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
 
 internal class PropertiesTest {
+    private val testTime = ZonedDateTime.of(2023, 11, 24, 0, 0, 0, 0, UTC)
     @Test
     fun `Should not allow empty lists for tiePoints`() {
         assertThrows(IllegalArgumentException::class.java) {
             Properties(
-                gotyYear = thisYear(),
-                tiePoints = listOf(),
+                title = "",
+                year = 2023,
+                gotyQuestion = GotyQuestion("", "", emptyList()),
+                tiePoints = emptyList(),
                 hasGiveaway = false,
                 giveawayAmountUSD = 0,
-                deadline = tomorrow()
+                deadline = testTime,
+                defaultLocalTimeZone = null
             )
         }
     }
@@ -25,37 +28,14 @@ internal class PropertiesTest {
     fun `Should not allow tiePoints in a non-descending order`() {
         assertThrows(IllegalArgumentException::class.java) {
             Properties(
-                gotyYear = thisYear(),
+                title = "",
+                year = 2023,
+                gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(3, 1, 2),
                 hasGiveaway = false,
                 giveawayAmountUSD = 0,
-                deadline = tomorrow()
-            )
-        }
-    }
-
-    @Test
-    fun `Should not allow negative giveAwayAmountUSD`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            Properties(
-                gotyYear = thisYear(),
-                tiePoints = listOf(3, 2, 1),
-                hasGiveaway = false,
-                giveawayAmountUSD = -1,
-                deadline = tomorrow()
-            )
-        }
-    }
-
-    @Test
-    fun `Should not allow deadlines in the past`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            Properties(
-                gotyYear = thisYear(),
-                tiePoints = listOf(3, 2, 1),
-                hasGiveaway = false,
-                giveawayAmountUSD = -1,
-                deadline = ZonedDateTime.now()
+                deadline = testTime,
+                defaultLocalTimeZone = null
             )
         }
     }
@@ -63,11 +43,14 @@ internal class PropertiesTest {
     @Test
     fun `Should accept valid props`() {
         val actual = Properties(
-            gotyYear = thisYear(),
+            title =  "",
+            gotyQuestion = GotyQuestion("", "", emptyList()),
+            year = 2023,
             tiePoints = listOf(3, 2, 1),
             hasGiveaway = false,
             giveawayAmountUSD = 0,
-            deadline = tomorrow()
+            defaultLocalTimeZone = null,
+            deadline = testTime
         )
         assertNotNull(actual)
     }

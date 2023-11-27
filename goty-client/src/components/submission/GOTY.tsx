@@ -2,12 +2,12 @@ import React from 'react'
 import { useSelector, useStore } from 'react-redux'
 import { selectProperties } from '../../state/properties/selectors'
 import { createUpdateGamesOfTheYearAction } from '../../state/submission/actions'
-import { generateRules } from '../../util/generate-rules'
 import { indexToOrdinal } from '../../util/index-to-ordinal'
 import { Card } from '../controls/Card/Card'
 import { OrderableList } from './shared/OrderableList'
 import { Search } from './shared/Search'
 import { Game } from '../../models/game'
+import { Rules } from './Rules'
 
 export interface GOTYProps {
   games: Game[]
@@ -18,17 +18,6 @@ export enum MoveDirection {
   IncreaseRank,
   DecreaseRank,
 }
-
-const getRules = (closeDate: string, year: number) => [
-  <li key="gotyClose">Voting closes {closeDate}</li>,
-  'You may nominate as many games as you want up to a total of 10. Only the GOTY is required, but I encourage you all to answer the bonus questions!',
-  <li key="gotyYear">
-    Eligible games must have been released in {year}. Early Access games are
-    fine as long as they were released in {year}.{' '}
-  </li>,
-  'DLC is not eligible',
-  'Games will be rated based on number of votes. In the event of a tie points will be awarded based off the ranking in your list. ',
-]
 
 const getTieBreaker = (tiePoints: number[]) => {
   return (
@@ -74,10 +63,7 @@ export const GOTY = (props: GOTYProps) => {
   const setGames = (games: Game[]) =>
     store.dispatch(createUpdateGamesOfTheYearAction(games))
   const handleAddGame = (gameToAdd: Game) => {
-    if (
-      !props.readonly &&
-      props.games.length !== properties.maxGamesOfTheYear
-    ) {
+    if (!props.readonly && props.games.length !== properties.tiePoints.length) {
       setGames([
         ...props.games.filter((game) => game.id !== gameToAdd.id),
         gameToAdd,
@@ -99,17 +85,12 @@ export const GOTY = (props: GOTYProps) => {
     }
   }
   return (
-    <Card
-      title={`What are your favorite game(s) of ${properties.year}?`}
-      required={true}
-    >
-      {generateRules(
-        props.readonly,
-        getRules(properties.deadline, properties.year),
-      )}
+    <Card title={properties.gotyQuestion.title} required={true}>
+      <span>{properties.gotyQuestion.question}</span>
+      <Rules readonly={props.readonly} rules={properties.gotyQuestion.rules} />
       {!props.readonly && getTieBreaker(properties.tiePoints)}
       {props.readonly ||
-      props.games.length === properties.maxGamesOfTheYear ? null : (
+      props.games.length === properties.tiePoints.length ? null : (
         <Search
           year={properties.year}
           placeholder="Select a game"

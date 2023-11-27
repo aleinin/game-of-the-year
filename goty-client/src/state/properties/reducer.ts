@@ -4,18 +4,18 @@ import { Properties } from '../../models/properties'
 const currentYear = () => new Date().getFullYear()
 
 const initialState: Properties = {
+  gotyQuestion: { question: '', rules: [''], title: '' },
+  title: '',
   tiePoints: [],
   year: currentYear(),
   deadline: `1/1/${currentYear() + 1}`,
   hasGiveaway: true,
   giveawayAmountUSD: 0,
-  maxGamesOfTheYear: 0,
-  isGotyConcluded: false,
 }
 
 export const propertiesReducer = (
   state = initialState,
-  action: PropertiesActions
+  action: PropertiesActions,
 ) => {
   switch (action.type) {
     case SET_PROPERTIES:

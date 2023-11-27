@@ -1,16 +1,14 @@
 package com.aleinin.goty.properties
 
-import java.time.Instant
 import java.time.ZoneId
+import java.time.ZonedDateTime
 
-data class PropertiesDocument(
-    val id: String,
-    val title: String,
+data class PropertiesResponse(
+    val title: ResolvedTemplate,
     val year: Int,
-    val gotyQuestion: GotyQuestion,
+    val gotyQuestion: GotyQuestionResponse,
     val tiePoints: List<Int>,
-    val deadline: Instant,
-    val zoneId: ZoneId,
+    val deadline: ZonedDateTime,
     val hasGiveaway: Boolean,
     val giveawayAmountUSD: Int,
     val defaultLocalTimeZone: ZoneId?

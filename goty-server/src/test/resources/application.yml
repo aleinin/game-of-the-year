@@ -3,10 +3,17 @@ goty:
     username: test
     password: test
   default:
-    gotyYear: 2077
+    title: Top Games of the Year $year
+    gotyQuestion:
+      title: Games of the Year
+      question: What are your favorite game(s) of ${year}?
+      rules:
+        - Whatever you want, this is a test.
+    year: 2077
     deadline: 2077-01-01T00:00:00-05:00
     hasGiveaway: true
     giveawayAmountUSD: 25
+    defaultLocalTimeZone: Etc/GMT
     tiePoints:
       - 15
       - 13

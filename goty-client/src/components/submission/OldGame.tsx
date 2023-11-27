@@ -22,7 +22,8 @@ export const OldGame = (props: OldGameProps) => {
   }
   return (
     <SingleGame
-      title={`What is your favorite OLD game of ${year}`}
+      title="Best Old Game"
+      subtitle={`What is your favorite old game of ${year}?`}
       readonly={props.readonly}
       game={props.bestOldGame}
       handleSelect={handleSelect}

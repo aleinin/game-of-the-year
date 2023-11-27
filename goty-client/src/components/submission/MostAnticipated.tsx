@@ -21,7 +21,8 @@ export const MostAnticipated = (props: MostAnticipatedProps) => {
   }
   return (
     <SingleGame
-      title="What game are you looking forward to most?"
+      title="Most Anticipated"
+      subtitle="What game are you looking forward to most?"
       readonly={props.readonly}
       game={props.mostAnticipated}
       handleSelect={handleSelect}

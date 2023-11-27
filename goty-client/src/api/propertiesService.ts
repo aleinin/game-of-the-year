@@ -8,6 +8,10 @@ import {
 export const propertiesService = {
   getProperties: (): Promise<Properties> =>
     fetcher
-      .get<BackendProperties>('/properties')
+      .get<BackendProperties>(
+        `/properties?localTimeZone=${
+          Intl.DateTimeFormat().resolvedOptions().timeZone
+        }`,
+      )
       .then(fromBackendPropertiesToProperties),
 }

@@ -1,28 +1,35 @@
 package com.aleinin.goty.configuration
 
+import com.aleinin.goty.properties.GotyQuestion
 import com.aleinin.goty.properties.Properties
-import com.aleinin.goty.thisYear
-import com.aleinin.goty.tomorrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 
 internal class DefaultPropertiesTest {
     @Test
     fun `Should convert DefaultProperties to Properties`() {
         val defaultProperties = DefaultProperties(
-            gotyYear = thisYear(),
+            title = "Hello",
+            gotyQuestion = GotyQuestion(title = "GOTY", question = "?", rules = listOf("None!")),
+            year = 2022,
             tiePoints = listOf(3, 2, 1),
-            deadline = tomorrow(),
+            deadline = ZonedDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
             hasGiveaway = true,
+            defaultLocalTimeZone = ZoneId.of("Etc/GMT"),
             giveawayAmountUSD = 5
         )
         val expected = Properties(
-            gotyYear = defaultProperties.gotyYear,
+            title = defaultProperties.title,
+            gotyQuestion = defaultProperties.gotyQuestion,
+            year = defaultProperties.year,
             tiePoints = defaultProperties.tiePoints,
             deadline = defaultProperties.deadline,
-            defaultProperties.hasGiveaway,
-            defaultProperties.giveawayAmountUSD
+            hasGiveaway = defaultProperties.hasGiveaway,
+            giveawayAmountUSD = defaultProperties.giveawayAmountUSD,
+            defaultLocalTimeZone = defaultProperties.defaultLocalTimeZone
         )
         val actual = defaultProperties.toProperties()
         assertEquals(expected, actual)

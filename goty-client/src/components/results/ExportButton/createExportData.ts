@@ -131,7 +131,7 @@ export const createExportData = (
   createSubmissionsSection(
     'Submissions',
     submissions,
-    properties.maxGamesOfTheYear,
+    properties.tiePoints.length,
   ),
   createPropertiesSection('Properties', properties),
   createTextSection('Tie points', properties.tiePoints),

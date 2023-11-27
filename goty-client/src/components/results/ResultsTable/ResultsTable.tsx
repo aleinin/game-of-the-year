@@ -14,7 +14,7 @@ export interface ResultsTableProps<T> {
 export const ResultsTable = <T,>(props: ResultsTableProps<T>) => (
   <Card
     title={props.title}
-    subtitle={`${props.rows.length} row${props.rows.length !== 1 ? 's' : ''}`}
+    index={`${props.rows.length} row${props.rows.length !== 1 ? 's' : ''}`}
   >
     <div className={styles.marginTop5}>
       <Table

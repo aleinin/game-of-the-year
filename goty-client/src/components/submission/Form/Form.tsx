@@ -33,7 +33,7 @@ export const Form = () => {
       })
   }
   useEffect(() => {
-    document.title = 'TMW GOTY - Submission'
+    document.title = 'GOTY - Submission'
   }, [])
   return (
     <>

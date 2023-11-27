@@ -22,7 +22,8 @@ The app was built to be easily customizable and reusable year-to-year while stil
   - View summary of submissions
 - Home Page
   - Allows submission, editing, or viewing of results depending on contest status and user's submission status
-
+- Properties
+  - Allows configuration of various aspects of the vote including variable support for text
 ## Tech Stack
 
 - Frontend:
@@ -51,12 +52,31 @@ game-of-the-year's depends on a few different configurables. The majority of thi
 
 An example request:
 
+Text properties support the following variables in `${VARIABLE_NAME}` format
+
+| Variable | Resolves to                                                                                                                   | Additional Info                                                                                                      |
+|----------|-------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| year     | properties.year                                                                                                               |                                                                                                                      |
+| deadline | properties.deadline in "MM:DD:YYYY hh:MM AM/PM" format according to localTimeZone, or properties.defaultLocalTimeZone, or UTC | localTimeZone is supplied as a queryParam to the PropertiesController. ex: /properties?localTimeZone=America/Chicago |
+| maxGames | properties.tiePoints.size                                                                                                     |                                                                                                                      |
+
 ```bash
-curl --location --request PUT 'http://localhost:8080/properties' \
+curl --location --request PUT 'http://localhost:8080/properties?localTimeZone=America/Chicago' \
+--header 'Authorization: Basic PASSWORD' \
 --header 'Content-Type: application/json' \
 --data-raw '{
+    "title": "My Top Games of the Year ${year}",
+    "year": 2023,
+    "gotyQuestion": {
+        "title": "Games of the Year",
+        "question": "What are your favorite game(s) of ${year}?",
+        "rules": [
+            "Voting closes ${deadline}.",
+            "May nominate any amount of games up to ${maxGames}."
+        ]
+    },
     "tiePoints": [
-        14,
+        15,
         13,
         11,
         7,
@@ -67,9 +87,10 @@ curl --location --request PUT 'http://localhost:8080/properties' \
         2,
         1
     ],
-    "deadline": "2023-01-01T00:00:00-05:00",
+    "deadline": "2024-01-01T00:00:00-05:00",
     "hasGiveaway": true,
-    "giveawayAmountUSD": 25
+    "giveawayAmountUSD": 25,
+    "defaultLocalTimeZone": "America/New_York"
 }'
 ```
 
@@ -108,6 +129,13 @@ The following environmental variables need to be set with an IGDB clientId and c
 - GOTY_IGDB_TWITCH_CLIENT_SECRET
 
 If you don't have IGDB API credentials check out [Account Creation](https://api-docs.igdb.com/#about) on IGDB's docs page
+
+The following environmental variables need to be set with admin credentials for protected endpoints
+
+- GOTY_ADMIN_USERNAME
+- GOTY_ADMIN_PASSWORD
+
+Credentials are provided with basic auth to protected endpoints
 
 #### Mongo
 

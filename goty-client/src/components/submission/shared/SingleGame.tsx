@@ -5,6 +5,7 @@ import { Game } from '../../../models/game'
 
 export interface SingleGameProps {
   title: string
+  subtitle?: string
   content: JSX.Element | null
   readonly: boolean
   game: Game | null
@@ -14,6 +15,7 @@ export interface SingleGameProps {
 export const SingleGame = (props: SingleGameProps) => {
   return (
     <Card title={props.title}>
+      {props.subtitle && <span>{props.subtitle}</span>}
       {props.content}
       <SearchInPlace
         readonly={props.readonly}

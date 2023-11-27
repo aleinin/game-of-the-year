@@ -5,20 +5,26 @@ import java.util.Optional
 
 fun Properties.toDocument() = PropertiesDocument(
     id = PropertiesRepository.PROPERTIES_ID,
-    gotyYear = this.gotyYear,
+    title = this.title,
+    gotyQuestion = this.gotyQuestion,
+    year = this.year,
     tiePoints = this.tiePoints,
     deadline = this.deadline.toInstant(),
     zoneId = this.deadline.zone,
     hasGiveaway = this.hasGiveaway,
-    giveawayAmountUSD = this.giveawayAmountUSD
+    giveawayAmountUSD = this.giveawayAmountUSD,
+    defaultLocalTimeZone = this.defaultLocalTimeZone
 )
 
 fun PropertiesDocument.toProperties() = Properties(
-    gotyYear = this.gotyYear,
+    year = this.year,
+    title = this.title,
+    gotyQuestion = this.gotyQuestion,
     tiePoints = this.tiePoints,
     deadline = this.deadline.atZone(this.zoneId),
     hasGiveaway = this.hasGiveaway,
-    giveawayAmountUSD = this.giveawayAmountUSD
+    giveawayAmountUSD = this.giveawayAmountUSD,
+    defaultLocalTimeZone = this.defaultLocalTimeZone
 )
 
 @Repository

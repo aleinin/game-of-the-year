@@ -2,8 +2,7 @@ import { Card } from '../../controls/Card/Card'
 import { Table } from '../../controls/Table/Table'
 import { Header } from '../../controls/Table/Table.types'
 import styles from './ResultsTable.module.scss'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useCallback, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export interface ResultsTableProps<T> {
   id: string
@@ -15,19 +14,6 @@ export interface ResultsTableProps<T> {
 
 export const ResultsTable = <T,>(props: ResultsTableProps<T>) => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const scrollToTable = useCallback(() => {
-    const windowHash = location.hash.slice(1)
-    if (windowHash === props.id) {
-      document.getElementById(windowHash)?.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'nearest',
-      })
-    }
-  }, [location, props.id])
-  useEffect(() => {
-    scrollToTable()
-  }, [scrollToTable])
   return (
     <Card
       id={props.id}

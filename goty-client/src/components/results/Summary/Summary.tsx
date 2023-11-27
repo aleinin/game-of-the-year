@@ -13,6 +13,7 @@ import {
 } from '../../../state/results/selectors'
 import { Loading } from '../../Loading'
 import { Card } from '../../controls/Card/Card'
+import { useAnchorScroll } from '../../../util/useAnchorScroll'
 
 const stringHeaders: Header<string>[] = [
   {
@@ -76,6 +77,7 @@ export const Summary = () => {
   const isLoading = useSelector(selectIsLoading)
   const results = useSelector(selectResults)
   const { year } = useSelector(selectProperties)
+  useAnchorScroll(results)
   if (isLoading) {
     return <Loading />
   }
@@ -141,7 +143,7 @@ const BestOldGameResults = ({
 }) => (
   <ResultsTable
     id="bestOldGame"
-    title={`Old game of ${year ?? new Date().getFullYear()}`}
+    title="Best Old Game"
     rows={rows}
     headers={gameHeaders}
     rowStyleFn={getGameResultStyle}
@@ -150,7 +152,7 @@ const BestOldGameResults = ({
 const MostAnticipatedResults = ({ rows }: { rows: GameResult[] }) => (
   <ResultsTable
     id="mostAnticipated"
-    title="Most Anticipated Game"
+    title="Most Anticipated"
     rows={rows}
     headers={gameHeaders}
     rowStyleFn={getGameResultStyle}

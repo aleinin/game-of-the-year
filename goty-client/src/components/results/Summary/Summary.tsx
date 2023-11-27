@@ -124,7 +124,7 @@ const Respondents = ({ rows }: { rows: string[] }) => (
 )
 const GOTYResults = ({ rows }: { rows: GameOfTheYearResult[] }) => (
   <ResultsTable
-    id={'gotyTable'}
+    id="gamesOfTheYear"
     title="Games of the Year"
     rows={rows}
     headers={gotyHeaders}
@@ -140,7 +140,7 @@ const BestOldGameResults = ({
   year?: number
 }) => (
   <ResultsTable
-    id={'bestOldGameTable'}
+    id="bestOldGame"
     title={`Old game of ${year ?? new Date().getFullYear()}`}
     rows={rows}
     headers={gameHeaders}
@@ -149,7 +149,7 @@ const BestOldGameResults = ({
 )
 const MostAnticipatedResults = ({ rows }: { rows: GameResult[] }) => (
   <ResultsTable
-    id="mostAnticipatedGameTable"
+    id="mostAnticipated"
     title="Most Anticipated Game"
     rows={rows}
     headers={gameHeaders}

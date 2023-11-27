@@ -2,6 +2,7 @@ export interface Header<T> {
   label: string
   accessorFn: (row: T) => T[keyof T]
   key: string
+  size?: string
 }
 
 export interface TableProps<T> {

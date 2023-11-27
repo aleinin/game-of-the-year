@@ -1,10 +1,11 @@
 import { TextInput } from '../TextInput/TextInput'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { Button } from '../Button/Button'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
 import { useDebouncedEffect } from '../../../util/use-debounced-effect'
 import styles from './AutoComplete.module.scss'
+import { useClickOff } from '../../../util/useClickOff'
 
 export interface AutoCompleteProps<T> {
   id: string
@@ -30,21 +31,7 @@ export const AutoComplete = <T = any,>({
   const ref = useRef(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  // todo externalize?
-  const handleDocumentClick = useCallback(
-    (event: any) => {
-      if (!event.composedPath().includes(ref.current)) {
-        setIsOpen(false)
-      }
-    },
-    [ref, setIsOpen],
-  )
-  useEffect(() => {
-    document.addEventListener('click', handleDocumentClick)
-    return () => {
-      document.removeEventListener('click', handleDocumentClick)
-    }
-  }, [handleDocumentClick])
+  useClickOff(ref, () => setIsOpen(false))
   const handleSelect = (value: T) => {
     setIsOpen(false)
     onSelect && onSelect(value)

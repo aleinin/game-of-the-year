@@ -28,6 +28,21 @@
   font-weight: bold;
 }
 
+.title-link {
+  display: flex;
+  vertical-align: middle;
+
+  svg {
+    color: $disabled;
+  }
+}
+
 .required {
   color: $required
+}
+
+.page-index {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

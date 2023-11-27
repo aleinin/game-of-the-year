@@ -13,3 +13,11 @@
   color: $accent;
   font-weight: bold;
 }
+
+.recovery-link {
+  color: $text;
+
+  &:hover {
+    color: $accent;
+  }
+}

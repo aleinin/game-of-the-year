@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
 import styles from './Dropdown.module.scss'
+import classNames from 'classnames'
+import { useClickOff } from '../../../util/useClickOff'
 
 interface DropdownProps<T = any> {
   value?: T
@@ -10,6 +12,7 @@ interface DropdownProps<T = any> {
   onChange?: (value: T) => void
   placeholder?: string
   width?: string
+  disabled?: boolean
 }
 
 export const Dropdown = <T,>({
@@ -19,6 +22,7 @@ export const Dropdown = <T,>({
   placeholder = 'Select a value',
   width,
   accessorFn,
+  disabled = false,
 }: DropdownProps<T>) => {
   const ref = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -31,24 +35,12 @@ export const Dropdown = <T,>({
     },
     [setSelected, setIsOpen, onChange],
   )
+  useClickOff(ref, () => setIsOpen(false))
   const handleClick = useCallback(() => {
-    setIsOpen(!isOpen)
-  }, [setIsOpen, isOpen])
-  const handleDocumentClick = useCallback(
-    (event: any) => {
-      if (!event.composedPath().includes(ref.current)) {
-        setIsOpen(false)
-      }
-    },
-    [ref, setIsOpen],
-  )
-
-  useEffect(() => {
-    document.addEventListener('click', handleDocumentClick)
-    return () => {
-      document.removeEventListener('click', handleDocumentClick)
+    if (!disabled) {
+      setIsOpen(!isOpen)
     }
-  }, [handleDocumentClick])
+  }, [setIsOpen, isOpen, disabled])
   return (
     <div
       className={styles.container}
@@ -56,7 +48,7 @@ export const Dropdown = <T,>({
       style={{ width: `${width ?? '100%'}` }}
     >
       <div
-        className={styles.control}
+        className={classNames(styles.control, { [styles.disabled]: disabled })}
         role="button"
         tabIndex={0}
         onMouseDown={handleClick}

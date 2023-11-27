@@ -10,7 +10,9 @@ import { Form } from './Form/Form'
 import { localStorageService } from '../../api/localStorageService'
 
 const notNull = (input: string | null | undefined): input is string => {
-  return input != null && input !== 'undefined' && input !== 'null'
+  return (
+    input != null && input !== 'undefined' && input !== 'null' && input !== ''
+  )
 }
 
 export const SubmissionHub = () => {

@@ -12,9 +12,10 @@ import { isValid } from '../state/submission/reducer'
 import { propertiesService } from '../api/propertiesService'
 import { Footer } from './Footer'
 import styles from './App.module.scss'
-import { Responses } from './results/Responses/Responses'
+import { Responses } from './results/Responses'
 import { ResultsPage } from './results/ResultsPage'
 import { Summary } from './results/Summary/Summary'
+import { Response } from './results/Response'
 
 export const App = () => {
   const store = configureStore()
@@ -45,6 +46,12 @@ const router = createBrowserRouter([
       {
         path: 'responses',
         element: <Responses />,
+        children: [
+          {
+            path: ':page',
+            element: <Response />,
+          },
+        ],
       },
       {
         path: '',

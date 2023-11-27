@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectProperties } from '../../../state/properties/selectors'
 import { ResultsTable } from '../ResultsTable/ResultsTable'
 import { Header } from '../../controls/Table/Table.types'
 import { GameOfTheYearResult } from '../../../models/gameOfTheYearResult'
@@ -13,6 +12,7 @@ import {
 } from '../../../state/results/selectors'
 import { Loading } from '../../Loading'
 import { Card } from '../../controls/Card/Card'
+import { useAnchorScroll } from '../../../util/useAnchorScroll'
 
 const stringHeaders: Header<string>[] = [
   {
@@ -27,16 +27,19 @@ const gameHeaders: Header<GameResult>[] = [
     label: 'Rank',
     accessorFn: (game: GameResult) => game.rank + 1,
     key: 'rank',
+    size: '1fr',
   },
   {
     label: 'Title',
     accessorFn: (game: GameResult) => game.title,
     key: 'title',
+    size: '3fr',
   },
   {
     label: 'Votes',
     accessorFn: (game: GameResult) => game.votes,
     key: 'votes',
+    size: '1fr',
   },
 ]
 const gotyHeaders: Header<GameOfTheYearResult>[] = [
@@ -44,21 +47,25 @@ const gotyHeaders: Header<GameOfTheYearResult>[] = [
     label: 'Rank',
     accessorFn: (game: GameOfTheYearResult) => game.rank + 1,
     key: 'rank',
+    size: '1fr',
   },
   {
     label: 'Title',
     accessorFn: (game: GameOfTheYearResult) => game.title,
     key: 'title',
+    size: '3fr',
   },
   {
     label: 'Votes',
     accessorFn: (game: GameOfTheYearResult) => game.votes,
     key: 'votes',
+    size: '1fr',
   },
   {
     label: 'Points',
     accessorFn: (game: GameOfTheYearResult) => game.points,
     key: 'points',
+    size: '1fr',
   },
 ]
 
@@ -68,7 +75,7 @@ const isEmptyResults = (results: Results) =>
 export const Summary = () => {
   const isLoading = useSelector(selectIsLoading)
   const results = useSelector(selectResults)
-  const { year } = useSelector(selectProperties)
+  useAnchorScroll(results)
   if (isLoading) {
     return <Loading />
   }
@@ -83,7 +90,7 @@ export const Summary = () => {
     <>
       <Respondents rows={results.participants} />
       <GOTYResults rows={results.gamesOfTheYear} />
-      <BestOldGameResults rows={results.bestOldGames} year={year} />
+      <BestOldGameResults rows={results.bestOldGames} />
       <MostAnticipatedResults rows={results.mostAnticipated} />
       <GiveawayParticipants rows={results.giveawayParticipants} />
     </>
@@ -117,7 +124,7 @@ const Respondents = ({ rows }: { rows: string[] }) => (
 )
 const GOTYResults = ({ rows }: { rows: GameOfTheYearResult[] }) => (
   <ResultsTable
-    id={'gotyTable'}
+    id="gamesOfTheYear"
     title="Games of the Year"
     rows={rows}
     headers={gotyHeaders}
@@ -125,16 +132,10 @@ const GOTYResults = ({ rows }: { rows: GameOfTheYearResult[] }) => (
   />
 )
 
-const BestOldGameResults = ({
-  rows,
-  year,
-}: {
-  rows: GameResult[]
-  year?: number
-}) => (
+const BestOldGameResults = ({ rows }: { rows: GameResult[] }) => (
   <ResultsTable
-    id={'bestOldGameTable'}
-    title={`Old game of ${year ?? new Date().getFullYear()}`}
+    id="bestOldGame"
+    title="Best Old Game"
     rows={rows}
     headers={gameHeaders}
     rowStyleFn={getGameResultStyle}
@@ -142,8 +143,8 @@ const BestOldGameResults = ({
 )
 const MostAnticipatedResults = ({ rows }: { rows: GameResult[] }) => (
   <ResultsTable
-    id="mostAnticipatedGameTable"
-    title="Most Anticipated Game"
+    id="mostAnticipated"
+    title="Most Anticipated"
     rows={rows}
     headers={gameHeaders}
     rowStyleFn={getGameResultStyle}

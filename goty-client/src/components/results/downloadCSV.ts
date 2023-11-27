@@ -44,17 +44,17 @@ const addSection = <T>(
   data: T[] | T,
   title?: string,
 ) => {
-  title && rows.push([title])
-  rows.push(columns.map((column) => column.label))
+  title && rows.push([cell(title)])
+  rows.push(columns.map((column) => cell(column.label)))
   const addRow = (dataRow: T) => {
     const row: any[] = []
     columns.forEach((column) => {
       if (column.accessorKey != null) {
-        row.push(dataRow[column.accessorKey])
+        row.push(cell(dataRow[column.accessorKey]))
       } else if (column.accessorFn != null) {
-        row.push(column.accessorFn(dataRow))
+        row.push(cell(column.accessorFn(dataRow)))
       } else {
-        row.push(dataRow)
+        row.push(cell(dataRow))
       }
     })
     rows.push(row)
@@ -65,6 +65,7 @@ const addSection = <T>(
     addRow(data)
   }
 }
+const cell = (content: any) => `"${content}"`
 
 const addEmptyRow = (rows: CSV) => rows.push([])
 

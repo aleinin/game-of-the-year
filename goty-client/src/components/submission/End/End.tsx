@@ -6,6 +6,12 @@ import { selectError } from '../../../state/submission/selector'
 import { Card } from '../../controls/Card/Card'
 import styles from './End.module.scss'
 import { CodeBox } from '../../controls/CodeBox/CodeBox'
+import { localStorageService } from '../../../api/localStorageService'
+
+const getRecoveryLink = () => {
+  const { id, secret } = localStorageService.getSubmissionIds()
+  return `${window.location.origin}/recovery?id=${id}&secret=${secret}`
+}
 
 export const End = () => {
   const store = useStore()
@@ -43,11 +49,16 @@ const SuccessfulSubmission = ({
     <h1>Thank you!</h1>
     <h2>Your submission has been received</h2>
     <h3>
-      You may edit your submission{' '}
+      You can edit your submission{' '}
       <button className={styles.link} onClick={handleClick}>
         here
-      </button>
+      </button>{' '}
+      or by accessing the following link to edit on other devices.
     </h3>
+    <a className={styles.recoveryLink} href={getRecoveryLink()}>
+      {getRecoveryLink()}
+    </a>
+    <h3>Do not share this link as it can be used to edit your submission</h3>
     <h3>All edits are due by {deadline}</h3>
   </>
 )

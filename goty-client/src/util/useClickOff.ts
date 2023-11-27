@@ -1,4 +1,4 @@
-import { MutableRefObject, Ref, useCallback, useEffect } from 'react'
+import { MutableRefObject, useCallback, useEffect } from 'react'
 
 export const useClickOff = (
   ref: MutableRefObject<any>,

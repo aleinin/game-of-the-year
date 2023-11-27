@@ -76,7 +76,6 @@ const isEmptyResults = (results: Results) =>
 export const Summary = () => {
   const isLoading = useSelector(selectIsLoading)
   const results = useSelector(selectResults)
-  const { year } = useSelector(selectProperties)
   useAnchorScroll(results)
   if (isLoading) {
     return <Loading />
@@ -92,7 +91,7 @@ export const Summary = () => {
     <>
       <Respondents rows={results.participants} />
       <GOTYResults rows={results.gamesOfTheYear} />
-      <BestOldGameResults rows={results.bestOldGames} year={year} />
+      <BestOldGameResults rows={results.bestOldGames} />
       <MostAnticipatedResults rows={results.mostAnticipated} />
       <GiveawayParticipants rows={results.giveawayParticipants} />
     </>
@@ -134,13 +133,7 @@ const GOTYResults = ({ rows }: { rows: GameOfTheYearResult[] }) => (
   />
 )
 
-const BestOldGameResults = ({
-  rows,
-  year,
-}: {
-  rows: GameResult[]
-  year?: number
-}) => (
+const BestOldGameResults = ({ rows }: { rows: GameResult[] }) => (
   <ResultsTable
     id="bestOldGame"
     title="Best Old Game"

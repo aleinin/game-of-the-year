@@ -1,7 +1,7 @@
 import { TextInput } from '../TextInput/TextInput'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { Button } from '../Button/Button'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
 import { useDebouncedEffect } from '../../../util/use-debounced-effect'
 import styles from './AutoComplete.module.scss'

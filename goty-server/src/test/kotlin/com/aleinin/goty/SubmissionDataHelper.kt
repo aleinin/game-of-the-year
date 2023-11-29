@@ -1,6 +1,7 @@
 package com.aleinin.goty
 
 import com.aleinin.goty.result.RankedGameResult
+import com.aleinin.goty.result.ResultResponse
 import com.aleinin.goty.result.ScoredGameResult
 import com.aleinin.goty.submission.GameSubmission
 import com.aleinin.goty.submission.RankedGameSubmission
@@ -30,6 +31,30 @@ class SubmissionDataHelper {
             theMinimalSubmission,
             theAverageSubmission,
             theTieBreakerSubmission
+        )
+
+        fun everythingScored(): ResultResponse = ResultResponse(
+                gamesOfTheYear = listOf(
+                        aScoredGameResult("Call of Duty Modern Warfare II", 30, 2, 0),
+                        aScoredGameResult("Clicker Pro", 28, 2, 1),
+                        aScoredGameResult("PlateUp!", 26, 2, 2),
+                        aScoredGameResult("Stray", 20, 2, 3),
+                        aScoredGameResult("Overwatch 2", 19 ,2 ,4),
+                        aScoredGameResult("Bayonetta 3", 16, 2, 5),
+                        aScoredGameResult("Elden Ring", 15, 2, 6),
+                        aScoredGameResult("OlliOlli World", 7, 1,  7),
+                        aScoredGameResult("Tiny Tina's Wonderland", 6, 1, 8),
+                ),
+                mostAnticipated = listOf(
+                        aRankedGameResult("Cant wait", 0, 2),
+                        aRankedGameResult("Call of Duty XIX", 1, 1)
+                ),
+                bestOldGame = listOf(
+                        aRankedGameResult("Nostalgia", 0, 2),
+                        aRankedGameResult("Elder Scrolls V: Skyrim", 1, 1)
+                ),
+                participants = listOf(theMaximalSubmission.name, theMinimalSubmission.name, theAverageSubmission.name, theTieBreakerSubmission.name),
+                giveawayParticipants = listOf(theMaximalSubmission.name, theAverageSubmission.name)
         )
 
         fun minimal() = theMinimalSubmission

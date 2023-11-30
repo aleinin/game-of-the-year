@@ -101,7 +101,8 @@ class CSVService(
     private fun indexToOrdinal(index: Int): String {
         val number = index + 1
         val mod10 = number % 10
-        if (number == 11 || number == 12 || number == 13) {
+        val mod100 = number % 100
+        if (mod100 == 11 || mod100 == 12 || mod100 == 13) {
             return "${number}th"
         }
         if (mod10 == 1) {

@@ -4,13 +4,12 @@ import { OldGame } from '../submission/OldGame'
 import { MostAnticipated } from '../submission/MostAnticipated'
 import { Giveaway } from '../submission/Giveaway'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectSubmissions } from '../../state/results/selectors'
 import { usePage } from './usePage'
+import { useSubmissions } from '../../api/useSubmissions'
 
 export const Response = () => {
   const page = usePage()
-  const submissions = useSelector(selectSubmissions)
+  const { submissions } = useSubmissions()
   const submission = submissions[page - 1]
   return (
     <>

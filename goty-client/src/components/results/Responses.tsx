@@ -1,20 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import {
-  selectIsLoading,
-  selectSubmissions,
-} from '../../state/results/selectors'
 import { Card } from '../controls/Card/Card'
 import { Loading } from '../Loading'
 import { Paginator } from '../controls/Paginator/Paginator'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { usePage } from './usePage'
+import { useSubmissions } from '../../api/useSubmissions'
 
 export const Responses = () => {
   const page = usePage()
   const navigate = useNavigate()
-  const isLoading = useSelector(selectIsLoading)
-  const submissions = useSelector(selectSubmissions)
+  const { submissions, isLoading } = useSubmissions()
   const handleSetIndex = (index: number) => {
     const page = index + 1
     navigate(page.toString())

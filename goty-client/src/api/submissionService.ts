@@ -18,11 +18,6 @@ export const SubmissionService = {
       .get<BackendSubmission>(`/submissions/${submissionUUID}`)
       .then(fromBackendSubmissionToSubmission)
   },
-  getSubmissions: (): Promise<Submission[]> => {
-    return fetcher
-      .get<BackendSubmission[]>('/submissions')
-      .then((response) => response.map(fromBackendSubmissionToSubmission))
-  },
   createSubmission: (submission: Submission): Promise<Submission> => {
     return fetcher
       .post<BackendSubmissionCreationRequest, BackendSecretSubmission>(

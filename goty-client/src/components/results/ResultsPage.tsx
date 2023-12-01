@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-import { useStore } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { Outlet, useLocation } from 'react-router-dom'
-import { loadResultsAndSubmissions } from '../../state/results/middleware'
 import { Card } from '../controls/Card/Card'
 import { TabButtons } from '../controls/Tabs/Tabs'
 import { ExportButton } from './ExportButton/ExportButton'
@@ -29,10 +27,6 @@ const getActiveTab = (path: string) => {
 }
 
 export const ResultsPage = () => {
-  const store = useStore()
-  useEffect(() => {
-    loadResultsAndSubmissions(store)
-  }, [store])
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const activeTab = getActiveTab(pathname)

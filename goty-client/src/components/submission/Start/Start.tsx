@@ -3,7 +3,6 @@ import { Card } from '../../controls/Card/Card'
 import { useSelector, useStore } from 'react-redux'
 import { selectIsEdit } from '../../../state/submission/selector'
 import { createNextStepAction } from '../../../state/submission/actions'
-import { loadResults } from '../../../state/results/middleware'
 import { Button } from '../../controls/Button/Button'
 import styles from './Start.module.scss'
 import { Summary } from '../../results/Summary/Summary'
@@ -63,10 +62,7 @@ export const Start = (props: StartProps) => {
   const hasSubmission: boolean = useSelector(selectIsEdit)
   useEffect(() => {
     document.title = 'GOTY - Start'
-    if (isGotyConcluded(properties.deadline)) {
-      loadResults(store)
-    }
-  }, [properties, store])
+  }, [])
   const handleClick = () => {
     store.dispatch(createNextStepAction())
   }

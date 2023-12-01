@@ -1,14 +1,13 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectSubmissions } from '../../state/results/selectors'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useSubmissions } from '../../api/useSubmissions'
 
 const isValidPage = (page: number, numSubmissions: number) =>
   page >= 1 && page <= numSubmissions
 
 export const usePage = () => {
   const { page: pageParam } = useParams()
-  const submissions = useSelector(selectSubmissions)
+  const { submissions } = useSubmissions()
   const navigate = useNavigate()
   const page = parseInt(pageParam ?? '-1')
   useEffect(() => {

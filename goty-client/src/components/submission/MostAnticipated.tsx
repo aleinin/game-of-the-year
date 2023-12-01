@@ -5,7 +5,7 @@ import { SingleGame } from '../controls/SingleGame'
 export interface MostAnticipatedProps {
   readonly: boolean
   mostAnticipated: Game | null
-  handleSetMostAnticipated: (game: Game | null) => void
+  handleSetMostAnticipated?: (game: Game | null) => void
 }
 
 const rules = ['Anything not released']
@@ -16,9 +16,7 @@ export const MostAnticipated = ({
   readonly,
 }: MostAnticipatedProps) => {
   const handleSelect = (mostAnticipated: Game | null) => {
-    if (!readonly) {
-      handleSetMostAnticipated(mostAnticipated)
-    }
+    handleSetMostAnticipated && handleSetMostAnticipated(mostAnticipated)
   }
   return (
     <SingleGame

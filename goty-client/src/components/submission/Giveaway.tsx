@@ -7,7 +7,7 @@ import { useProperties } from '../../api/useProperties'
 export interface GiveawayProps {
   readonly: boolean
   enteredGiveaway: boolean | null
-  handleSetGiveaway: (enteredGiveaway: boolean) => void
+  handleSetGiveaway?: (enteredGiveaway: boolean) => void
 }
 
 const rules = (lastTime: string) => [
@@ -25,9 +25,7 @@ export const Giveaway = ({
 }: GiveawayProps) => {
   const { properties } = useProperties()
   const handleClick = (enteredGiveaway: boolean) => {
-    if (!readonly) {
-      handleSetGiveaway(enteredGiveaway)
-    }
+    handleSetGiveaway && handleSetGiveaway(enteredGiveaway)
   }
   const options: RadioOption[] = [
     {

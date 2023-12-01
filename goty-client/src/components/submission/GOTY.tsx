@@ -7,12 +7,6 @@ import { useProperties } from '../../api/useProperties'
 import { Search } from '../controls/Search'
 import { OrderedList } from '../controls/OrderedList'
 
-export interface GOTYProps {
-  games: Game[]
-  readonly: boolean
-  handleSetGames: (games: Game[]) => void
-}
-
 export enum MoveDirection {
   IncreaseRank,
   DecreaseRank,
@@ -56,38 +50,37 @@ const swap = (
   return newGames
 }
 
-export const GOTY = (props: GOTYProps) => {
+export interface GOTYProps {
+  games: Game[]
+  readonly: boolean
+  handleSetGames?: (games: Game[]) => void
+}
+
+export const GOTY = ({ games, handleSetGames, readonly }: GOTYProps) => {
   const { properties } = useProperties()
-  const setGames = (games: Game[]) => props.handleSetGames(games)
+  const setGames = (games: Game[]) => handleSetGames && handleSetGames(games)
   const handleAddGame = (gameToAdd: Game) => {
-    if (!props.readonly && props.games.length !== properties.tiePoints.length) {
-      setGames([
-        ...props.games.filter((game) => game.id !== gameToAdd.id),
-        gameToAdd,
-      ])
+    if (!readonly && games.length !== properties.tiePoints.length) {
+      setGames([...games.filter((game) => game.id !== gameToAdd.id), gameToAdd])
     }
   }
   const handleMoveGame = (currentIndex: number, direction: MoveDirection) => {
-    if (
-      !props.readonly &&
-      inBounds(currentIndex, direction, props.games.length)
-    ) {
-      setGames(swap(props.games, currentIndex, direction))
+    if (!readonly && inBounds(currentIndex, direction, games.length)) {
+      setGames(swap(games, currentIndex, direction))
     }
   }
 
   const handleDeleteGame = (gameToDelete: Game) => {
-    if (!props.readonly) {
-      setGames(props.games.filter((game) => game.id !== gameToDelete.id))
+    if (!readonly) {
+      setGames(games.filter((game) => game.id !== gameToDelete.id))
     }
   }
   return (
     <Card title={properties.gotyQuestion.title} required={true}>
       <span>{properties.gotyQuestion.question}</span>
-      <Rules readonly={props.readonly} rules={properties.gotyQuestion.rules} />
-      {!props.readonly && getTieBreaker(properties.tiePoints)}
-      {props.readonly ||
-      props.games.length === properties.tiePoints.length ? null : (
+      <Rules readonly={readonly} rules={properties.gotyQuestion.rules} />
+      {!readonly && getTieBreaker(properties.tiePoints)}
+      {readonly || games.length === properties.tiePoints.length ? null : (
         <Search
           year={properties.year}
           placeholder="Select a game"
@@ -95,8 +88,8 @@ export const GOTY = (props: GOTYProps) => {
         />
       )}
       <OrderedList
-        games={props.games}
-        readonly={props.readonly}
+        games={games}
+        readonly={readonly}
         handleDelete={handleDeleteGame}
         handleMove={handleMoveGame}
       />

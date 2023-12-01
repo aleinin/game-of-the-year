@@ -1,18 +1,10 @@
-import {
-  SET,
-  SET_VALIDATOR_FN,
-  SubmissionAction,
-  SUBMIT_SUCCESS,
-  UPDATE_FORM,
-} from './actions'
-import { isEqual, Submission } from '../../models/submission'
+import { SET, SubmissionAction, SUBMIT_SUCCESS, UPDATE_FORM } from './actions'
+import { Submission } from '../../models/submission'
 
 export interface SubmissionState {
   form: Submission
   isEdit: boolean
-  isValid: boolean
   initialForm: Submission
-  validatorFn: (state: SubmissionState) => boolean
 }
 
 const defaultForm: Submission = {
@@ -24,20 +16,10 @@ const defaultForm: Submission = {
   enteredGiveaway: null,
 }
 
-export const isValid = ({ form, initialForm }: SubmissionState) =>
-  !isEqual(form, initialForm) &&
-  form.name?.length > 0 &&
-  form.gamesOfTheYear?.length > 0
-
-const isValidWithGiveaway = (state: SubmissionState) =>
-  isValid(state) && state.form.enteredGiveaway != null
-
 const initialState: SubmissionState = {
   form: defaultForm,
   initialForm: defaultForm,
   isEdit: false,
-  isValid: false,
-  validatorFn: isValidWithGiveaway,
 }
 
 const setExistingSubmission = (
@@ -48,7 +30,6 @@ const setExistingSubmission = (
   isEdit: true,
   initialForm: submission,
   form: submission,
-  isValid: false,
 })
 
 export const submissionReducer = (
@@ -59,25 +40,16 @@ export const submissionReducer = (
     case SET:
       return setExistingSubmission(state, action.payload)
     case UPDATE_FORM:
-      const newStateUnvalidated = {
+      return {
         ...state,
         form: {
           ...state.form,
           [action.payload.key]: action.payload.value,
         },
       }
-      return {
-        ...newStateUnvalidated,
-        isValid: state.validatorFn(newStateUnvalidated),
-      }
     case SUBMIT_SUCCESS:
       return {
         ...setExistingSubmission(state, action.payload),
-      }
-    case SET_VALIDATOR_FN:
-      return {
-        ...state,
-        validatorFn: action.payload,
       }
     default: {
       return state

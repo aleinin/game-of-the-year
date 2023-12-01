@@ -1,13 +1,11 @@
 import { Header } from './Header'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Recovery } from './Recovery'
-import { Provider, useStore } from 'react-redux'
+import { Provider } from 'react-redux'
 import { configureStore } from '../state/store'
 import { SubmissionHub } from './submission/SubmissionHub'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Loading } from './Loading'
-import { createSetValidatorFunctionAction } from '../state/submission/actions'
-import { isValid } from '../state/submission/reducer'
 import { Footer } from './Footer'
 import styles from './App.module.scss'
 import { Responses } from './results/Responses'
@@ -69,13 +67,7 @@ const router = createBrowserRouter([
 ])
 
 const AppRoot = () => {
-  const { properties, isLoading } = useProperties()
-  const store = useStore()
-  useEffect(() => {
-    if (!properties.hasGiveaway) {
-      store.dispatch(createSetValidatorFunctionAction(isValid))
-    }
-  }, [properties, store])
+  const { isLoading } = useProperties()
   if (isLoading) {
     return <Loading></Loading>
   }

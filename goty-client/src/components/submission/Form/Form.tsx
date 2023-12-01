@@ -21,6 +21,17 @@ import { useProperties } from '../../../api/useProperties'
 import { useDocumentTitle } from '../../../util/useDocumentTitle'
 import { Game } from '../../../models/game'
 import { Name } from '../Name'
+import { isEqual, Submission } from '../../../models/submission'
+
+const submissionIsValid = (
+  form: Submission,
+  initialForm: Submission,
+  hasGiveaway: boolean,
+) =>
+  !isEqual(form, initialForm) &&
+  form.name?.length > 0 &&
+  form.gamesOfTheYear?.length > 0 &&
+  (!hasGiveaway || form.enteredGiveaway != null)
 
 interface FormProps {
   handleNextStep: () => void
@@ -28,8 +39,9 @@ interface FormProps {
 }
 export const Form = ({ handleNextStep, handleError }: FormProps) => {
   const store = useStore()
-  const { isValid, isEdit, form } = useSelector(selectSubmissionState)
+  const { isEdit, form, initialForm } = useSelector(selectSubmissionState)
   const { properties } = useProperties()
+  const isValid = submissionIsValid(form, initialForm, properties.hasGiveaway)
   const handleSubmit = () => {
     const service = isEdit
       ? SubmissionService.updateSubmission

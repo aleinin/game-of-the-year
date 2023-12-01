@@ -1,11 +1,9 @@
-import { SubmissionState } from './reducer'
 import { Submission } from '../../models/submission'
 import { Game } from '../../models/game'
 
 export const SET = 'SET'
 export const UPDATE_FORM = 'UPDATE_FORM'
 export const SUBMIT_SUCCESS = 'SUBMIT_SUCCESS'
-export const SET_VALIDATOR_FN = 'SET_VALIDATOR_FN'
 
 export const createSubmitSuccessAction = (submission: Submission) => ({
   type: SUBMIT_SUCCESS,
@@ -46,18 +44,7 @@ export const createUpdateEnteredGiveawayAction = (
   payload: { key: 'enteredGiveaway', value: enteredGiveaway },
 })
 
-export const createSetValidatorFunctionAction = (
-  validatorFn: (state: SubmissionState) => boolean,
-) => ({
-  type: SET_VALIDATOR_FN,
-  payload: validatorFn,
-})
-
 export type SubmissionAction =
   | { type: typeof SET; payload: Submission }
   | { type: typeof UPDATE_FORM; payload: { key: keyof Submission; value: any } }
   | { type: typeof SUBMIT_SUCCESS; payload: Submission }
-  | {
-      type: typeof SET_VALIDATOR_FN
-      payload: (state: SubmissionState) => boolean
-    }

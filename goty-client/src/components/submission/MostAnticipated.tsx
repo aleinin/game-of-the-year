@@ -1,29 +1,31 @@
 import React from 'react'
-import { useStore } from 'react-redux'
-import { createUpdateMostAnticipatedAction } from '../../state/submission/actions'
 import { SingleGame } from './shared/SingleGame'
 import { Game } from '../../models/game'
 
 export interface MostAnticipatedProps {
   readonly: boolean
   mostAnticipated: Game | null
+  handleSetMostAnticipated: (game: Game | null) => void
 }
 
 const rules = ['Anything not released']
 
-export const MostAnticipated = (props: MostAnticipatedProps) => {
-  const store = useStore()
+export const MostAnticipated = ({
+  handleSetMostAnticipated,
+  mostAnticipated,
+  readonly,
+}: MostAnticipatedProps) => {
   const handleSelect = (mostAnticipated: Game | null) => {
-    if (!props.readonly) {
-      store.dispatch(createUpdateMostAnticipatedAction(mostAnticipated))
+    if (!readonly) {
+      handleSetMostAnticipated(mostAnticipated)
     }
   }
   return (
     <SingleGame
       title="Most Anticipated"
       subtitle="What game are you looking forward to most?"
-      readonly={props.readonly}
-      game={props.mostAnticipated}
+      readonly={readonly}
+      game={mostAnticipated}
       handleSelect={handleSelect}
       rules={rules}
     />

@@ -1,6 +1,4 @@
 import React from 'react'
-import { useStore } from 'react-redux'
-import { createUpdateGamesOfTheYearAction } from '../../state/submission/actions'
 import { indexToOrdinal } from '../../util/indexToOrdinal'
 import { Card } from '../controls/Card/Card'
 import { OrderableList } from './shared/OrderableList'
@@ -12,6 +10,7 @@ import { useProperties } from '../../api/useProperties'
 export interface GOTYProps {
   games: Game[]
   readonly: boolean
+  handleSetGames: (games: Game[]) => void
 }
 
 export enum MoveDirection {
@@ -59,9 +58,7 @@ const swap = (
 
 export const GOTY = (props: GOTYProps) => {
   const { properties } = useProperties()
-  const store = useStore()
-  const setGames = (games: Game[]) =>
-    store.dispatch(createUpdateGamesOfTheYearAction(games))
+  const setGames = (games: Game[]) => props.handleSetGames(games)
   const handleAddGame = (gameToAdd: Game) => {
     if (!props.readonly && props.games.length !== properties.tiePoints.length) {
       setGames([

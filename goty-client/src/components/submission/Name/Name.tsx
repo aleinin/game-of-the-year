@@ -1,6 +1,4 @@
 import { Card } from '../../controls/Card/Card'
-import { useStore } from 'react-redux'
-import { createUpdateNameAction } from '../../../state/submission/actions'
 import { useEffect, useState } from 'react'
 import { useDebouncedEffect } from '../../../util/useDebouncedEffect'
 import { TextInput } from '../../controls/TextInput/TextInput'
@@ -9,19 +7,15 @@ import styles from './Name.module.scss'
 export interface NameProps {
   name: string
   readonly: boolean
+  handleSetName: (name: string) => void
 }
 
-export const Name = ({ name, readonly }: NameProps) => {
+export const Name = ({ name, readonly, handleSetName }: NameProps) => {
   const [localName, setLocalName] = useState(name)
-  const store = useStore()
   useEffect(() => {
     setLocalName(name)
   }, [name])
-  useDebouncedEffect(
-    () => store.dispatch(createUpdateNameAction(localName)),
-    [localName],
-    500,
-  )
+  useDebouncedEffect(() => handleSetName(localName), [localName], 500)
   const handleChange = (input: string) =>
     readonly ? () => {} : setLocalName(input)
   return (

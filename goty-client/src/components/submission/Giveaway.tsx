@@ -1,7 +1,5 @@
 import React from 'react'
 import { Card } from '../controls/Card/Card'
-import { useStore } from 'react-redux'
-import { createUpdateEnteredGiveawayAction } from '../../state/submission/actions'
 import { RadioOption, RadioSet } from '../controls/RadioSet/RadioSet'
 import { Rules } from './Rules'
 import { useProperties } from '../../api/useProperties'
@@ -9,6 +7,7 @@ import { useProperties } from '../../api/useProperties'
 export interface GiveawayProps {
   readonly: boolean
   enteredGiveaway: boolean | null
+  handleSetGiveaway: (enteredGiveaway: boolean) => void
 }
 
 const rules = (lastTime: string) => [
@@ -19,12 +18,15 @@ const rules = (lastTime: string) => [
   'The winner will be announced and prize distributed within a few days',
 ]
 
-export const Giveaway = (props: GiveawayProps) => {
+export const Giveaway = ({
+  enteredGiveaway,
+  handleSetGiveaway,
+  readonly,
+}: GiveawayProps) => {
   const { properties } = useProperties()
-  const store = useStore()
   const handleClick = (enteredGiveaway: boolean) => {
-    if (!props.readonly) {
-      store.dispatch(createUpdateEnteredGiveawayAction(enteredGiveaway))
+    if (!readonly) {
+      handleSetGiveaway(enteredGiveaway)
     }
   }
   const options: RadioOption[] = [
@@ -42,13 +44,13 @@ export const Giveaway = (props: GiveawayProps) => {
   return (
     <Card title={'Giveaway'} required={true}>
       <span>{`Do you want to enter the $${properties.giveawayAmountUSD} Steam GC Giveaway?`}</span>
-      <Rules readonly={props.readonly} rules={rules(properties.deadline)} />
+      <Rules readonly={readonly} rules={rules(properties.deadline)} />
       <RadioSet
-        disabled={props.readonly}
+        disabled={readonly}
         name="giveaway"
         options={options}
         onChange={handleClick}
-        selectedValue={props.enteredGiveaway}
+        selectedValue={enteredGiveaway}
       />
     </Card>
   )

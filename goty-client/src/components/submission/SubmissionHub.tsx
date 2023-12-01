@@ -15,15 +15,10 @@ const notNull = (input: string | null | undefined): input is string => {
   )
 }
 
-export enum SubmissionStep {
-  Form,
-  End,
-}
-
 export const SubmissionHub = () => {
   const store = useStore()
   const { properties } = useProperties()
-  const [submissionStep, setSubmissionStep] = useState(SubmissionStep.Form)
+  const [isDone, setIsDone] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   useEffect(() => {
@@ -47,25 +42,14 @@ export const SubmissionHub = () => {
   }, [store])
   const handleError = (error: any) => {
     setError(error)
-    setSubmissionStep(SubmissionStep.End)
+    setIsDone(true)
   }
   if (isGotyConcluded(properties.deadline)) {
     return <Concluded year={properties.year} />
   }
-  switch (submissionStep) {
-    case SubmissionStep.Form:
-      return (
-        <Form
-          handleNextStep={() => setSubmissionStep(SubmissionStep.End)}
-          handleError={handleError}
-        />
-      )
-    case SubmissionStep.End:
-      return (
-        <End
-          error={error}
-          handleNextStep={() => setSubmissionStep(SubmissionStep.Form)}
-        />
-      )
-  }
+  return isDone ? (
+    <End error={error} handleNextStep={() => setIsDone(false)} />
+  ) : (
+    <Form handleNextStep={() => setIsDone(true)} handleError={handleError} />
+  )
 }

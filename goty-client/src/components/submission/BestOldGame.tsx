@@ -1,6 +1,6 @@
-import { SingleGame } from './shared/SingleGame'
 import { Game } from '../../models/game'
 import { useProperties } from '../../api/useProperties'
+import { SingleGame } from '../controls/SingleGame'
 
 export interface BestOldGameProps {
   readonly: boolean

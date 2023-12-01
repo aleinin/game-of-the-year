@@ -1,6 +1,6 @@
 import React from 'react'
-import { SingleGame } from './shared/SingleGame'
 import { Game } from '../../models/game'
+import { SingleGame } from '../controls/SingleGame'
 
 export interface MostAnticipatedProps {
   readonly: boolean

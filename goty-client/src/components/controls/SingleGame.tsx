@@ -1,8 +1,8 @@
 import React from 'react'
-import { Card } from '../../controls/Card/Card'
-import { SearchInPlace } from '../../controls/SearchInPlace/SearchInPlace'
-import { Game } from '../../../models/game'
-import { Rules } from '../Rules'
+import { SearchInPlace } from './SearchInPlace/SearchInPlace'
+import { Rules } from '../submission/Rules'
+import { Card } from './Card/Card'
+import { Game } from '../../models/game'
 
 export interface SingleGameProps {
   title: string

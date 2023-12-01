@@ -1,11 +1,11 @@
 import React from 'react'
 import { indexToOrdinal } from '../../util/indexToOrdinal'
 import { Card } from '../controls/Card/Card'
-import { OrderableList } from './shared/OrderableList'
-import { Search } from './shared/Search'
 import { Game } from '../../models/game'
 import { Rules } from './Rules'
 import { useProperties } from '../../api/useProperties'
+import { Search } from '../controls/Search'
+import { OrderedList } from '../controls/OrderedList'
 
 export interface GOTYProps {
   games: Game[]
@@ -94,7 +94,7 @@ export const GOTY = (props: GOTYProps) => {
           handleSelect={handleAddGame}
         />
       )}
-      <OrderableList
+      <OrderedList
         games={props.games}
         readonly={props.readonly}
         handleDelete={handleDeleteGame}

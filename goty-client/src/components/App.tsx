@@ -1,8 +1,6 @@
 import { Header } from './Header'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Recovery } from './Recovery'
-import { Provider } from 'react-redux'
-import { configureStore } from '../state/store'
 import { SubmissionHub } from './submission/SubmissionHub'
 import React from 'react'
 import { Loading } from './Loading'
@@ -16,13 +14,10 @@ import { useProperties } from '../api/useProperties'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export const App = () => {
-  const store = configureStore()
   const queryClient = new QueryClient()
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <AppRoot />
-      </Provider>
+      <AppRoot />
     </QueryClientProvider>
   )
 }

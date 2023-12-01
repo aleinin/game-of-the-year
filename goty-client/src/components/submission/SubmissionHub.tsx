@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
-import { useSelector, useStore } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useStore } from 'react-redux'
 import { SubmissionService } from '../../api/submissionService'
 import { createSetSubmissionAction } from '../../state/submission/actions'
-import { selectIsEdit } from '../../state/submission/selector'
 import { End } from './End/End'
-import { Start } from './Start/Start'
 import { Form } from './Form/Form'
 import { localStorageService } from '../../api/localStorageService'
+import { isGotyConcluded } from '../../util/isGotyConcluded'
+import { useProperties } from '../../api/useProperties'
+import { Concluded } from './Concluded'
 
 const notNull = (input: string | null | undefined): input is string => {
   return (
@@ -15,17 +16,16 @@ const notNull = (input: string | null | undefined): input is string => {
 }
 
 export enum SubmissionStep {
-  Start,
   Form,
   End,
 }
 
 export const SubmissionHub = () => {
   const store = useStore()
-  const [submissionStep, setSubmissionStep] = useState(SubmissionStep.Start)
+  const { properties } = useProperties()
+  const [submissionStep, setSubmissionStep] = useState(SubmissionStep.Form)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const hasSubmission = useSelector(selectIsEdit)
   useEffect(() => {
     const submissionUUID = localStorageService.getSubmissionIds().id
     if (notNull(submissionUUID)) {
@@ -49,15 +49,10 @@ export const SubmissionHub = () => {
     setError(error)
     setSubmissionStep(SubmissionStep.End)
   }
+  if (isGotyConcluded(properties.deadline)) {
+    return <Concluded year={properties.year} />
+  }
   switch (submissionStep) {
-    case SubmissionStep.Start:
-      return (
-        <Start
-          isLoading={isLoading}
-          handleNextStep={() => setSubmissionStep(SubmissionStep.Form)}
-          hasSubmission={hasSubmission}
-        />
-      )
     case SubmissionStep.Form:
       return (
         <Form

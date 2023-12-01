@@ -4,19 +4,9 @@ import { Game } from '../../models/game'
 
 export const SET = 'SET'
 export const UPDATE_FORM = 'UPDATE_FORM'
-export const RECOVER_SUBMISSION = 'RECOVER_SUBMISSION'
 export const SUBMIT_SUCCESS = 'SUBMIT_SUCCESS'
 export const SUBMIT_FAIL = 'SUBMIT_FAIL'
-export const NEXT_STEP = 'NEXT_STEP'
 export const SET_VALIDATOR_FN = 'SET_VALIDATOR_FN'
-
-export const createNextStepAction = () => ({
-  type: NEXT_STEP,
-})
-
-export const createRecoverSubmissionAction = () => ({
-  type: RECOVER_SUBMISSION,
-})
 
 export const createSubmitSuccessAction = (submission: Submission) => ({
   type: SUBMIT_SUCCESS,
@@ -31,11 +21,6 @@ export const createSubmitFailAction = (error: any) => ({
 export const createSetSubmissionAction = (submission: Submission) => ({
   type: SET,
   payload: submission,
-})
-
-export const createUpdateSubmissionUUIDAction = (uuid: string) => ({
-  type: UPDATE_FORM,
-  payload: { key: 'submissionUUID', value: uuid },
 })
 
 export const createUpdateNameAction = (name: string) => ({
@@ -77,10 +62,8 @@ export const createSetValidatorFunctionAction = (
 export type SubmissionAction =
   | { type: typeof SET; payload: Submission }
   | { type: typeof UPDATE_FORM; payload: { key: keyof Submission; value: any } }
-  | { type: typeof RECOVER_SUBMISSION }
   | { type: typeof SUBMIT_SUCCESS; payload: Submission }
   | { type: typeof SUBMIT_FAIL; payload: any }
-  | { type: typeof NEXT_STEP }
   | {
       type: typeof SET_VALIDATOR_FN
       payload: (state: SubmissionState) => boolean

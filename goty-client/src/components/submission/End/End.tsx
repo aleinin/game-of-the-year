@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react'
-import { useSelector, useStore } from 'react-redux'
-import { createNextStepAction } from '../../../state/submission/actions'
-import { selectError } from '../../../state/submission/selector'
 import { Card } from '../../controls/Card/Card'
 import styles from './End.module.scss'
 import { CodeBox } from '../../controls/CodeBox/CodeBox'
@@ -13,13 +10,13 @@ const getRecoveryLink = () => {
   return `${window.location.origin}/recovery?id=${id}&secret=${secret}`
 }
 
-export const End = () => {
-  const store = useStore()
+interface EndProps {
+  error: any
+  handleNextStep: () => void
+}
+
+export const End = ({ error, handleNextStep }: EndProps) => {
   const { properties } = useProperties()
-  const error = useSelector(selectError)
-  const handleEditClick = () => {
-    store.dispatch(createNextStepAction())
-  }
   useEffect(() => {
     document.title = 'GOTY - End'
   }, [])
@@ -30,7 +27,7 @@ export const End = () => {
       ) : (
         <SuccessfulSubmission
           deadline={properties.deadline}
-          handleClick={handleEditClick}
+          handleClick={handleNextStep}
         />
       )}
     </Card>

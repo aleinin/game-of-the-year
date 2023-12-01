@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useStore } from 'react-redux'
 import { SubmissionService } from '../../api/submissionService'
 import { createSetSubmissionAction } from '../../state/submission/actions'
-import { SubmissionStep } from '../../state/submission/reducer'
-import { selectSubmissionStep } from '../../state/submission/selector'
+import { selectError, selectIsEdit } from '../../state/submission/selector'
 import { End } from './End/End'
 import { Start } from './Start/Start'
 import { Form } from './Form/Form'
@@ -15,10 +14,18 @@ const notNull = (input: string | null | undefined): input is string => {
   )
 }
 
+export enum SubmissionStep {
+  Start,
+  Form,
+  End,
+}
+
 export const SubmissionHub = () => {
   const store = useStore()
+  const [submissionStep, setSubmissionStep] = useState(SubmissionStep.Start)
   const [isLoading, setIsLoading] = useState(false)
-  const submissionStep = useSelector(selectSubmissionStep)
+  const hasSubmission = useSelector(selectIsEdit)
+  const error = useSelector(selectError)
   useEffect(() => {
     const submissionUUID = localStorageService.getSubmissionIds().id
     if (notNull(submissionUUID)) {
@@ -40,10 +47,23 @@ export const SubmissionHub = () => {
   }, [store])
   switch (submissionStep) {
     case SubmissionStep.Start:
-      return <Start isLoading={isLoading} />
+      return (
+        <Start
+          isLoading={isLoading}
+          handleNextStep={() => setSubmissionStep(SubmissionStep.Form)}
+          hasSubmission={hasSubmission}
+        />
+      )
     case SubmissionStep.Form:
-      return <Form />
+      return (
+        <Form handleNextStep={() => setSubmissionStep(SubmissionStep.End)} />
+      )
     case SubmissionStep.End:
-      return <End />
+      return (
+        <End
+          error={error}
+          handleNextStep={() => setSubmissionStep(SubmissionStep.Form)}
+        />
+      )
   }
 }

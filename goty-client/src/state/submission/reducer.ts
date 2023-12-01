@@ -1,6 +1,4 @@
 import {
-  NEXT_STEP,
-  RECOVER_SUBMISSION,
   SET,
   SET_VALIDATOR_FN,
   SubmissionAction,
@@ -10,18 +8,11 @@ import {
 } from './actions'
 import { isEqual, Submission } from '../../models/submission'
 
-export enum SubmissionStep {
-  Start,
-  Form,
-  End,
-}
-
 export interface SubmissionState {
   form: Submission
   isEdit: boolean
   isValid: boolean
   initialForm: Submission
-  step: SubmissionStep
   error: any
   validatorFn: (state: SubmissionState) => boolean
 }
@@ -48,7 +39,6 @@ const initialState: SubmissionState = {
   initialForm: defaultForm,
   isEdit: false,
   isValid: false,
-  step: SubmissionStep.Start,
   error: null,
   validatorFn: isValidWithGiveaway,
 }
@@ -83,41 +73,14 @@ export const submissionReducer = (
         ...newStateUnvalidated,
         isValid: state.validatorFn(newStateUnvalidated),
       }
-    case NEXT_STEP:
-      let step: SubmissionStep
-      switch (state.step) {
-        case SubmissionStep.Start:
-          step = SubmissionStep.Form
-          break
-        case SubmissionStep.End:
-          step = SubmissionStep.Start
-          break
-        default:
-          throw new Error(
-            `Bad State/Action: ${JSON.stringify(action)} ${JSON.stringify(
-              state,
-            )}`,
-          )
-      }
-      return {
-        ...state,
-        step,
-      }
-    case RECOVER_SUBMISSION:
-      return {
-        ...state,
-        step: SubmissionStep.Form,
-      }
     case SUBMIT_SUCCESS:
       return {
         ...setExistingSubmission(state, action.payload),
-        step: SubmissionStep.End,
       }
     case SUBMIT_FAIL:
       return {
         ...state,
         error: action.payload,
-        step: SubmissionStep.End,
       }
     case SET_VALIDATOR_FN:
       return {

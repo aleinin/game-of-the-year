@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react'
 import { Card } from '../../controls/Card/Card'
-import { useSelector, useStore } from 'react-redux'
-import { selectIsEdit } from '../../../state/submission/selector'
-import { createNextStepAction } from '../../../state/submission/actions'
 import { Button } from '../../controls/Button/Button'
 import styles from './Start.module.scss'
 import { Summary } from '../../results/Summary/Summary'
@@ -11,6 +8,8 @@ import { useProperties } from '../../../api/useProperties'
 
 export interface StartProps {
   isLoading: boolean
+  handleNextStep: () => void
+  hasSubmission: boolean
 }
 
 const Concluded = ({ year }: { year: number }) => {
@@ -56,24 +55,23 @@ const SubmissionButtons = ({
   )
 }
 
-export const Start = (props: StartProps) => {
-  const store = useStore()
+export const Start = ({
+  isLoading,
+  hasSubmission,
+  handleNextStep,
+}: StartProps) => {
   const { properties } = useProperties()
-  const hasSubmission: boolean = useSelector(selectIsEdit)
   useEffect(() => {
     document.title = 'GOTY - Start'
   }, [])
-  const handleClick = () => {
-    store.dispatch(createNextStepAction())
-  }
   if (isGotyConcluded(properties.deadline)) {
     return <Concluded year={properties.year} />
   }
   return (
     <SubmissionButtons
       hasSubmission={hasSubmission}
-      isLoading={props.isLoading}
-      handleClick={handleClick}
+      isLoading={isLoading}
+      handleClick={handleNextStep}
     />
   )
 }

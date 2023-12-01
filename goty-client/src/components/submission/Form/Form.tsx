@@ -16,7 +16,10 @@ import { Button } from '../../controls/Button/Button'
 import styles from './Form.module.scss'
 import { useProperties } from '../../../api/useProperties'
 
-export const Form = () => {
+interface FormProps {
+  handleNextStep: () => void
+}
+export const Form = ({ handleNextStep }: FormProps) => {
   const store = useStore()
   const { isValid, isEdit, form } = useSelector(selectSubmissionState)
   const { properties } = useProperties()
@@ -27,9 +30,11 @@ export const Form = () => {
     service(form)
       .then((submission) => {
         store.dispatch(createSubmitSuccessAction(submission))
+        handleNextStep()
       })
       .catch((error) => {
         store.dispatch(createSubmitFailAction(error))
+        handleNextStep()
       })
   }
   useEffect(() => {

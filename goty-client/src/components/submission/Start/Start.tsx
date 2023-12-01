@@ -4,11 +4,11 @@ import { useSelector, useStore } from 'react-redux'
 import { selectIsEdit } from '../../../state/submission/selector'
 import { createNextStepAction } from '../../../state/submission/actions'
 import { loadResults } from '../../../state/results/middleware'
-import { selectProperties } from '../../../state/properties/selectors'
 import { Button } from '../../controls/Button/Button'
 import styles from './Start.module.scss'
 import { Summary } from '../../results/Summary/Summary'
 import { isGotyConcluded } from '../../../util/isGotyConcluded'
+import { useProperties } from '../../../api/useProperties'
 
 export interface StartProps {
   isLoading: boolean
@@ -59,7 +59,7 @@ const SubmissionButtons = ({
 
 export const Start = (props: StartProps) => {
   const store = useStore()
-  const properties = useSelector(selectProperties)
+  const { properties } = useProperties()
   const hasSubmission: boolean = useSelector(selectIsEdit)
   useEffect(() => {
     document.title = 'GOTY - Start'

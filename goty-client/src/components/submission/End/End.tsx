@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { useSelector, useStore } from 'react-redux'
-import { selectProperties } from '../../../state/properties/selectors'
 import { createNextStepAction } from '../../../state/submission/actions'
 import { selectError } from '../../../state/submission/selector'
 import { Card } from '../../controls/Card/Card'
 import styles from './End.module.scss'
 import { CodeBox } from '../../controls/CodeBox/CodeBox'
 import { localStorageService } from '../../../api/localStorageService'
+import { useProperties } from '../../../api/useProperties'
 
 const getRecoveryLink = () => {
   const { id, secret } = localStorageService.getSubmissionIds()
@@ -15,7 +15,7 @@ const getRecoveryLink = () => {
 
 export const End = () => {
   const store = useStore()
-  const { deadline } = useSelector(selectProperties)
+  const { properties } = useProperties()
   const error = useSelector(selectError)
   const handleEditClick = () => {
     store.dispatch(createNextStepAction())
@@ -29,7 +29,7 @@ export const End = () => {
         <FailSubmission error={error} />
       ) : (
         <SuccessfulSubmission
-          deadline={deadline}
+          deadline={properties.deadline}
           handleClick={handleEditClick}
         />
       )}

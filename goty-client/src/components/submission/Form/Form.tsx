@@ -12,14 +12,14 @@ import {
   createSubmitFailAction,
   createSubmitSuccessAction,
 } from '../../../state/submission/actions'
-import { selectProperties } from '../../../state/properties/selectors'
 import { Button } from '../../controls/Button/Button'
 import styles from './Form.module.scss'
+import { useProperties } from '../../../api/useProperties'
 
 export const Form = () => {
   const store = useStore()
   const { isValid, isEdit, form } = useSelector(selectSubmissionState)
-  const { hasGiveaway } = useSelector(selectProperties)
+  const { properties } = useProperties()
   const handleSubmit = () => {
     const service = isEdit
       ? SubmissionService.updateSubmission
@@ -47,7 +47,7 @@ export const Form = () => {
         readonly={false}
         mostAnticipated={form.mostAnticipated}
       />
-      {hasGiveaway ? (
+      {properties.hasGiveaway ? (
         <Giveaway readonly={false} enteredGiveaway={form.enteredGiveaway} />
       ) : null}
       <Button

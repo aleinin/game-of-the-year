@@ -1,6 +1,5 @@
 import React from 'react'
-import { useSelector, useStore } from 'react-redux'
-import { selectProperties } from '../../state/properties/selectors'
+import { useStore } from 'react-redux'
 import { createUpdateGamesOfTheYearAction } from '../../state/submission/actions'
 import { indexToOrdinal } from '../../util/indexToOrdinal'
 import { Card } from '../controls/Card/Card'
@@ -8,6 +7,7 @@ import { OrderableList } from './shared/OrderableList'
 import { Search } from './shared/Search'
 import { Game } from '../../models/game'
 import { Rules } from './Rules'
+import { useProperties } from '../../api/useProperties'
 
 export interface GOTYProps {
   games: Game[]
@@ -58,7 +58,7 @@ const swap = (
 }
 
 export const GOTY = (props: GOTYProps) => {
-  const properties = useSelector(selectProperties)
+  const { properties } = useProperties()
   const store = useStore()
   const setGames = (games: Game[]) =>
     store.dispatch(createUpdateGamesOfTheYearAction(games))

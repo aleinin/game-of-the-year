@@ -8,18 +8,16 @@ import { OldGame } from '../OldGame'
 import { useSelector, useStore } from 'react-redux'
 import { SubmissionService } from '../../../api/submissionService'
 import { selectSubmissionState } from '../../../state/submission/selector'
-import {
-  createSubmitFailAction,
-  createSubmitSuccessAction,
-} from '../../../state/submission/actions'
+import { createSubmitSuccessAction } from '../../../state/submission/actions'
 import { Button } from '../../controls/Button/Button'
 import styles from './Form.module.scss'
 import { useProperties } from '../../../api/useProperties'
 
 interface FormProps {
   handleNextStep: () => void
+  handleError: (error: any) => void
 }
-export const Form = ({ handleNextStep }: FormProps) => {
+export const Form = ({ handleNextStep, handleError }: FormProps) => {
   const store = useStore()
   const { isValid, isEdit, form } = useSelector(selectSubmissionState)
   const { properties } = useProperties()
@@ -33,8 +31,7 @@ export const Form = ({ handleNextStep }: FormProps) => {
         handleNextStep()
       })
       .catch((error) => {
-        store.dispatch(createSubmitFailAction(error))
-        handleNextStep()
+        handleError(error)
       })
   }
   useEffect(() => {

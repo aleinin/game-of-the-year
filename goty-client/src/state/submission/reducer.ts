@@ -2,7 +2,6 @@ import {
   SET,
   SET_VALIDATOR_FN,
   SubmissionAction,
-  SUBMIT_FAIL,
   SUBMIT_SUCCESS,
   UPDATE_FORM,
 } from './actions'
@@ -13,7 +12,6 @@ export interface SubmissionState {
   isEdit: boolean
   isValid: boolean
   initialForm: Submission
-  error: any
   validatorFn: (state: SubmissionState) => boolean
 }
 
@@ -39,7 +37,6 @@ const initialState: SubmissionState = {
   initialForm: defaultForm,
   isEdit: false,
   isValid: false,
-  error: null,
   validatorFn: isValidWithGiveaway,
 }
 
@@ -76,11 +73,6 @@ export const submissionReducer = (
     case SUBMIT_SUCCESS:
       return {
         ...setExistingSubmission(state, action.payload),
-      }
-    case SUBMIT_FAIL:
-      return {
-        ...state,
-        error: action.payload,
       }
     case SET_VALIDATOR_FN:
       return {

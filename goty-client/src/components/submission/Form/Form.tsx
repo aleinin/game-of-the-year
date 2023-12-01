@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Card } from '../../controls/Card/Card'
 import { Giveaway } from '../Giveaway'
 import { GOTY } from '../GOTY'
@@ -12,6 +12,7 @@ import { createSubmitSuccessAction } from '../../../state/submission/actions'
 import { Button } from '../../controls/Button/Button'
 import styles from './Form.module.scss'
 import { useProperties } from '../../../api/useProperties'
+import { useDocumentTitle } from '../../../util/useDocumentTitle'
 
 interface FormProps {
   handleNextStep: () => void
@@ -34,9 +35,7 @@ export const Form = ({ handleNextStep, handleError }: FormProps) => {
         handleError(error)
       })
   }
-  useEffect(() => {
-    document.title = 'GOTY - Submission'
-  }, [])
+  useDocumentTitle('GOTY - Submission')
   return (
     <>
       <Card>

@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Card } from '../controls/Card/Card'
 import { TabButtons } from '../controls/Tabs/Tabs'
 import { ExportButton } from './ExportButton/ExportButton'
+import { useDocumentTitle } from '../../util/useDocumentTitle'
+import { uppercaseFirstLetter } from '../../util/uppercaseFirstLetter'
 
 export enum Tabs {
   SUMMARY = 'summary',
@@ -30,9 +32,7 @@ export const ResultsPage = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const activeTab = getActiveTab(pathname)
-  useEffect(() => {
-    document.title = `GOTY - ${activeTab}`
-  }, [activeTab])
+  useDocumentTitle(`GOTY - ${uppercaseFirstLetter(activeTab)}`)
   const handleTabChange = (tab: string) => navigate(`${tab}`)
 
   return (

@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Card } from '../../controls/Card/Card'
 import styles from './End.module.scss'
 import { CodeBox } from '../../controls/CodeBox/CodeBox'
 import { localStorageService } from '../../../api/localStorageService'
 import { useProperties } from '../../../api/useProperties'
+import { useDocumentTitle } from '../../../util/useDocumentTitle'
 
 const getRecoveryLink = () => {
   const { id, secret } = localStorageService.getSubmissionIds()
@@ -17,9 +18,7 @@ interface EndProps {
 
 export const End = ({ error, handleNextStep }: EndProps) => {
   const { properties } = useProperties()
-  useEffect(() => {
-    document.title = 'GOTY - End'
-  }, [])
+  useDocumentTitle('GOTY - End')
   return (
     <Card>
       {error != null ? (

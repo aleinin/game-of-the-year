@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import styles from './Tabs.module.scss'
 import { Button } from '../Button/Button'
+import { uppercaseFirstLetter } from '../../../util/uppercaseFirstLetter'
 
 export interface TabButtonsProps {
   tabs: string[]
@@ -47,7 +48,7 @@ export const TabButtons = ({
             key={tab}
             onClick={onChangeCallback(tab)}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {uppercaseFirstLetter(tab)}
           </Button>
         )
       })}

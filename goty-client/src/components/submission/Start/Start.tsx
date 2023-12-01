@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Card } from '../../controls/Card/Card'
 import { Button } from '../../controls/Button/Button'
 import styles from './Start.module.scss'
 import { Summary } from '../../results/Summary/Summary'
 import { isGotyConcluded } from '../../../util/isGotyConcluded'
 import { useProperties } from '../../../api/useProperties'
+import { useDocumentTitle } from '../../../util/useDocumentTitle'
 
 export interface StartProps {
   isLoading: boolean
@@ -61,9 +62,7 @@ export const Start = ({
   handleNextStep,
 }: StartProps) => {
   const { properties } = useProperties()
-  useEffect(() => {
-    document.title = 'GOTY - Start'
-  }, [])
+  useDocumentTitle('GOTY - Start')
   if (isGotyConcluded(properties.deadline)) {
     return <Concluded year={properties.year} />
   }

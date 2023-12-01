@@ -48,6 +48,10 @@ class Fetcher {
     })
   }
 
+  getBaseUrl() {
+    return this.baseUrl
+  }
+
   private fetch<T = any>(
     method: HttpMethod,
     url: string,

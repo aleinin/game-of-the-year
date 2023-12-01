@@ -3,10 +3,10 @@ interface Constants {
 }
 
 export const baseUrlService = {
-  getBaseUrl: (): Promise<string | undefined> => {
+  getBaseUrl: async (): Promise<string | undefined> => {
     const url = `${window.location.origin}/constants.json`
-    return fetch(url)
-      .then((response) => response.json())
-      .then((response: Constants) => response.baseUrl)
+    let response = await fetch(url)
+    let constants: Constants = await response.json()
+    return constants.baseUrl
   },
 }

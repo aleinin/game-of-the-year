@@ -15,7 +15,7 @@ const getProperties = () =>
     )
     .then(fromBackendPropertiesToProperties)
 
-const iniitalProperties: Properties = {
+const initialProperties: Properties = {
   gotyQuestion: { question: '', rules: [''], title: '' },
   title: '',
   tiePoints: [],
@@ -28,7 +28,7 @@ export const useProperties = () => {
   const query = useQuery({
     queryKey: ['properties'],
     queryFn: getProperties,
-    initialData: iniitalProperties,
+    initialData: initialProperties,
   })
   return { ...query, properties: query.data }
 }

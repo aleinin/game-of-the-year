@@ -1,4 +1,4 @@
-import { indexToOrdinal } from '../index-to-ordinal'
+import { indexToOrdinal } from '../indexToOrdinal'
 
 it('should add ordinal to index', () => {
   let expected = [...(Array(24).keys() as any)].map((index) => `${index + 1}th`)
@@ -9,7 +9,7 @@ it('should add ordinal to index', () => {
   expected[21] = '22nd'
   expected[22] = '23rd'
   const actual = [...(Array(24).keys() as any)].map((index) =>
-    indexToOrdinal(index)
+    indexToOrdinal(index),
   )
   expect(actual).toEqual(expected)
 })

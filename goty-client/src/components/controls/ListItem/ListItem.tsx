@@ -1,4 +1,4 @@
-import { indexToOrdinal } from '../../../util/index-to-ordinal'
+import { indexToOrdinal } from '../../../util/indexToOrdinal'
 import { MoveDirection } from '../../submission/GOTY'
 import { Button } from '../Button/Button'
 import { ChevronUp } from '../../../icons/chevron/ChevronUp'

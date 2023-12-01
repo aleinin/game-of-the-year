@@ -1,7 +1,6 @@
 import { useSelector, useStore } from 'react-redux'
 import { selectProperties } from '../../state/properties/selectors'
 import { createUpdateBestOldGameAction } from '../../state/submission/actions'
-import { generateRules } from '../../util/generate-rules'
 import { SingleGame } from './shared/SingleGame'
 import { Game } from '../../models/game'
 
@@ -27,7 +26,7 @@ export const OldGame = (props: OldGameProps) => {
       readonly={props.readonly}
       game={props.bestOldGame}
       handleSelect={handleSelect}
-      content={generateRules(props.readonly, rules(year))}
+      rules={rules(year)}
     />
   )
 }

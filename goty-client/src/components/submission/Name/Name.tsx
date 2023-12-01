@@ -2,7 +2,7 @@ import { Card } from '../../controls/Card/Card'
 import { useStore } from 'react-redux'
 import { createUpdateNameAction } from '../../../state/submission/actions'
 import { useEffect, useState } from 'react'
-import { useDebouncedEffect } from '../../../util/use-debounced-effect'
+import { useDebouncedEffect } from '../../../util/useDebouncedEffect'
 import { TextInput } from '../../controls/TextInput/TextInput'
 import styles from './Name.module.scss'
 

@@ -3,7 +3,6 @@ import { Card } from '../../controls/Card/Card'
 import { Giveaway } from '../Giveaway'
 import { GOTY } from '../GOTY'
 import { MostAnticipated } from '../MostAnticipated'
-import { Name } from '../Name/Name'
 import { BestOldGame } from '../BestOldGame'
 import { useSelector, useStore } from 'react-redux'
 import { SubmissionService } from '../../../api/submissionService'
@@ -21,6 +20,7 @@ import styles from './Form.module.scss'
 import { useProperties } from '../../../api/useProperties'
 import { useDocumentTitle } from '../../../util/useDocumentTitle'
 import { Game } from '../../../models/game'
+import { Name } from '../Name'
 
 interface FormProps {
   handleNextStep: () => void

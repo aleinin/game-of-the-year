@@ -1,8 +1,7 @@
-import { Card } from '../../controls/Card/Card'
-import { useEffect, useState } from 'react'
-import { useDebouncedEffect } from '../../../util/useDebouncedEffect'
-import { TextInput } from '../../controls/TextInput/TextInput'
-import styles from './Name.module.scss'
+import React, { useEffect, useState } from 'react'
+import { useDebouncedEffect } from '../../util/useDebouncedEffect'
+import { TextInput } from '../controls/TextInput/TextInput'
+import { Card } from '../controls/Card/Card'
 
 export interface NameProps {
   name: string
@@ -20,15 +19,13 @@ export const Name = ({ name, readonly, handleSetName }: NameProps) => {
     readonly ? () => {} : setLocalName(input)
   return (
     <Card title="Name:" required={true}>
-      <div className={styles.marginTop20}>
-        <TextInput
-          id="name"
-          value={readonly ? name : localName}
-          disabled={readonly}
-          onChange={handleChange}
-          placeholder="Your Name"
-        />
-      </div>
+      <TextInput
+        id="name"
+        value={readonly ? name : localName}
+        disabled={readonly}
+        onChange={handleChange}
+        placeholder="Your Name"
+      />
     </Card>
   )
 }

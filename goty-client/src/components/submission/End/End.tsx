@@ -13,10 +13,10 @@ const getRecoveryLink = () => {
 
 interface EndProps {
   error: any
-  handleNextStep: () => void
+  handleDone: () => void
 }
 
-export const End = ({ error, handleNextStep }: EndProps) => {
+export const End = ({ error, handleDone }: EndProps) => {
   const { properties } = useProperties()
   useDocumentTitle('GOTY - End')
   return (
@@ -26,7 +26,7 @@ export const End = ({ error, handleNextStep }: EndProps) => {
       ) : (
         <SuccessfulSubmission
           deadline={properties.deadline}
-          handleClick={handleNextStep}
+          handleClick={handleDone}
         />
       )}
     </Card>

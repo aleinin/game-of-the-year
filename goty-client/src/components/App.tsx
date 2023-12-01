@@ -1,7 +1,7 @@
 import { Header } from './Header'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Recovery } from './Recovery'
-import { SubmissionHub } from './submission/SubmissionHub'
+import { SubmissionRouter } from './submission/SubmissionRouter'
 import React from 'react'
 import { Loading } from './Loading'
 import { Footer } from './Footer'
@@ -12,12 +12,14 @@ import { Summary } from './results/Summary/Summary'
 import { Response } from './results/Response'
 import { useProperties } from '../api/useProperties'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export const App = () => {
   const queryClient = new QueryClient()
   return (
     <QueryClientProvider client={queryClient}>
       <AppRoot />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }
@@ -25,7 +27,7 @@ export const App = () => {
 const router = createBrowserRouter([
   {
     path: '/submission',
-    element: <SubmissionHub />,
+    element: <SubmissionRouter />,
   },
   {
     path: '/recovery',

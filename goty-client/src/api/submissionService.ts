@@ -13,11 +13,6 @@ import { BackendSecretSubmission } from './backendModels/backendSecretSubmission
 import { fromSubmissionToBackendSubmissionUpdateRequest } from './backendModels/backendSubmissionUpdateRequest'
 
 export const SubmissionService = {
-  getSubmission: (submissionUUID: string): Promise<Submission> => {
-    return fetcher
-      .get<BackendSubmission>(`/submissions/${submissionUUID}`)
-      .then(fromBackendSubmissionToSubmission)
-  },
   createSubmission: (submission: Submission): Promise<Submission> => {
     return fetcher
       .post<BackendSubmissionCreationRequest, BackendSecretSubmission>(

@@ -1,12 +1,11 @@
+import { SubmissionForm } from './SubmissionForm/SubmissionForm'
 import React, { useEffect, useState } from 'react'
 import { SubmissionService } from '../../api/submissionService'
-import { End } from './End/End'
-import { Form } from './Form/Form'
-import { localStorageService } from '../../api/localStorageService'
-import { isGotyConcluded } from '../../util/isGotyConcluded'
-import { useProperties } from '../../api/useProperties'
-import { Concluded } from './Concluded'
 import { isEqual, Submission } from '../../models/submission'
+import { localStorageService } from '../../api/localStorageService'
+import { useProperties } from '../../api/useProperties'
+import { useSubmission } from '../../api/useSubmission'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const defaultSubmission: Submission = {
   submissionUUID: '',
@@ -18,72 +17,55 @@ const defaultSubmission: Submission = {
 }
 
 const submissionIsValid = (
-  form: Submission,
+  submission: Submission,
   initialForm: Submission,
   hasGiveaway: boolean,
 ) =>
-  !isEqual(form, initialForm) &&
-  form.name?.length > 0 &&
-  form.gamesOfTheYear?.length > 0 &&
-  (!hasGiveaway || form.enteredGiveaway != null)
+  !isEqual(submission, initialForm) &&
+  submission.name?.length > 0 &&
+  submission.gamesOfTheYear?.length > 0 &&
+  (!hasGiveaway || submission.enteredGiveaway != null)
 
-export const SubmissionHub = () => {
+interface SubmissionHubProps {
+  handleDone: () => void
+  handleError: (error: any) => void
+}
+export const SubmissionHub = ({
+  handleDone,
+  handleError,
+}: SubmissionHubProps) => {
+  const queryClient = useQueryClient()
+  const [id] = useState(localStorageService.getSubmissionIds().id)
   const { properties } = useProperties()
-  const [isDone, setIsDone] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [isUpdate, setIsUpdate] = useState(false)
-  const [submission, setSubmission] = useState(defaultSubmission)
-  const [initialSubmission, setInitialSubmission] = useState(defaultSubmission)
+  const { data } = useSubmission(id)
+  const initialSubmission = data ?? defaultSubmission
+  const [submission, setSubmission] = useState<Submission>(initialSubmission)
+  const upsertSubmissionMutation = useMutation({
+    mutationFn: (newSubmission: Submission) =>
+      id !== ''
+        ? SubmissionService.updateSubmission(newSubmission)
+        : SubmissionService.createSubmission(newSubmission),
+    onSuccess: (newSubmission) => {
+      queryClient.setQueryData(['submission', id], newSubmission)
+      handleDone()
+    },
+    onError: (error) => {
+      handleError(error)
+    },
+  })
   const isValid = submissionIsValid(
     submission,
     initialSubmission,
     properties.hasGiveaway,
   )
-  const resetSubmission = (submission: Submission) => {
-    setSubmission(submission)
-    setInitialSubmission(submission)
-  }
   useEffect(() => {
-    const submissionUUID = localStorageService.getSubmissionIds().id
-    if (submissionUUID !== '') {
-      setIsLoading(true)
-      setIsUpdate(true)
-      SubmissionService.getSubmission(submissionUUID)
-        .then((submission) => {
-          resetSubmission(submission)
-        })
-        .catch((error) => {
-          const status = error.response.status
-          if (status === 404 || status === 400) {
-            localStorage.removeItem('submissionUUID')
-            console.error(error)
-          }
-        })
-        .finally(() => setIsLoading(false))
-    }
-  }, [])
-  if (isGotyConcluded(properties.deadline)) {
-    return <Concluded year={properties.year} />
-  }
+    setSubmission(initialSubmission)
+  }, [initialSubmission])
   const handleSubmit = () => {
-    const service = isUpdate
-      ? SubmissionService.updateSubmission
-      : SubmissionService.createSubmission
-    service(submission)
-      .then((submission) => {
-        setIsDone(true)
-        resetSubmission(submission)
-      })
-      .catch((error) => {
-        setError(error)
-        setIsDone(true)
-      })
+    upsertSubmissionMutation.mutate(submission)
   }
-  return isDone ? (
-    <End error={error} handleNextStep={() => setIsDone(false)} />
-  ) : (
-    <Form
+  return (
+    <SubmissionForm
       handleSetSubmission={setSubmission}
       handleSubmitSubmission={handleSubmit}
       isValid={isValid}

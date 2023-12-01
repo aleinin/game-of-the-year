@@ -5,25 +5,25 @@ import { GOTY } from '../GOTY'
 import { MostAnticipated } from '../MostAnticipated'
 import { BestOldGame } from '../BestOldGame'
 import { Button } from '../../controls/Button/Button'
-import styles from './Form.module.scss'
+import styles from './SubmissionForm.module.scss'
 import { useProperties } from '../../../api/useProperties'
 import { useDocumentTitle } from '../../../util/useDocumentTitle'
 import { Game } from '../../../models/game'
 import { Name } from '../Name'
 import { Submission } from '../../../models/submission'
 
-interface FormProps {
+interface SubmissionFormProps {
   submission: Submission
   handleSetSubmission: (submission: Submission) => void
   handleSubmitSubmission: () => void
   isValid: boolean
 }
-export const Form = ({
+export const SubmissionForm = ({
   submission,
   handleSetSubmission,
   handleSubmitSubmission,
   isValid,
-}: FormProps) => {
+}: SubmissionFormProps) => {
   const { properties } = useProperties()
 
   const handleSetName = (name: string) => {

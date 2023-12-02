@@ -24,11 +24,16 @@ const initialProperties: Properties = {
   hasGiveaway: true,
   giveawayAmountUSD: 0,
 }
+
+const oneMinuteMs = 60000
+
 export const useProperties = () => {
   const query = useQuery({
     queryKey: ['properties'],
     queryFn: getProperties,
     initialData: initialProperties,
+    staleTime: oneMinuteMs,
+    initialDataUpdatedAt: 0,
   })
   return { ...query, properties: query.data }
 }

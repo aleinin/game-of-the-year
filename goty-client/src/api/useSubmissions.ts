@@ -1,21 +1,14 @@
-import { Submission } from '../models/submission'
-import fetcher from './fetcher'
-import {
-  BackendSubmission,
-  fromBackendSubmissionToSubmission,
-} from './backendModels/backendSubmission'
 import { useQuery } from '@tanstack/react-query'
+import { SubmissionService } from './submissionService'
 
-const getSubmissions = (): Promise<Submission[]> =>
-  fetcher
-    .get<BackendSubmission[]>('/submissions')
-    .then((response) => response.map(fromBackendSubmissionToSubmission))
-
+const oneMinuteMs = 60000
 export const useSubmissions = () => {
   const query = useQuery({
     queryKey: ['submissions'],
-    queryFn: getSubmissions,
+    queryFn: SubmissionService.getSubmissions,
     initialData: [],
+    staleTime: oneMinuteMs,
+    initialDataUpdatedAt: 0,
   })
   return { ...query, submissions: query.data }
 }

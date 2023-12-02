@@ -17,11 +17,15 @@ const initialResults = {
   giveawayParticipants: [],
 }
 
+const oneMinuteMs = 60000
+
 export const useResults = () => {
   const query = useQuery({
     queryKey: ['results'],
     queryFn: getResults,
     initialData: initialResults,
+    staleTime: oneMinuteMs,
+    initialDataUpdatedAt: 0,
   })
   return { ...query, results: query.data }
 }

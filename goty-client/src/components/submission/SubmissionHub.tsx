@@ -2,10 +2,10 @@ import { SubmissionForm } from './SubmissionForm/SubmissionForm'
 import React, { useEffect, useState } from 'react'
 import { SubmissionService } from '../../api/submissionService'
 import { isEqual, Submission } from '../../models/submission'
-import { localStorageService } from '../../api/localStorageService'
 import { useProperties } from '../../api/useProperties'
 import { useSubmission } from '../../api/useSubmission'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useSubmissionIds } from '../../api/useSubmissionIds'
 
 const defaultSubmission: Submission = {
   submissionUUID: '',
@@ -35,7 +35,7 @@ export const SubmissionHub = ({
   handleError,
 }: SubmissionHubProps) => {
   const queryClient = useQueryClient()
-  const [id] = useState(localStorageService.getSubmissionIds().id)
+  const { id } = useSubmissionIds()
   const { properties } = useProperties()
   const { data } = useSubmission(id)
   const initialSubmission = data ?? defaultSubmission

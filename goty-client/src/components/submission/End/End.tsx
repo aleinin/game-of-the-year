@@ -2,14 +2,9 @@ import React from 'react'
 import { Card } from '../../controls/Card/Card'
 import styles from './End.module.scss'
 import { CodeBox } from '../../controls/CodeBox/CodeBox'
-import { localStorageService } from '../../../api/localStorageService'
 import { useProperties } from '../../../api/useProperties'
 import { useDocumentTitle } from '../../../util/useDocumentTitle'
-
-const getRecoveryLink = () => {
-  const { id, secret } = localStorageService.getSubmissionIds()
-  return `${window.location.origin}/recovery?id=${id}&secret=${secret}`
-}
+import { useSubmissionIds } from '../../../api/useSubmissionIds'
 
 interface EndProps {
   error: any
@@ -18,6 +13,7 @@ interface EndProps {
 
 export const End = ({ error, handleDone }: EndProps) => {
   const { properties } = useProperties()
+  const { id, secret } = useSubmissionIds()
   useDocumentTitle('GOTY - End')
   return (
     <Card>
@@ -27,6 +23,7 @@ export const End = ({ error, handleDone }: EndProps) => {
         <SuccessfulSubmission
           deadline={properties.deadline}
           handleClick={handleDone}
+          recoveryLink={`${window.location.origin}/recovery?id=${id}&secret=${secret}`}
         />
       )}
     </Card>
@@ -36,10 +33,12 @@ export const End = ({ error, handleDone }: EndProps) => {
 interface SuccessfulSubmissionProps {
   deadline: string
   handleClick: () => void
+  recoveryLink: string
 }
 const SuccessfulSubmission = ({
   deadline,
   handleClick,
+  recoveryLink,
 }: SuccessfulSubmissionProps) => (
   <>
     <h1>Thank you!</h1>
@@ -51,8 +50,8 @@ const SuccessfulSubmission = ({
       </button>{' '}
       or by accessing the following link to edit on other devices.
     </h3>
-    <a className={styles.recoveryLink} href={getRecoveryLink()}>
-      {getRecoveryLink()}
+    <a className={styles.recoveryLink} href={recoveryLink}>
+      {recoveryLink}
     </a>
     <h3>Do not share this link as it can be used to edit your submission</h3>
     <h3>All edits are due by {deadline}</h3>

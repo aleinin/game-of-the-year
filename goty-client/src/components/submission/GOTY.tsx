@@ -1,18 +1,11 @@
 import React from 'react'
-import { useSelector, useStore } from 'react-redux'
-import { selectProperties } from '../../state/properties/selectors'
-import { createUpdateGamesOfTheYearAction } from '../../state/submission/actions'
-import { indexToOrdinal } from '../../util/index-to-ordinal'
+import { indexToOrdinal } from '../../util/indexToOrdinal'
 import { Card } from '../controls/Card/Card'
-import { OrderableList } from './shared/OrderableList'
-import { Search } from './shared/Search'
 import { Game } from '../../models/game'
 import { Rules } from './Rules'
-
-export interface GOTYProps {
-  games: Game[]
-  readonly: boolean
-}
+import { useProperties } from '../../api/useProperties'
+import { Search } from '../controls/Search'
+import { OrderedList } from '../controls/OrderedList'
 
 export enum MoveDirection {
   IncreaseRank,
@@ -57,49 +50,46 @@ const swap = (
   return newGames
 }
 
-export const GOTY = (props: GOTYProps) => {
-  const properties = useSelector(selectProperties)
-  const store = useStore()
-  const setGames = (games: Game[]) =>
-    store.dispatch(createUpdateGamesOfTheYearAction(games))
+export interface GOTYProps {
+  games: Game[]
+  readonly: boolean
+  handleSetGames?: (games: Game[]) => void
+}
+
+export const GOTY = ({ games, handleSetGames, readonly }: GOTYProps) => {
+  const { properties } = useProperties()
+  const setGames = (games: Game[]) => handleSetGames && handleSetGames(games)
   const handleAddGame = (gameToAdd: Game) => {
-    if (!props.readonly && props.games.length !== properties.tiePoints.length) {
-      setGames([
-        ...props.games.filter((game) => game.id !== gameToAdd.id),
-        gameToAdd,
-      ])
+    if (!readonly && games.length !== properties.tiePoints.length) {
+      setGames([...games.filter((game) => game.id !== gameToAdd.id), gameToAdd])
     }
   }
   const handleMoveGame = (currentIndex: number, direction: MoveDirection) => {
-    if (
-      !props.readonly &&
-      inBounds(currentIndex, direction, props.games.length)
-    ) {
-      setGames(swap(props.games, currentIndex, direction))
+    if (!readonly && inBounds(currentIndex, direction, games.length)) {
+      setGames(swap(games, currentIndex, direction))
     }
   }
 
   const handleDeleteGame = (gameToDelete: Game) => {
-    if (!props.readonly) {
-      setGames(props.games.filter((game) => game.id !== gameToDelete.id))
+    if (!readonly) {
+      setGames(games.filter((game) => game.id !== gameToDelete.id))
     }
   }
   return (
     <Card title={properties.gotyQuestion.title} required={true}>
       <span>{properties.gotyQuestion.question}</span>
-      <Rules readonly={props.readonly} rules={properties.gotyQuestion.rules} />
-      {!props.readonly && getTieBreaker(properties.tiePoints)}
-      {props.readonly ||
-      props.games.length === properties.tiePoints.length ? null : (
+      <Rules readonly={readonly} rules={properties.gotyQuestion.rules} />
+      {!readonly && getTieBreaker(properties.tiePoints)}
+      {readonly || games.length === properties.tiePoints.length ? null : (
         <Search
           year={properties.year}
           placeholder="Select a game"
           handleSelect={handleAddGame}
         />
       )}
-      <OrderableList
-        games={props.games}
-        readonly={props.readonly}
+      <OrderedList
+        games={games}
+        readonly={readonly}
         handleDelete={handleDeleteGame}
         handleMove={handleMoveGame}
       />

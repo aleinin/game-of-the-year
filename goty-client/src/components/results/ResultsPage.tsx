@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-import { useStore } from 'react-redux'
+import React from 'react'
 import { useNavigate } from 'react-router'
 import { Outlet, useLocation } from 'react-router-dom'
-import { loadResultsAndSubmissions } from '../../state/results/middleware'
 import { Card } from '../controls/Card/Card'
 import { TabButtons } from '../controls/Tabs/Tabs'
 import { ExportButton } from './ExportButton/ExportButton'
+import { useDocumentTitle } from '../../util/useDocumentTitle'
+import { uppercaseFirstLetter } from '../../util/uppercaseFirstLetter'
 
 export enum Tabs {
   SUMMARY = 'summary',
@@ -29,16 +29,10 @@ const getActiveTab = (path: string) => {
 }
 
 export const ResultsPage = () => {
-  const store = useStore()
-  useEffect(() => {
-    loadResultsAndSubmissions(store)
-  }, [store])
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const activeTab = getActiveTab(pathname)
-  useEffect(() => {
-    document.title = `GOTY - ${activeTab}`
-  }, [activeTab])
+  useDocumentTitle(`GOTY - ${uppercaseFirstLetter(activeTab)}`)
   const handleTabChange = (tab: string) => navigate(`${tab}`)
 
   return (

@@ -1,36 +1,29 @@
-import React, { useEffect } from 'react'
-import { useSelector, useStore } from 'react-redux'
-import { selectProperties } from '../../../state/properties/selectors'
-import { createNextStepAction } from '../../../state/submission/actions'
-import { selectError } from '../../../state/submission/selector'
+import React from 'react'
 import { Card } from '../../controls/Card/Card'
 import styles from './End.module.scss'
 import { CodeBox } from '../../controls/CodeBox/CodeBox'
-import { localStorageService } from '../../../api/localStorageService'
+import { useProperties } from '../../../api/useProperties'
+import { useDocumentTitle } from '../../../util/useDocumentTitle'
+import { useSubmissionIds } from '../../../api/useSubmissionIds'
 
-const getRecoveryLink = () => {
-  const { id, secret } = localStorageService.getSubmissionIds()
-  return `${window.location.origin}/recovery?id=${id}&secret=${secret}`
+interface EndProps {
+  error: any
+  handleDone: () => void
 }
 
-export const End = () => {
-  const store = useStore()
-  const { deadline } = useSelector(selectProperties)
-  const error = useSelector(selectError)
-  const handleEditClick = () => {
-    store.dispatch(createNextStepAction())
-  }
-  useEffect(() => {
-    document.title = 'GOTY - End'
-  }, [])
+export const End = ({ error, handleDone }: EndProps) => {
+  const { properties } = useProperties()
+  const { id, secret } = useSubmissionIds()
+  useDocumentTitle('GOTY - End')
   return (
     <Card>
       {error != null ? (
         <FailSubmission error={error} />
       ) : (
         <SuccessfulSubmission
-          deadline={deadline}
-          handleClick={handleEditClick}
+          deadline={properties.deadline}
+          handleClick={handleDone}
+          recoveryLink={`${window.location.origin}/recovery?id=${id}&secret=${secret}`}
         />
       )}
     </Card>
@@ -40,10 +33,12 @@ export const End = () => {
 interface SuccessfulSubmissionProps {
   deadline: string
   handleClick: () => void
+  recoveryLink: string
 }
 const SuccessfulSubmission = ({
   deadline,
   handleClick,
+  recoveryLink,
 }: SuccessfulSubmissionProps) => (
   <>
     <h1>Thank you!</h1>
@@ -55,8 +50,8 @@ const SuccessfulSubmission = ({
       </button>{' '}
       or by accessing the following link to edit on other devices.
     </h3>
-    <a className={styles.recoveryLink} href={getRecoveryLink()}>
-      {getRecoveryLink()}
+    <a className={styles.recoveryLink} href={recoveryLink}>
+      {recoveryLink}
     </a>
     <h3>Do not share this link as it can be used to edit your submission</h3>
     <h3>All edits are due by {deadline}</h3>

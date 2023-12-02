@@ -1,35 +1,33 @@
 import { Header } from './Header'
-import { Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Recovery } from './Recovery'
-import { Provider, useStore } from 'react-redux'
-import { configureStore } from '../state/store'
-import { SubmissionHub } from './submission/SubmissionHub'
-import React, { useEffect, useState } from 'react'
+import { SubmissionRouter } from './submission/SubmissionRouter'
+import React from 'react'
 import { Loading } from './Loading'
-import { createSetPropertiesAction } from '../state/properties/actions'
-import { createSetValidatorFunctionAction } from '../state/submission/actions'
-import { isValid } from '../state/submission/reducer'
-import { propertiesService } from '../api/propertiesService'
 import { Footer } from './Footer'
 import styles from './App.module.scss'
 import { Responses } from './results/Responses'
 import { ResultsPage } from './results/ResultsPage'
 import { Summary } from './results/Summary/Summary'
 import { Response } from './results/Response'
+import { useProperties } from '../api/useProperties'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export const App = () => {
-  const store = configureStore()
+  const queryClient = new QueryClient()
   return (
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <AppRoot />
-    </Provider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }
 
 const router = createBrowserRouter([
   {
     path: '/submission',
-    element: <SubmissionHub />,
+    element: <SubmissionRouter />,
   },
   {
     path: '/recovery',
@@ -66,18 +64,8 @@ const router = createBrowserRouter([
 ])
 
 const AppRoot = () => {
-  const [appReady, setAppReady] = useState(false)
-  const store = useStore()
-  useEffect(() => {
-    propertiesService.getProperties().then((properties) => {
-      store.dispatch(createSetPropertiesAction(properties))
-      if (!properties.hasGiveaway) {
-        store.dispatch(createSetValidatorFunctionAction(isValid))
-      }
-      setAppReady(true)
-    })
-  }, [store])
-  if (!appReady) {
+  const { isLoading } = useProperties()
+  if (isLoading) {
     return <Loading></Loading>
   }
   return (

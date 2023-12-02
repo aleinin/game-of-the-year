@@ -1,35 +1,31 @@
 import React from 'react'
 import { Card } from '../controls/Card/Card'
-import { generateRules } from '../../util/generate-rules'
-import { useSelector, useStore } from 'react-redux'
-import { selectProperties } from '../../state/properties/selectors'
-import { createUpdateEnteredGiveawayAction } from '../../state/submission/actions'
 import { RadioOption, RadioSet } from '../controls/RadioSet/RadioSet'
+import { Rules } from './Rules'
+import { useProperties } from '../../api/useProperties'
 
 export interface GiveawayProps {
   readonly: boolean
   enteredGiveaway: boolean | null
+  handleSetGiveaway?: (enteredGiveaway: boolean) => void
 }
 
 const rules = (lastTime: string) => [
   'One entry per person',
   'The gift card will be given digitally through Steam',
   'You must have been a user of the TMW discord prior to the beginning of this contest',
-  <li key="random">
-    The winner will be revealed by screen recording the entries and rolling a
-    random number on <a href="https://random.org">random.org</a>
-  </li>,
   `Entries after ${lastTime} are void`,
   'The winner will be announced and prize distributed within a few days',
 ]
 
-export const Giveaway = (props: GiveawayProps) => {
-  const { deadline, giveawayAmountUSD } = useSelector(selectProperties)
-  const store = useStore()
+export const Giveaway = ({
+  enteredGiveaway,
+  handleSetGiveaway,
+  readonly,
+}: GiveawayProps) => {
+  const { properties } = useProperties()
   const handleClick = (enteredGiveaway: boolean) => {
-    if (!props.readonly) {
-      store.dispatch(createUpdateEnteredGiveawayAction(enteredGiveaway))
-    }
+    handleSetGiveaway && handleSetGiveaway(enteredGiveaway)
   }
   const options: RadioOption[] = [
     {
@@ -45,14 +41,14 @@ export const Giveaway = (props: GiveawayProps) => {
   ]
   return (
     <Card title={'Giveaway'} required={true}>
-      <span>{`Do you want to enter the $${giveawayAmountUSD} Steam GC Giveaway?`}</span>
-      {generateRules(props.readonly, rules(deadline))}
+      <span>{`Do you want to enter the $${properties.giveawayAmountUSD} Steam GC Giveaway?`}</span>
+      <Rules readonly={readonly} rules={rules(properties.deadline)} />
       <RadioSet
-        disabled={props.readonly}
+        disabled={readonly}
         name="giveaway"
         options={options}
         onChange={handleClick}
-        selectedValue={props.enteredGiveaway}
+        selectedValue={enteredGiveaway}
       />
     </Card>
   )

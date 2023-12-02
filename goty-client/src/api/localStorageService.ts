@@ -1,4 +1,4 @@
-interface SubmissionIds {
+export interface SubmissionIds {
   id: string
   secret: string
 }

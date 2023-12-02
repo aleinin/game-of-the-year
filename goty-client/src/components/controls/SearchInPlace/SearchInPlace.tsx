@@ -1,7 +1,7 @@
 import { ListItem } from '../ListItem/ListItem'
-import { Search } from '../../submission/shared/Search'
 import { Game } from '../../../models/game'
 import styles from './SearchInPlace.module.scss'
+import { Search } from '../Search'
 
 export interface SearchInPlaceProps {
   readonly: boolean

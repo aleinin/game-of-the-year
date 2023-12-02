@@ -1,49 +1,66 @@
-import { useEffect, useState } from 'react'
-import { useSelector, useStore } from 'react-redux'
+import { SubmissionForm } from './SubmissionForm/SubmissionForm'
+import React, { useEffect, useState } from 'react'
 import { SubmissionService } from '../../api/submissionService'
-import { createSetSubmissionAction } from '../../state/submission/actions'
-import { SubmissionStep } from '../../state/submission/reducer'
-import { selectSubmissionStep } from '../../state/submission/selector'
-import { End } from './End/End'
-import { Start } from './Start/Start'
-import { Form } from './Form/Form'
-import { localStorageService } from '../../api/localStorageService'
+import { isEqual, Submission } from '../../models/submission'
+import { useProperties } from '../../api/useProperties'
+import { useSubmission } from '../../api/useSubmission'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useSubmissionIds } from '../../api/useSubmissionIds'
 
-const notNull = (input: string | null | undefined): input is string => {
-  return (
-    input != null && input !== 'undefined' && input !== 'null' && input !== ''
-  )
+const submissionIsValid = (
+  submission: Submission,
+  initialForm: Submission,
+  hasGiveaway: boolean,
+) =>
+  !isEqual(submission, initialForm) &&
+  submission.name?.length > 0 &&
+  submission.gamesOfTheYear?.length > 0 &&
+  (!hasGiveaway || submission.enteredGiveaway != null)
+
+interface SubmissionHubProps {
+  handleDone: () => void
+  handleError: (error: any) => void
 }
-
-export const SubmissionHub = () => {
-  const store = useStore()
-  const [isLoading, setIsLoading] = useState(false)
-  const submissionStep = useSelector(selectSubmissionStep)
+export const SubmissionHub = ({
+  handleDone,
+  handleError,
+}: SubmissionHubProps) => {
+  const queryClient = useQueryClient()
+  const { id } = useSubmissionIds()
+  const { properties } = useProperties()
+  const { data } = useSubmission(id)
+  const initialSubmission = data
+  const [submission, setSubmission] = useState<Submission>(initialSubmission)
+  const upsertSubmissionMutation = useMutation({
+    mutationFn: (newSubmission: Submission) =>
+      id !== ''
+        ? SubmissionService.updateSubmission(newSubmission)
+        : SubmissionService.createSubmission(newSubmission),
+    onSuccess: (newSubmission) => {
+      queryClient.setQueryData(['submission', id], newSubmission)
+      handleDone()
+    },
+    onError: (error) => {
+      handleError(error)
+    },
+  })
+  const isValid = submissionIsValid(
+    submission,
+    initialSubmission,
+    properties.hasGiveaway,
+  )
   useEffect(() => {
-    const submissionUUID = localStorageService.getSubmissionIds().id
-    if (notNull(submissionUUID)) {
-      setIsLoading(true)
-      SubmissionService.getSubmission(submissionUUID)
-        .then((submission) => {
-          store.dispatch(createSetSubmissionAction(submission))
-        })
-        .catch((error) => {
-          const status = error.response.status
-          if (status === 404 || status === 400) {
-            localStorage.removeItem('submissionUUID')
-          } else {
-            console.error(error)
-          }
-        })
-        .finally(() => setIsLoading(false))
-    }
-  }, [store])
-  switch (submissionStep) {
-    case SubmissionStep.Start:
-      return <Start isLoading={isLoading} />
-    case SubmissionStep.Form:
-      return <Form />
-    case SubmissionStep.End:
-      return <End />
+    setSubmission(initialSubmission)
+  }, [initialSubmission])
+  const handleSubmit = () => {
+    upsertSubmissionMutation.mutate(submission)
   }
+  return (
+    <SubmissionForm
+      handleSetSubmission={setSubmission}
+      handleSubmitSubmission={handleSubmit}
+      isValid={isValid}
+      submission={submission}
+    />
+  )
 }

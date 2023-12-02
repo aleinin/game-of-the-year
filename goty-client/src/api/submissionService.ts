@@ -13,18 +13,16 @@ import { BackendSecretSubmission } from './backendModels/backendSecretSubmission
 import { fromSubmissionToBackendSubmissionUpdateRequest } from './backendModels/backendSubmissionUpdateRequest'
 
 export const SubmissionService = {
-  getSubmission: (submissionUUID: string): Promise<Submission> => {
-    return fetcher
+  getSubmission: (submissionUUID: string): Promise<Submission> =>
+    fetcher
       .get<BackendSubmission>(`/submissions/${submissionUUID}`)
-      .then(fromBackendSubmissionToSubmission)
-  },
-  getSubmissions: (): Promise<Submission[]> => {
-    return fetcher
+      .then(fromBackendSubmissionToSubmission),
+  getSubmissions: (): Promise<Submission[]> =>
+    fetcher
       .get<BackendSubmission[]>('/submissions')
-      .then((response) => response.map(fromBackendSubmissionToSubmission))
-  },
-  createSubmission: (submission: Submission): Promise<Submission> => {
-    return fetcher
+      .then((response) => response.map(fromBackendSubmissionToSubmission)),
+  createSubmission: (submission: Submission): Promise<Submission> =>
+    fetcher
       .post<BackendSubmissionCreationRequest, BackendSecretSubmission>(
         '/submissions',
         fromSubmissionToBackendSubmissionCreationRequest(submission),
@@ -34,10 +32,9 @@ export const SubmissionService = {
         localStorageService.setSubmissionIds(secretSubmission.id, secret)
         return submission
       })
-      .then(fromBackendSubmissionToSubmission)
-  },
-  updateSubmission: (submission: Submission): Promise<Submission> => {
-    return fetcher
+      .then(fromBackendSubmissionToSubmission),
+  updateSubmission: (submission: Submission): Promise<Submission> =>
+    fetcher
       .put<BackendSubmissionCreationRequest, BackendSubmission>(
         `/submissions/${submission.submissionUUID}`,
         fromSubmissionToBackendSubmissionUpdateRequest(submission),
@@ -54,6 +51,5 @@ export const SubmissionService = {
           )
         }
         throw new Error(error)
-      })
-  },
+      }),
 }

@@ -3,14 +3,20 @@ import { Export } from '../../../icons/export/Export'
 import { Button } from '../../controls/Button/Button'
 import React from 'react'
 import { downloadCSV } from './downloadCSV'
-import { useSelector } from 'react-redux'
-import { selectProperties } from '../../../state/properties/selectors'
-import { CSVService } from '../../../api/csvService'
+import { useProperties } from '../../../api/useProperties'
+import fetcher from '../../../api/fetcher'
+
+const getCSV = async () => {
+  const response = await fetch(`${fetcher.getBaseUrl()}/csv`, {
+    headers: new Headers({ 'Content-Type': 'text/csv' }),
+  })
+  return response.text()
+}
 
 export const ExportButton = () => {
-  const properties = useSelector(selectProperties)
+  const { properties } = useProperties()
   const handleExport = () => {
-    CSVService.getCSV().then((csv) => {
+    getCSV().then((csv) => {
       downloadCSV(`goty-${properties.year}-results.csv`, csv)
     })
   }

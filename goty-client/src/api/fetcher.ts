@@ -1,5 +1,3 @@
-import { baseUrlService } from './baseUrlService'
-
 const APPLICATION_JSON = 'application/json'
 
 enum HttpMethod {
@@ -11,6 +9,17 @@ enum HttpMethod {
 export interface FetchConfig {
   params?: URLSearchParams
   init?: RequestInit
+}
+
+interface Constants {
+  baseUrl?: string
+}
+
+const getBaseUrl = async (): Promise<string | undefined> => {
+  const url = `${window.location.origin}/constants.json`
+  let response = await fetch(url)
+  let constants: Constants = await response.json()
+  return constants.baseUrl
 }
 
 class Fetcher {
@@ -80,7 +89,7 @@ class Fetcher {
 }
 
 const createInstance = async (): Promise<Fetcher> => {
-  const configUrl = await baseUrlService.getBaseUrl()
+  const configUrl = await getBaseUrl()
   const headers: Headers = new Headers({
     Accept: APPLICATION_JSON,
     'Content-Type': APPLICATION_JSON,

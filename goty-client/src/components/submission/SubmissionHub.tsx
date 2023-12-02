@@ -7,15 +7,6 @@ import { useSubmission } from '../../api/useSubmission'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useSubmissionIds } from '../../api/useSubmissionIds'
 
-const defaultSubmission: Submission = {
-  submissionUUID: '',
-  name: '',
-  gamesOfTheYear: [],
-  bestOldGame: null,
-  mostAnticipated: null,
-  enteredGiveaway: null,
-}
-
 const submissionIsValid = (
   submission: Submission,
   initialForm: Submission,
@@ -38,7 +29,7 @@ export const SubmissionHub = ({
   const { id } = useSubmissionIds()
   const { properties } = useProperties()
   const { data } = useSubmission(id)
-  const initialSubmission = data ?? defaultSubmission
+  const initialSubmission = data
   const [submission, setSubmission] = useState<Submission>(initialSubmission)
   const upsertSubmissionMutation = useMutation({
     mutationFn: (newSubmission: Submission) =>

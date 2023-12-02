@@ -72,6 +72,25 @@ internal class PropertiesServiceTest {
     }
 
     @Test
+    fun `Should return current properties year`() {
+        val expectedYear = 2005
+        val properties = Properties(
+                title = "Game of the Year",
+                year = expectedYear,
+                gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
+                tiePoints = listOf(3, 2, 1),
+                deadline = deadline,
+                hasGiveaway = false,
+                defaultLocalTimeZone = UTC,
+                giveawayAmountUSD = 0
+        )
+        whenever(propertiesRepository.findProperties()).thenReturn(Optional.of(properties))
+        val actualYear = propertiesService.getThisYear()
+        assertEquals(expectedYear, actualYear)
+
+    }
+
+    @Test
     fun `Should load the default values if there is no stored configuration`() {
         whenever(propertiesRepository.findProperties()).thenReturn(Optional.empty())
         val actual = propertiesService.getProperties()

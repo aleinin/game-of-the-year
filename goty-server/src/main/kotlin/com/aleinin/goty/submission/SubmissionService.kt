@@ -88,7 +88,7 @@ class SubmissionService(
         return optionalSecretSubmission
     }
 
-    private fun validateDeadlineAndGames(properties: Properties, gamesOfTheYear: List<RankedGameSubmission>): Unit {
+    private fun validateDeadlineAndGames(properties: Properties, gamesOfTheYear: List<RankedGameSubmission>) {
         if (afterDeadline(properties.deadline)) {
             throw AfterDeadlineException("Submission deadline of ${properties.deadline} has been met.")
         } else if (tooManyGamesOfTheYear(gamesOfTheYear, properties.tiePoints)) {

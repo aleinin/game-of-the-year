@@ -1,6 +1,5 @@
 package com.aleinin.goty.result
 
-import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.submission.Submission
 import org.springframework.stereotype.Component
 

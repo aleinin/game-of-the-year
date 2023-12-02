@@ -2,9 +2,7 @@ package com.aleinin.goty.submission
 
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.configuration.DefaultProperties
-import com.aleinin.goty.configuration.toProperties
 import com.aleinin.goty.properties.PropertiesRepository
-import com.aleinin.goty.properties.PropertiesService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

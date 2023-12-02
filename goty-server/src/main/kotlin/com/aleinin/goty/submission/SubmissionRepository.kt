@@ -6,8 +6,6 @@ import java.util.UUID
 
 @Repository
 class SubmissionRepository(private val secretSubmissionRepository: SecretSubmissionRepository) {
-    fun findAllSubmissions() = secretSubmissionRepository.findAll().map { it.toSubmission() }
-
     fun findSubmissionYears() = secretSubmissionRepository.findAll().map { it.year }.distinct()
 
     fun findSubmissionsByYear(year:  Int) = secretSubmissionRepository.findByYear(year).map { it.toSubmission() }

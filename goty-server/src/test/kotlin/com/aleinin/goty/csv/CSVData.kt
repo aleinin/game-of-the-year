@@ -11,7 +11,9 @@ class CSVData {
             )
         }
 
-        val EMPTY_CSV = """
+        fun emptyCSV(year: Int) = """
+            Year,$year
+            
             Respondents
             No results
             
@@ -34,13 +36,11 @@ class CSVData {
             ID,Entered on,Updated on,Name,Best Old Game,Most Anticipated,Entered Giveaway,1st
             No results
             
-            Properties
-            title,year,gotyQuestionTitle,gotyQuestionQuestion,gotyQuestionRules,tiePoints,deadline,hasGiveaway,giveawayAmountUSD,defaultLocalTimeZone
-            myTitle,2000,myGotyTitle,myGotyQuestion,[],[1],2000-01-01T12:12:12Z[Etc/GMT],false,0,None
-            
             """.trimIndent()
 
-        val FULL_CSV = """
+        fun fullCSV(year: Int) = """
+            Year,$year
+            
             Respondents
             Maxi Max
             Lazy Luna
@@ -79,10 +79,6 @@ class CSVData {
             98a8332d-1f2c-47ed-a9a0-fd2a36467d8f,1970-01-01T00:00:00.001Z,1970-01-01T00:00:00.001Z,Lazy Luna,,,No,Clicker Pro
             a8665bae-d4c0-4349-99e4-f054649903e8,1970-01-01T00:00:00.001Z,1970-01-01T00:00:00.001Z,Average Andy,Elder Scrolls V: Skyrim,Call of Duty XIX,Yes,PlateUp!,Overwatch 2,Elden Ring
             0ffefab3-2dc5-4218-9a6a-b06287934d08,1970-01-01T00:00:00.101Z,1970-01-01T00:00:00.404Z,Ty Tie-Breaker,Nostalgia,Cant wait,No,Call of Duty Modern Warfare II,Clicker Pro,PlateUp!,Stray,Overwatch 2,Bayonetta 3,Elden Ring
-            
-            Properties
-            title,year,gotyQuestionTitle,gotyQuestionQuestion,gotyQuestionRules,tiePoints,deadline,hasGiveaway,giveawayAmountUSD,defaultLocalTimeZone
-            my cool title,2023,hello,world,"[rule1, rule2, rule3]","[15, 13, 11, 7, 6, 5, 4, 3, 2, 1]",2000-01-01T12:12:12Z[Etc/GMT],true,999,America/Chicago
             
         """.trimIndent()
     }

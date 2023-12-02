@@ -1,5 +1,6 @@
 package com.aleinin.goty.submission
 
+import com.aleinin.goty.properties.PropertiesService
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -17,54 +18,50 @@ import java.util.UUID
 @CrossOrigin
 @RestController
 class SubmissionController(
-    private val submissionService: SubmissionService,
+        private val submissionService: SubmissionService,
+        private val propertiesService: PropertiesService
 ) {
 
     @GetMapping("/submissions")
-    fun getSubmissions(): List<Submission> = submissionService.getAllSubmissions()
+    fun getSubmissions(@RequestParam(required = false) year: Int?): List<Submission> = submissionService.getSubmissionsForYear(year ?: propertiesService.getThisYear())
+
+    @GetMapping("/submissions/years")
+    fun getSubmissionYears(): List<Int> = submissionService.getSubmissionYears()
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/submissions/secret")
-    fun getSecretSubmissions(): List<SecretSubmission> = submissionService.getAllSecretSubmissions()
+    fun getSecretSubmissions(@RequestParam(required = false) year: Int?): List<SecretSubmission> = submissionService.getAllSecretSubmissions(year)
 
     @PostMapping("/submissions")
     fun addSubmission(@RequestBody submissionCreationRequest: SubmissionCreationRequest) =
-        try {
-            submissionService.saveSubmission(submissionCreationRequest)
-        } catch (e: AfterDeadlineException) {
-            throw ResponseStatusException(HttpStatus.FORBIDDEN, e.message)
-        } catch (e: TooManyGamesException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
-        }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/submissions")
-    fun deleteAllSubmissions(@RequestParam(defaultValue = "false") override: Boolean): Unit =
-        try {
-            submissionService.deleteAllSubmissions(override)
-        } catch (e: OverrideRequiredException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
-        }
-
+            try {
+                submissionService.saveSubmission(submissionCreationRequest)
+            } catch (e: AfterDeadlineException) {
+                throw ResponseStatusException(HttpStatus.FORBIDDEN, e.message)
+            } catch (e: TooManyGamesException) {
+                throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
+            }
 
     @GetMapping("/submissions/{id}")
     fun getSubmission(@PathVariable id: UUID): Submission =
-        submissionService.getSubmission(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+            submissionService.getSubmission(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
     @PutMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody submissionUpdateRequest: SubmissionUpdateRequest): Submission =
-        try {
-            submissionService.updateSubmission(id, submissionUpdateRequest)
-                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
-        } catch (e: AfterDeadlineException) {
-            throw ResponseStatusException(HttpStatus.FORBIDDEN, e.message)
-        } catch (e: TooManyGamesException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
-        }
+            try {
+                submissionService.updateSubmission(id, submissionUpdateRequest)
+                        .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+            } catch (e: AfterDeadlineException) {
+                throw ResponseStatusException(HttpStatus.FORBIDDEN, e.message)
+            } catch (e: TooManyGamesException) {
+                throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
+            } catch (e: IncorrectSecretException) {
+                throw ResponseStatusException(HttpStatus.FORBIDDEN, e.message)
+            }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/submissions/{id}")
     fun deleteSubmission(@PathVariable id: UUID): Unit =
-        submissionService.deleteSubmission(id)
-            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+            submissionService.deleteSubmission(id)
+                    .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 }

@@ -16,6 +16,10 @@ class PropertiesService(
     fun getProperties(): Properties = propertiesRepository.findProperties()
         .orElseGet {defaultProperties.toProperties() }
 
+    fun getThisYear(): Int =
+            // todo test
+            getProperties().year
+
     fun getPropertiesResponse(localTimeZone: ZoneId?): PropertiesResponse = toResponse(getProperties(), localTimeZone)
 
     fun replaceProperties(request: Properties, localTimeZone: ZoneId?): PropertiesResponse {

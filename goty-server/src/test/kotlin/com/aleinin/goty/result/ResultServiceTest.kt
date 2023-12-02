@@ -1,6 +1,8 @@
 package com.aleinin.goty.result
 
 import com.aleinin.goty.SubmissionDataHelper
+import com.aleinin.goty.properties.Properties
+import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.submission.Submission
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -51,6 +53,7 @@ internal class ResultServiceTest {
 
     @Test
     fun `Should convert a list of Submission into a ResultResponse`() {
+        val expectedYear = 2077
         val submissions = SubmissionDataHelper.everything()
         val expectedParticipants = submissions.map { it.name }
         val expectedGiveawayParticipants = submissions.filter { it.enteredGiveaway }.map { it.name }
@@ -59,13 +62,14 @@ internal class ResultServiceTest {
             .thenReturn(mockRankedAnticipated)
         whenever(gameRankingService.rank(submissions.mapNotNull { it.bestOldGame })).thenReturn(mockRankedOldGame)
         val expected = ResultResponse(
+            year = expectedYear,
             gamesOfTheYear = mockGamesOfTheYear,
             mostAnticipated = mockRankedAnticipated,
             bestOldGame = mockRankedOldGame,
             participants = expectedParticipants,
             giveawayParticipants = expectedGiveawayParticipants
         )
-        val actual = resultsService.calculate(submissions)
+        val actual = resultsService.calculate(submissions, expectedYear)
         assertEquals(expected, actual)
         Mockito.verify(gameScoringService, Mockito.times(1)).score(any())
         Mockito.verify(gameRankingService, Mockito.times(2)).rank(any())
@@ -73,6 +77,7 @@ internal class ResultServiceTest {
 
     @Test
     fun `Should convert a list of a single Submission into a ResultResponse`() {
+        val expectedYear = 2077
         val submissions = listOf(SubmissionDataHelper.maximal())
         val mostAnticipated = listOf(submissions[0].mostAnticipated ?: throw AssertionError())
         val bestOldGame = listOf(submissions[0].bestOldGame ?: throw AssertionError())
@@ -81,13 +86,14 @@ internal class ResultServiceTest {
         whenever(gameRankingService.rank(bestOldGame)).thenReturn(mockRankedOldGame)
         val expected =
             ResultResponse(
+                year = expectedYear,
                 gamesOfTheYear = mockGamesOfTheYear,
                 mostAnticipated = mockRankedAnticipated,
                 bestOldGame = mockRankedOldGame,
                 participants = listOf(submissions[0].name),
                 giveawayParticipants = listOf(submissions[0].name)
             )
-        val actual = resultsService.calculate(submissions)
+        val actual = resultsService.calculate(submissions, expectedYear)
         assertEquals(expected, actual)
         Mockito.verify(gameScoringService, Mockito.times(1)).score(any())
         Mockito.verify(gameRankingService, Mockito.times(1)).rank(mostAnticipated)
@@ -96,15 +102,17 @@ internal class ResultServiceTest {
 
     @Test
     fun `Should convert an emptyList into a ResultResponse`() {
+        val expectedYear = 2004
         val submissions = emptyList<Submission>()
         val expected = ResultResponse(
+            year = expectedYear,
             gamesOfTheYear = emptyList(),
             mostAnticipated = emptyList(),
             bestOldGame = emptyList(),
             participants = emptyList(),
             giveawayParticipants = emptyList()
         )
-        val actual = resultsService.calculate(submissions)
+        val actual = resultsService.calculate(submissions, expectedYear)
         assertEquals(expected, actual)
     }
 }

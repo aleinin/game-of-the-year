@@ -8,9 +8,11 @@ import java.util.UUID
 class SubmissionRepository(private val secretSubmissionRepository: SecretSubmissionRepository) {
     fun findAllSubmissions() = secretSubmissionRepository.findAll().map { it.toSubmission() }
 
-    fun findSubmissionById(id: UUID): Optional<Submission> = secretSubmissionRepository.findById(id).map { it.toSubmission() }
+    fun findSubmissionYears() = secretSubmissionRepository.findAll().map { it.year }.distinct()
 
-    fun deleteAllSubmissions() = secretSubmissionRepository.deleteAll()
+    fun findSubmissionsByYear(year:  Int) = secretSubmissionRepository.findByYear(year).map { it.toSubmission() }
+
+    fun findSubmissionById(id: UUID): Optional<Submission> = secretSubmissionRepository.findById(id).map { it.toSubmission() }
 
     fun deleteSubmissionById(id: UUID) = secretSubmissionRepository.deleteById(id)
 }

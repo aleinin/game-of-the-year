@@ -3,14 +3,17 @@ package com.aleinin.goty.result
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameResult
 import com.aleinin.goty.SubmissionDataHelper.Companion.aScoredGameResult
+import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.properties.PropertiesDocumentRepository
-import com.aleinin.goty.submission.Submission
-import com.aleinin.goty.submission.SubmissionRepository
+import com.aleinin.goty.properties.PropertiesService
+import com.aleinin.goty.submission.SecretSubmission
+import com.aleinin.goty.submission.SecretSubmissionRepository
+import com.aleinin.goty.submission.SubmissionService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -33,28 +36,38 @@ internal class ResultControllerTest {
     lateinit var resultService: ResultService
 
     @Autowired
+    lateinit var submissionService: SubmissionService
+
+    @Autowired
+    lateinit var propertiesService: PropertiesService
+
+    @Autowired
     lateinit var objectMapper: ObjectMapper
 
-    @Mock
-    lateinit var submissionRepository: SubmissionRepository
+    @Autowired
+    lateinit var defaultProperties: DefaultProperties
+
+    @MockBean
+    lateinit var secretSubmissionRepository: SecretSubmissionRepository
 
     @BeforeEach
     fun setup() {
-        mockMvc = standaloneSetup(ResultController(submissionRepository, resultService)).build()
+        mockMvc = standaloneSetup(ResultController(submissionService, resultService, propertiesService)).build()
         whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.empty())
     }
 
     @Test
     fun `Should handle no submissions`() {
-        val mockSubmissions = emptyList<Submission>()
+        val mockSubmissions = emptyList<SecretSubmission>()
         val expected = ResultResponse(
+            year = defaultProperties.year,
             gamesOfTheYear = emptyList(),
             mostAnticipated = emptyList(),
             bestOldGame = emptyList(),
             participants = emptyList(),
             giveawayParticipants = emptyList()
         )
-        whenever(submissionRepository.findAllSubmissions()).thenReturn(mockSubmissions)
+        whenever(secretSubmissionRepository.findAll()).thenReturn(mockSubmissions)
         mockMvc.perform(get("/results")
             .contentType("application/json"))
             .andExpect(status().isOk)
@@ -62,9 +75,10 @@ internal class ResultControllerTest {
     }
 
     @Test
-    fun `Should correctly calculate results from submissions`() {
-        val mockSubmissions = SubmissionDataHelper.everything()
+    fun `Should calculate results using properties year by default`() {
+        val mockSubmissions = SubmissionDataHelper.secret(SubmissionDataHelper.everything(defaultProperties.year))
         val expected = ResultResponse(
+            year = defaultProperties.year,
             gamesOfTheYear = listOf(
                 aScoredGameResult("Call of Duty Modern Warfare II", 30, 2, 0),
                 aScoredGameResult("Clicker Pro", 28, 2, 1),
@@ -84,13 +98,53 @@ internal class ResultControllerTest {
                 aRankedGameResult("Nostalgia", 0, 2),
                 aRankedGameResult("Elder Scrolls V: Skyrim", 1, 1)
             ),
-            participants = mockSubmissions.map { it.name },
-            giveawayParticipants = mockSubmissions.filter { it.enteredGiveaway }.map { it.name }
+            participants = mockSubmissions.filter { it.year == defaultProperties.year }.map { it.name },
+            giveawayParticipants = mockSubmissions.filter { it.enteredGiveaway && it.year == defaultProperties.year }.map { it.name }
         )
-        whenever(submissionRepository.findAllSubmissions()).thenReturn(mockSubmissions)
+        whenever(secretSubmissionRepository.findByYear(eq(defaultProperties.year))).thenReturn(mockSubmissions)
         mockMvc.perform(get("/results")
             .contentType("application/json"))
             .andExpect(status().isOk)
             .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
+    }
+
+    @Test
+    fun `Should calculate results for year if specified`() {
+        val expectedYear = defaultProperties.year - 1
+        val thisYearSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(expectedYear))
+        val mockSubmissions = listOf(thisYearSubmission)
+        val expected = ResultResponse(
+                year = expectedYear,
+                gamesOfTheYear = thisYearSubmission.gamesOfTheYear
+                        .mapIndexed { index, it -> aScoredGameResult(it.title, defaultProperties.tiePoints[index], 1, index) },
+                mostAnticipated = listOf(aRankedGameResult(thisYearSubmission.mostAnticipated?.title ?: throw Exception(), 0, 1)),
+                bestOldGame = listOf(aRankedGameResult(thisYearSubmission.bestOldGame?.title ?: throw Exception(), 0, 1)),
+                participants = mockSubmissions.map { it.name },
+                giveawayParticipants = mockSubmissions.filter { it.enteredGiveaway }.map { it.name }
+        )
+        whenever(secretSubmissionRepository.findByYear(expectedYear)).thenReturn(mockSubmissions)
+        mockMvc.perform(get("/results?year=$expectedYear")
+                .contentType("application/json"))
+                .andExpect(status().isOk)
+                .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
+    }
+
+    @Test
+    fun `Should handle a year being passed that has no submissions`() {
+        val noSubmissionYear = 1996
+        val mockSubmissions = emptyList<SecretSubmission>()
+        val expected = ResultResponse(
+                year = noSubmissionYear,
+                gamesOfTheYear = emptyList(),
+                mostAnticipated = emptyList(),
+                bestOldGame = emptyList(),
+                participants = emptyList(),
+                giveawayParticipants = emptyList()
+        )
+        whenever(secretSubmissionRepository.findAll()).thenReturn(mockSubmissions)
+        mockMvc.perform(get("/results?year=$noSubmissionYear")
+                .contentType("application/json"))
+                .andExpect(status().isOk)
+                .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
     }
 }

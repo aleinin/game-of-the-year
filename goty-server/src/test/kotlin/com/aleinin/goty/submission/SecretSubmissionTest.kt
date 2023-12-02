@@ -13,6 +13,7 @@ class SecretSubmissionTest {
             id = submission.id,
             secret = UUID.randomUUID(),
             name = submission.name,
+            year = submission.year,
             gamesOfTheYear = submission.gamesOfTheYear,
             mostAnticipated = submission.mostAnticipated,
             bestOldGame = submission.bestOldGame,
@@ -23,6 +24,7 @@ class SecretSubmissionTest {
         val expected = Submission(
             id = submission.id,
             name = submission.name,
+            year = submission.year,
             gamesOfTheYear = submission.gamesOfTheYear,
             mostAnticipated = submission.mostAnticipated,
             bestOldGame = submission.bestOldGame,

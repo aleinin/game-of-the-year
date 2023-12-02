@@ -12,11 +12,13 @@ import java.util.UUID
 // Helper class with representative data to make testing easier
 class SubmissionDataHelper {
     companion object {
+        private const val defaultYear = 2050
 
         fun secret(submissions: List<Submission>): List<SecretSubmission> = submissions.map { secret(it) }
         fun secret(submission: Submission): SecretSubmission =
             SecretSubmission(
                 id = submission.id,
+                year = submission.year,
                 secret = UUID.randomUUID(),
                 name = submission.name,
                 gamesOfTheYear = submission.gamesOfTheYear,
@@ -26,14 +28,15 @@ class SubmissionDataHelper {
                 enteredOn = submission.enteredOn,
                 updatedOn = submission.updatedOn
             )
-        fun everything(): List<Submission> = listOf(
-            theMaximalSubmission,
-            theMinimalSubmission,
-            theAverageSubmission,
-            theTieBreakerSubmission
+        fun everything(year: Int = defaultYear): List<Submission> = listOf(
+            theMaximalSubmission(year),
+            theMinimalSubmission(year),
+            theAverageSubmission(year),
+            theTieBreakerSubmission(year)
         )
 
-        fun everythingScored(): ResultResponse = ResultResponse(
+        fun everythingScored(year: Int = defaultYear): ResultResponse = ResultResponse(
+                year = year,
                 gamesOfTheYear = listOf(
                         aScoredGameResult("Call of Duty Modern Warfare II", 30, 2, 0),
                         aScoredGameResult("Clicker Pro", 28, 2, 1),
@@ -53,15 +56,16 @@ class SubmissionDataHelper {
                         aRankedGameResult("Nostalgia", 0, 2),
                         aRankedGameResult("Elder Scrolls V: Skyrim", 1, 1)
                 ),
-                participants = listOf(theMaximalSubmission.name, theMinimalSubmission.name, theAverageSubmission.name, theTieBreakerSubmission.name),
-                giveawayParticipants = listOf(theMaximalSubmission.name, theAverageSubmission.name)
+                participants = listOf(theMaximalSubmission(year).name, theMinimalSubmission(year).name, theAverageSubmission(year).name, theTieBreakerSubmission(year).name),
+                giveawayParticipants = listOf(theMaximalSubmission(year).name, theAverageSubmission(year).name)
         )
 
-        fun minimal() = theMinimalSubmission
-        fun maximal() = theMaximalSubmission
+        fun minimal(year: Int = defaultYear) = theMinimalSubmission(year)
+        fun maximal(year: Int = defaultYear) = theMaximalSubmission(year)
 
-        private val theMaximalSubmission = Submission(
+        private fun theMaximalSubmission(year: Int) = Submission(
             id = UUID.randomUUID(),
+            year = year,
             name = "Maxi Max",
             gamesOfTheYear = gamesOfTheYear(
                 "Call of Duty Modern Warfare II",
@@ -77,8 +81,9 @@ class SubmissionDataHelper {
             updatedOn = 2
         )
 
-        private val theMinimalSubmission = Submission(
+        private fun theMinimalSubmission(year: Int) = Submission(
             id = UUID.randomUUID(),
+            year = year,
             name = "Lazy Luna",
             gamesOfTheYear = gamesOfTheYear("Clicker Pro"),
             mostAnticipated = null,
@@ -88,8 +93,9 @@ class SubmissionDataHelper {
             updatedOn = 1
         )
 
-        private val theAverageSubmission = Submission(
+        private fun theAverageSubmission(year: Int) = Submission(
             id = UUID.randomUUID(),
+            year = year,
             name = "Average Andy",
             gamesOfTheYear = gamesOfTheYear("PlateUp!", "Overwatch 2", "Elden Ring"),
             mostAnticipated = aGameSubmission("Call of Duty XIX"),
@@ -99,8 +105,9 @@ class SubmissionDataHelper {
             updatedOn = 1
         )
 
-        private val theTieBreakerSubmission = Submission(
+        private fun theTieBreakerSubmission(year: Int) = Submission(
             id = UUID.randomUUID(),
+            year = year,
             name = "Ty Tie-Breaker",
             gamesOfTheYear = gamesOfTheYear(
                 "Call of Duty Modern Warfare II",

@@ -25,7 +25,7 @@ class SubmissionService(
 
     fun getSubmissionYears() = submissionRepository.findSubmissionYears()
 
-    fun getSubmission(id: UUID): Optional<Submission> = submissionRepository.findSubmissionById(id)
+    fun getSubmission(id: UUID, year: Int): Optional<Submission> = submissionRepository.findSubmissionByIdAndYear(id, year)
 
     fun saveSubmission(submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
         validateAddSubmission(submissionCreationRequest.gamesOfTheYear) {

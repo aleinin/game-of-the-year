@@ -106,18 +106,20 @@ class SubmissionServiceTest {
     }
 
     @Test
-    fun `should get submissions by id`() {
-        val expected = SubmissionDataHelper.maximal()
-        whenever(submissionRepository.findSubmissionById(expected.id)).thenReturn(Optional.of(expected))
-        assertEquals(Optional.of(expected), submissionService.getSubmission(expected.id))
+    fun `should get submissions by id and year`() {
+        val year = 2222
+        val expected = SubmissionDataHelper.maximal(year)
+        whenever(submissionRepository.findSubmissionByIdAndYear(expected.id, year)).thenReturn(Optional.of(expected))
+        assertEquals(Optional.of(expected), submissionService.getSubmission(expected.id, year))
     }
 
     @Test
-    fun `Should return an empty optional if no submission by id`() {
+    fun `Should return an empty optional if no submission by id and year`() {
+        val year = 2222
         val expected = Optional.empty<Submission>()
         val id = UUID.randomUUID()
-        whenever(submissionRepository.findSubmissionById(id)).thenReturn(Optional.empty())
-        assertEquals(expected, submissionService.getSubmission(id))
+        whenever(submissionRepository.findSubmissionByIdAndYear(id, year)).thenReturn(Optional.empty())
+        assertEquals(expected, submissionService.getSubmission(id, year))
     }
 
     @Test

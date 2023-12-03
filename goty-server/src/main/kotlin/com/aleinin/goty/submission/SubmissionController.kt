@@ -43,8 +43,8 @@ class SubmissionController(
             }
 
     @GetMapping("/submissions/{id}")
-    fun getSubmission(@PathVariable id: UUID): Submission =
-            submissionService.getSubmission(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+    fun getSubmission(@PathVariable id: UUID, @RequestParam(required = false) year: Int?): Submission =
+            submissionService.getSubmission(id, year ?: propertiesService.getThisYear()).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
     @PutMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody submissionUpdateRequest: SubmissionUpdateRequest): Submission =

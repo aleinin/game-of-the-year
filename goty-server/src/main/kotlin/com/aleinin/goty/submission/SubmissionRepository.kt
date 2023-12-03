@@ -12,5 +12,8 @@ class SubmissionRepository(private val secretSubmissionRepository: SecretSubmiss
 
     fun findSubmissionById(id: UUID): Optional<Submission> = secretSubmissionRepository.findById(id).map { it.toSubmission() }
 
+    fun findSubmissionByIdAndYear(id: UUID, year: Int): Optional<Submission> =
+            secretSubmissionRepository.findByIdAndYear(id, year).map { it.toSubmission() }
+
     fun deleteSubmissionById(id: UUID) = secretSubmissionRepository.deleteById(id)
 }

@@ -94,19 +94,32 @@ internal class SubmissionControllerTest {
     }
 
     @Test
-    fun `Should return a specific Submission`() {
-        val submission = SubmissionDataHelper.maximal()
+    fun `Should return a specific Submission with the id and year`() {
+        val year = 2000
+        val submission = SubmissionDataHelper.maximal(year)
         val secretSubmission = SubmissionDataHelper.secret(submission)
-        whenever(secretSubmissionRepository.findById(secretSubmission.id)).thenReturn(Optional.of(secretSubmission))
+        whenever(secretSubmissionRepository.findByIdAndYear(secretSubmission.id, year)).thenReturn(Optional.of(secretSubmission))
         val expectedJson = objectMapper.writeValueAsString(submission)
-        mockMvc.perform(get("/submissions/${submission.id}"))
+        mockMvc.perform(get("/submissions/${submission.id}?year=$year"))
             .andExpect(status().isOk)
             .andExpect(content().json(expectedJson, true))
     }
 
     @Test
+    fun `Should default to this year if no year provided when getting submission`() {
+        val year = defaultProperties.year
+        val submission = SubmissionDataHelper.maximal(year)
+        val secretSubmission = SubmissionDataHelper.secret(submission)
+        whenever(secretSubmissionRepository.findByIdAndYear(secretSubmission.id, year)).thenReturn(Optional.of(secretSubmission))
+        val expectedJson = objectMapper.writeValueAsString(submission)
+        mockMvc.perform(get("/submissions/${submission.id}"))
+                .andExpect(status().isOk)
+                .andExpect(content().json(expectedJson, true))
+    }
+
+    @Test
     fun `Should return Not Found if invalid submission id`() {
-        whenever(secretSubmissionRepository.findById(any())).thenReturn(Optional.empty())
+        whenever(secretSubmissionRepository.findByIdAndYear(any(), any())).thenReturn(Optional.empty())
         mockMvc.perform(get("/submissions/${UUID.randomUUID()}"))
             .andExpect(status().isNotFound)
     }

@@ -25,18 +25,26 @@ internal class ResultServiceTest {
 
     private val mockRankedOldGame = listOf(
         RankedGameResult(
-            id = "mostAnticipated",
-            title = "mostAnticipated",
+            id = "bestOldGame",
+            title = "bestOldGame",
             votes = 1,
             rank = 0
         )
     )
     private val mockRankedAnticipated = listOf(
         RankedGameResult(
-            id = "bestOldGame",
-            title = "bestOldGame",
+            id = "mostAnticipated",
+            title = "mostAnticipated",
             votes = 1,
             rank = 0
+        )
+    )
+    private val mockRankedDisappointing = listOf(
+        RankedGameResult(
+                id = "mostDisappointing",
+                title = "mostDisappointing",
+                votes = 1,
+                rank = 0
         )
     )
     private val mockGamesOfTheYear = listOf(
@@ -59,18 +67,20 @@ internal class ResultServiceTest {
         whenever(gameRankingService.rank(submissions.mapNotNull { it.mostAnticipated }))
             .thenReturn(mockRankedAnticipated)
         whenever(gameRankingService.rank(submissions.mapNotNull { it.bestOldGame })).thenReturn(mockRankedOldGame)
+        whenever(gameRankingService.rank(submissions.mapNotNull { it.mostDisappointing })).thenReturn(mockRankedDisappointing)
         val expected = ResultResponse(
             year = expectedYear,
             gamesOfTheYear = mockGamesOfTheYear,
             mostAnticipated = mockRankedAnticipated,
             bestOldGame = mockRankedOldGame,
+            mostDisappointing = mockRankedDisappointing,
             participants = expectedParticipants,
             giveawayParticipants = expectedGiveawayParticipants
         )
         val actual = resultsService.calculate(submissions, expectedYear)
         assertEquals(expected, actual)
         Mockito.verify(gameScoringService, Mockito.times(1)).score(any())
-        Mockito.verify(gameRankingService, Mockito.times(2)).rank(any())
+        Mockito.verify(gameRankingService, Mockito.times(3)).rank(any())
     }
 
     @Test
@@ -79,15 +89,18 @@ internal class ResultServiceTest {
         val submissions = listOf(SubmissionDataHelper.maximal())
         val mostAnticipated = listOf(submissions[0].mostAnticipated ?: throw AssertionError())
         val bestOldGame = listOf(submissions[0].bestOldGame ?: throw AssertionError())
+        val mostDisappointing = listOf(submissions[0].mostDisappointing ?: throw AssertionError())
         whenever(gameScoringService.score(any())).thenReturn(mockGamesOfTheYear)
         whenever(gameRankingService.rank(mostAnticipated)).thenReturn(mockRankedAnticipated)
         whenever(gameRankingService.rank(bestOldGame)).thenReturn(mockRankedOldGame)
+        whenever(gameRankingService.rank(mostDisappointing)).thenReturn(mockRankedDisappointing)
         val expected =
             ResultResponse(
                 year = expectedYear,
                 gamesOfTheYear = mockGamesOfTheYear,
                 mostAnticipated = mockRankedAnticipated,
                 bestOldGame = mockRankedOldGame,
+                mostDisappointing = mockRankedDisappointing,
                 participants = listOf(submissions[0].name),
                 giveawayParticipants = listOf(submissions[0].name)
             )
@@ -107,6 +120,7 @@ internal class ResultServiceTest {
             gamesOfTheYear = emptyList(),
             mostAnticipated = emptyList(),
             bestOldGame = emptyList(),
+            mostDisappointing = emptyList(),
             participants = emptyList(),
             giveawayParticipants = emptyList()
         )

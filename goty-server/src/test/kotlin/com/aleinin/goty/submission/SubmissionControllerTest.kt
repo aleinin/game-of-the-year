@@ -131,6 +131,7 @@ internal class SubmissionControllerTest {
             name = validSubmission.name,
             gamesOfTheYear = validSubmission.gamesOfTheYear,
             mostAnticipated = validSubmission.mostAnticipated,
+            mostDisappointing = validSubmission.mostDisappointing,
             bestOldGame = validSubmission.bestOldGame,
             enteredGiveaway = validSubmission.enteredGiveaway
         )
@@ -175,6 +176,7 @@ internal class SubmissionControllerTest {
             gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,
             bestOldGame = null,
             mostAnticipated = null,
+            mostDisappointing = null,
             enteredGiveaway = false
         )
         mockMvc.perform(
@@ -192,6 +194,7 @@ internal class SubmissionControllerTest {
             name = "tooMany",
             gamesOfTheYear = (1..15).mapIndexed { index, _ -> RankedGameSubmission("", "", index) },
             mostAnticipated = null,
+            mostDisappointing = null,
             bestOldGame = null,
             enteredGiveaway = false
         )
@@ -212,6 +215,7 @@ internal class SubmissionControllerTest {
             name = secretSubmission.name,
             gamesOfTheYear = secretSubmission.gamesOfTheYear,
             mostAnticipated = secretSubmission.mostAnticipated,
+            mostDisappointing = secretSubmission.mostDisappointing,
             bestOldGame = null, // removed best old game entry
             enteredGiveaway = secretSubmission.enteredGiveaway
         )
@@ -222,6 +226,7 @@ internal class SubmissionControllerTest {
             year = defaultProperties.year,
             gamesOfTheYear = submission.gamesOfTheYear,
             mostAnticipated = submission.mostAnticipated,
+            mostDisappointing = submission.mostDisappointing,
             bestOldGame = null,
             enteredGiveaway = submission.enteredGiveaway,
             enteredOn = submission.enteredOn,
@@ -269,6 +274,7 @@ internal class SubmissionControllerTest {
             secret = validUnsubmittedSecretSubmission.secret,
             gamesOfTheYear = validUnsubmittedSecretSubmission.gamesOfTheYear,
             mostAnticipated = validUnsubmittedSecretSubmission.mostAnticipated,
+            mostDisappointing = validUnsubmittedSecretSubmission.mostDisappointing,
             bestOldGame = validUnsubmittedSecretSubmission.bestOldGame,
             enteredGiveaway = validUnsubmittedSecretSubmission.enteredGiveaway
         )
@@ -289,6 +295,7 @@ internal class SubmissionControllerTest {
             secret = UUID.randomUUID(),
             gamesOfTheYear = (1..15).mapIndexed { index, _ -> RankedGameSubmission("", "", index) },
             mostAnticipated = null,
+            mostDisappointing = null,
             bestOldGame = null,
             enteredGiveaway = false
         )
@@ -310,6 +317,7 @@ internal class SubmissionControllerTest {
             gamesOfTheYear = SubmissionDataHelper.minimal().gamesOfTheYear,
             bestOldGame = null,
             mostAnticipated = null,
+            mostDisappointing = null,
             enteredGiveaway = false
         )
         mockMvc.perform(

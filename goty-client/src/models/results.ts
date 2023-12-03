@@ -6,6 +6,7 @@ export interface Results {
   participants: string[]
   gamesOfTheYear: GameOfTheYearResult[]
   mostAnticipated: GameResult[]
+  mostDisappointing: GameResult[]
   bestOldGames: GameResult[]
   giveawayParticipants: string[]
 }

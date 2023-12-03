@@ -42,6 +42,7 @@ class CSVServiceTest {
                 gamesOfTheYear = emptyList(),
                 mostAnticipated = emptyList(),
                 bestOldGame = emptyList(),
+                mostDisappointing = emptyList(),
                 participants = emptyList(),
                 giveawayParticipants = emptyList()
         ))

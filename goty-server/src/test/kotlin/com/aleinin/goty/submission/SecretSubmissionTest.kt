@@ -17,6 +17,7 @@ class SecretSubmissionTest {
             gamesOfTheYear = submission.gamesOfTheYear,
             mostAnticipated = submission.mostAnticipated,
             bestOldGame = submission.bestOldGame,
+            mostDisappointing = submission.mostDisappointing,
             enteredGiveaway = submission.enteredGiveaway,
             enteredOn = submission.enteredOn,
             updatedOn = submission.updatedOn
@@ -28,6 +29,7 @@ class SecretSubmissionTest {
             gamesOfTheYear = submission.gamesOfTheYear,
             mostAnticipated = submission.mostAnticipated,
             bestOldGame = submission.bestOldGame,
+            mostDisappointing = submission.mostDisappointing,
             enteredGiveaway = submission.enteredGiveaway,
             enteredOn = submission.enteredOn,
             updatedOn = submission.updatedOn

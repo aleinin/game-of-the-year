@@ -6,6 +6,7 @@ export interface Submission {
   gamesOfTheYear: Game[]
   bestOldGame: Game | null
   mostAnticipated: Game | null
+  mostDisappointing: Game | null
   enteredGiveaway: boolean | null
 }
 
@@ -19,6 +20,7 @@ export const isEqual = (
     gamesOfTheYearIsEqual(one?.gamesOfTheYear, two?.gamesOfTheYear) &&
     gameIsEqual(one?.bestOldGame, two?.bestOldGame) &&
     gameIsEqual(one?.mostAnticipated, two?.mostAnticipated) &&
+    gameIsEqual(one?.mostDisappointing, two?.mostDisappointing) &&
     one?.enteredGiveaway === two?.enteredGiveaway
   )
 }

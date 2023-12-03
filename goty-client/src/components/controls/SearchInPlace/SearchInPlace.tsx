@@ -8,20 +8,27 @@ export interface SearchInPlaceProps {
   game: Game | null
   handleSelect: (val: Game | null) => void
   placeholder: string
+  year?: number
 }
 
 const gameIsDefined = (game: Game | null): game is Game => {
   return game != null
 }
 
-export const SearchInPlace = (props: SearchInPlaceProps) => {
-  const handleDelete = () => props.handleSelect(null)
-  if (gameIsDefined(props.game)) {
+export const SearchInPlace = ({
+  game,
+  handleSelect,
+  placeholder,
+  readonly,
+  year,
+}: SearchInPlaceProps) => {
+  const handleDelete = () => handleSelect(null)
+  if (gameIsDefined(game)) {
     return (
       <ListItem
-        readonly={props.readonly}
+        readonly={readonly}
         ordered={false}
-        game={props.game}
+        game={game}
         handleDelete={handleDelete}
         handleMove={() => {}}
         index={0}
@@ -29,10 +36,10 @@ export const SearchInPlace = (props: SearchInPlaceProps) => {
       />
     )
   }
-  if (props.readonly) {
+  if (readonly) {
     return <span className={styles.noSelection}>No selection</span>
   }
   return (
-    <Search placeholder={props.placeholder} handleSelect={props.handleSelect} />
+    <Search placeholder={placeholder} handleSelect={handleSelect} year={year} />
   )
 }

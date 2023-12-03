@@ -37,6 +37,7 @@ class CSVService(
         private val gotyColumns = arrayOf("Rank", "Title", "Votes", "Points")
         private const val BEST_OLD_GAME_HEADER = "Best Old Game"
         private const val MOST_ANTICIPATED_HEADER = "Most Anticipated"
+        private const val MOST_DISAPPOINTING_HEADER = "Most Disappointing"
         private val gameColumns = arrayOf("Rank", "Title", "Votes")
         private const val GIVEAWAY_ENTRIES_HEADER = "Giveaway Entries"
         private const val SUBMISSIONS_HEADER = "Submissions"
@@ -64,6 +65,7 @@ class CSVService(
         csvPrinter.printSection(GOTY_HEADER, gotyColumns, results.gamesOfTheYear.map {arrayOf(it.rank + 1, it.title, it.votes, it.points)})
         csvPrinter.printSection(BEST_OLD_GAME_HEADER, gameColumns, results.bestOldGame.map {arrayOf(it.rank + 1, it.title, it.votes)})
         csvPrinter.printSection(MOST_ANTICIPATED_HEADER, gameColumns, results.mostAnticipated.map {arrayOf(it.rank + 1, it.title, it.votes)})
+        csvPrinter.printSection(MOST_DISAPPOINTING_HEADER, gameColumns, results.mostDisappointing.map {arrayOf(it.rank + 1, it.title, it.votes)})
         csvPrinter.printSection(GIVEAWAY_ENTRIES_HEADER, null, results.giveawayParticipants.map { arrayOf(it) })
     }
 

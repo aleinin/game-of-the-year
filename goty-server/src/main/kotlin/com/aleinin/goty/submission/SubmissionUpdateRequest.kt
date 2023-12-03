@@ -7,6 +7,7 @@ data class SubmissionUpdateRequest(
     val secret: UUID,
     val gamesOfTheYear: List<RankedGameSubmission>,
     val mostAnticipated: GameSubmission?,
+    val mostDisappointing: GameSubmission?,
     val bestOldGame: GameSubmission?,
     val enteredGiveaway: Boolean = false
 ) {

@@ -17,6 +17,7 @@ export const fromSubmissionToBackendSubmissionUpdateRequest = (
     rank: i,
   })),
   mostAnticipated: submission.mostAnticipated,
+  mostDisappointing: submission.mostDisappointing,
   bestOldGame: submission.bestOldGame,
   enteredGiveaway: submission.enteredGiveaway,
 })

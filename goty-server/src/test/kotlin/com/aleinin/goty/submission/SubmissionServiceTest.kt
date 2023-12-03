@@ -82,10 +82,20 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should get distinct years of submissions`() {
-        val expected = listOf(2000, 2001, 2002)
+        val expected = listOf(2002, 2001, 2000)
+        whenever(propertiesService.getThisYear()).thenReturn(2000)
         whenever(submissionRepository.findSubmissionYears()).thenReturn(expected)
         assertEquals(expected, submissionService.getSubmissionYears())
+    }
 
+    @Test
+    fun `Should add current year to list even if there are no submissions for that year`() {
+        val thisYear = 2004
+        val distinctYears = listOf(thisYear - 3, thisYear - 2, thisYear - 1)
+        whenever(propertiesService.getThisYear()).thenReturn(thisYear)
+        whenever(submissionRepository.findSubmissionYears()).thenReturn(distinctYears)
+        val expected = distinctYears.plus(thisYear).sortedDescending()
+        assertEquals(expected, submissionService.getSubmissionYears())
     }
 
     @Test

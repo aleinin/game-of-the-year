@@ -49,7 +49,7 @@ class CSVService(
         val results = resultsService.calculate(submissions, year)
         val stringWriter = StringWriter()
         val csvPrinter = CSVPrinter(stringWriter, CSVFormat.DEFAULT)
-        printYear(csvPrinter, properties.year)
+        printYear(csvPrinter, year)
         printSummary(csvPrinter, results)
         printSubmissions(csvPrinter, submissions, properties.tiePoints)
         return stringWriter.toString()

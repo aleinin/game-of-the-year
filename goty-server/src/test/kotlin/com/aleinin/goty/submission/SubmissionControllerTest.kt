@@ -421,14 +421,15 @@ internal class SubmissionControllerTest {
 
     @Test
     fun `Should get distinct submissions years`() {
+        val thisYear = defaultProperties.year
         val submissions = SubmissionDataHelper.secret(listOf(
-            SubmissionDataHelper.maximal(2010),
-            SubmissionDataHelper.maximal(2010),
-            SubmissionDataHelper.maximal(2011),
-            SubmissionDataHelper.maximal(2015)
+            SubmissionDataHelper.maximal(thisYear - 3),
+            SubmissionDataHelper.maximal(thisYear - 2),
+            SubmissionDataHelper.maximal(thisYear - 1),
+            SubmissionDataHelper.maximal(thisYear)
         ))
         whenever(secretSubmissionRepository.findAll()).thenReturn(submissions)
-        val expected = listOf(2010, 2011, 2015)
+        val expected = listOf(thisYear - 3, thisYear - 2, thisYear - 1, thisYear).sortedDescending()
         val expectedJson = objectMapper.writeValueAsString(expected)
         mockMvc.perform(
             get("/submissions/years")

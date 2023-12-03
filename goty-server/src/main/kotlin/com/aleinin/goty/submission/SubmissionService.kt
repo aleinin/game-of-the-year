@@ -23,7 +23,12 @@ class SubmissionService(
         if (year != null) secretSubmissionRepository.findByYear(year)
         else secretSubmissionRepository.findAll()
 
-    fun getSubmissionYears() = submissionRepository.findSubmissionYears()
+    fun getSubmissionYears(): List<Int> {
+        val distinctYears = submissionRepository.findSubmissionYears()
+        val thisYear = propertiesService.getThisYear()
+        val years = if (distinctYears.contains(thisYear)) distinctYears else distinctYears.plus(thisYear)
+        return years.sortedDescending()
+    }
 
     fun getSubmission(id: UUID, year: Int): Optional<Submission> = submissionRepository.findSubmissionByIdAndYear(id, year)
 

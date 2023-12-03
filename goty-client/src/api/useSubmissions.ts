@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { SubmissionService } from './submissionService'
 
 const oneMinuteMs = 60000
-export const useSubmissions = () => {
+export const useSubmissions = (year: number) => {
   const query = useQuery({
-    queryKey: ['submissions'],
-    queryFn: SubmissionService.getSubmissions,
+    queryKey: ['submissions', year],
+    queryFn: () => SubmissionService.getSubmissions(year),
     initialData: [],
     staleTime: oneMinuteMs,
     initialDataUpdatedAt: 0,

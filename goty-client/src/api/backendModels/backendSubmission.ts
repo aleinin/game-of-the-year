@@ -3,6 +3,7 @@ import { Submission } from '../../models/submission'
 
 export interface BackendSubmission extends BackendSubmissionCreationRequest {
   id: string
+  year: number
 }
 
 export const fromBackendSubmissionToSubmission = (

@@ -1,21 +1,20 @@
 import React from 'react'
 import { Card } from '../controls/Card/Card'
-import { Loading } from '../Loading'
 import { Paginator } from '../controls/Paginator/Paginator'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, useOutletContext } from 'react-router-dom'
 import { usePage } from './usePage'
 import { useSubmissions } from '../../api/useSubmissions'
+import { useYear } from './ResultsPage'
+import { Submission } from '../../models/submission'
 
 export const Responses = () => {
-  const page = usePage()
+  const year = useYear()
+  const { submissions } = useSubmissions(year)
+  const page = usePage(submissions)
   const navigate = useNavigate()
-  const { submissions, isLoading } = useSubmissions()
   const handleSetIndex = (index: number) => {
     const page = index + 1
     navigate(page.toString())
-  }
-  if (isLoading) {
-    return <Loading />
   }
   if (!(submissions?.length > 0)) {
     return (
@@ -24,6 +23,7 @@ export const Responses = () => {
       </Card>
     )
   }
+  const selectedSubmission = submissions[page - 1]
   return (
     <>
       <Card style={{ display: 'flex', justifyContent: 'center', padding: '0' }}>
@@ -34,7 +34,11 @@ export const Responses = () => {
           showTotalPages
         />
       </Card>
-      <Outlet />
+      <Outlet context={selectedSubmission} />
     </>
   )
+}
+
+export const useSelectedResponse = () => {
+  return useOutletContext<Submission>()
 }

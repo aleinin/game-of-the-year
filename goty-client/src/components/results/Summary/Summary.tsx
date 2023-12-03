@@ -5,10 +5,10 @@ import { GameOfTheYearResult } from '../../../models/gameOfTheYearResult'
 import { GameResult } from '../../../models/gameResult'
 import { Results } from '../../../models/results'
 import styles from './Summary.module.scss'
-import { Loading } from '../../Loading'
 import { Card } from '../../controls/Card/Card'
 import { useAnchorScroll } from '../../../util/useAnchorScroll'
 import { useResults } from '../../../api/useResults'
+import { useYear } from '../ResultsPage'
 
 const stringHeaders: Header<string>[] = [
   {
@@ -69,11 +69,9 @@ const isEmptyResults = (results: Results) =>
   Object.values(results).every((value) => value.length === 0)
 
 export const Summary = () => {
-  const { results, isLoading } = useResults()
+  const year = useYear()
+  const { results } = useResults(year)
   useAnchorScroll(results)
-  if (isLoading) {
-    return <Loading />
-  }
   if (isEmptyResults(results)) {
     return (
       <Card>

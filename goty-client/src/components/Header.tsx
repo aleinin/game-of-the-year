@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card } from './controls/Card/Card'
 import styles from './Header.module.scss'
 import { useProperties } from '../api/useProperties'

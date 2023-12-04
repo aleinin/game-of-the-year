@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { End } from './End/End'
 import { isGotyConcluded } from '../../util/isGotyConcluded'
 import { useProperties } from '../../api/useProperties'

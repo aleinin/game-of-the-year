@@ -1,7 +1,6 @@
 import styles from './ExportButton.module.scss'
 import { Export } from '../../../icons/export/Export'
 import { Button } from '../../controls/Button/Button'
-import React from 'react'
 import { downloadCSV } from './downloadCSV'
 import fetcher from '../../../api/fetcher'
 

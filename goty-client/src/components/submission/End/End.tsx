@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card } from '../../controls/Card/Card'
 import styles from './End.module.scss'
 import { CodeBox } from '../../controls/CodeBox/CodeBox'

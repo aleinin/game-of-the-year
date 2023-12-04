@@ -7,7 +7,7 @@ interface TestCase {
 
 describe('dateStringToTwelveHourString', () => {
   it('should convert iso 8601 date string a 12 hour string', () => {
-    let testCases: TestCase[] = [
+    const testCases: TestCase[] = [
       {
         input: '2022-01-11T00:00:00',
         expected: '1/11/2022 12:00AM',

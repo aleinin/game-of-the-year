@@ -31,6 +31,7 @@ export const RadioSet = <T = any,>({
       {options.map((option) => (
         <label key={option.id}>
           <input
+            tabIndex={0}
             disabled={disabled}
             checked={option.value === selectedValue}
             type="radio"

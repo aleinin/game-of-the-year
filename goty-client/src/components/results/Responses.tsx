@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card } from '../controls/Card/Card'
 import { Paginator } from '../controls/Paginator/Paginator'
 import { Outlet, useNavigate, useOutletContext } from 'react-router-dom'

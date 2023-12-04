@@ -1,4 +1,3 @@
-import React from 'react'
 import { SearchInPlace } from './SearchInPlace/SearchInPlace'
 import { Rules } from '../submission/Rules'
 import { Card } from './Card/Card'

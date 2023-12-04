@@ -1,11 +1,12 @@
 import { SubmissionForm } from './SubmissionForm/SubmissionForm'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmissionService } from '../../api/submissionService'
 import { isEqual, Submission } from '../../models/submission'
 import { useProperties } from '../../api/useProperties'
 import { useSubmission } from '../../api/useSubmission'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useSubmissionIds } from '../../api/useSubmissionIds'
+import { useUnsavedChangesWarning } from '../../util/useUnsavedChangesWarning'
 
 const submissionIsValid = (
   submission: Submission,
@@ -49,6 +50,7 @@ export const SubmissionHub = ({
     initialSubmission,
     properties.hasGiveaway,
   )
+  useUnsavedChangesWarning(isValid)
   useEffect(() => {
     setSubmission(initialSubmission)
   }, [initialSubmission])

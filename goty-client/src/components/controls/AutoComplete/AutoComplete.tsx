@@ -1,7 +1,7 @@
 import { TextInput } from '../TextInput/TextInput'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { Button } from '../Button/Button'
-import { useCallback, useRef, useState } from 'react'
+import { KeyboardEventHandler, useCallback, useRef, useState } from 'react'
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
 import { useDebouncedEffect } from '../../../util/useDebouncedEffect'
 import styles from './AutoComplete.module.scss'
@@ -36,6 +36,11 @@ export const AutoComplete = <T = any,>({
     setIsOpen(false)
     onSelect && onSelect(value)
   }
+  const handleKey: KeyboardEventHandler<HTMLInputElement> = (event) => {
+    if (event.key === 'Enter' && options.length > 0) {
+      handleSelect(options[0])
+    }
+  }
   const search = useCallback(
     (requireValue: boolean) => () => {
       if (queryFn && (value || !requireValue)) {
@@ -59,6 +64,7 @@ export const AutoComplete = <T = any,>({
           onChange={onChange}
           placeholder={placeholder}
           isLoading={isLoading}
+          onKeyDown={handleKey}
         />
         {isOpen && (
           <DropdownMenu

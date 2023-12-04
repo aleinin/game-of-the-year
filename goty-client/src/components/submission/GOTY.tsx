@@ -1,4 +1,3 @@
-import React from 'react'
 import { indexToOrdinal } from '../../util/indexToOrdinal'
 import { Card } from '../controls/Card/Card'
 import { Game } from '../../models/game'

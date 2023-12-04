@@ -1,4 +1,3 @@
-import React from 'react'
 import { ResultsTable } from '../ResultsTable/ResultsTable'
 import { Header } from '../../controls/Table/Table.types'
 import { GameOfTheYearResult } from '../../../models/gameOfTheYearResult'

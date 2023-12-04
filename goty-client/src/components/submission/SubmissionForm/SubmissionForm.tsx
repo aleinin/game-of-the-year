@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card } from '../../controls/Card/Card'
 import { Giveaway } from '../Giveaway'
 import { GOTY } from '../GOTY'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card } from '../controls/Card/Card'
 import { RadioOption, RadioSet } from '../controls/RadioSet/RadioSet'
 import { Rules } from './Rules'

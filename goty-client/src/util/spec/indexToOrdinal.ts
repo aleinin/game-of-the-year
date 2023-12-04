@@ -1,7 +1,9 @@
 import { indexToOrdinal } from '../indexToOrdinal'
 
 it('should add ordinal to index', () => {
-  let expected = [...(Array(24).keys() as any)].map((index) => `${index + 1}th`)
+  const expected = [...(Array(24).keys() as any)].map(
+    (index) => `${index + 1}th`,
+  )
   expected[0] = '1st'
   expected[1] = '2nd'
   expected[2] = '3rd'

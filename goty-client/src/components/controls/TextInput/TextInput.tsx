@@ -1,4 +1,9 @@
-import { ChangeEvent, CSSProperties, useCallback } from 'react'
+import {
+  ChangeEvent,
+  CSSProperties,
+  KeyboardEventHandler,
+  useCallback,
+} from 'react'
 import { Spinner } from '../../../icons/spinner/Spinner'
 import styles from './TextInput.module.scss'
 
@@ -11,6 +16,7 @@ export interface TextInputProps {
   disabled?: boolean
   style?: CSSProperties
   isLoading?: boolean
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
 export const TextInput = ({
@@ -22,6 +28,7 @@ export const TextInput = ({
   disabled = false,
   style,
   isLoading = false,
+  onKeyDown,
 }: TextInputProps) => {
   const onChangeCallback = useCallback(
     (event: ChangeEvent<HTMLInputElement>) =>
@@ -41,6 +48,7 @@ export const TextInput = ({
         id={id}
         placeholder={placeholder}
         name={id}
+        onKeyDown={onKeyDown}
       />
     </div>
   )

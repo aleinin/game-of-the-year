@@ -34,6 +34,7 @@ export const Button = ({
   )
   return (
     <button
+      tabIndex={0}
       className={buttonClass}
       onClick={onClickCallback}
       disabled={disabled}

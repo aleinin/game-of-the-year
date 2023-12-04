@@ -1,6 +1,5 @@
 import { ExportButton } from '../ExportButton/ExportButton'
 import { TabButtons } from '../../controls/Tabs/Tabs'
-import React from 'react'
 import { Tab } from '../ResultsPage'
 import { Card } from '../../controls/Card/Card'
 import styles from './ResultsControls.module.scss'

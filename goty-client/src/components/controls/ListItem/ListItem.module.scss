@@ -25,6 +25,7 @@
   flex-wrap: nowrap;
 
   .delete-button {
+    &:focus,
     &:hover {
       color: $required;
     }

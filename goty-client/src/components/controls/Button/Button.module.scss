@@ -23,6 +23,7 @@
 
 .icon {
   background: none;
+  &:focus,
   &:hover:not(:disabled) {
     color: $accent;
   }

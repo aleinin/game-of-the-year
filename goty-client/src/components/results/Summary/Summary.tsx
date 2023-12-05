@@ -8,6 +8,7 @@ import { Card } from '../../controls/Card/Card'
 import { useAnchorScroll } from '../../../util/useAnchorScroll'
 import { useResults } from '../../../api/useResults'
 import { useYear } from '../ResultsPage'
+import { useProperties } from '../../../api/useProperties'
 
 const stringHeaders: Header<string>[] = [
   {
@@ -69,7 +70,8 @@ const isEmptyResults = (results: Results) =>
 
 export const Summary = () => {
   const year = useYear()
-  const { results } = useResults(year)
+  const { properties } = useProperties()
+  const { results } = useResults(year ?? properties.year)
   useAnchorScroll(results)
   if (isEmptyResults(results)) {
     return (

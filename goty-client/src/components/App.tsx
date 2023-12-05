@@ -12,6 +12,7 @@ import { Response } from './results/Response'
 import { useProperties } from '../api/useProperties'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import classNames from 'classnames'
 
 export const App = () => {
   const queryClient = new QueryClient()
@@ -64,11 +65,20 @@ const router = createBrowserRouter([
 
 const AppRoot = () => {
   const { isLoading } = useProperties()
+  // const [isDarkMode, toggleColorMode] = useColorMode()
   if (isLoading) {
     return <Loading></Loading>
   }
+
+  const classes = classNames(styles.page, styles)
   return (
-    <div className={styles.page}>
+    <div className={classes}>
+      {/*<div className={styles.colorToggle}>*/}
+      {/*  <ColorModeSwitch*/}
+      {/*    isDarkMode={isDarkMode}*/}
+      {/*    onChange={() => toggleColorMode()}*/}
+      {/*  />*/}
+      {/*</div>*/}
       <div className={styles.root}>
         <Header />
         <RouterProvider router={router} />

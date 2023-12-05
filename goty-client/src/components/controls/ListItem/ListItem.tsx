@@ -1,6 +1,6 @@
 import { indexToOrdinal } from '../../../util/indexToOrdinal'
 import { MoveDirection } from '../../submission/GOTY'
-import { Button } from '../Button/Button'
+import { Button, ButtonType } from '../Button/Button'
 import { ChevronUp } from '../../../icons/chevron/ChevronUp'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { Minus } from '../../../icons/minus/Minus'
@@ -68,14 +68,14 @@ const Controls = ({
     {ordered && (
       <>
         <Button
-          isIcon={true}
+          buttonType={ButtonType.ICON}
           disabled={index === 0}
           onClick={() => handleMove(index, MoveDirection.IncreaseRank)}
         >
           <ChevronUp />
         </Button>
         <Button
-          isIcon={true}
+          buttonType={ButtonType.ICON}
           disabled={index === currentListLength - 1}
           onClick={() => handleMove(index, MoveDirection.DecreaseRank)}
         >
@@ -84,7 +84,7 @@ const Controls = ({
       </>
     )}
     <Button
-      isIcon={true}
+      buttonType={ButtonType.ICON}
       className={styles.deleteButton}
       onClick={() => handleDelete()}
     >

@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react'
 import styles from './Tabs.module.scss'
-import { Button } from '../Button/Button'
+import { Button, ButtonType } from '../Button/Button'
 import { uppercaseFirstLetter } from '../../../util/uppercaseFirstLetter'
+import classNames from 'classnames'
 
 export interface TabButtonsProps {
   tabs: string[]
@@ -42,11 +43,12 @@ export const TabButtons = ({
         const isSelected = tab === selectedTab
         return (
           <Button
-            className={`${styles.tabButton} ${
-              isSelected ? styles.selected : ''
-            }`}
+            className={classNames(styles.tabButton, {
+              [styles.selected]: isSelected,
+            })}
             key={tab}
             onClick={onChangeCallback(tab)}
+            buttonType={ButtonType.TEXT}
           >
             {uppercaseFirstLetter(tab)}
           </Button>

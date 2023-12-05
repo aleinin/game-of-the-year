@@ -1,7 +1,5 @@
-@import "@/src/colors";
-
 .menu {
-  background-color: $contentBackground;
+  background-color: var(--contentBackground);
   border: 1px solid #ccc;
   box-shadow: rgba(0, 0, 0, 0.16) 0 4px 4px 0;
   box-sizing: border-box;
@@ -24,7 +22,7 @@
 
 .options {
   box-sizing: border-box;
-  background-color: $contentBackground;
+  background-color: var(--contentBackground);
   cursor: pointer;
   display: block;
   padding: 10px 10px;
@@ -39,7 +37,7 @@
     background-color: rgb(192, 192, 192);
     color: #333;
   }
-
+/* todo color */
   .is-selected {
     background-color: rgb(141, 141, 141);
     color: #333;

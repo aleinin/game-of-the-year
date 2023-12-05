@@ -1,7 +1,5 @@
-@import "@/src/colors";
-
 .table {
-  background: $contentBackground;
+  background: var(--contentBackground);
 }
 
 .header,.body {
@@ -10,7 +8,7 @@
 }
 
 .cell {
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--border);
   padding: 15px;
   white-space: nowrap;
   overflow: hidden;
@@ -23,8 +21,8 @@
   margin-top: -1px;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-top: 1px solid $border;
-  border-bottom: 1px solid $border;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .table-paginator {

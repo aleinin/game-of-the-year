@@ -1,6 +1,6 @@
 import styles from './ExportButton.module.scss'
 import { Export } from '../../../icons/export/Export'
-import { Button } from '../../controls/Button/Button'
+import { Button, ButtonType } from '../../controls/Button/Button'
 import { downloadCSV } from './downloadCSV'
 import fetcher from '../../../api/fetcher'
 
@@ -21,7 +21,11 @@ export const ExportButton = ({ year }: ExportButtonProps) => {
     })
   }
   return (
-    <Button isIcon className={styles.exportButton} onClick={handleExport}>
+    <Button
+      buttonType={ButtonType.ICON}
+      className={styles.exportButton}
+      onClick={handleExport}
+    >
       <Export />
     </Button>
   )

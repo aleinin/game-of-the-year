@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react'
 import styles from './Card.module.scss'
 import classNames from 'classnames'
 import { Link } from '../../../icons/link/Link'
-import { Button } from '../Button/Button'
+import { Button, ButtonType } from '../Button/Button'
 
 export interface CardProps {
   id?: string
@@ -76,7 +76,10 @@ const Header = ({
           {title} {required ? <span className={styles.required}>*</span> : null}
         </span>
         {id && hasAnchorButton && (
-          <Button onClick={() => onLinkClick && onLinkClick()} isIcon>
+          <Button
+            onClick={() => onLinkClick && onLinkClick()}
+            buttonType={ButtonType.ICON}
+          >
             <Link />
           </Button>
         )}

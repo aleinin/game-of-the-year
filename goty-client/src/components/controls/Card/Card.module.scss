@@ -1,9 +1,7 @@
-@import "@/src/colors";
-
 .card {
-  background-color: $background;
+  background-color: var(--cardBackground);
   margin-bottom: 10px;
-  color: $text;
+  color: var(--text);
   border-radius: 10px;
   @media only screen and (max-width: 767px) {
     padding: 5px;
@@ -15,7 +13,7 @@
 }
 
 .border {
-  border: 1px solid $border
+  border: 1px solid var(--border)
 }
 
 .header {
@@ -33,12 +31,12 @@
   vertical-align: middle;
 
   svg {
-    color: $disabled;
+    color: var(--disabled);
   }
 }
 
 .required {
-  color: $required
+  color: var(--required)
 }
 
 .page-index {

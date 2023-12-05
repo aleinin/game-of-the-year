@@ -34,7 +34,8 @@ export const ResultsPage = () => {
   const { properties } = useProperties()
   const [selectedYear, setSelectedYear] = useState(properties.year)
   useDocumentTitle(`GOTY - ${uppercaseFirstLetter(selectedTab)}`)
-  const handleTabChange = (tab: string) => navigate(`${tab}`)
+  const handleTabChange = (tab: string) =>
+    navigate(`${tab}${tab === Tab.RESPONSES ? '/1' : ''}`)
 
   return (
     <>

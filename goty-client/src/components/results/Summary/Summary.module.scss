@@ -1,17 +1,15 @@
-@import "@/src/colors";
-
 .first {
-  background: $gold;
+  background: var(--gold);
 }
 
 .second {
-  background: $silver;
+  background: var(--silver);
 }
 
 .third {
-  background: $bronze;
+  background: var(--bronze);
 }
 
 .eliminated {
-  background: $eliminated;
+  background: var(--eliminated);
 }

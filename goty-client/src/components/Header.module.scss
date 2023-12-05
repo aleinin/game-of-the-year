@@ -1,9 +1,9 @@
 .main {
-  @media only screen and (min-width: 768px) {
-    padding: 20px;
-  }
+  position: relative;
 }
 
-.title  {
-
+.color-toggle {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }

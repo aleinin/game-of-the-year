@@ -3,17 +3,34 @@ import {
   MutableRefObject,
   PropsWithChildren,
   useCallback,
-  useMemo,
 } from 'react'
 import styles from './Button.module.scss'
+import classNames from 'classnames'
+
+export enum ButtonType {
+  STANDARD,
+  ICON,
+  TEXT,
+}
 
 export interface ButtonProps {
   onClick?: () => void
   disabled?: boolean
   style?: CSSProperties
   className?: string
-  isIcon?: boolean
+  buttonType?: ButtonType
   ref?: MutableRefObject<any>
+}
+
+const getStyle = (buttonType: ButtonType) => {
+  switch (buttonType) {
+    case ButtonType.STANDARD:
+      return styles.standard
+    case ButtonType.ICON:
+      return styles.icon
+    case ButtonType.TEXT:
+      return styles.text
+  }
 }
 
 export const Button = ({
@@ -21,17 +38,11 @@ export const Button = ({
   disabled = false,
   children,
   className,
-  isIcon = false,
+  buttonType = ButtonType.STANDARD,
   style,
 }: PropsWithChildren<ButtonProps>) => {
   const onClickCallback = useCallback(() => onClick && onClick(), [onClick])
-  const buttonClass = useMemo(
-    () =>
-      `${styles.button} ${className ? className : ''} ${
-        isIcon ? styles.icon : styles.text
-      }`,
-    [className, isIcon],
-  )
+  const buttonClass = classNames(styles.button, getStyle(buttonType), className)
   return (
     <button
       tabIndex={0}

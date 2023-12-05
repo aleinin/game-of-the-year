@@ -1,8 +1,6 @@
-@import "@/src/colors";
-
 .control {
   position: relative;
-  border: 1px solid $border;
+  border: 1px solid var(--border);
   border-radius: 4px;
   box-sizing: border-box;
   outline: none;
@@ -11,17 +9,20 @@
   font-size: inherit;
   min-width: 65px;
   height: 100%;
+  &:hover:not(.disabled) {
+    border: 1px solid var(--text)
+  }
   &:not(.disabled) {
     cursor: pointer;
   }
   &:focus:not(.disabled) {
-    outline: $accent 2px solid;
+    outline: var(--accent) 2px solid;
   }
 }
 
 .disabled {
-  color: $disabled;
-  border-color: $disabled;
+  color: var(--disabled);
+  border-color: var(--disabled);
 }
 
 .value {

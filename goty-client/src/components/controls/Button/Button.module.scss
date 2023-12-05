@@ -1,6 +1,5 @@
-@import "@/src/colors";
 .button {
-  color: $text;
+  color: var(--text);
   border: none;
   font: inherit;
   cursor: pointer;
@@ -25,23 +24,27 @@
   background: none;
   &:focus,
   &:hover:not(:disabled) {
-    color: $accent;
+    color: var(--accent);
   }
 
   &:disabled {
-    color: $placeholder;
+    color: var(--placeholder);
   }
 
 }
 
 .text {
-  background: $accent;
+  background: none;
+}
+
+.standard {
+  background: var(--accent);
   &:hover:not(:disabled) {
-    background: $accentDark;
+    background: var(--buttonHover);
   }
   &:disabled {
-    background: $disabled;
-    color: $placeholder
+    background: var(--disabled);
+    color: var(--placeholder)
   }
 }
 

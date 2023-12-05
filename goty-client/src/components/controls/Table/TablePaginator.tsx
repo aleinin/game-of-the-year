@@ -10,6 +10,7 @@ export interface TablePaginatorProps {
   setPage: (pageIndex: number) => void
   setRowsPerPage: (rowsPerPage: number) => void
   disabled?: boolean
+  className?: string
 }
 
 export const TablePaginator = ({

@@ -1,10 +1,8 @@
-@import "@/src/colors";
-
 .code-box {
-  color: $placeholder;
+  color: var(--placeholder);
   word-wrap: break-word;
   padding: 10px;
-  background: $contentBackgroundLight;
+  background: var(--card);
   font-size: 1em;
 }
 

@@ -1,7 +1,5 @@
-@import "@/src/colors";
-
 .loading {
-  color: $text;
+  color: var(--text);
   display: flex;
   justify-content: center;
   align-content: center;

@@ -29,10 +29,6 @@
 .title-link {
   display: flex;
   vertical-align: middle;
-
-  svg {
-    color: var(--disabled);
-  }
 }
 
 .required {
@@ -43,4 +39,10 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.anchor-button {
+  &:hover,&:focus {
+    color: var(--text)
+  }
 }

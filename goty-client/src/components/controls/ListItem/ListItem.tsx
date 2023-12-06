@@ -35,7 +35,7 @@ export const ListItem = ({
         {ordered ? (
           <span className={styles.marginRight5}>{indexToOrdinal(index)}:</span>
         ) : null}
-        <span className={styles.marginRight5}>{game?.title}</span>
+        <span className={styles.marginRight5}>{game.title}</span>
       </div>
       {!readonly && (
         <Controls
@@ -44,6 +44,7 @@ export const ListItem = ({
           handleDelete={() => handleDelete(game)}
           ordered={ordered}
           currentListLength={currentListLength}
+          gameName={game.title}
         />
       )}
     </div>
@@ -56,6 +57,7 @@ interface ControlsProps {
   handleDelete: () => void
   ordered: boolean
   currentListLength: number
+  gameName: string
 }
 const Controls = ({
   index,
@@ -63,6 +65,7 @@ const Controls = ({
   handleDelete,
   ordered,
   currentListLength,
+  gameName,
 }: ControlsProps) => (
   <div className={styles.controls}>
     {ordered && (
@@ -71,6 +74,7 @@ const Controls = ({
           buttonType={ButtonType.ICON}
           disabled={index === 0}
           onClick={() => handleMove(index, MoveDirection.IncreaseRank)}
+          ariaLabel={`Increase ${gameName}'s rank`}
         >
           <ChevronUp />
         </Button>
@@ -78,6 +82,7 @@ const Controls = ({
           buttonType={ButtonType.ICON}
           disabled={index === currentListLength - 1}
           onClick={() => handleMove(index, MoveDirection.DecreaseRank)}
+          ariaLabel={`Decrease ${gameName}'s rank`}
         >
           <ChevronDown />
         </Button>
@@ -87,6 +92,7 @@ const Controls = ({
       buttonType={ButtonType.ICON}
       className={styles.deleteButton}
       onClick={() => handleDelete()}
+      ariaLabel={`Delete ${gameName}`}
     >
       <Minus />
     </Button>

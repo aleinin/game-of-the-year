@@ -16,12 +16,12 @@ export const ColorModeSwitch = () => {
     }, 400)
   }
   return (
-    // eslint-disable-next-line jsx-a11y/label-has-associated-control
     <label
       className={classNames(
         styles.switch,
         isDarkMode ? styles.moon : styles.sun,
       )}
+      aria-label={'Color mode toggle'}
     >
       <input
         onChange={handleOnChange}

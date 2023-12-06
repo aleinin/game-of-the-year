@@ -38,6 +38,7 @@ export const TablePaginator = ({
         onChange={setRowsPerPage}
         width={'65px'}
         accessorFn={(value) => `${value}`}
+        ariaLabel="Rows per page pagination"
       />
     </div>
   )

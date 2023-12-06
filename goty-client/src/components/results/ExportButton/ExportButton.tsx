@@ -20,7 +20,11 @@ export const ExportButton = ({ year }: ExportButtonProps) => {
     })
   }
   return (
-    <Button buttonType={ButtonType.ICON} onClick={handleExport}>
+    <Button
+      buttonType={ButtonType.ICON}
+      onClick={handleExport}
+      ariaLabel="Export results to CSV"
+    >
       <Export />
     </Button>
   )

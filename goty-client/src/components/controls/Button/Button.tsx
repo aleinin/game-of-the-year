@@ -20,6 +20,7 @@ export interface ButtonProps {
   className?: string
   buttonType?: ButtonType
   ref?: MutableRefObject<any>
+  ariaLabel?: string
 }
 
 const getStyle = (buttonType: ButtonType) => {
@@ -40,11 +41,13 @@ export const Button = ({
   className,
   buttonType = ButtonType.STANDARD,
   style,
+  ariaLabel,
 }: PropsWithChildren<ButtonProps>) => {
   const onClickCallback = useCallback(() => onClick && onClick(), [onClick])
   const buttonClass = classNames(styles.button, getStyle(buttonType), className)
   return (
     <button
+      aria-label={ariaLabel}
       tabIndex={0}
       className={buttonClass}
       onClick={onClickCallback}

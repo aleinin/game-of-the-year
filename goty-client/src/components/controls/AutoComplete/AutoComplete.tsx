@@ -76,7 +76,11 @@ export const AutoComplete = <T = any,>({
           />
         )}
       </div>
-      <Button className={styles.dropdownButton} onClick={search(false)}>
+      <Button
+        className={styles.dropdownButton}
+        onClick={search(false)}
+        ariaLabel="Search"
+      >
         <ChevronDown />
       </Button>
     </div>

@@ -14,6 +14,7 @@ interface DropdownProps<T = any> {
   width?: string
   disabled?: boolean
   controlClass?: string
+  ariaLabel?: string
 }
 
 export const Dropdown = <T,>({
@@ -25,6 +26,7 @@ export const Dropdown = <T,>({
   accessorFn,
   disabled = false,
   controlClass,
+  ariaLabel,
 }: DropdownProps<T>) => {
   const ref = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -60,6 +62,7 @@ export const Dropdown = <T,>({
         onMouseDown={handleClick}
         onKeyDown={handleClick}
         aria-haspopup="listbox"
+        aria-label={ariaLabel}
       >
         <div className={styles.value}>
           {selected === undefined ? placeholder : accessorFn(selected)}

@@ -79,6 +79,8 @@ const Header = ({
           <Button
             onClick={() => onLinkClick && onLinkClick()}
             buttonType={ButtonType.ICON}
+            ariaLabel={`Anchor to ${title}`}
+            className={styles.anchorButton}
           >
             <Link />
           </Button>

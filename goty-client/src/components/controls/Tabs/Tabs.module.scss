@@ -22,6 +22,7 @@
     padding-right: 20px;
   }
 
+  &:focus:not(:disabled):not(.selected),
   &:hover:not(:disabled):not(.selected) {
     border-bottom: 2px solid var(--text);
     padding-bottom: 8px;

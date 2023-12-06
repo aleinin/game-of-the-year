@@ -25,10 +25,12 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.1",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/jest": "^29.5.7",
+    "@types/node": "^20.10.3",
     "@types/react": "^18.2.34",
     "@types/react-dom": "^18.2.14",
     "@types/react-router-dom": "^5.3.3",

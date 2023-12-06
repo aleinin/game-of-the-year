@@ -1,5 +1,6 @@
 import { Game } from '../../models/game'
 import { SingleGame } from '../controls/SingleGame'
+import { InputStateKeyContext } from './useSubmissionForm'
 
 export interface MostAnticipatedProps {
   readonly: boolean
@@ -18,13 +19,15 @@ export const MostAnticipated = ({
     handleSetMostAnticipated && handleSetMostAnticipated(mostAnticipated)
   }
   return (
-    <SingleGame
-      title="Most Anticipated"
-      subtitle="What game are you looking forward to most?"
-      readonly={readonly}
-      game={mostAnticipated}
-      handleSelect={handleSelect}
-      rules={rules}
-    />
+    <InputStateKeyContext.Provider value={'mostAnticipated'}>
+      <SingleGame
+        title="Most Anticipated"
+        subtitle="What game are you looking forward to most?"
+        readonly={readonly}
+        game={mostAnticipated}
+        handleSelect={handleSelect}
+        rules={rules}
+      />
+    </InputStateKeyContext.Provider>
   )
 }

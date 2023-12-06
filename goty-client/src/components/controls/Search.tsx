@@ -1,7 +1,11 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { GameService } from '../../api/gameService'
 import { Game } from '../../models/game'
 import { AutoComplete } from './AutoComplete/AutoComplete'
+import {
+  InputStateKeyContext,
+  SubmissionInputContext,
+} from '../submission/useSubmissionForm'
 
 export interface SearchProps {
   placeholder: string
@@ -10,7 +14,10 @@ export interface SearchProps {
 }
 
 export const Search = (props: SearchProps) => {
-  const [input, setInput] = useState('')
+  const key = useContext(InputStateKeyContext)
+  const {
+    [key]: [input, setInput],
+  } = useContext(SubmissionInputContext)
   const [suggestions, setSuggestions] = useState<Game[]>([])
   const handleSearch = (searchText: string) =>
     GameService.searchGames({

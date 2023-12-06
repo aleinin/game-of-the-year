@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 
-export const useUnsavedChangesWarning = (hasUnsavedChanges: boolean) => {
+export const useUnsavedChangesWarning = (isDirty: boolean) => {
   useEffect(() => {
     const beforeUnload = (e: any) => {
-      if (hasUnsavedChanges) {
+      if (isDirty) {
         e.preventDefault()
         e.returnValue = true
       }
@@ -12,5 +12,5 @@ export const useUnsavedChangesWarning = (hasUnsavedChanges: boolean) => {
     return () => {
       window.removeEventListener('beforeunload', beforeUnload)
     }
-  }, [hasUnsavedChanges])
+  }, [isDirty])
 }

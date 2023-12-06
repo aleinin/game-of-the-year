@@ -1,5 +1,6 @@
 import { Game } from '../../models/game'
 import { SingleGame } from '../controls/SingleGame'
+import { InputStateKeyContext } from './useSubmissionForm'
 
 export interface MostDisappointingProps {
   readonly: boolean
@@ -18,14 +19,16 @@ export const MostDisappointing = ({
     handleSetMostDisappointing && handleSetMostDisappointing(mostDisappointing)
   }
   return (
-    <SingleGame
-      title="Most Disappointing"
-      subtitle="What game didnt live up to your expectations?"
-      readonly={readonly}
-      game={mostDisappointing}
-      handleSelect={handleSelect}
-      rules={[`Any game released in ${year}`]}
-      year={year}
-    />
+    <InputStateKeyContext.Provider value={'mostDisappointing'}>
+      <SingleGame
+        title="Most Disappointing"
+        subtitle="What game didnt live up to your expectations?"
+        readonly={readonly}
+        game={mostDisappointing}
+        handleSelect={handleSelect}
+        rules={[`Any game released in ${year}`]}
+        year={year}
+      />
+    </InputStateKeyContext.Provider>
   )
 }

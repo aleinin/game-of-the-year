@@ -5,6 +5,7 @@ import { Rules } from './Rules'
 import { useProperties } from '../../api/useProperties'
 import { Search } from '../controls/Search'
 import { OrderedList } from '../controls/OrderedList'
+import { InputStateKeyContext } from './useSubmissionForm'
 
 export enum MoveDirection {
   IncreaseRank,
@@ -80,11 +81,13 @@ export const GOTY = ({ games, handleSetGames, readonly }: GOTYProps) => {
       <Rules readonly={readonly} rules={properties.gotyQuestion.rules} />
       {!readonly && getTieBreaker(properties.tiePoints)}
       {readonly || games.length === properties.tiePoints.length ? null : (
-        <Search
-          year={properties.year}
-          placeholder="Select a game"
-          handleSelect={handleAddGame}
-        />
+        <InputStateKeyContext.Provider value={'goty'}>
+          <Search
+            year={properties.year}
+            placeholder="Select a game"
+            handleSelect={handleAddGame}
+          />
+        </InputStateKeyContext.Provider>
       )}
       <OrderedList
         games={games}

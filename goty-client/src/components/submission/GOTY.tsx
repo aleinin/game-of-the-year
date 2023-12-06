@@ -75,7 +75,7 @@ export const GOTY = ({ games, handleSetGames, readonly }: GOTYProps) => {
     }
   }
   return (
-    <Card title={properties.gotyQuestion.title} required={true}>
+    <Card title={properties.gotyQuestion.title} required={!readonly}>
       <span>{properties.gotyQuestion.question}</span>
       <Rules readonly={readonly} rules={properties.gotyQuestion.rules} />
       {!readonly && getTieBreaker(properties.tiePoints)}

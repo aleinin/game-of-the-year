@@ -3,21 +3,16 @@ import { Sun } from '../../../icons/Sun'
 import { Moon } from '../../../icons/Moon'
 import { useState } from 'react'
 import classNames from 'classnames'
+import { useColorMode } from '../../useColorMode'
 
-interface ColorModeSwitchProps {
-  onChange?: () => void
-  isDarkMode?: boolean
-}
-export const ColorModeSwitch = ({
-  onChange,
-  isDarkMode = true,
-}: ColorModeSwitchProps) => {
+export const ColorModeSwitch = () => {
+  const [isDarkMode, toggleColorMode] = useColorMode()
   const [internalIsDarkMode, setInternalIsDarkMode] = useState(isDarkMode)
   const handleOnChange = () => {
     setInternalIsDarkMode(!isDarkMode)
     // wait for animation
     setTimeout(() => {
-      onChange && onChange()
+      toggleColorMode()
     }, 400)
   }
   return (

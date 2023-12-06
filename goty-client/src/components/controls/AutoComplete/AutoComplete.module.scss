@@ -11,8 +11,4 @@
   background: var(--accent);
   color: var(--textOnAccent);
   border-radius: 0;
-
-  &:hover:not(:disabled) {
-    color: var(--placeholder);
-  }
 }

@@ -1,6 +1,6 @@
 .menu {
   background-color: var(--contentBackground);
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   box-shadow: rgba(0, 0, 0, 0.16) 0 4px 4px 0;
   box-sizing: border-box;
   margin-top: 2px;
@@ -14,7 +14,7 @@
 
 .no-results {
   box-sizing: border-box;
-  color: #ccc;
+  color: var(--text);
   cursor: default;
   display: block;
   padding: 8px 10px;
@@ -34,17 +34,16 @@
   }
 
   &:hover {
-    background-color: rgb(192, 192, 192);
-    color: #333;
+    background: var(--dropdownHover)
   }
-/* todo color */
-  .is-selected {
-    background-color: rgb(141, 141, 141);
-    color: #333;
-  }
+}
 
-  .is-selected:hover {
-    background-color: rgb(192, 192, 192);
-    color: #333;
+.options.is-selected{
+  background-color: var(--accent);
+  color: var(--textOnAccent);
+
+  &:hover {
+    background: var(--dropdownHover);
+    color: var(--text)
   }
 }

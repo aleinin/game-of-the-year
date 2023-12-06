@@ -3,8 +3,8 @@ import { TabButtons } from '../../controls/Tabs/Tabs'
 import { Tab } from '../ResultsPage'
 import { Card } from '../../controls/Card/Card'
 import styles from './ResultsControls.module.scss'
-import { Years } from '../Years'
 import { useSubmissionYears } from '../../../api/useSubmissionYears'
+import { Dropdown } from '../../controls/Dropdown/Dropdown'
 
 interface ResultsControlsProps {
   tabs: Tab[]
@@ -25,19 +25,21 @@ export const ResultsControls = ({
   return (
     <Card style={{ position: 'relative' }}>
       <div className={styles.controls}>
-        <div className={styles.yearsDropdown}>
-          <Years
-            selectedYear={selectedYear}
-            handleYearChange={handleYearChange}
-            yearOptions={submissionYears}
-          />
+        <div className={styles.exportButton}>
+          <ExportButton year={selectedYear} />
         </div>
         <div className={styles.tabsExport}>
-          <ExportButton year={selectedYear} />
           <TabButtons
             tabs={tabs}
             onChange={handleTabChange}
             selectedTab={selectedTab}
+          />
+          <Dropdown
+            controlClass={styles.dropdown}
+            value={selectedYear}
+            onChange={handleYearChange}
+            options={submissionYears}
+            accessorFn={(num: number) => num.toString()}
           />
         </div>
       </div>

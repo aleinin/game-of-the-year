@@ -13,6 +13,7 @@ interface DropdownProps<T = any> {
   placeholder?: string
   width?: string
   disabled?: boolean
+  controlClass?: string
 }
 
 export const Dropdown = <T,>({
@@ -23,6 +24,7 @@ export const Dropdown = <T,>({
   width,
   accessorFn,
   disabled = false,
+  controlClass,
 }: DropdownProps<T>) => {
   const ref = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -48,7 +50,11 @@ export const Dropdown = <T,>({
       style={{ width: `${width ?? '100%'}` }}
     >
       <div
-        className={classNames(styles.control, { [styles.disabled]: disabled })}
+        className={classNames(
+          styles.control,
+          { [styles.disabled]: disabled },
+          controlClass,
+        )}
         role="button"
         tabIndex={0}
         onMouseDown={handleClick}

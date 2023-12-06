@@ -22,11 +22,12 @@ body {
   --silver: #6c7a86;
   --bronze: #915c1d;
   --eliminated: #2e2e2e;
-  --textOnAccent: var(--text)
+  --textOnAccent: var(--text);
+  --dropdownHover: #676767;
 }
 
 [data-theme="light"] {
-  --backgroundGradient: linear-gradient(142deg, rgb(255, 255, 255) 0%, rgb(231, 231, 231) 50%, rgb(255, 255, 255) 100%);
+  --backgroundGradient: linear-gradient(142deg, rgb(255, 255, 255) 0%, rgb(220, 220, 220) 50%, rgb(255, 255, 255) 100%);
   --cardBackground: #ffffff;
   --accent: #4c5eff;
   --buttonHover: #1d21f5;
@@ -34,7 +35,7 @@ body {
   --contentBackground: #eaeaea;
   --placeholder: #666666;
   --border: #afafaf;
-  --borderHover: #a5a5a5;
+  --borderHover: #606060;
   --text: black;
   --disabled: #b6b6b6;
   --gold: #d7b80d;
@@ -42,4 +43,5 @@ body {
   --bronze: #915c1d;
   --eliminated: #c0c0c0;
   --textOnAccent: white;
+  --dropdownHover: #c4c4c4;
 }

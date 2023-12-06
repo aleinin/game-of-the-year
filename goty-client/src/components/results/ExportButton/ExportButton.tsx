@@ -1,4 +1,3 @@
-import styles from './ExportButton.module.scss'
 import { Export } from '../../../icons/export/Export'
 import { Button, ButtonType } from '../../controls/Button/Button'
 import { downloadCSV } from './downloadCSV'
@@ -21,11 +20,7 @@ export const ExportButton = ({ year }: ExportButtonProps) => {
     })
   }
   return (
-    <Button
-      buttonType={ButtonType.ICON}
-      className={styles.exportButton}
-      onClick={handleExport}
-    >
+    <Button buttonType={ButtonType.ICON} onClick={handleExport}>
       <Export />
     </Button>
   )

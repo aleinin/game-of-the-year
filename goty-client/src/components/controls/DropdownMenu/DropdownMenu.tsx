@@ -1,5 +1,6 @@
 import { CSSProperties, useCallback } from 'react'
 import styles from './DropdownMenu.module.scss'
+import classNames from 'classnames'
 
 export interface DropdownMenuProps<T> {
   options: T[]
@@ -49,7 +50,9 @@ export const DropdownMenu = <T,>({
           <div
             key={label}
             tabIndex={0}
-            className={`${styles.options}${isSelected ? ' is-selected' : ''}`}
+            className={classNames(styles.options, {
+              [styles.isSelected]: isSelected,
+            })}
             onMouseDown={handleSelectCallback(option)}
             onKeyDown={keyDownHandler(option)}
             role="option"

@@ -25,6 +25,9 @@ export const Table = <T = any,>({
   const startIndex = rowsPerPage * pageIndex
   const shownRows = rows.slice(startIndex, startIndex + rowsPerPage)
   useEffect(() => {
+    setPageIndex(0)
+  }, [rows, headers])
+  useEffect(() => {
     const headerElement = header.current
     const bodyElement = body.current
     if (headerElement != null && bodyElement != null) {
@@ -37,6 +40,8 @@ export const Table = <T = any,>({
         bodyElement.style.gridTemplateColumns = gridTemplateColumns
         if (totalPages > 1) {
           bodyElement.style.minHeight = `${rowHeightPx * rowsPerPage}px`
+        } else {
+          bodyElement.style.removeProperty('min-height')
         }
       } else {
         bodyElement.style.removeProperty('grid-template-columns')

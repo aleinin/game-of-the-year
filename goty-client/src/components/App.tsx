@@ -65,7 +65,6 @@ const router = createBrowserRouter([
 
 const AppRoot = () => {
   const { isLoading } = useProperties()
-  // const [isDarkMode, toggleColorMode] = useColorMode()
   if (isLoading) {
     return <Loading></Loading>
   }
@@ -73,12 +72,6 @@ const AppRoot = () => {
   const classes = classNames(styles.page, styles)
   return (
     <div className={classes}>
-      {/*<div className={styles.colorToggle}>*/}
-      {/*  <ColorModeSwitch*/}
-      {/*    isDarkMode={isDarkMode}*/}
-      {/*    onChange={() => toggleColorMode()}*/}
-      {/*  />*/}
-      {/*</div>*/}
       <div className={styles.root}>
         <Header />
         <RouterProvider router={router} />

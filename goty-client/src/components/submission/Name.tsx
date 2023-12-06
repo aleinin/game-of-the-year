@@ -22,14 +22,17 @@ export const Name = ({ name, readonly, handleSetName }: NameProps) => {
   const handleChange = (input: string) =>
     readonly ? () => {} : setLocalName(input)
   return (
-    <Card title="Name:" required={true}>
-      <TextInput
-        id="name"
-        value={readonly ? name : localName}
-        disabled={readonly}
-        onChange={handleChange}
-        placeholder="Your Name"
-      />
+    <Card title="Name:" required={!readonly}>
+      {readonly ? (
+        <div>{name}</div>
+      ) : (
+        <TextInput
+          id="name"
+          value={localName}
+          onChange={handleChange}
+          placeholder="Your Name"
+        />
+      )}
     </Card>
   )
 }

@@ -1,22 +1,20 @@
 import {
   ChangeEvent,
-  CSSProperties,
-  KeyboardEventHandler,
+  DetailedHTMLProps,
+  InputHTMLAttributes,
   useCallback,
 } from 'react'
 import { Spinner } from '../../../icons/spinner/Spinner'
 import styles from './TextInput.module.scss'
+import classNames from 'classnames'
 
-export interface TextInputProps {
-  id: string
+export interface TextInputProps
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
   label?: string
-  value?: string
-  placeholder?: string
-  onChange?: (value: string) => void
-  disabled?: boolean
-  style?: CSSProperties
   isLoading?: boolean
-  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
 export const TextInput = ({
@@ -29,10 +27,12 @@ export const TextInput = ({
   style,
   isLoading = false,
   onKeyDown,
+  className,
+  onBlur,
+  ...props
 }: TextInputProps) => {
   const onChangeCallback = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) =>
-      onChange && onChange(event.target.value),
+    (event: ChangeEvent<HTMLInputElement>) => onChange && onChange(event),
     [onChange],
   )
   return (
@@ -40,7 +40,7 @@ export const TextInput = ({
       {label && <label htmlFor={id}>{label}</label>}
       {isLoading && <Spinner className={styles.loading} />}
       <input
-        className={styles.input}
+        className={classNames(styles.input, className)}
         style={style}
         disabled={disabled}
         onChange={onChangeCallback}
@@ -49,6 +49,8 @@ export const TextInput = ({
         placeholder={placeholder}
         name={id}
         onKeyDown={onKeyDown}
+        onBlur={onBlur}
+        {...props}
       />
     </div>
   )

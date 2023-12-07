@@ -74,7 +74,7 @@ const Controls = ({
           buttonType={ButtonType.ICON}
           disabled={index === 0}
           onClick={() => handleMove(index, MoveDirection.IncreaseRank)}
-          ariaLabel={`Increase ${gameName}'s rank`}
+          aria-label={`Increase ${gameName}'s rank`}
         >
           <ChevronUp />
         </Button>
@@ -82,7 +82,7 @@ const Controls = ({
           buttonType={ButtonType.ICON}
           disabled={index === currentListLength - 1}
           onClick={() => handleMove(index, MoveDirection.DecreaseRank)}
-          ariaLabel={`Decrease ${gameName}'s rank`}
+          aria-label={`Decrease ${gameName}'s rank`}
         >
           <ChevronDown />
         </Button>
@@ -92,7 +92,7 @@ const Controls = ({
       buttonType={ButtonType.ICON}
       className={styles.deleteButton}
       onClick={() => handleDelete()}
-      ariaLabel={`Delete ${gameName}`}
+      aria-label={`Delete ${gameName}`}
     >
       <Minus />
     </Button>

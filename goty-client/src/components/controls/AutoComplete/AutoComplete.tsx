@@ -1,7 +1,13 @@
 import { TextInput } from '../TextInput/TextInput'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { Button } from '../Button/Button'
-import { KeyboardEventHandler, useCallback, useRef, useState } from 'react'
+import {
+  ChangeEventHandler,
+  KeyboardEventHandler,
+  useCallback,
+  useRef,
+  useState,
+} from 'react'
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
 import { useDebouncedEffect } from '../../../util/useDebouncedEffect'
 import styles from './AutoComplete.module.scss'
@@ -12,10 +18,12 @@ export interface AutoCompleteProps<T> {
   placeholder?: string
   value: string
   queryFn?: (query: string) => Promise<any>
-  onChange?: (value: string) => void
+  onChange?: ChangeEventHandler<HTMLInputElement>
   onSelect?: (selected: T) => void
   options: T[]
   accessorFn: (selected: T) => string
+  textInputClass?: string
+  onBlur?: () => void
 }
 
 export const AutoComplete = <T = any,>({
@@ -27,8 +35,10 @@ export const AutoComplete = <T = any,>({
   onSelect,
   options,
   accessorFn,
+  textInputClass,
+  onBlur,
 }: AutoCompleteProps<T>) => {
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   useClickOff(ref, () => setIsOpen(false))
@@ -41,7 +51,8 @@ export const AutoComplete = <T = any,>({
       handleSelect(options[0])
     }
   }
-  const search = useCallback(
+
+  const searchCallback = useCallback(
     (requireValue: boolean) => () => {
       if (queryFn && (value || !requireValue)) {
         setIsLoading(true)
@@ -53,7 +64,11 @@ export const AutoComplete = <T = any,>({
     },
     [value, queryFn],
   )
-  useDebouncedEffect(search(true), [value], 500)
+  const handleFocus = () => {
+    const searchFn = searchCallback(true)
+    searchFn()
+  }
+  useDebouncedEffect(searchCallback(true), [value], 500)
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.comboBox}>
@@ -65,6 +80,9 @@ export const AutoComplete = <T = any,>({
           placeholder={placeholder}
           isLoading={isLoading}
           onKeyDown={handleKey}
+          className={textInputClass}
+          onFocus={handleFocus}
+          onBlur={onBlur}
         />
         {isOpen && (
           <DropdownMenu
@@ -78,8 +96,8 @@ export const AutoComplete = <T = any,>({
       </div>
       <Button
         className={styles.dropdownButton}
-        onClick={search(false)}
-        ariaLabel="Search"
+        onClick={searchCallback(false)}
+        aria-label="Search"
       >
         <ChevronDown />
       </Button>

@@ -1,0 +1,9 @@
+.error {
+  color: var(--required);
+  margin-bottom: 5px;
+  font-size: 0.8em;
+  min-height: 20px;
+}
+.textInputError {
+  border-color: var(--required);;
+}

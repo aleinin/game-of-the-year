@@ -79,7 +79,7 @@ const Header = ({
           <Button
             onClick={() => onLinkClick && onLinkClick()}
             buttonType={ButtonType.ICON}
-            ariaLabel={`Anchor to ${title}`}
+            aria-label={`Anchor to ${title}`}
             className={styles.anchorButton}
           >
             <Link />

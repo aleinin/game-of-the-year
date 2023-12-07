@@ -40,7 +40,7 @@ export const Paginator = ({
         disabled={pageIndex === 0}
         onClick={handleJumpLeft}
         buttonType={ButtonType.ICON}
-        ariaLabel="Jump left"
+        aria-label="Jump left"
       >
         <ChevronDoubleLeft />
       </Button>
@@ -48,7 +48,7 @@ export const Paginator = ({
         disabled={pageIndex === 0}
         onClick={handleLeft}
         buttonType={ButtonType.ICON}
-        ariaLabel="Left"
+        aria-label="Left"
       >
         <ChevronLeft />
       </Button>
@@ -62,7 +62,7 @@ export const Paginator = ({
         disabled={pageIndex >= totalPages - 1}
         onClick={handleRight}
         buttonType={ButtonType.ICON}
-        ariaLabel="Right"
+        aria-label="Right"
       >
         <ChevronRight />
       </Button>
@@ -70,7 +70,7 @@ export const Paginator = ({
         disabled={pageIndex >= totalPages - 1}
         onClick={handleJumpRight}
         buttonType={ButtonType.ICON}
-        ariaLabel="Jump right"
+        aria-label="Jump right"
       >
         <ChevronDoubleRight />
       </Button>

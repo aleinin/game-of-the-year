@@ -1,8 +1,7 @@
 import {
-  CSSProperties,
-  MutableRefObject,
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
   PropsWithChildren,
-  useCallback,
 } from 'react'
 import styles from './Button.module.scss'
 import classNames from 'classnames'
@@ -13,14 +12,12 @@ export enum ButtonType {
   TEXT,
 }
 
-export interface ButtonProps {
-  onClick?: () => void
-  disabled?: boolean
-  style?: CSSProperties
-  className?: string
+export interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   buttonType?: ButtonType
-  ref?: MutableRefObject<any>
-  ariaLabel?: string
 }
 
 const getStyle = (buttonType: ButtonType) => {
@@ -35,25 +32,15 @@ const getStyle = (buttonType: ButtonType) => {
 }
 
 export const Button = ({
-  onClick,
   disabled = false,
   children,
   className,
   buttonType = ButtonType.STANDARD,
-  style,
-  ariaLabel,
+  ...props
 }: PropsWithChildren<ButtonProps>) => {
-  const onClickCallback = useCallback(() => onClick && onClick(), [onClick])
   const buttonClass = classNames(styles.button, getStyle(buttonType), className)
   return (
-    <button
-      aria-label={ariaLabel}
-      tabIndex={0}
-      className={buttonClass}
-      onClick={onClickCallback}
-      disabled={disabled}
-      style={style}
-    >
+    <button tabIndex={0} disabled={disabled} className={buttonClass} {...props}>
       {children}
     </button>
   )

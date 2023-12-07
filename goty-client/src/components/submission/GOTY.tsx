@@ -3,7 +3,7 @@ import { Card } from '../controls/Card/Card'
 import { Game } from '../../models/game'
 import { Rules } from './Rules'
 import { useProperties } from '../../api/useProperties'
-import { Search } from '../controls/Search'
+import { Search } from '../controls/Search/Search'
 import { OrderedList } from '../controls/OrderedList'
 import { InputStateKeyContext } from './useSubmissionForm'
 

@@ -11,6 +11,7 @@ import { useDocumentTitle } from '../../../util/useDocumentTitle'
 import { Game } from '../../../models/game'
 import { Name } from '../Name'
 import { Submission } from '../../../models/submission'
+import { MostDisappointing } from '../MostDisappointing'
 
 interface SubmissionFormProps {
   submission: Submission
@@ -42,6 +43,13 @@ export const SubmissionForm = ({
     handleSetSubmission({
       ...submission,
       mostAnticipated,
+    })
+  }
+
+  const handleSetMostDisappointing = (mostDisappointing: Game | null) => {
+    handleSetSubmission({
+      ...submission,
+      mostDisappointing,
     })
   }
   const handleSetEnteredGiveaway = (enteredGiveaway: boolean) => {
@@ -81,6 +89,12 @@ export const SubmissionForm = ({
         readonly={false}
         mostAnticipated={submission.mostAnticipated}
         handleSetMostAnticipated={handleSetMostAnticipated}
+      />
+      <MostDisappointing
+        readonly={false}
+        mostDisappointing={submission.mostDisappointing}
+        handleSetMostDisappointing={handleSetMostDisappointing}
+        year={properties.year}
       />
       {properties.hasGiveaway ? (
         <Giveaway

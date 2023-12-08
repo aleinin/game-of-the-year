@@ -16,6 +16,7 @@ export const fromBackendSubmissionToSubmission = (
     id: game.id,
   })),
   mostAnticipated: backendSubmission.mostAnticipated,
+  mostDisappointing: backendSubmission.mostDisappointing,
   bestOldGame: backendSubmission.bestOldGame,
   enteredGiveaway: backendSubmission.enteredGiveaway,
 })

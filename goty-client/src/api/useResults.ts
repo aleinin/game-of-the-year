@@ -16,6 +16,7 @@ const initialResults = {
   participants: [],
   gamesOfTheYear: [],
   mostAnticipated: [],
+  mostDisappointing: [],
   bestOldGames: [],
   giveawayParticipants: [],
 }

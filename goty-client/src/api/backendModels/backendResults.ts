@@ -7,6 +7,7 @@ export interface BackendResults {
   participants: string[]
   gamesOfTheYear: GameOfTheYearResult[]
   mostAnticipated: GameResult[]
+  mostDisappointing: GameResult[]
   bestOldGame: GameResult[]
   giveawayParticipants: string[]
 }
@@ -18,6 +19,7 @@ export const fromBackendResultsToResults = (
   participants: backendResults.participants,
   gamesOfTheYear: backendResults.gamesOfTheYear,
   bestOldGames: backendResults.bestOldGame,
+  mostDisappointing: backendResults.mostDisappointing,
   mostAnticipated: backendResults.mostAnticipated,
   giveawayParticipants: backendResults.giveawayParticipants,
 })

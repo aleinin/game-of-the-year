@@ -85,6 +85,7 @@ export const Summary = () => {
       <GOTYResults rows={results.gamesOfTheYear} />
       <BestOldGameResults rows={results.bestOldGames} />
       <MostAnticipatedResults rows={results.mostAnticipated} />
+      <MostDisappointingResults rows={results.mostDisappointing} />
       <GiveawayParticipants rows={results.giveawayParticipants} />
     </>
   )
@@ -138,6 +139,15 @@ const MostAnticipatedResults = ({ rows }: { rows: GameResult[] }) => (
   <ResultsTable
     id="mostAnticipated"
     title="Most Anticipated"
+    rows={rows}
+    headers={gameHeaders}
+    rowStyleFn={getGameResultStyle}
+  />
+)
+const MostDisappointingResults = ({ rows }: { rows: GameResult[] }) => (
+  <ResultsTable
+    id="mostDisappointing"
+    title="Most Disappointing"
     rows={rows}
     headers={gameHeaders}
     rowStyleFn={getGameResultStyle}

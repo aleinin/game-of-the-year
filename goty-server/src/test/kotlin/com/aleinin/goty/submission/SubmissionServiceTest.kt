@@ -138,6 +138,7 @@ class SubmissionServiceTest {
             name = "name",
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game"),
             mostAnticipated = null,
+            mostDisappointing = null,
             bestOldGame = null,
             enteredGiveaway = false
         )
@@ -152,6 +153,7 @@ class SubmissionServiceTest {
             name = "name",
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game1", "game2", "game3", "game4"),
             mostAnticipated = null,
+            mostDisappointing = null,
             bestOldGame = null,
             enteredGiveaway = false
         )
@@ -169,6 +171,7 @@ class SubmissionServiceTest {
                 gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game1", "game2", "game3"),
                 mostAnticipated = null,
                 bestOldGame = null,
+                mostDisappointing = null,
                 enteredGiveaway = false
         )
         val expectedYear = 1970
@@ -182,6 +185,7 @@ class SubmissionServiceTest {
             gamesOfTheYear = request.gamesOfTheYear,
             mostAnticipated = request.mostAnticipated,
             bestOldGame = request.bestOldGame,
+            mostDisappointing = request.mostDisappointing,
             enteredGiveaway = request.enteredGiveaway,
             enteredOn = testTimeMillis,
             updatedOn = testTimeMillis,
@@ -221,6 +225,7 @@ class SubmissionServiceTest {
             name = "name",
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game"),
             mostAnticipated = null,
+            mostDisappointing = null,
             bestOldGame = null,
             enteredGiveaway = false
         )
@@ -239,6 +244,7 @@ class SubmissionServiceTest {
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game1", "game2", "game3", "gaem4"),
             mostAnticipated = null,
             bestOldGame = null,
+            mostDisappointing = null,
             enteredGiveaway = false
         )
         setupBeforeDeadline()
@@ -258,6 +264,7 @@ class SubmissionServiceTest {
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game"),
             mostAnticipated = null,
             bestOldGame = null,
+            mostDisappointing = null,
             enteredGiveaway = false
         )
         whenever(secretSubmissionRepository.findById(id)).thenReturn(Optional.empty())
@@ -276,6 +283,7 @@ class SubmissionServiceTest {
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game"),
             mostAnticipated = null,
             bestOldGame = null,
+            mostDisappointing = null,
             enteredGiveaway = false
         )
         whenever(secretSubmissionRepository.findById(id)).thenReturn(Optional.of(secretSubmission))
@@ -296,6 +304,7 @@ class SubmissionServiceTest {
                 gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game"),
                 mostAnticipated = null,
                 bestOldGame = null,
+                mostDisappointing = null,
                 enteredGiveaway = false
         )
         whenever(secretSubmissionRepository.findById(id)).thenReturn(Optional.of(secretSubmission))
@@ -317,6 +326,7 @@ class SubmissionServiceTest {
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game"),
             mostAnticipated = null,
             bestOldGame = null,
+            mostDisappointing = null,
             enteredGiveaway = false
         )
         val expected = SecretSubmission(
@@ -327,6 +337,7 @@ class SubmissionServiceTest {
             gamesOfTheYear = SubmissionDataHelper.gamesOfTheYear("game"),
             mostAnticipated = null,
             bestOldGame = null,
+            mostDisappointing = null,
             enteredGiveaway = false,
             enteredOn = secretSubmission.enteredOn,
             updatedOn = testTimeMillis

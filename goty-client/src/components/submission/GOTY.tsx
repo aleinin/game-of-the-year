@@ -84,7 +84,7 @@ export const GOTY = ({ games, handleSetGames, readonly }: GOTYProps) => {
         <InputStateKeyContext.Provider value={'goty'}>
           <Search
             year={properties.year}
-            placeholder="Select a game"
+            placeholder="Select games of the year"
             handleSelect={handleAddGame}
           />
         </InputStateKeyContext.Provider>

@@ -27,6 +27,7 @@ export const MostDisappointing = ({
         game={mostDisappointing}
         handleSelect={handleSelect}
         rules={[`Any game released in ${year}`]}
+        placeholder="Select most disappointing game"
         year={year}
       />
     </InputStateKeyContext.Provider>

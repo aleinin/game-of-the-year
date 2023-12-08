@@ -29,6 +29,7 @@ export const BestOldGame = ({
         game={bestOldGame}
         handleSelect={handleSelect}
         rules={rules(properties.year)}
+        placeholder="Select best old game"
       />
     </InputStateKeyContext.Provider>
   )

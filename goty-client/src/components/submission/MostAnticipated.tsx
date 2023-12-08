@@ -27,6 +27,7 @@ export const MostAnticipated = ({
         game={mostAnticipated}
         handleSelect={handleSelect}
         rules={rules}
+        placeholder="Select most anticipated game"
       />
     </InputStateKeyContext.Provider>
   )

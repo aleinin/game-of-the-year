@@ -5,6 +5,7 @@ export interface BackendSubmissionCreationRequest {
   name: string
   gamesOfTheYear: BackendGamesOfTheYear[]
   mostAnticipated: Game | null
+  mostDisappointing: Game | null
   bestOldGame: Game | null
   enteredGiveaway: boolean | null
 }
@@ -18,6 +19,7 @@ export const fromSubmissionToBackendSubmissionCreationRequest = (
     rank: i,
   })),
   mostAnticipated: submission.mostAnticipated,
+  mostDisappointing: submission.mostDisappointing,
   bestOldGame: submission.bestOldGame,
   enteredGiveaway: submission.enteredGiveaway,
 })

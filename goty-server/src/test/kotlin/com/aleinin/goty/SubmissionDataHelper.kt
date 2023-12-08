@@ -23,6 +23,7 @@ class SubmissionDataHelper {
                 name = submission.name,
                 gamesOfTheYear = submission.gamesOfTheYear,
                 mostAnticipated = submission.mostAnticipated,
+                mostDisappointing = submission.mostDisappointing,
                 bestOldGame = submission.bestOldGame,
                 enteredGiveaway = submission.enteredGiveaway,
                 enteredOn = submission.enteredOn,
@@ -56,6 +57,10 @@ class SubmissionDataHelper {
                         aRankedGameResult("Nostalgia", 0, 2),
                         aRankedGameResult("Elder Scrolls V: Skyrim", 1, 1)
                 ),
+                mostDisappointing = listOf(
+                        aRankedGameResult("Over-hyped", 0, 2),
+                        aRankedGameResult("Buggy", 1, 1)
+                ),
                 participants = listOf(theMaximalSubmission(year).name, theMinimalSubmission(year).name, theAverageSubmission(year).name, theTieBreakerSubmission(year).name),
                 giveawayParticipants = listOf(theMaximalSubmission(year).name, theAverageSubmission(year).name)
         )
@@ -76,6 +81,7 @@ class SubmissionDataHelper {
             ),
             mostAnticipated = aGameSubmission("Cant wait"),
             bestOldGame = aGameSubmission("Nostalgia"),
+            mostDisappointing = aGameSubmission("Over-hyped"),
             enteredGiveaway = true,
             enteredOn = 1,
             updatedOn = 2
@@ -88,6 +94,7 @@ class SubmissionDataHelper {
             gamesOfTheYear = gamesOfTheYear("Clicker Pro"),
             mostAnticipated = null,
             bestOldGame = null,
+            mostDisappointing = null,
             enteredGiveaway = false,
             enteredOn = 1,
             updatedOn = 1
@@ -100,6 +107,7 @@ class SubmissionDataHelper {
             gamesOfTheYear = gamesOfTheYear("PlateUp!", "Overwatch 2", "Elden Ring"),
             mostAnticipated = aGameSubmission("Call of Duty XIX"),
             bestOldGame = aGameSubmission("Elder Scrolls V: Skyrim"),
+            mostDisappointing = aGameSubmission("Buggy"),
             enteredGiveaway = true,
             enteredOn = 1,
             updatedOn = 1
@@ -120,6 +128,7 @@ class SubmissionDataHelper {
             ),
             mostAnticipated = aGameSubmission("Cant wait"),
             bestOldGame = aGameSubmission("Nostalgia"),
+            mostDisappointing = aGameSubmission("Over-hyped"),
             enteredGiveaway = false,
             enteredOn = 101,
             updatedOn = 404

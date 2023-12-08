@@ -11,18 +11,28 @@ export interface SingleGameProps {
   readonly: boolean
   game: Game | null
   handleSelect: (val: Game | null) => void
+  year?: number
 }
 
-export const SingleGame = (props: SingleGameProps) => {
+export const SingleGame = ({
+  game,
+  handleSelect,
+  readonly,
+  rules,
+  subtitle,
+  title,
+  year,
+}: SingleGameProps) => {
   return (
-    <Card title={props.title}>
-      {props.subtitle && <span>{props.subtitle}</span>}
-      <Rules readonly={props.readonly} rules={props.rules} />
+    <Card title={title}>
+      {subtitle && <span>{subtitle}</span>}
+      <Rules readonly={readonly} rules={rules} />
       <SearchInPlace
-        readonly={props.readonly}
+        readonly={readonly}
         placeholder="Select a game"
-        game={props.game}
-        handleSelect={props.handleSelect}
+        game={game}
+        handleSelect={handleSelect}
+        year={year}
       />
     </Card>
   )

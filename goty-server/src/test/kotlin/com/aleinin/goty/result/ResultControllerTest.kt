@@ -64,6 +64,7 @@ internal class ResultControllerTest {
             gamesOfTheYear = emptyList(),
             mostAnticipated = emptyList(),
             bestOldGame = emptyList(),
+            mostDisappointing = emptyList(),
             participants = emptyList(),
             giveawayParticipants = emptyList()
         )
@@ -77,30 +78,7 @@ internal class ResultControllerTest {
     @Test
     fun `Should calculate results using properties year by default`() {
         val mockSubmissions = SubmissionDataHelper.secret(SubmissionDataHelper.everything(defaultProperties.year))
-        val expected = ResultResponse(
-            year = defaultProperties.year,
-            gamesOfTheYear = listOf(
-                aScoredGameResult("Call of Duty Modern Warfare II", 30, 2, 0),
-                aScoredGameResult("Clicker Pro", 28, 2, 1),
-                aScoredGameResult("PlateUp!", 26, 2, 2),
-                aScoredGameResult("Stray", 20, 2, 3),
-                aScoredGameResult("Overwatch 2", 19 ,2 ,4),
-                aScoredGameResult("Bayonetta 3", 16, 2, 5),
-                aScoredGameResult("Elden Ring", 15, 2, 6),
-                aScoredGameResult("OlliOlli World", 7, 1,  7),
-                aScoredGameResult("Tiny Tina's Wonderland", 6, 1, 8),
-            ),
-            mostAnticipated = listOf(
-                aRankedGameResult("Cant wait", 0, 2),
-                aRankedGameResult("Call of Duty XIX", 1, 1)
-            ),
-            bestOldGame = listOf(
-                aRankedGameResult("Nostalgia", 0, 2),
-                aRankedGameResult("Elder Scrolls V: Skyrim", 1, 1)
-            ),
-            participants = mockSubmissions.filter { it.year == defaultProperties.year }.map { it.name },
-            giveawayParticipants = mockSubmissions.filter { it.enteredGiveaway && it.year == defaultProperties.year }.map { it.name }
-        )
+        val expected = SubmissionDataHelper.everythingScored(defaultProperties.year)
         whenever(secretSubmissionRepository.findByYear(eq(defaultProperties.year))).thenReturn(mockSubmissions)
         mockMvc.perform(get("/results")
             .contentType("application/json"))
@@ -119,6 +97,7 @@ internal class ResultControllerTest {
                         .mapIndexed { index, it -> aScoredGameResult(it.title, defaultProperties.tiePoints[index], 1, index) },
                 mostAnticipated = listOf(aRankedGameResult(thisYearSubmission.mostAnticipated?.title ?: throw Exception(), 0, 1)),
                 bestOldGame = listOf(aRankedGameResult(thisYearSubmission.bestOldGame?.title ?: throw Exception(), 0, 1)),
+                mostDisappointing = listOf(aRankedGameResult(thisYearSubmission.mostDisappointing?.title ?: throw Exception(), 0, 1)),
                 participants = mockSubmissions.map { it.name },
                 giveawayParticipants = mockSubmissions.filter { it.enteredGiveaway }.map { it.name }
         )
@@ -138,6 +117,7 @@ internal class ResultControllerTest {
                 gamesOfTheYear = emptyList(),
                 mostAnticipated = emptyList(),
                 bestOldGame = emptyList(),
+                mostDisappointing = emptyList(),
                 participants = emptyList(),
                 giveawayParticipants = emptyList()
         )

@@ -5,6 +5,7 @@ data class SubmissionCreationRequest(
     val gamesOfTheYear: List<RankedGameSubmission>,
     val mostAnticipated: GameSubmission?,
     val bestOldGame: GameSubmission?,
+    val mostDisappointing: GameSubmission?,
     val enteredGiveaway: Boolean = false
 ) {
     init {

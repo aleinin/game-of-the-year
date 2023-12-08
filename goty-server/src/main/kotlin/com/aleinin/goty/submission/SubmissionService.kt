@@ -1,5 +1,6 @@
 package com.aleinin.goty.submission
 
+import com.aleinin.goty.properties.Properties
 import com.aleinin.goty.properties.PropertiesService
 import org.springframework.stereotype.Service
 import java.time.Clock
@@ -13,21 +14,32 @@ class SubmissionService(
     private val secretSubmissionRepository: SecretSubmissionRepository,
     private val propertiesService: PropertiesService,
     private val clock: Clock,
+    private val uuidService: UUIDService
 ) {
 
-    fun getAllSubmissions(): List<Submission> = submissionRepository.findAllSubmissions()
+    fun getSubmissionsForYear(year: Int): List<Submission> = submissionRepository.findSubmissionsByYear(year)
 
-    fun getAllSecretSubmissions(): List<SecretSubmission> = secretSubmissionRepository.findAll()
+    fun getAllSecretSubmissions(year: Int?): List<SecretSubmission> =
+        if (year != null) secretSubmissionRepository.findByYear(year)
+        else secretSubmissionRepository.findAll()
 
-    fun getSubmission(id: UUID): Optional<Submission> = submissionRepository.findSubmissionById(id)
+    fun getSubmissionYears(): List<Int> {
+        val distinctYears = submissionRepository.findSubmissionYears()
+        val thisYear = propertiesService.getThisYear()
+        val years = if (distinctYears.contains(thisYear)) distinctYears else distinctYears.plus(thisYear)
+        return years.sortedDescending()
+    }
+
+    fun getSubmission(id: UUID, year: Int): Optional<Submission> = submissionRepository.findSubmissionByIdAndYear(id, year)
 
     fun saveSubmission(submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
-        validateAddUpdate(submissionCreationRequest.gamesOfTheYear) {
+        validateAddSubmission(submissionCreationRequest.gamesOfTheYear) {
             secretSubmissionRepository.save(
                 SecretSubmission(
-                    id = UUID.randomUUID(),
-                    secret = UUID.randomUUID(),
+                    id = uuidService.randomID(),
+                    secret = uuidService.randomSecret(),
                     name = submissionCreationRequest.name,
+                    year = propertiesService.getThisYear(),
                     gamesOfTheYear = submissionCreationRequest.gamesOfTheYear,
                     mostAnticipated = submissionCreationRequest.mostAnticipated,
                     bestOldGame = submissionCreationRequest.bestOldGame,
@@ -37,52 +49,55 @@ class SubmissionService(
                 )
             )
         }
-
     fun updateSubmission(id: UUID, submissionUpdateRequest: SubmissionUpdateRequest): Optional<Submission> =
-        validateAddUpdate(submissionUpdateRequest.gamesOfTheYear) {
-            secretSubmissionRepository
-                .findById(id)
-                .filter { it.secret == submissionUpdateRequest.secret }
+            validateUpdateSubmission(secretSubmissionRepository.findById(id), submissionUpdateRequest)
                 .map {
                     it.copy(
-                        name = submissionUpdateRequest.name,
-                        gamesOfTheYear = submissionUpdateRequest.gamesOfTheYear,
-                        mostAnticipated = submissionUpdateRequest.mostAnticipated,
-                        bestOldGame = submissionUpdateRequest.bestOldGame,
-                        enteredGiveaway = submissionUpdateRequest.enteredGiveaway,
-                        updatedOn = clock.millis(),
+                            name = submissionUpdateRequest.name,
+                            gamesOfTheYear = submissionUpdateRequest.gamesOfTheYear,
+                            mostAnticipated = submissionUpdateRequest.mostAnticipated,
+                            bestOldGame = submissionUpdateRequest.bestOldGame,
+                            enteredGiveaway = submissionUpdateRequest.enteredGiveaway,
+                            updatedOn = clock.millis(),
                     )
                 }
                 .map { secretSubmissionRepository.save(it) }
                 .map { it.toSubmission() }
-        }
 
-    fun deleteAllSubmissions(override: Boolean) =
-        validateDeleteAll(override) {
-            submissionRepository.deleteAllSubmissions()
-        }
 
     fun deleteSubmission(id: UUID): Optional<Unit> =
         submissionRepository.findSubmissionById(id)
             .map { submissionRepository.deleteSubmissionById(id) }
 
-    private fun <T> validateAddUpdate(gamesOfTheYear: List<RankedGameSubmission>, perform: () -> T): T {
+    private fun validateAddSubmission(gamesOfTheYear: List<RankedGameSubmission>, perform: () -> SecretSubmission): SecretSubmission {
         val properties = propertiesService.getProperties()
+        validateDeadlineAndGames(properties, gamesOfTheYear)
+        return perform()
+    }
+
+    private fun validateUpdateSubmission(
+            optionalSecretSubmission: Optional<SecretSubmission>,
+            request: SubmissionUpdateRequest,
+    ): Optional<SecretSubmission> {
+        val properties = propertiesService.getProperties()
+        validateDeadlineAndGames(properties, request.gamesOfTheYear)
+        if (optionalSecretSubmission.isPresent) {
+            val secretSubmission = optionalSecretSubmission.get()
+            if (secretSubmission.secret != request.secret) {
+                throw IncorrectSecretException("Incorrect secret.")
+            }
+            if (secretSubmission.year != properties.year) {
+                throw AfterDeadlineException("Submission year ${secretSubmission.year} has ended. Submission year ${properties.year} is in progress.")
+            }
+        }
+        return optionalSecretSubmission
+    }
+
+    private fun validateDeadlineAndGames(properties: Properties, gamesOfTheYear: List<RankedGameSubmission>) {
         if (afterDeadline(properties.deadline)) {
             throw AfterDeadlineException("Submission deadline of ${properties.deadline} has been met.")
         } else if (tooManyGamesOfTheYear(gamesOfTheYear, properties.tiePoints)) {
             throw TooManyGamesException("Too many games of the year. The maximum allowed is ${properties.tiePoints.size}.")
-        } else {
-            return perform()
-        }
-    }
-
-    private fun validateDeleteAll(override: Boolean, perform: () -> Unit) {
-        val properties = propertiesService.getProperties()
-        if (!override && !afterDeadline(properties.deadline)) {
-            throw OverrideRequiredException("Submission deadline of ${properties.deadline} has not been met. You must override to delete all submissions.")
-        } else {
-            return perform()
         }
     }
 

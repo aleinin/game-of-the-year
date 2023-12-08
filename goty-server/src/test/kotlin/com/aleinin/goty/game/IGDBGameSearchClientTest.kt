@@ -25,7 +25,7 @@ internal class IGDBGameSearchClientTest {
     @Captor
     lateinit var queryCaptor: ArgumentCaptor<String>
 
-    lateinit var client: IGDBGameSearchClient
+    private lateinit var client: IGDBGameSearchClient
 
     private val mockApiResponse = """
             [

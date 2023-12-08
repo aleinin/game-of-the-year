@@ -1,21 +1,16 @@
-.export-button {
-  position: absolute;
-  right: 5px;
-  z-index: 1;
-}
-
-.results-controls {
+.controls {
   display: grid;
   grid-template-columns: 3fr 1fr;
   row-gap: 15px;
 }
 
-.tabs-export {
+.tabsExport {
+  grid-row-start: 2;
   grid-column-start: 1;
   grid-column-end: 3;
 }
 
-.year-dropdown {
+.yearsDropdown {
   grid-row-start: 1;
   grid-column-start: 2;
 }

@@ -38,6 +38,9 @@ export const Table = <T = any,>({
         if (totalPages > 1) {
           bodyElement.style.minHeight = `${rowHeightPx * rowsPerPage}px`
         }
+      } else {
+        bodyElement.style.removeProperty('grid-template-columns')
+        bodyElement.style.removeProperty('min-height')
       }
     }
   }, [headers, header, body, rowsPerPage, rows, totalPages])

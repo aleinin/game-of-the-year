@@ -5,6 +5,7 @@ import java.util.UUID
 fun SecretSubmission.toSubmission() = Submission(
     id = this.id,
     name = this.name,
+    year = this.year,
     gamesOfTheYear = this.gamesOfTheYear,
     mostAnticipated = this.mostAnticipated,
     bestOldGame = this.bestOldGame,
@@ -17,6 +18,7 @@ data class SecretSubmission(
     val id: UUID,
     val secret: UUID,
     val name: String,
+    val year: Int,
     val gamesOfTheYear: List<RankedGameSubmission>,
     val mostAnticipated: GameSubmission?,
     val bestOldGame: GameSubmission?,

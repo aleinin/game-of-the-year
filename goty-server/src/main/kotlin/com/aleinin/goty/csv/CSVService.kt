@@ -1,7 +1,7 @@
 package com.aleinin.goty.csv
 
-import com.aleinin.goty.properties.Properties
 import com.aleinin.goty.properties.PropertiesService
+import com.aleinin.goty.result.ResultResponse
 import com.aleinin.goty.result.ResultService
 import com.aleinin.goty.submission.Submission
 import com.aleinin.goty.submission.SubmissionService
@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service
 import java.io.StringWriter
 import java.time.Instant
 
-fun CSVPrinter.printSection(header: String, columnHeaders: Array<String>?, rows: List<Array<Any>>, newLine: Boolean = true) {
-    if (newLine) {
-        this.printRecord()
-    }
+fun CSVPrinter.printSection(header: String, columnHeaders: Array<String>?, rows: List<Array<Any>>) {
+    this.printRecord()
     this.printRecord(header)
     if (columnHeaders != null) {
         this.printRecord(*columnHeaders)
@@ -33,6 +31,7 @@ class CSVService(
     private val propertiesService: PropertiesService
 ) {
     companion object {
+        private const val YEAR_LABEL = "Year"
         private const val RESPONDENTS_HEADER = "Respondents"
         private const val GOTY_HEADER = "Games of the Year"
         private val gotyColumns = arrayOf("Rank", "Title", "Votes", "Points")
@@ -41,33 +40,35 @@ class CSVService(
         private val gameColumns = arrayOf("Rank", "Title", "Votes")
         private const val GIVEAWAY_ENTRIES_HEADER = "Giveaway Entries"
         private const val SUBMISSIONS_HEADER = "Submissions"
-        private const val PROPERTIES_HEADER = "Properties"
         private val staticSubmissionColumns = arrayOf("ID", "Entered on", "Updated on", "Name", "Best Old Game", "Most Anticipated", "Entered Giveaway")
-        private val propertiesColumns = arrayOf("title", "year", "gotyQuestionTitle", "gotyQuestionQuestion", "gotyQuestionRules", "tiePoints", "deadline", "hasGiveaway", "giveawayAmountUSD", "defaultLocalTimeZone")
     }
 
-    fun dumpToCSV(): String {
+    fun dumpToCSV(year: Int): String {
         val properties = propertiesService.getProperties()
-        val submissions = submissionService.getAllSubmissions()
+        val submissions = submissionService.getSubmissionsForYear(year)
+        val results = resultsService.calculate(submissions, year)
         val stringWriter = StringWriter()
         val csvPrinter = CSVPrinter(stringWriter, CSVFormat.DEFAULT)
-        printSummary(csvPrinter, submissions)
-        printSubmissions(csvPrinter, submissions, properties)
-        printProperties(csvPrinter, properties)
+        printYear(csvPrinter, year)
+        printSummary(csvPrinter, results)
+        printSubmissions(csvPrinter, submissions, properties.tiePoints)
         return stringWriter.toString()
     }
 
-    private fun printSummary(csvPrinter: CSVPrinter, submissions: List<Submission>) {
-        val results = resultsService.calculate(submissions)
-        csvPrinter.printSection(RESPONDENTS_HEADER, null, results.participants.map { arrayOf(it) }, false)
+    private fun printYear(csvPrinter: CSVPrinter, year: Int) {
+        csvPrinter.printRecord(YEAR_LABEL, year)
+    }
+
+    private fun printSummary(csvPrinter: CSVPrinter, results: ResultResponse) {
+        csvPrinter.printSection(RESPONDENTS_HEADER, null, results.participants.map { arrayOf(it) })
         csvPrinter.printSection(GOTY_HEADER, gotyColumns, results.gamesOfTheYear.map {arrayOf(it.rank + 1, it.title, it.votes, it.points)})
         csvPrinter.printSection(BEST_OLD_GAME_HEADER, gameColumns, results.bestOldGame.map {arrayOf(it.rank + 1, it.title, it.votes)})
         csvPrinter.printSection(MOST_ANTICIPATED_HEADER, gameColumns, results.mostAnticipated.map {arrayOf(it.rank + 1, it.title, it.votes)})
         csvPrinter.printSection(GIVEAWAY_ENTRIES_HEADER, null, results.giveawayParticipants.map { arrayOf(it) })
     }
 
-    private fun printSubmissions(csvPrinter: CSVPrinter, submissions: List<Submission>, properties: Properties) {
-        val columns = staticSubmissionColumns.plus(getTiePointHeaders(properties.tiePoints))
+    private fun printSubmissions(csvPrinter: CSVPrinter, submissions: List<Submission>, tiePoints: List<Int>) {
+        val columns = staticSubmissionColumns.plus(getTiePointHeaders(tiePoints))
         val submissionRows: List<Array<Any>> = submissions.map { arrayOf(
                 it.id,
                 Instant.ofEpochMilli(it.enteredOn),
@@ -79,21 +80,6 @@ class CSVService(
                 *it.gamesOfTheYear.map { game -> game.title }.toTypedArray()
         ) }
         csvPrinter.printSection(SUBMISSIONS_HEADER, columns, submissionRows)
-    }
-
-    private fun printProperties(csvPrinter: CSVPrinter, properties: Properties) {
-        csvPrinter.printSection(PROPERTIES_HEADER, propertiesColumns, listOf(arrayOf(
-                properties.title,
-                properties.year,
-                properties.gotyQuestion.title,
-                properties.gotyQuestion.question,
-                properties.gotyQuestion.rules,
-                properties.tiePoints,
-                properties.deadline,
-                properties.hasGiveaway,
-                properties.giveawayAmountUSD,
-                properties.defaultLocalTimeZone ?: "None"
-        )))
     }
 
     private fun getTiePointHeaders(tiePoints: List<Int>): List<String> = List(tiePoints.size) { index -> indexToOrdinal(index)}

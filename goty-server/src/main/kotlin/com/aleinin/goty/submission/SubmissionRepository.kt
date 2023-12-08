@@ -6,11 +6,14 @@ import java.util.UUID
 
 @Repository
 class SubmissionRepository(private val secretSubmissionRepository: SecretSubmissionRepository) {
-    fun findAllSubmissions() = secretSubmissionRepository.findAll().map { it.toSubmission() }
+    fun findSubmissionYears() = secretSubmissionRepository.findAll().map { it.year }.distinct()
+
+    fun findSubmissionsByYear(year:  Int) = secretSubmissionRepository.findByYear(year).map { it.toSubmission() }
 
     fun findSubmissionById(id: UUID): Optional<Submission> = secretSubmissionRepository.findById(id).map { it.toSubmission() }
 
-    fun deleteAllSubmissions() = secretSubmissionRepository.deleteAll()
+    fun findSubmissionByIdAndYear(id: UUID, year: Int): Optional<Submission> =
+            secretSubmissionRepository.findByIdAndYear(id, year).map { it.toSubmission() }
 
     fun deleteSubmissionById(id: UUID) = secretSubmissionRepository.deleteById(id)
 }

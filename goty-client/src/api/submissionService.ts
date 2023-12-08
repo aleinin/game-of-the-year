@@ -16,11 +16,21 @@ export const SubmissionService = {
   getSubmission: (submissionUUID: string): Promise<Submission> =>
     fetcher
       .get<BackendSubmission>(`/submissions/${submissionUUID}`)
-      .then(fromBackendSubmissionToSubmission),
-  getSubmissions: (): Promise<Submission[]> =>
+      .then(fromBackendSubmissionToSubmission)
+      .catch((error) => {
+        console.log(error?.cause?.status)
+        if (error?.cause?.status === 404) {
+          localStorageService.clearIds()
+          window.location.reload()
+        }
+        throw new Error(error)
+      }),
+  getSubmissions: (year: number): Promise<Submission[]> =>
     fetcher
-      .get<BackendSubmission[]>('/submissions')
+      .get<BackendSubmission[]>(`/submissions?year=${year}`)
       .then((response) => response.map(fromBackendSubmissionToSubmission)),
+  getSubmissionYears: (): Promise<number[]> =>
+    fetcher.get<number[]>('/submissions/years'),
   createSubmission: (submission: Submission): Promise<Submission> =>
     fetcher
       .post<BackendSubmissionCreationRequest, BackendSecretSubmission>(

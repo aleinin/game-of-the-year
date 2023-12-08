@@ -1,51 +1,56 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Outlet, useLocation } from 'react-router-dom'
-import { Card } from '../controls/Card/Card'
-import { TabButtons } from '../controls/Tabs/Tabs'
-import { ExportButton } from './ExportButton/ExportButton'
+import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { useDocumentTitle } from '../../util/useDocumentTitle'
 import { uppercaseFirstLetter } from '../../util/uppercaseFirstLetter'
+import { ResultsControls } from './ResultsControls/ResultsControls'
+import { useProperties } from '../../api/useProperties'
 
-export enum Tabs {
+export enum Tab {
   SUMMARY = 'summary',
   RESPONSES = 'responses',
 }
 
-const tabs = [Tabs.SUMMARY, Tabs.RESPONSES]
+const tabs = [Tab.SUMMARY, Tab.RESPONSES]
 
 const pathRegex = new RegExp(/\/results\/?/)
-const getActiveTab = (path: string) => {
-  if (path.includes(`/${Tabs.SUMMARY}`)) {
-    return Tabs.SUMMARY
+const getSelectedTab = (path: string) => {
+  if (path.includes(`/${Tab.SUMMARY}`)) {
+    return Tab.SUMMARY
   }
-  if (path.includes(`/${Tabs.RESPONSES}`)) {
-    return Tabs.RESPONSES
+  if (path.includes(`/${Tab.RESPONSES}`)) {
+    return Tab.RESPONSES
   }
   if (!pathRegex.test(path)) {
     console.warn(`Unknown path: ${path}`)
   }
-  return Tabs.SUMMARY
+  return Tab.SUMMARY
 }
 
 export const ResultsPage = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const activeTab = getActiveTab(pathname)
-  useDocumentTitle(`GOTY - ${uppercaseFirstLetter(activeTab)}`)
+  const selectedTab = getSelectedTab(pathname)
+  const { properties } = useProperties()
+  const [selectedYear, setSelectedYear] = useState(properties.year)
+  useDocumentTitle(`GOTY - ${uppercaseFirstLetter(selectedTab)}`)
   const handleTabChange = (tab: string) => navigate(`${tab}`)
 
   return (
     <>
-      <Card style={{ position: 'relative' }}>
-        <ExportButton />
-        <TabButtons
-          tabs={tabs}
-          onChange={handleTabChange}
-          selectedTab={activeTab}
-        />
-      </Card>
-      <Outlet />
+      <ResultsControls
+        tabs={tabs}
+        handleTabChange={handleTabChange}
+        selectedTab={selectedTab}
+        handleYearChange={setSelectedYear}
+        selectedYear={selectedYear}
+      />
+
+      <Outlet context={selectedYear} />
     </>
   )
+}
+
+export const useYear = () => {
+  return useOutletContext<number>()
 }

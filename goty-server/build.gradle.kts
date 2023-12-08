@@ -54,3 +54,7 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs = listOf("-Xjsr305=strict")
     }
 }
+
+tasks.withType<Test> {
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
+}

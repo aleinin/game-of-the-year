@@ -1,0 +1,68 @@
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 35px;
+  border-radius: 34px;
+  background: var(--cardBackground);
+  color: var(--text);
+  border: 2px solid var(--text);
+  cursor: pointer;
+  overflow: hidden
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition: .4s;
+  transition: .4s;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.sun {
+  &:hover {
+    svg {
+      animation: sun 6s linear infinite;
+    }
+  }
+
+  @keyframes sun {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+}
+
+.moon {
+  &:hover {
+    svg {
+      animation: moon 1.5s linear infinite;
+    }
+  }
+
+  @keyframes moon {
+    50% {
+      transform: rotate(25deg)
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+
+input:checked + .slider {
+  transform: translateX(40px);
+}

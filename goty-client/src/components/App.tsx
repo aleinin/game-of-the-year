@@ -2,7 +2,6 @@ import { Header } from './Header'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Recovery } from './Recovery'
 import { SubmissionRouter } from './submission/SubmissionRouter'
-import React from 'react'
 import { Loading } from './Loading'
 import { Footer } from './Footer'
 import styles from './App.module.scss'
@@ -13,6 +12,7 @@ import { Response } from './results/Response'
 import { useProperties } from '../api/useProperties'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import classNames from 'classnames'
 
 export const App = () => {
   const queryClient = new QueryClient()
@@ -68,8 +68,10 @@ const AppRoot = () => {
   if (isLoading) {
     return <Loading></Loading>
   }
+
+  const classes = classNames(styles.page, styles)
   return (
-    <div className={styles.page}>
+    <div className={classes}>
       <div className={styles.root}>
         <Header />
         <RouterProvider router={router} />

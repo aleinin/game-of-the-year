@@ -1,5 +1,3 @@
-@import "@/src/colors";
-
 .container {
   border-radius: 25px;
   padding: 10px 15px;
@@ -12,7 +10,7 @@
   justify-content: space-between;
   vertical-align: center;
   align-items: center;
-  background-color: $contentBackgroundLight;
+  background-color: var(--contentBackground);
 }
 
 .margin-right-5 {
@@ -25,8 +23,9 @@
   flex-wrap: nowrap;
 
   .delete-button {
+    &:focus,
     &:hover {
-      color: $required;
+      color: var(--required);
     }
   }
 }

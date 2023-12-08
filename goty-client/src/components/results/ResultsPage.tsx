@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { useDocumentTitle } from '../../util/useDocumentTitle'
@@ -34,7 +34,8 @@ export const ResultsPage = () => {
   const { properties } = useProperties()
   const [selectedYear, setSelectedYear] = useState(properties.year)
   useDocumentTitle(`GOTY - ${uppercaseFirstLetter(selectedTab)}`)
-  const handleTabChange = (tab: string) => navigate(`${tab}`)
+  const handleTabChange = (tab: string) =>
+    navigate(`${tab}${tab === Tab.RESPONSES ? '/1' : ''}`)
 
   return (
     <>

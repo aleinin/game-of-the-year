@@ -2,21 +2,24 @@ import { ChevronDoubleLeft } from '../../../icons/chevron/ChevronDoubleLeft'
 import { ChevronLeft } from '../../../icons/chevron/ChevronLeft'
 import { ChevronRight } from '../../../icons/chevron/ChevronRight'
 import { ChevronDoubleRight } from '../../../icons/chevron/ChevronDoubleRight'
-import { Button } from '../Button/Button'
+import { Button, ButtonType } from '../Button/Button'
 import { useCallback } from 'react'
 import styles from './Paginator.module.scss'
+import classNames from 'classnames'
 
 export interface PaginatorProps {
   totalPages: number
   pageIndex: number
   setIndex: (newIndex: number) => void
   showTotalPages?: boolean
+  className?: string
 }
 export const Paginator = ({
   pageIndex,
   totalPages,
   setIndex,
   showTotalPages = false,
+  className,
 }: PaginatorProps) => {
   const handleJumpLeft = useCallback(() => setIndex && setIndex(0), [setIndex])
   const handleJumpRight = useCallback(
@@ -32,11 +35,21 @@ export const Paginator = ({
     [setIndex, pageIndex, totalPages],
   )
   return (
-    <div className={styles.paginator}>
-      <Button disabled={pageIndex === 0} onClick={handleJumpLeft} isIcon>
+    <div className={classNames(styles.paginator, className)}>
+      <Button
+        disabled={pageIndex === 0}
+        onClick={handleJumpLeft}
+        buttonType={ButtonType.ICON}
+        aria-label="Jump left"
+      >
         <ChevronDoubleLeft />
       </Button>
-      <Button disabled={pageIndex === 0} onClick={handleLeft} isIcon>
+      <Button
+        disabled={pageIndex === 0}
+        onClick={handleLeft}
+        buttonType={ButtonType.ICON}
+        aria-label="Left"
+      >
         <ChevronLeft />
       </Button>
       <div className={styles.index}>
@@ -48,14 +61,16 @@ export const Paginator = ({
       <Button
         disabled={pageIndex >= totalPages - 1}
         onClick={handleRight}
-        isIcon
+        buttonType={ButtonType.ICON}
+        aria-label="Right"
       >
         <ChevronRight />
       </Button>
       <Button
         disabled={pageIndex >= totalPages - 1}
         onClick={handleJumpRight}
-        isIcon
+        buttonType={ButtonType.ICON}
+        aria-label="Jump right"
       >
         <ChevronDoubleRight />
       </Button>

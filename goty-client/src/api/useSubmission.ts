@@ -8,6 +8,7 @@ const defaultSubmission: Submission = {
   gamesOfTheYear: [],
   bestOldGame: null,
   mostAnticipated: null,
+  mostDisappointing: null,
   enteredGiveaway: null,
 }
 

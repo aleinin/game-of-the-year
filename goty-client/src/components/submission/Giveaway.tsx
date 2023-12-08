@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card } from '../controls/Card/Card'
 import { RadioOption, RadioSet } from '../controls/RadioSet/RadioSet'
 import { Rules } from './Rules'
@@ -40,7 +39,7 @@ export const Giveaway = ({
     },
   ]
   return (
-    <Card title={'Giveaway'} required={true}>
+    <Card title={'Giveaway'} required={!readonly}>
       <span>{`Do you want to enter the $${properties.giveawayAmountUSD} Steam GC Giveaway?`}</span>
       <Rules readonly={readonly} rules={rules(properties.deadline)} />
       <RadioSet

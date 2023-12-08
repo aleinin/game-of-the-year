@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card } from '../../controls/Card/Card'
 import { Giveaway } from '../Giveaway'
 import { GOTY } from '../GOTY'
@@ -10,63 +9,61 @@ import { useProperties } from '../../../api/useProperties'
 import { useDocumentTitle } from '../../../util/useDocumentTitle'
 import { Game } from '../../../models/game'
 import { Name } from '../Name'
-import { Submission } from '../../../models/submission'
 import { MostDisappointing } from '../MostDisappointing'
+import { SubmissionInputContext, useSubmissionForm } from '../useSubmissionForm'
 
 interface SubmissionFormProps {
-  submission: Submission
-  handleSetSubmission: (submission: Submission) => void
-  handleSubmitSubmission: () => void
-  isValid: boolean
+  handleDone: () => void
+  handleError: (error: any) => void
 }
 export const SubmissionForm = ({
-  submission,
-  handleSetSubmission,
-  handleSubmitSubmission,
-  isValid,
+  handleDone,
+  handleError,
 }: SubmissionFormProps) => {
   const { properties } = useProperties()
+  const { submission, setSubmission, isValid, isDirty, inputs, handleSubmit } =
+    useSubmissionForm(handleDone, handleError)
 
   const handleSetName = (name: string) => {
-    handleSetSubmission({
+    setSubmission({
       ...submission,
       name,
     })
   }
   const handleSetBestOldGame = (bestOldGame: Game | null) => {
-    handleSetSubmission({
+    setSubmission({
       ...submission,
       bestOldGame,
     })
   }
   const handleSetMostAnticipated = (mostAnticipated: Game | null) => {
-    handleSetSubmission({
+    setSubmission({
       ...submission,
       mostAnticipated,
     })
   }
 
   const handleSetMostDisappointing = (mostDisappointing: Game | null) => {
-    handleSetSubmission({
+    setSubmission({
       ...submission,
       mostDisappointing,
     })
   }
   const handleSetEnteredGiveaway = (enteredGiveaway: boolean) => {
-    handleSetSubmission({
+    setSubmission({
       ...submission,
       enteredGiveaway,
     })
   }
   const handleSetGames = (gamesOfTheYear: Game[]) => {
-    handleSetSubmission({
+    setSubmission({
       ...submission,
       gamesOfTheYear,
     })
   }
   useDocumentTitle('GOTY - Submission')
   return (
-    <>
+    <SubmissionInputContext.Provider value={inputs}>
       <Card>
         <span className={styles.required}>* Required</span>
       </Card>
@@ -105,11 +102,11 @@ export const SubmissionForm = ({
       ) : null}
       <Button
         className={styles.submitButton}
-        disabled={!isValid}
-        onClick={handleSubmitSubmission}
+        disabled={!(isValid && isDirty)}
+        onClick={handleSubmit}
       >
         Submit
       </Button>
-    </>
+    </SubmissionInputContext.Provider>
   )
 }

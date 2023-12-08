@@ -18,8 +18,8 @@ class PropertiesController(
     @GetMapping("/properties")
     fun getProperties(@RequestParam(required = false) localTimeZone: ZoneId?) = propertiesService.getPropertiesResponse(localTimeZone)
 
-    @PutMapping("/properties")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/properties")
     fun putProperties(
             @RequestParam(required = false) localTimeZone: ZoneId?,
             @RequestBody request: Properties

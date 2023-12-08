@@ -1,9 +1,8 @@
-@import "@/src/colors";
-
 .submit-button {
   width: 100%;
+  color: var(--textOnAccent);
 }
 
 .required {
-  color: $required
+  color: var(--required)
 }

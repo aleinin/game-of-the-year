@@ -1,11 +1,11 @@
-import React from 'react'
 import { indexToOrdinal } from '../../util/indexToOrdinal'
 import { Card } from '../controls/Card/Card'
 import { Game } from '../../models/game'
 import { Rules } from './Rules'
 import { useProperties } from '../../api/useProperties'
-import { Search } from '../controls/Search'
+import { Search } from '../controls/Search/Search'
 import { OrderedList } from '../controls/OrderedList'
+import { InputStateKeyContext } from './useSubmissionForm'
 
 export enum MoveDirection {
   IncreaseRank,
@@ -76,16 +76,18 @@ export const GOTY = ({ games, handleSetGames, readonly }: GOTYProps) => {
     }
   }
   return (
-    <Card title={properties.gotyQuestion.title} required={true}>
+    <Card title={properties.gotyQuestion.title} required={!readonly}>
       <span>{properties.gotyQuestion.question}</span>
       <Rules readonly={readonly} rules={properties.gotyQuestion.rules} />
       {!readonly && getTieBreaker(properties.tiePoints)}
       {readonly || games.length === properties.tiePoints.length ? null : (
-        <Search
-          year={properties.year}
-          placeholder="Select a game"
-          handleSelect={handleAddGame}
-        />
+        <InputStateKeyContext.Provider value={'goty'}>
+          <Search
+            year={properties.year}
+            placeholder="Select games of the year"
+            handleSelect={handleAddGame}
+          />
+        </InputStateKeyContext.Provider>
       )}
       <OrderedList
         games={games}

@@ -1,4 +1,3 @@
-import React from 'react'
 import { SearchInPlace } from './SearchInPlace/SearchInPlace'
 import { Rules } from '../submission/Rules'
 import { Card } from './Card/Card'
@@ -12,6 +11,7 @@ export interface SingleGameProps {
   game: Game | null
   handleSelect: (val: Game | null) => void
   year?: number
+  placeholder?: string
 }
 
 export const SingleGame = ({
@@ -22,6 +22,7 @@ export const SingleGame = ({
   subtitle,
   title,
   year,
+  placeholder,
 }: SingleGameProps) => {
   return (
     <Card title={title}>
@@ -29,7 +30,7 @@ export const SingleGame = ({
       <Rules readonly={readonly} rules={rules} />
       <SearchInPlace
         readonly={readonly}
-        placeholder="Select a game"
+        placeholder={placeholder ?? 'Select a game'}
         game={game}
         handleSelect={handleSelect}
         year={year}

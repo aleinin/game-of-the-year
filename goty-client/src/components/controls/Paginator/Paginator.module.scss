@@ -1,12 +1,12 @@
-@import "@/src/colors";
-
 .paginator {
   height: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
 }
 
 .index {
-  color: $text;
+  color: var(--text);
   display: flex;
   align-items: center;
+  justify-content: center;
 }

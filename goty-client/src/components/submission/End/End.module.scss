@@ -1,5 +1,3 @@
-@import "@/src/colors";
-
 .link {
   background-color: transparent;
   border: none;
@@ -10,14 +8,14 @@
   padding: 0;
   font-size: inherit;
   font-family: inherit;
-  color: $accent;
+  color: var(--accent);
   font-weight: bold;
 }
 
 .recovery-link {
-  color: $text;
+  color: var(--text);
 
   &:hover {
-    color: $accent;
+    color: var(--accent);
   }
 }

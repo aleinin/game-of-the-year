@@ -1,6 +1,5 @@
 import { Card } from '../controls/Card/Card'
 import { Summary } from '../results/Summary/Summary'
-import React from 'react'
 
 export const Concluded = ({ year }: { year: number }) => {
   return (

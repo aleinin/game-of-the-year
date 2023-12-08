@@ -1,6 +1,7 @@
 import { Game } from '../../models/game'
 import { useProperties } from '../../api/useProperties'
 import { SingleGame } from '../controls/SingleGame'
+import { InputStateKeyContext } from './useSubmissionForm'
 
 export interface BestOldGameProps {
   readonly: boolean
@@ -20,13 +21,16 @@ export const BestOldGame = ({
     handleSetBestOldGame && handleSetBestOldGame(bestOldGame)
   }
   return (
-    <SingleGame
-      title="Best Old Game"
-      subtitle={`What is your favorite old game of ${properties.year}?`}
-      readonly={readonly}
-      game={bestOldGame}
-      handleSelect={handleSelect}
-      rules={rules(properties.year)}
-    />
+    <InputStateKeyContext.Provider value={'bestOldGame'}>
+      <SingleGame
+        title="Best Old Game"
+        subtitle={`What is your favorite old game of ${properties.year}?`}
+        readonly={readonly}
+        game={bestOldGame}
+        handleSelect={handleSelect}
+        rules={rules(properties.year)}
+        placeholder="Select best old game"
+      />
+    </InputStateKeyContext.Provider>
   )
 }

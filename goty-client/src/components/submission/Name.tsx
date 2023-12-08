@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useDebouncedEffect } from '../../util/useDebouncedEffect'
 import { TextInput } from '../controls/TextInput/TextInput'
 import { Card } from '../controls/Card/Card'
@@ -19,17 +19,20 @@ export const Name = ({ name, readonly, handleSetName }: NameProps) => {
     [localName],
     500,
   )
-  const handleChange = (input: string) =>
-    readonly ? () => {} : setLocalName(input)
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
+    readonly ? () => {} : setLocalName(event.target.value)
   return (
-    <Card title="Name:" required={true}>
-      <TextInput
-        id="name"
-        value={readonly ? name : localName}
-        disabled={readonly}
-        onChange={handleChange}
-        placeholder="Your Name"
-      />
+    <Card title="Name:" required={!readonly}>
+      {readonly ? (
+        <div>{name}</div>
+      ) : (
+        <TextInput
+          id="name"
+          value={localName}
+          onChange={handleChange}
+          placeholder="Your Name"
+        />
+      )}
     </Card>
   )
 }

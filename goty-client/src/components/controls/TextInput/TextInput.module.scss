@@ -1,5 +1,3 @@
-@import "@/src/colors";
-
 .text-container {
   position: relative;
   max-width: 100%;
@@ -9,27 +7,27 @@
   width: 100%;
   padding: 15px;
   border-radius: 5px;
-  background-color: $contentBackground;
-  color: $text;
-  border: 2px solid $border;
+  background-color: var(--contentBackground);
+  color: var(--text);
+  border: 2px solid var(--border);
   box-sizing: border-box;
   font-size: 0.9em;
 
   &:focus {
     outline: none;
-    border-color: $accent;
+    border-color: var(--accent);
   }
 
   &:hover:not(:focus):not(:disabled) {
-    border-color: $borderHover;
+    border-color: var(--borderHover);
   }
 
   ::placeholder {
-    color: $placeholder;
+    color: var(--placeholder);
   }
 
   &:disabled {
-    color: $placeholder
+    color: var(--placeholder)
   }
 
 }

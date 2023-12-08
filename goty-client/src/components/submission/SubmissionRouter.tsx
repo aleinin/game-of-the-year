@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { End } from './End/End'
 import { isGotyConcluded } from '../../util/isGotyConcluded'
 import { useProperties } from '../../api/useProperties'
 import { Concluded } from './Concluded'
-import { SubmissionHub } from './SubmissionHub'
+import { SubmissionForm } from './SubmissionForm/SubmissionForm'
 
 export const SubmissionRouter = () => {
   const [isDone, setIsDone] = useState(false)
@@ -21,7 +21,7 @@ export const SubmissionRouter = () => {
   return isDone ? (
     <End error={error} handleDone={() => setIsDone(false)} />
   ) : (
-    <SubmissionHub
+    <SubmissionForm
       handleDone={() => setIsDone(true)}
       handleError={handleError}
     />

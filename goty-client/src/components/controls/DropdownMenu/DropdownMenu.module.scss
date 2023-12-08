@@ -1,8 +1,6 @@
-@import "@/src/colors";
-
 .menu {
-  background-color: $contentBackground;
-  border: 1px solid #ccc;
+  background-color: var(--contentBackground);
+  border: 1px solid var(--border);
   box-shadow: rgba(0, 0, 0, 0.16) 0 4px 4px 0;
   box-sizing: border-box;
   margin-top: 2px;
@@ -16,7 +14,7 @@
 
 .no-results {
   box-sizing: border-box;
-  color: #ccc;
+  color: var(--text);
   cursor: default;
   display: block;
   padding: 8px 10px;
@@ -24,7 +22,7 @@
 
 .options {
   box-sizing: border-box;
-  background-color: $contentBackground;
+  background-color: var(--contentBackground);
   cursor: pointer;
   display: block;
   padding: 10px 10px;
@@ -36,17 +34,16 @@
   }
 
   &:hover {
-    background-color: rgb(192, 192, 192);
-    color: #333;
+    background: var(--dropdownHover)
   }
+}
 
-  .is-selected {
-    background-color: rgb(141, 141, 141);
-    color: #333;
-  }
+.options.is-selected{
+  background-color: var(--accent);
+  color: var(--textOnAccent);
 
-  .is-selected:hover {
-    background-color: rgb(192, 192, 192);
-    color: #333;
+  &:hover {
+    background: var(--dropdownHover);
+    color: var(--text)
   }
 }

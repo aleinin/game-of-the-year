@@ -1,44 +1,46 @@
 import {
-  CSSProperties,
-  MutableRefObject,
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
   PropsWithChildren,
-  useCallback,
-  useMemo,
 } from 'react'
 import styles from './Button.module.scss'
+import classNames from 'classnames'
 
-export interface ButtonProps {
-  onClick?: () => void
-  disabled?: boolean
-  style?: CSSProperties
-  className?: string
-  isIcon?: boolean
-  ref?: MutableRefObject<any>
+export enum ButtonType {
+  STANDARD,
+  ICON,
+  TEXT,
+}
+
+export interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  buttonType?: ButtonType
+}
+
+const getStyle = (buttonType: ButtonType) => {
+  switch (buttonType) {
+    case ButtonType.STANDARD:
+      return styles.standard
+    case ButtonType.ICON:
+      return styles.icon
+    case ButtonType.TEXT:
+      return styles.text
+  }
 }
 
 export const Button = ({
-  onClick,
   disabled = false,
   children,
   className,
-  isIcon = false,
-  style,
+  buttonType = ButtonType.STANDARD,
+  ...props
 }: PropsWithChildren<ButtonProps>) => {
-  const onClickCallback = useCallback(() => onClick && onClick(), [onClick])
-  const buttonClass = useMemo(
-    () =>
-      `${styles.button} ${className ? className : ''} ${
-        isIcon ? styles.icon : styles.text
-      }`,
-    [className, isIcon],
-  )
+  const buttonClass = classNames(styles.button, getStyle(buttonType), className)
   return (
-    <button
-      className={buttonClass}
-      onClick={onClickCallback}
-      disabled={disabled}
-      style={style}
-    >
+    <button tabIndex={0} disabled={disabled} className={buttonClass} {...props}>
       {children}
     </button>
   )

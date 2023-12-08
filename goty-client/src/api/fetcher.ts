@@ -17,8 +17,8 @@ interface Constants {
 
 const getBaseUrl = async (): Promise<string | undefined> => {
   const url = `${window.location.origin}/constants.json`
-  let response = await fetch(url)
-  let constants: Constants = await response.json()
+  const response = await fetch(url)
+  const constants: Constants = await response.json()
   return constants.baseUrl
 }
 

@@ -13,6 +13,8 @@ interface DropdownProps<T = any> {
   placeholder?: string
   width?: string
   disabled?: boolean
+  controlClass?: string
+  ariaLabel?: string
 }
 
 export const Dropdown = <T,>({
@@ -23,6 +25,8 @@ export const Dropdown = <T,>({
   width,
   accessorFn,
   disabled = false,
+  controlClass,
+  ariaLabel,
 }: DropdownProps<T>) => {
   const ref = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -48,12 +52,17 @@ export const Dropdown = <T,>({
       style={{ width: `${width ?? '100%'}` }}
     >
       <div
-        className={classNames(styles.control, { [styles.disabled]: disabled })}
+        className={classNames(
+          styles.control,
+          { [styles.disabled]: disabled },
+          controlClass,
+        )}
         role="button"
         tabIndex={0}
         onMouseDown={handleClick}
         onKeyDown={handleClick}
         aria-haspopup="listbox"
+        aria-label={ariaLabel}
       >
         <div className={styles.value}>
           {selected === undefined ? placeholder : accessorFn(selected)}

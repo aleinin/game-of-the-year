@@ -1,6 +1,6 @@
 import { indexToOrdinal } from '../../../util/indexToOrdinal'
 import { MoveDirection } from '../../submission/GOTY'
-import { Button } from '../Button/Button'
+import { Button, ButtonType } from '../Button/Button'
 import { ChevronUp } from '../../../icons/chevron/ChevronUp'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { Minus } from '../../../icons/minus/Minus'
@@ -35,7 +35,7 @@ export const ListItem = ({
         {ordered ? (
           <span className={styles.marginRight5}>{indexToOrdinal(index)}:</span>
         ) : null}
-        <span className={styles.marginRight5}>{game?.title}</span>
+        <span className={styles.marginRight5}>{game.title}</span>
       </div>
       {!readonly && (
         <Controls
@@ -44,6 +44,7 @@ export const ListItem = ({
           handleDelete={() => handleDelete(game)}
           ordered={ordered}
           currentListLength={currentListLength}
+          gameName={game.title}
         />
       )}
     </div>
@@ -56,6 +57,7 @@ interface ControlsProps {
   handleDelete: () => void
   ordered: boolean
   currentListLength: number
+  gameName: string
 }
 const Controls = ({
   index,
@@ -63,30 +65,34 @@ const Controls = ({
   handleDelete,
   ordered,
   currentListLength,
+  gameName,
 }: ControlsProps) => (
   <div className={styles.controls}>
     {ordered && (
       <>
         <Button
-          isIcon={true}
+          buttonType={ButtonType.ICON}
           disabled={index === 0}
           onClick={() => handleMove(index, MoveDirection.IncreaseRank)}
+          aria-label={`Increase ${gameName}'s rank`}
         >
           <ChevronUp />
         </Button>
         <Button
-          isIcon={true}
+          buttonType={ButtonType.ICON}
           disabled={index === currentListLength - 1}
           onClick={() => handleMove(index, MoveDirection.DecreaseRank)}
+          aria-label={`Decrease ${gameName}'s rank`}
         >
           <ChevronDown />
         </Button>
       </>
     )}
     <Button
-      isIcon={true}
+      buttonType={ButtonType.ICON}
       className={styles.deleteButton}
       onClick={() => handleDelete()}
+      aria-label={`Delete ${gameName}`}
     >
       <Minus />
     </Button>

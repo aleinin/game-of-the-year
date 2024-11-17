@@ -23,7 +23,7 @@ fun DefaultProperties.toProperties() = Properties(
     defaultLocalTimeZone = this.defaultLocalTimeZone,
 )
 
-@ConfigurationProperties("goty.default")
+@ConfigurationProperties("goty.default.properties")
 @Validated
 data class DefaultProperties(
     @field:NotNull

@@ -6,14 +6,16 @@ import {
 } from './backendModels/backendProperties'
 import { Properties } from '../models/properties'
 
-const getProperties = () =>
-  fetcher
+const getProperties = (year?: number) => {
+  const url = year ? `/properties/${year}` : '/properties/active'
+  return fetcher
     .get<BackendProperties>(
-      `/properties?localTimeZone=${
+      `${url}?localTimeZone=${
         Intl.DateTimeFormat().resolvedOptions().timeZone
       }`,
     )
     .then(fromBackendPropertiesToProperties)
+}
 
 const initialProperties: Properties = {
   gotyQuestion: { question: '', rules: [''], title: '' },
@@ -27,10 +29,11 @@ const initialProperties: Properties = {
 
 const oneMinuteMs = 60000
 
-export const useProperties = () => {
+export const useProperties = (year?: number) => {
+  console.log('year', year)
   const query = useQuery({
-    queryKey: ['properties'],
-    queryFn: getProperties,
+    queryKey: ['properties', year],
+    queryFn: () => getProperties(year),
     initialData: initialProperties,
     staleTime: oneMinuteMs,
     initialDataUpdatedAt: 0,

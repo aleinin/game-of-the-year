@@ -1,5 +1,6 @@
 package com.aleinin.goty.submission
 
+import com.aleinin.goty.activeYear.ActiveYearProviderService
 import com.aleinin.goty.properties.Properties
 import com.aleinin.goty.properties.PropertiesService
 import org.springframework.stereotype.Service
@@ -13,6 +14,7 @@ class SubmissionService(
     private val submissionRepository: SubmissionRepository,
     private val secretSubmissionRepository: SecretSubmissionRepository,
     private val propertiesService: PropertiesService,
+    private val activeYearService: ActiveYearProviderService,
     private val clock: Clock,
     private val uuidService: UUIDService
 ) {
@@ -25,7 +27,7 @@ class SubmissionService(
 
     fun getSubmissionYears(): List<Int> {
         val distinctYears = submissionRepository.findSubmissionYears()
-        val thisYear = propertiesService.getThisYear()
+        val thisYear = activeYearService.getActiveYear()
         val years = if (distinctYears.contains(thisYear)) distinctYears else distinctYears.plus(thisYear)
         return years.sortedDescending()
     }
@@ -39,7 +41,7 @@ class SubmissionService(
                     id = uuidService.randomID(),
                     secret = uuidService.randomSecret(),
                     name = submissionCreationRequest.name,
-                    year = propertiesService.getThisYear(),
+                    year = activeYearService.getActiveYear(),
                     gamesOfTheYear = submissionCreationRequest.gamesOfTheYear,
                     mostAnticipated = submissionCreationRequest.mostAnticipated,
                     mostDisappointing =  submissionCreationRequest.mostDisappointing,
@@ -72,7 +74,7 @@ class SubmissionService(
             .map { submissionRepository.deleteSubmissionById(id) }
 
     private fun validateAddSubmission(gamesOfTheYear: List<RankedGameSubmission>, perform: () -> SecretSubmission): SecretSubmission {
-        val properties = propertiesService.getProperties()
+        val properties = propertiesService.getActiveYearProperties()
         validateDeadlineAndGames(properties, gamesOfTheYear)
         return perform()
     }
@@ -81,7 +83,7 @@ class SubmissionService(
             optionalSecretSubmission: Optional<SecretSubmission>,
             request: SubmissionUpdateRequest,
     ): Optional<SecretSubmission> {
-        val properties = propertiesService.getProperties()
+        val properties = propertiesService.getActiveYearProperties()
         validateDeadlineAndGames(properties, request.gamesOfTheYear)
         if (optionalSecretSubmission.isPresent) {
             val secretSubmission = optionalSecretSubmission.get()

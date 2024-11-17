@@ -1,12 +1,13 @@
 import { Game } from '../../models/game'
-import { useProperties } from '../../api/useProperties'
 import { SingleGame } from '../controls/SingleGame'
 import { InputStateKeyContext } from './useSubmissionForm'
+import { Properties } from '../../models/properties'
 
 export interface BestOldGameProps {
   readonly: boolean
   bestOldGame: Game | null
   handleSetBestOldGame?: (game: Game | null) => void
+  properties: Properties
 }
 
 const rules = (year: number) => [`Any game released prior to ${year}`]
@@ -15,8 +16,8 @@ export const BestOldGame = ({
   bestOldGame,
   handleSetBestOldGame,
   readonly,
+  properties,
 }: BestOldGameProps) => {
-  const { properties } = useProperties()
   const handleSelect = (bestOldGame: Game | null) => {
     handleSetBestOldGame && handleSetBestOldGame(bestOldGame)
   }

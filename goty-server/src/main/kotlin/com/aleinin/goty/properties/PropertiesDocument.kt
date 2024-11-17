@@ -1,12 +1,14 @@
 package com.aleinin.goty.properties
 
+import org.springframework.data.mongodb.core.index.Indexed
+import org.springframework.data.mongodb.core.mapping.Document
 import java.time.Instant
 import java.time.ZoneId
 
+@Document(collection = "properties")
 data class PropertiesDocument(
-    val id: String,
     val title: String,
-    val year: Int,
+    @Indexed(unique = true) val year: Int,
     val gotyQuestion: GotyQuestion,
     val tiePoints: List<Int>,
     val deadline: Instant,

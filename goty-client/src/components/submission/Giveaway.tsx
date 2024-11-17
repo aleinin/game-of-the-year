@@ -1,12 +1,13 @@
 import { Card } from '../controls/Card/Card'
 import { RadioOption, RadioSet } from '../controls/RadioSet/RadioSet'
 import { Rules } from './Rules'
-import { useProperties } from '../../api/useProperties'
+import { Properties } from '../../models/properties'
 
 export interface GiveawayProps {
   readonly: boolean
   enteredGiveaway: boolean | null
   handleSetGiveaway?: (enteredGiveaway: boolean) => void
+  properties: Properties
 }
 
 const rules = (lastTime: string) => [
@@ -21,8 +22,8 @@ export const Giveaway = ({
   enteredGiveaway,
   handleSetGiveaway,
   readonly,
+  properties,
 }: GiveawayProps) => {
-  const { properties } = useProperties()
   const handleClick = (enteredGiveaway: boolean) => {
     handleSetGiveaway && handleSetGiveaway(enteredGiveaway)
   }

@@ -10,6 +10,9 @@ import org.apache.commons.csv.CSVPrinter
 import org.springframework.stereotype.Service
 import java.io.StringWriter
 import java.time.Instant
+import java.time.ZoneId
+import java.util.TimeZone
+import kotlin.jvm.optionals.getOrElse
 
 fun CSVPrinter.printSection(header: String, columnHeaders: Array<String>?, rows: List<Array<Any>>) {
     this.printRecord()
@@ -44,8 +47,8 @@ class CSVService(
         private val staticSubmissionColumns = arrayOf("ID", "Entered on", "Updated on", "Name", "Best Old Game", "Most Anticipated", "Entered Giveaway")
     }
 
-    fun dumpToCSV(year: Int): String {
-        val properties = propertiesService.getProperties()
+    fun dumpToCSV(year: Int, localTimeZone: ZoneId?): String {
+        val properties = propertiesService.getPropertiesResponse(year, localTimeZone).getOrElse { throw NoResultsForYearException() }
         val submissions = submissionService.getSubmissionsForYear(year)
         val results = resultsService.calculate(submissions, year)
         val stringWriter = StringWriter()

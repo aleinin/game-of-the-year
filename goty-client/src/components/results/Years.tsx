@@ -1,5 +1,4 @@
 import { Dropdown } from '../controls/Dropdown/Dropdown'
-import React from 'react'
 
 interface YearsProps {
   selectedYear: number

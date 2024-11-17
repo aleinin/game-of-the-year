@@ -6,22 +6,34 @@ import { Name } from '../submission/Name'
 import { useSelectedResponse } from './Responses'
 import { MostDisappointing } from '../submission/MostDisappointing'
 import { useProperties } from '../../api/useProperties'
+import { useYear } from './ResultsPage'
 
 export const Response = () => {
   const response = useSelectedResponse()
-  const { properties } = useProperties()
+  const year = useYear()
+  const { properties } = useProperties(year)
   return (
     <>
       <Name readonly name={response.name} />
-      <GOTY readonly games={response.gamesOfTheYear} />
-      <BestOldGame readonly bestOldGame={response.bestOldGame} />
+      <GOTY readonly games={response.gamesOfTheYear} properties={properties} />
+      <BestOldGame
+        readonly
+        bestOldGame={response.bestOldGame}
+        properties={properties}
+      />
       <MostAnticipated readonly mostAnticipated={response.mostAnticipated} />
       <MostDisappointing
         readonly
         mostDisappointing={response.mostDisappointing}
         year={properties.year}
       />
-      <Giveaway readonly enteredGiveaway={response.enteredGiveaway} />
+      {properties?.hasGiveaway && (
+        <Giveaway
+          readonly
+          enteredGiveaway={response.enteredGiveaway}
+          properties={properties}
+        />
+      )}
     </>
   )
 }

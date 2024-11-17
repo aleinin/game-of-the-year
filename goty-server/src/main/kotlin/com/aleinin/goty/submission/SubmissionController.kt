@@ -1,6 +1,6 @@
 package com.aleinin.goty.submission
 
-import com.aleinin.goty.properties.PropertiesService
+import com.aleinin.goty.activeYear.ActiveYearProviderService
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -19,11 +19,11 @@ import java.util.UUID
 @RestController
 class SubmissionController(
         private val submissionService: SubmissionService,
-        private val propertiesService: PropertiesService
+        private val activeYearService: ActiveYearProviderService
 ) {
 
     @GetMapping("/submissions")
-    fun getSubmissions(@RequestParam(required = false) year: Int?): List<Submission> = submissionService.getSubmissionsForYear(year ?: propertiesService.getThisYear())
+    fun getSubmissions(@RequestParam(required = false) year: Int?): List<Submission> = submissionService.getSubmissionsForYear(year ?: activeYearService.getActiveYear())
 
     @GetMapping("/submissions/years")
     fun getSubmissionYears(): List<Int> = submissionService.getSubmissionYears()
@@ -44,7 +44,7 @@ class SubmissionController(
 
     @GetMapping("/submissions/{id}")
     fun getSubmission(@PathVariable id: UUID, @RequestParam(required = false) year: Int?): Submission =
-            submissionService.getSubmission(id, year ?: propertiesService.getThisYear()).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+            submissionService.getSubmission(id, year ?: activeYearService.getActiveYear()).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
     @PutMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody submissionUpdateRequest: SubmissionUpdateRequest): Submission =

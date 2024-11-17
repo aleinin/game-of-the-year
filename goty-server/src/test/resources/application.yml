@@ -3,28 +3,31 @@ goty:
     username: test
     password: test
   default:
-    title: Top Games of the Year $year
-    gotyQuestion:
-      title: Games of the Year
-      question: What are your favorite game(s) of ${year}?
-      rules:
-        - Whatever you want, this is a test.
-    year: 2077
-    deadline: 2077-01-01T00:00:00-05:00
-    hasGiveaway: true
-    giveawayAmountUSD: 25
-    defaultLocalTimeZone: Etc/GMT
-    tiePoints:
-      - 15
-      - 13
-      - 11
-      - 7
-      - 6
-      - 5
-      - 4
-      - 3
-      - 2
-      - 1
+    active-year:
+      year: 2077
+    properties:
+      title: Top Games of the Year $year
+      gotyQuestion:
+        title: Games of the Year
+        question: What are your favorite game(s) of ${year}?
+        rules:
+          - Whatever you want, this is a test.
+      year: 2077
+      deadline: 2077-01-01T00:00:00-05:00
+      hasGiveaway: true
+      giveawayAmountUSD: 25
+      defaultLocalTimeZone: Etc/GMT
+      tiePoints:
+        - 15
+        - 13
+        - 11
+        - 7
+        - 6
+        - 5
+        - 4
+        - 3
+        - 2
+        - 1
 
 spring:
   profiles:

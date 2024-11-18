@@ -3,6 +3,8 @@ package com.aleinin.goty.csv
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.csv.CSVData.Companion.assertEqualNormalizeLineEnds
+import com.aleinin.goty.properties.GotyQuestion
+import com.aleinin.goty.properties.PropertiesDocument
 import com.aleinin.goty.properties.PropertiesRepository
 import com.aleinin.goty.submission.SecretSubmissionRepository
 import org.junit.jupiter.api.Test
@@ -37,7 +39,21 @@ class CSVControllerTest {
     @Test
     fun `Should get CSV`() {
         val expectedYear = defaultProperties.year
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.empty())
+        whenever(propertiesRepository.findByYear(expectedYear)).thenReturn(Optional.of(PropertiesDocument(
+                year = expectedYear,
+                title = "My Title",
+                gotyQuestion = GotyQuestion(
+                        question = "What is your game of the year?",
+                        title = "Game of the Year",
+                        rules = emptyList()
+                ),
+                tiePoints = listOf(15, 13, 11, 7, 6, 5, 4, 3, 2, 1),
+                giveawayAmountUSD = 100,
+                hasGiveaway = true,
+                deadline = defaultProperties.deadline.toInstant(),
+                zoneId = defaultProperties.deadline.zone,
+                defaultLocalTimeZone = defaultProperties.defaultLocalTimeZone
+        )))
         val expectedUUIDs = listOf(
                 UUID.fromString("f11186fe-3cfb-44cb-a429-67005ab60584"),
                 UUID.fromString("98a8332d-1f2c-47ed-a9a0-fd2a36467d8f"),

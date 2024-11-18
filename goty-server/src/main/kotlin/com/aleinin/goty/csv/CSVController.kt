@@ -1,6 +1,6 @@
 package com.aleinin.goty.csv
 
-import com.aleinin.goty.activeYear.ActiveYearProviderService
+import com.aleinin.goty.properties.PropertiesService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,14 +13,14 @@ import java.time.ZoneId
 @RestController
 class CSVController(
     private val csvService: CSVService,
-    private val activeYearService: ActiveYearProviderService
+    private val propertiesService: PropertiesService
 ) {
     @GetMapping(value = ["/csv"], produces = ["text/csv"])
     fun getExport(
         @RequestParam(required = false) localTimeZone: ZoneId?,
         @RequestParam(required = false) year: Int?
     ) = try {
-        csvService.dumpToCSV(year ?: activeYearService.getActiveYear(), localTimeZone)
+        csvService.dumpToCSV(year ?: propertiesService.getActiveYear(), localTimeZone)
     } catch (e: NoResultsForYearException) {
         throw ResponseStatusException(HttpStatus.NOT_FOUND, e.message)
     }

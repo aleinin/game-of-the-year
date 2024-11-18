@@ -1,9 +1,11 @@
 package com.aleinin.goty.properties
 
+import PropertiesUpdateRequest
 import com.aleinin.goty.EasternTime
 import com.aleinin.goty.UTC
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.configuration.toProperties
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -20,6 +22,9 @@ import java.util.Optional
 internal class PropertiesServiceTest {
     @Mock
     lateinit var propertiesRepository: PropertiesRepository
+
+    @Mock
+    lateinit var activeYearRepository: ActiveYearRepository
 
     @Mock
     lateinit var templateService: TemplateService
@@ -41,7 +46,7 @@ internal class PropertiesServiceTest {
 
     @BeforeEach
     fun setup() {
-        propertiesService = PropertiesService(propertiesRepository, templateService,  defaultProperties)
+        propertiesService = PropertiesService(propertiesRepository, templateService, activeYearRepository, defaultProperties)
     }
 
     private fun setupTemplateMock() {
@@ -56,9 +61,10 @@ internal class PropertiesServiceTest {
 
     @Test
     fun `Should return the stored configuration`() {
+        val year = 2023
         val expectedProperties = Properties(
             title = "Game of the Year",
-            year = 2023,
+            year = year,
             gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
             tiePoints = listOf(3, 2, 1),
             deadline = deadline,
@@ -66,43 +72,36 @@ internal class PropertiesServiceTest {
             defaultLocalTimeZone = UTC,
             giveawayAmountUSD = 0
         )
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.of(expectedProperties))
-        val actualConfig = propertiesService.getProperties()
+        whenever(propertiesRepository.findByYear(year)).thenReturn(Optional.of(expectedProperties.toPropertiesDocument()))
+        val actualConfig = propertiesService.getProperties(year).get()
         assertEquals(expectedProperties, actualConfig)
     }
 
     @Test
     fun `Should return current properties year`() {
         val expectedYear = 2005
-        val properties = Properties(
-                title = "Game of the Year",
-                year = expectedYear,
-                gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
-                tiePoints = listOf(3, 2, 1),
-                deadline = deadline,
-                hasGiveaway = false,
-                defaultLocalTimeZone = UTC,
-                giveawayAmountUSD = 0
+        whenever(activeYearRepository.findById(PropertiesService.ACTIVE_YEAR_ID)).thenReturn(
+            Optional.of(ActiveYearDocument(PropertiesService.ACTIVE_YEAR_ID, expectedYear))
         )
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.of(properties))
-        val actualYear = propertiesService.getThisYear()
+        val actualYear = propertiesService.getActiveYear()
         assertEquals(expectedYear, actualYear)
 
     }
 
     @Test
     fun `Should load the default values if there is no stored configuration`() {
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.empty())
-        val actual = propertiesService.getProperties()
+        whenever(propertiesRepository.findByYear(any())).thenReturn(Optional.empty())
+        val actual = propertiesService.getActiveYearProperties()
         assertEquals(defaultProperties.toProperties(), actual)
     }
 
     @Test
     fun `Should return the stored configuration response`() {
         setupTemplateMock()
+        val year = 2023
         val storedProperties = Properties(
                 title = "Game of the Year",
-                year = 2023,
+                year = year,
                 gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
                 tiePoints = listOf(3, 2, 1),
                 deadline = deadline,
@@ -124,16 +123,16 @@ internal class PropertiesServiceTest {
             defaultLocalTimeZone = storedProperties.defaultLocalTimeZone,
             giveawayAmountUSD = storedProperties.giveawayAmountUSD
         )
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.of(storedProperties))
-        val actualResponse = propertiesService.getPropertiesResponse(UTC)
+        whenever(propertiesRepository.findByYear(year)).thenReturn(Optional.of(storedProperties.toPropertiesDocument()))
+        val actualResponse = propertiesService.getActiveYearPropertiesResponse(UTC)
         assertEquals(expectedResponse, actualResponse)
     }
 
     @Test
     fun `Should return the default properties as response if none stored`() {
         setupTemplateMock()
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.empty())
-        val actual = propertiesService.getPropertiesResponse(EasternTime)
+        whenever(propertiesRepository.findByYear(any())).thenReturn(Optional.empty())
+        val actual = propertiesService.getActiveYearPropertiesResponse(EasternTime)
         val expected = PropertiesResponse(
             title = ResolvedTemplate(defaultProperties.title, defaultProperties.title),
             year = defaultProperties.year,
@@ -154,15 +153,25 @@ internal class PropertiesServiceTest {
     @Test
     fun `Should accept a new configuration`() {
         setupTemplateMock()
-        val request = Properties(
+        val request = PropertiesUpdateRequest(
             title = "new title",
             gotyQuestion = GotyQuestion(title = "new goty title", question = "new goty question", rules = listOf("new goty rules")),
-            year = 2077,
             tiePoints = listOf(6, 5, 4),
             deadline = deadline,
             hasGiveaway = false,
             defaultLocalTimeZone = null,
             giveawayAmountUSD = 0
+        )
+        val requestDocument = PropertiesDocument(
+            year = 2077,
+            title = "new title",
+            gotyQuestion = GotyQuestion(title = "new goty title", question = "new goty question", rules = listOf("new goty rules")),
+            tiePoints = listOf(6, 5, 4),
+            deadline = deadline.toInstant(),
+            zoneId = UTC,
+            hasGiveaway = false,
+            giveawayAmountUSD = 0,
+            defaultLocalTimeZone = null
         )
         val expectedResponse = PropertiesResponse(
             title = ResolvedTemplate("new title", "new title"),
@@ -178,8 +187,9 @@ internal class PropertiesServiceTest {
             defaultLocalTimeZone = null,
             giveawayAmountUSD = 0
         )
-        whenever(propertiesRepository.replaceProperties(any())).thenReturn(request)
-        val actualResponse = propertiesService.replaceProperties(request, EasternTime)
+        whenever(propertiesRepository.findByYear(2077)).thenReturn(Optional.of(requestDocument.copy(title = "old title")))
+        whenever(propertiesRepository.save(requestDocument)).thenReturn(requestDocument)
+        val actualResponse = propertiesService.replaceProperties(2077, request, EasternTime)
         assertEquals(expectedResponse, actualResponse)
     }
 }

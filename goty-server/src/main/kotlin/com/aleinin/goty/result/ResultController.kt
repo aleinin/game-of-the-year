@@ -1,6 +1,6 @@
 package com.aleinin.goty.result
 
-import com.aleinin.goty.activeYear.ActiveYearProviderService
+import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.submission.SubmissionService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 class ResultController(
         private val submissionService: SubmissionService,
         private val resultService: ResultService,
-        private val activeYearService: ActiveYearProviderService
+        private val propertiesService: PropertiesService
 ) {
 
     @GetMapping("/results")
     fun getResults(): ResultResponse {
-        val activeYear = activeYearService.getActiveYear()
+        val activeYear = propertiesService.getActiveYear()
         return submissionService.getSubmissionsForYear(activeYear).let { resultService.calculate(it, activeYear) }
     }
 

@@ -5,8 +5,7 @@ import org.springframework.stereotype.Repository
 import java.util.Optional
 
 @Repository
-interface PropertiesDocumentRepository : MongoRepository<PropertiesDocument, String> {
+interface PropertiesRepository : MongoRepository<PropertiesDocument, String> {
     fun findByYear(year: Int): Optional<PropertiesDocument>
-    fun deleteByYear(year: Int)
 }
 

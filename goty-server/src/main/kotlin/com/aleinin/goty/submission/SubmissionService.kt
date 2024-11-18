@@ -1,6 +1,5 @@
 package com.aleinin.goty.submission
 
-import com.aleinin.goty.activeYear.ActiveYearProviderService
 import com.aleinin.goty.properties.Properties
 import com.aleinin.goty.properties.PropertiesService
 import org.springframework.stereotype.Service
@@ -14,7 +13,6 @@ class SubmissionService(
     private val submissionRepository: SubmissionRepository,
     private val secretSubmissionRepository: SecretSubmissionRepository,
     private val propertiesService: PropertiesService,
-    private val activeYearService: ActiveYearProviderService,
     private val clock: Clock,
     private val uuidService: UUIDService
 ) {
@@ -27,7 +25,7 @@ class SubmissionService(
 
     fun getSubmissionYears(): List<Int> {
         val distinctYears = submissionRepository.findSubmissionYears()
-        val thisYear = activeYearService.getActiveYear()
+        val thisYear = propertiesService.getActiveYear()
         val years = if (distinctYears.contains(thisYear)) distinctYears else distinctYears.plus(thisYear)
         return years.sortedDescending()
     }
@@ -41,7 +39,7 @@ class SubmissionService(
                     id = uuidService.randomID(),
                     secret = uuidService.randomSecret(),
                     name = submissionCreationRequest.name,
-                    year = activeYearService.getActiveYear(),
+                    year = propertiesService.getActiveYear(),
                     gamesOfTheYear = submissionCreationRequest.gamesOfTheYear,
                     mostAnticipated = submissionCreationRequest.mostAnticipated,
                     mostDisappointing =  submissionCreationRequest.mostDisappointing,

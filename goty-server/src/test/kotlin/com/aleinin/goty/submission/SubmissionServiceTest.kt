@@ -54,21 +54,21 @@ class SubmissionServiceTest {
     private fun getExpectedTooManyGamesMessage(tiePoints: List<Int>) = "Too many games of the year. The maximum allowed is ${tiePoints.size}."
 
     private fun setupBeforeDeadline(): ZonedDateTime {
-        whenever(propertiesService.getProperties()).thenReturn(properties)
+        whenever(propertiesService.getActiveYearProperties()).thenReturn(properties)
         whenever(properties.deadline).thenReturn(testTime)
         whenever(clock.instant()).thenReturn(testTime.toInstant().minusSeconds(1))
         return testTime
     }
 
     private fun setupAfterDeadline(): ZonedDateTime {
-        whenever(propertiesService.getProperties()).thenReturn(properties)
+        whenever(propertiesService.getActiveYearProperties()).thenReturn(properties)
         whenever(properties.deadline).thenReturn(testTime)
         whenever(clock.instant()).thenReturn(testTime.toInstant().plusSeconds(1))
         return testTime
     }
 
     private fun mockTiePoints(mock: List<Int>) {
-        whenever(propertiesService.getProperties()).thenReturn(properties)
+        whenever(propertiesService.getActiveYearProperties()).thenReturn(properties)
         whenever(properties.tiePoints).thenReturn(mock)
     }
 
@@ -83,7 +83,7 @@ class SubmissionServiceTest {
     @Test
     fun `Should get distinct years of submissions`() {
         val expected = listOf(2002, 2001, 2000)
-        whenever(propertiesService.getThisYear()).thenReturn(2000)
+        whenever(propertiesService.getActiveYear()).thenReturn(2000)
         whenever(submissionRepository.findSubmissionYears()).thenReturn(expected)
         assertEquals(expected, submissionService.getSubmissionYears())
     }
@@ -92,7 +92,7 @@ class SubmissionServiceTest {
     fun `Should add current year to list even if there are no submissions for that year`() {
         val thisYear = 2004
         val distinctYears = listOf(thisYear - 3, thisYear - 2, thisYear - 1)
-        whenever(propertiesService.getThisYear()).thenReturn(thisYear)
+        whenever(propertiesService.getActiveYear()).thenReturn(thisYear)
         whenever(submissionRepository.findSubmissionYears()).thenReturn(distinctYears)
         val expected = distinctYears.plus(thisYear).sortedDescending()
         assertEquals(expected, submissionService.getSubmissionYears())
@@ -193,7 +193,7 @@ class SubmissionServiceTest {
         val tiePoints = listOf(3, 2, 1)
         mockTiePoints(tiePoints)
         setupBeforeDeadline()
-        whenever(propertiesService.getThisYear()).thenReturn(expectedYear)
+        whenever(propertiesService.getActiveYear()).thenReturn(expectedYear)
         whenever(clock.millis()).thenReturn(testTimeMillis)
         whenever(secretSubmissionRepository.save(expected)).thenReturn(expected)
         whenever(uuidService.randomID()).thenReturn(expectedId)

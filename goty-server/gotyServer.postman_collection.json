@@ -1,0 +1,539 @@
+{
+	"info": {
+		"_postman_id": "10eeaca2-4a01-4bb1-b00e-6109c0f3dbe0",
+		"name": "GOTY Server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Submissions",
+			"item": [
+				{
+					"name": "All Submissions",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{un}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{pw}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Secret Submissions",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{un}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/secret",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"secret"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2023",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Submission Years",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/years",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"years"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Submission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Rurin\",\r\n    \"gamesOfTheYear\": [\r\n      {\r\n        \"id\": \"143114\",\r\n        \"title\": \"Total War: Warhammer III\",\r\n        \"rank\": 0\r\n      },\r\n      {\r\n        \"id\": \"135998\",\r\n        \"title\": \"Warhammer 40,000: Darktide\",\r\n        \"rank\": 1\r\n      },\r\n      {\r\n        \"id\": \"119133\",\r\n        \"title\": \"Elden Ring\",\r\n        \"rank\": 2\r\n      },\r\n      {\r\n        \"id\": \"186725\",\r\n        \"title\": \"Vampire Survivors\",\r\n        \"rank\": 3\r\n      },\r\n      {\r\n        \"id\": \"151353\",\r\n        \"title\": \"PlateUp!\",\r\n        \"rank\": 4\r\n      },\r\n      {\r\n        \"id\": \"125624\",\r\n        \"title\": \"Grounded\",\r\n        \"rank\": 5\r\n      },\r\n      {\r\n        \"id\": \"125174\",\r\n        \"title\": \"Overwatch 2\",\r\n        \"rank\": 6\r\n      }\r\n    ],\r\n    \"mostAnticipated\": {\r\n      \"id\": \"119171\",\r\n      \"title\": \"Baldur's Gate 3\"\r\n    },\r\n    \"bestOldGame\": {\r\n      \"id\": \"5607\",\r\n      \"title\": \"SMITE\"\r\n    },\r\n    \"enteredGiveaway\": false\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/submissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/3aab1184-9d6e-4639-89ae-ab4d3c6a24f1?year=2022",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"3aab1184-9d6e-4639-89ae-ab4d3c6a24f1"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Submission",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Andrew 2022 test23\",\r\n    \"secret\": \"fefb764b-c5af-4679-bd5e-e57148032d26\",\r\n    \"gamesOfTheYear\": [\r\n        {\r\n            \"id\": \"151353\",\r\n            \"title\": \"PlateUp!\",\r\n            \"rank\": 0\r\n        }\r\n    ],\r\n    \"mostAnticipated\": {\r\n        \"id\": \"1877\",\r\n        \"title\": \"Cyberpunk 2077\"\r\n    },\r\n    \"bestOldGame\": {\r\n        \"id\": \"5607\",\r\n        \"title\": \"SMITE\"\r\n    },\r\n    \"enteredGiveaway\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/submissions/532d38d9-c6b9-4c12-aecd-0c5e313c43ef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"532d38d9-c6b9-4c12-aecd-0c5e313c43ef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Submission",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{un}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{pw}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/32d3d71c-5948-44e8-8ee3-7f248c44784a",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"32d3d71c-5948-44e8-8ee3-7f248c44784a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/csv?year=2022",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"csv"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Batch",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{un}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"name\": \"Kherven\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Stardew Valley\",\r\n      \"Hitman\",\r\n      \"Stellaris\",\r\n      \"Factorio\",\r\n      \"Planet Coaster\",\r\n      \"Titanfall 2\",\r\n      \"Watch Dogs 2\",\r\n      \"Rimworld\",\r\n      \"My Summer Car\",\r\n      \"Starbound\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Rurin\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Overwatch\",\r\n      \"Total War: WARHAMMER\",\r\n      \"Factorio\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Duke\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Titanfall 2\",\r\n      \"Factorio\",\r\n      \"Total War: WARHAMMER\",\r\n      \"Hitman\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Suriell\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Total War: WARHAMMER\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Magnus\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Final Fantasy XV\",\r\n      \"Total War: WARHAMMER\",\r\n      \"Overwatch\",\r\n      \"Let it die\",\r\n      \"WoW: Legion\",\r\n      \"Factorio\",\r\n      \"Obduction\",\r\n      \"Battlerite\",\r\n      \"Dragon Quest Builders\",\r\n      \"God Eater\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Warpath\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Total War: WARHAMMER\",\r\n      \"Rimworld\",\r\n      \"Titanfall 2\",\r\n      \"Overwatch\",\r\n      \"Battlerite\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Maelstrom\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"God eater\",\r\n      \"Guilty Gear\",\r\n      \"Dragon's Dogma\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Binary\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Overwatch\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"MadocComadrin\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Overwatch\",\r\n      \"Disgaea PC\",\r\n      \"Starbound\",\r\n      \"Titanfall 2\",\r\n      \"Factorio\",\r\n      \"Transport Fever\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Mister X\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Overwatch\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Mac\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Grim Dawn\",\r\n      \"Stellaris\",\r\n      \"The Witcher 3: Wild Hunt – Blood and Wine\",\r\n      \"Total War: WARHAMMER\",\r\n      \"Tom Clancy's The Division\",\r\n      \"Rimworld\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Clock\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Dishonored 2\",\r\n      \"Overwatch\",\r\n      \"Total War: WARHAMMER\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"LittleGuy\",\r\n    \"year\": 2016,\r\n    \"gamesOfTheYear\": [\r\n      \"Overwatch\",\r\n      \"Total War: WARHAMMER\",\r\n      \"Tom Clancy's The Division\",\r\n      \"Stardew Valley\",\r\n      \"Grim Dawn\",\r\n      \"WoW: Legion\",\r\n      \"Battlefield 1\",\r\n      \"Don't Starve Together\",\r\n      \"Star Wars Battlefront: Death Star\",\r\n      \"Mafia 3\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": null,\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"Rurin\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Divinity Original Sin 2\",\r\n      \"Total War: Warhammer 2\",\r\n      \"For Honor\",\r\n      \"XCOM 2: War of the Chosen\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": \"Overwatch\"\r\n  },\r\n  {\r\n    \"name\": \"Dr.Clockwise PhD\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"PUBG: Battlegrounds\",\r\n      \"Divinity Original Sin 2\",\r\n      \"Total War: Warhammer 2\",\r\n      \"For Honor\",\r\n      \"Sniper Elite 4\",\r\n      \"Dishonored: Death of the Outsider\",\r\n      \"NHL 18\"\r\n    ],\r\n    \"mostAnticipated\": \"Star Citizen\",\r\n    \"bestOldGame\": \"Overwatch\"\r\n  },\r\n  {\r\n    \"name\": \"Binary\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Fire Emblem Heros\",\r\n      \"Euclidea\"\r\n    ],\r\n    \"mostAnticipated\": \"Ori and the Will of the Wisps\",\r\n    \"bestOldGame\": \"Divinity Original Sin EE\"\r\n  },\r\n  {\r\n    \"name\": \"TwisterGrey\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"South Park: The Fractured But Whole\",\r\n      \"Fortnite\",\r\n      \"Cuphead\"\r\n    ],\r\n    \"mostAnticipated\": null,\r\n    \"bestOldGame\": \"SMITE\"\r\n  },\r\n  {\r\n    \"name\": \"Andreas\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Life is Feudal MMO\",\r\n      \"FFXIV: Stormblood\",\r\n      \"COD: WW2\",\r\n      \"Nier: Automata\",\r\n      \"Hand of Fate 2\",\r\n      \"PUBG: Battlegrounds\",\r\n      \"Destiny 2\",\r\n      \"Blackwake\",\r\n      \"Albion Online\",\r\n      \"Slime Rancher\"\r\n    ],\r\n    \"mostAnticipated\": \"Star Citizen\",\r\n    \"bestOldGame\": \"Factorio\"\r\n  },\r\n  {\r\n    \"name\": \"Kherven\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Assassin's Creed Origins\",\r\n      \"PUBG: Battlegrounds\",\r\n      \"Heat Signature\",\r\n      \"Middle-Earth: Shadow of War\",\r\n      \"Slime Rancher\",\r\n      \"Blackwake\",\r\n      \"Cook, Serve, Delicious 2\",\r\n      \"Snake Pass\"\r\n    ],\r\n    \"mostAnticipated\": \"Bannerlord\",\r\n    \"bestOldGame\": \"Tabletop Simulator\"\r\n  },\r\n  {\r\n    \"name\": \"Mac\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Divinity Original Sin 2\",\r\n      \"Total War: Warhammer 2\",\r\n      \"Styx: Shards of Darkness\"\r\n    ],\r\n    \"mostAnticipated\": \"Bannerlord\",\r\n    \"bestOldGame\": \"Grim Dawn\"\r\n  },\r\n  {\r\n    \"name\": \"MisterX\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Divinity Original Sin 2\",\r\n      \"Fortnite\"\r\n    ],\r\n    \"mostAnticipated\": \"Star Citizen\",\r\n    \"bestOldGame\": \"Tabletop Simulator\"\r\n  },\r\n  {\r\n    \"name\":\"Mitchell Toolen (MaelstromTear)\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Yakuza 0\",\r\n      \"Persona 5\",\r\n      \"Nier: Automata\"\r\n    ],\r\n    \"mostAnticipated\": \"Code Vein\",\r\n    \"bestOldGame\": \"Dragon's Dogma: Dark Arisen\"\r\n  },\r\n  {\r\n    \"name\": \"Warpath\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Divinity Original Sin 2\",\r\n      \"For Honor\",\r\n      \"PUBG: Battlegrounds\",\r\n      \"Heat Signature\",\r\n      \"Middle-Earth: Shadow of War\"\r\n    ],\r\n    \"mostAnticipated\": \"Kingdom Come Deliverance\",\r\n    \"bestOldGame\": \"Overwatch\"\r\n  },\r\n  {\r\n    \"name\": \"LittleGuy\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"PUBG: Battlegrounds\",\r\n      \"Total War: Warhammer 2\",\r\n      \"COD: WW2\",\r\n      \"For Honor\",\r\n      \"Divinity Original Sin 2\"\r\n    ],\r\n    \"mostAnticipated\": \"Pantheon: Rise of the Fallen\",\r\n    \"bestOldGame\": \"WoW: Legion\"\r\n  },\r\n  {\r\n    \"name\": \"Cradoc\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Hollow Knight\",\r\n      \"Divinity Original Sin 2\"\r\n    ],\r\n    \"mostAnticipated\": \"Monster Hunter Worlds\",\r\n    \"bestOldGame\": \"Path of Exile\"\r\n  },\r\n  {\r\n    \"name\": \"Belmon\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Conan Exiles\"\r\n    ],\r\n    \"mostAnticipated\": \"Metro Exodus\",\r\n    \"bestOldGame\": \"Stellaris\"\r\n  },\r\n  {\r\n    \"name\": \"Madoc\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Prey\",\r\n      \"Blackwake\",\r\n      \"PUBG: Battlegrounds\",\r\n      \"Slime Rancher\",\r\n      \"Ylands\",\r\n      \"Oxygen Not Included\",\r\n      \"Conan Exiles\",\r\n      \"Nier: Automata\"\r\n    ],\r\n    \"mostAnticipated\": \"Bannerlord\",\r\n    \"bestOldGame\": \"ArmA III\"\r\n  },\r\n  {\r\n    \"name\": \"Mooj\",\r\n    \"year\": 2017,\r\n    \"gamesOfTheYear\": [\r\n      \"Divinity Original Sin 2\",\r\n      \"Total War: Warhammer 2\",\r\n      \"Conan Exiles\"\r\n    ],\r\n    \"mostAnticipated\": \"Bannerlord\",\r\n    \"bestOldGame\": \"XCOM 2\"\r\n  },\r\n  {\r\n    \"name\": \"Kherven\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Hitman 2\",\r\n      \"Super Mega Baseball 2\",\r\n      \"Deep Rock Galactic\",\r\n      \"Kingdom Come: Deliverance\",\r\n      \"Parkitech\",\r\n      \"A Way Out\",\r\n      \"Trailmakers\"\r\n    ],\r\n    \"mostAnticipated\": \"Satisfactory\",\r\n    \"bestOldGame\": \"Smite\",\r\n    \"enteredGiveaway\": false\r\n  },\r\n  {\r\n    \"name\": \"TwisterGrey\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Spider-Man\",\r\n      \"God of War\"\r\n    ],\r\n    \"mostAnticipated\": \"Diablo 4\",\r\n    \"bestOldGame\": {\"id\": \"custom\", \"title\": \"D&D 5e\"},\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Clockwizzle\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Conan Exiles\",\r\n      \"Kingdom Come: Deliverance\",\r\n      \"State of Decay 2\"\r\n    ],\r\n    \"mostAnticipated\": \"Star Citizen\",\r\n    \"bestOldGame\": \"Overwatch\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Suriell\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Red Dead Redemption 2\",\r\n      \"Conan Exiles\",\r\n      \"State of Decay 2\"\r\n    ],\r\n    \"mostAnticipated\": \"Bannerlord\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Littleguy\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"No Man's Sky\",\r\n      \"Battlefield V\",\r\n      \"Red Dead Redemption 2\",\r\n      \"Conan Exiles\"\r\n    ],\r\n    \"mostAnticipated\": \"Pantheon: Rise of the Fallen\",\r\n    \"bestOldGame\": \"Civilization 6\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Mister X\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Mister X\",\r\n      \"Kingdom Come: Deliverance\"\r\n    ],\r\n    \"mostAnticipated\": \"Kingdom Hearts III\",\r\n    \"bestOldGame\": \"Overwatch\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Warpath\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Super Mega Baseball 2\",\r\n      \"Kingdom Come: Deliverance\",\r\n      \"Deep Rock Galactic\",\r\n      \"A Way Out\",\r\n      \"Far Cry 5\"\r\n    ],\r\n    \"mostAnticipated\": \"Satisfactory\",\r\n    \"bestOldGame\": \"Smite\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Marnid\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Kingdom Come: Deliverance\",\r\n      \"Monster Hunter: World\",\r\n      \"Super Mega Baseball 2\",\r\n      \"Warhammer: Vermintide 2\"\r\n    ],\r\n    \"mostAnticipated\": \"Metro: Exodus\",\r\n    \"bestOldGame\": \"Divinity: Original Sin 2\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"uni\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Conan Exiles\",\r\n      \"Kingdom Come: Deliverance\",\r\n      \"Sea of Thieves\"\r\n    ],\r\n    \"mostAnticipated\": \"Bannerlord\",\r\n    \"bestOldGame\": \"Overwatch\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Cradoc\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Monster Hunter: World\",\r\n      \"Hitman 2\",\r\n      \"Warhammer: Vermintide 2\",\r\n      \"Kingdom Come: Deliverance\"\r\n    ],\r\n    \"mostAnticipated\": \"Cyberpunk 2077\",\r\n    \"bestOldGame\": \"Counter Strike: GO\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Madoc\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Kingdom Come: Deliverance\",\r\n      \"Deep Rock Galactic\",\r\n      \"Conan Exiles\"\r\n    ],\r\n    \"mostAnticipated\": \"Satisfactory\",\r\n    \"bestOldGame\": \"A Hat in Time\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Rurin\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"Super Smash Bros. Ultimate\",\r\n      \"Warhammer: Vermintide 2\",\r\n      \"Conan Exiles\"\r\n    ],\r\n    \"mostAnticipated\": \"Bannerlord\",\r\n    \"bestOldGame\": \"Overwatch\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"Tony Rubberface\",\r\n    \"year\": 2018,\r\n    \"gamesOfTheYear\": [\r\n      \"God of War\",\r\n      \"Sea of Thieves\",\r\n      \"Monster Hunter: World\",\r\n      \"Warhammer: Vermintide 2\",\r\n      \"FAR: Lone Sails\",\r\n      \"Frostpunk\"\r\n    ],\r\n    \"mostAnticipated\": \"Final Fantasy XIV: Shadowbringers\",\r\n    \"bestOldGame\": \"Final Fantasy XIV: Stormblood\",\r\n    \"enteredGiveaway\": true\r\n  },\r\n  {\r\n    \"name\": \"2020 Summary (No individual responses)\",\r\n    \"year\": 2020,\r\n    \"gamesOfTheYear\": [\r\n      \"Crusader Kings III\",\r\n      \"Phasmophobia\",\r\n      \"Rogue Company\",\r\n      \"Among us\",\r\n      \"Baldur's Gate 3\",\r\n      \"Cyberpunk 2077\",\r\n      \"Mount & Blade 2: Bannerlord\",\r\n      \"Half life alyx\",\r\n      \"Hades\",\r\n      \"Doom Eternal\"\r\n    ],\r\n    \"bestOldGame\": \"Apex Legends\",\r\n    \"mostAnticipated\": \"Baldur's Gate 3\"\r\n  },\r\n  {\r\n    \"name\": \"2021 Summary (No individual responses)\",\r\n    \"year\": 2021,\r\n    \"gamesOfTheYear\": [\r\n      \"Age of Empires IV\",\r\n      \"It Takes Two\",\r\n      \"Super Auto Pets\",\r\n      \"Valheim\",\r\n      \"Wildermyth\",\r\n      \"Village Resident Evil\",\r\n      \"Pathfinder Wrath of the Righteous\",\r\n      \"Deathloop\",\r\n      \"Mario Party Superstars\",\r\n      \"Pokemon Unite\",\r\n      \"Evil Genius 2\",\r\n      \"New World\",\r\n      \"Halo Infinite\"\r\n    ],\r\n    \"bestOldGame\": \"Apex Legends\",\r\n    \"mostAnticipated\": \"Total War: Warhammer III\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/batch?dryRun=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"batch"
+							],
+							"query": [
+								{
+									"key": "dryRun",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Properties",
+			"item": [
+				{
+					"name": "All Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Properties",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{un}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"The Midnight Watchmen's\\nTop Games of the Year ${year}\",\r\n    \"gotyQuestion\": {\r\n        \"title\": \"Games of the Year\",\r\n        \"question\": \"What are your favorite game(s) of ${year}?\",\r\n        \"rules\": [\r\n            \"Voting closes ${deadline}.\",\r\n            \"May nominate any amount of games up to ${maxGames}.\",\r\n            \"Eligible games must have been released in ${year}.\",\r\n            \"Early access games are eligible if they were released in ${year}.\",\r\n            \"DLC is not eligible.\"\r\n        ]\r\n    },\r\n    \"tiePoints\": [\r\n        15,\r\n        13,\r\n        11,\r\n        7,\r\n        6,\r\n        5,\r\n        4,\r\n        3,\r\n        2,\r\n        1\r\n    ],\r\n    \"deadline\": \"2025-01-01T00:00:00-05:00\",\r\n    \"hasGiveaway\": true,\r\n    \"giveawayAmountUSD\": 25,\r\n    \"defaultLocalTimeZone\": \"America/New_York\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/2026",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"2026"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Active Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Properties",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/2024",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"2024"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Properties",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{pw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{un}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"The Midnight Watchmen's\\nTop Games of the Year ${year}\",\r\n    \"year\": \"2016\",\r\n    \"gotyQuestion\": {\r\n        \"title\": \"Games of the Year\",\r\n        \"question\": \"What are your favorite game(s) of ${year}?\",\r\n        \"rules\": [\r\n            \"Voting closes ${deadline}.\",\r\n            \"May nominate any amount of games up to ${maxGames}.\",\r\n            \"Eligible games must have been released in ${year}.\",\r\n            \"Early access games are eligible if they were released in ${year}.\",\r\n            \"DLC is not eligible.\"\r\n        ]\r\n    },\r\n    \"tiePoints\": [\r\n        15,\r\n        13,\r\n        11,\r\n        7,\r\n        6,\r\n        5,\r\n        4,\r\n        3,\r\n        2,\r\n        1\r\n    ],\r\n    \"deadline\": \"2017-01-01T00:00:00-05:00\",\r\n    \"hasGiveaway\": false,\r\n    \"giveawayAmountUSD\": -1,\r\n    \"defaultLocalTimeZone\": \"America/New_York\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/2024",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"2024"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActiveYear",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/active-year",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"active-year"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActiveYear",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/active-year/2024",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"active-year",
+								"2024"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Games",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/games?title=The Division&limit=10&mainGame=false",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"games"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "The Division"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "year",
+							"value": "2018",
+							"disabled": true
+						},
+						{
+							"key": "mainGame",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Results",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/results?year=2023",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"results"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2023"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

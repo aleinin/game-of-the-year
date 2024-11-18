@@ -1,6 +1,7 @@
 package com.aleinin.goty.result
 
 import com.aleinin.goty.SubmissionDataHelper
+import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.submission.Submission
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -19,6 +20,9 @@ internal class ResultServiceTest {
 
     @Mock
     lateinit var gameScoringService: GameScoringService
+
+    @Mock
+    lateinit var propertiesService: PropertiesService
 
     @InjectMocks
     lateinit var resultsService: ResultService
@@ -63,7 +67,7 @@ internal class ResultServiceTest {
         val submissions = SubmissionDataHelper.everything()
         val expectedParticipants = submissions.map { it.name }
         val expectedGiveawayParticipants = submissions.filter { it.enteredGiveaway }.map { it.name }
-        whenever(gameScoringService.score(any())).thenReturn(mockGamesOfTheYear)
+        whenever(gameScoringService.score(any(), any())).thenReturn(mockGamesOfTheYear)
         whenever(gameRankingService.rank(submissions.mapNotNull { it.mostAnticipated }))
             .thenReturn(mockRankedAnticipated)
         whenever(gameRankingService.rank(submissions.mapNotNull { it.bestOldGame })).thenReturn(mockRankedOldGame)
@@ -79,7 +83,7 @@ internal class ResultServiceTest {
         )
         val actual = resultsService.calculate(submissions, expectedYear)
         assertEquals(expected, actual)
-        Mockito.verify(gameScoringService, Mockito.times(1)).score(any())
+        Mockito.verify(gameScoringService, Mockito.times(1)).score(any(), any())
         Mockito.verify(gameRankingService, Mockito.times(3)).rank(any())
     }
 
@@ -90,7 +94,7 @@ internal class ResultServiceTest {
         val mostAnticipated = listOf(submissions[0].mostAnticipated ?: throw AssertionError())
         val bestOldGame = listOf(submissions[0].bestOldGame ?: throw AssertionError())
         val mostDisappointing = listOf(submissions[0].mostDisappointing ?: throw AssertionError())
-        whenever(gameScoringService.score(any())).thenReturn(mockGamesOfTheYear)
+        whenever(gameScoringService.score(any(), any())).thenReturn(mockGamesOfTheYear)
         whenever(gameRankingService.rank(mostAnticipated)).thenReturn(mockRankedAnticipated)
         whenever(gameRankingService.rank(bestOldGame)).thenReturn(mockRankedOldGame)
         whenever(gameRankingService.rank(mostDisappointing)).thenReturn(mockRankedDisappointing)
@@ -106,7 +110,7 @@ internal class ResultServiceTest {
             )
         val actual = resultsService.calculate(submissions, expectedYear)
         assertEquals(expected, actual)
-        Mockito.verify(gameScoringService, Mockito.times(1)).score(any())
+        Mockito.verify(gameScoringService, Mockito.times(1)).score(any(), any())
         Mockito.verify(gameRankingService, Mockito.times(1)).rank(mostAnticipated)
         Mockito.verify(gameRankingService, Mockito.times(1)).rank(bestOldGame)
     }

@@ -4,7 +4,7 @@ import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameResult
 import com.aleinin.goty.SubmissionDataHelper.Companion.aScoredGameResult
 import com.aleinin.goty.configuration.DefaultProperties
-import com.aleinin.goty.properties.PropertiesDocumentRepository
+import com.aleinin.goty.properties.PropertiesRepository
 import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.submission.SecretSubmission
 import com.aleinin.goty.submission.SecretSubmissionRepository
@@ -30,7 +30,7 @@ internal class ResultControllerTest {
     lateinit var mockMvc: MockMvc
 
     @MockBean
-    lateinit var propertiesDocumentRepository: PropertiesDocumentRepository
+    lateinit var propertiesRepository: PropertiesRepository
 
     @Autowired
     lateinit var resultService: ResultService
@@ -53,7 +53,7 @@ internal class ResultControllerTest {
     @BeforeEach
     fun setup() {
         mockMvc = standaloneSetup(ResultController(submissionService, resultService, propertiesService)).build()
-        whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.empty())
+        whenever(propertiesRepository.findById(any())).thenReturn(Optional.empty())
     }
 
     @Test
@@ -102,7 +102,7 @@ internal class ResultControllerTest {
                 giveawayParticipants = mockSubmissions.filter { it.enteredGiveaway }.map { it.name }
         )
         whenever(secretSubmissionRepository.findByYear(expectedYear)).thenReturn(mockSubmissions)
-        mockMvc.perform(get("/results?year=$expectedYear")
+        mockMvc.perform(get("/results/$expectedYear")
                 .contentType("application/json"))
                 .andExpect(status().isOk)
                 .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
@@ -122,7 +122,7 @@ internal class ResultControllerTest {
                 giveawayParticipants = emptyList()
         )
         whenever(secretSubmissionRepository.findAll()).thenReturn(mockSubmissions)
-        mockMvc.perform(get("/results?year=$noSubmissionYear")
+        mockMvc.perform(get("/results/$noSubmissionYear")
                 .contentType("application/json"))
                 .andExpect(status().isOk)
                 .andExpect(content().json(objectMapper.writeValueAsString(expected), true))

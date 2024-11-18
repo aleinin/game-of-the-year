@@ -21,6 +21,16 @@ class PropertiesController(
     private val propertiesService: PropertiesService
 ) {
 
+    @GetMapping("/properties/active-year")
+    fun getActiveYear() = propertiesService.getActiveYear()
+
+    @PutMapping("/properties/active-year/{activeYear}")
+    fun putActiveYear(@PathVariable activeYear: Int) = try {
+        propertiesService.setActiveYear(activeYear)
+    } catch (e: InvalidYearException) {
+        throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
+    }
+
     @GetMapping("/properties")
     fun getAllProperties(
         @RequestParam(required = false) localTimeZone: ZoneId?

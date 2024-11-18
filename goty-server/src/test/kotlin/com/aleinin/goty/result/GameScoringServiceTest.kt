@@ -12,8 +12,6 @@ import org.mockito.kotlin.whenever
 
 @ExtendWith(MockitoExtension::class)
 internal class GameScoringServiceTest {
-    @Mock
-    lateinit var pointSerice: PointsService
 
     @InjectMocks
     lateinit var gameScoringService: GameScoringService
@@ -59,10 +57,8 @@ internal class GameScoringServiceTest {
                 votes = 1
             )
         )
-        whenever(pointSerice.calculatePoints(0)).thenReturn(15)
-        whenever(pointSerice.calculatePoints(1)).thenReturn(13)
-        whenever(pointSerice.calculatePoints(2)).thenReturn(11)
-        val actual = gameScoringService.score(submissions)
+        val tiePoints = listOf(15, 13, 11)
+        val actual = gameScoringService.score(submissions, tiePoints)
         assertEquals(expected, actual)
     }
 
@@ -78,8 +74,8 @@ internal class GameScoringServiceTest {
                 votes = 1
             )
         )
-        whenever(pointSerice.calculatePoints(0)).thenReturn(15)
-        val actual = gameScoringService.score(submissions)
+        val tiePoints = listOf(15)
+        val actual = gameScoringService.score(submissions, tiePoints)
         assertEquals(expected, actual)
     }
 
@@ -87,7 +83,7 @@ internal class GameScoringServiceTest {
     fun `Should handle an empty list of RankedGameSubmission`() {
         val submissions = emptyList<RankedGameSubmission>()
         val expected = emptyList<ScoredGameResult>()
-        val actual = gameScoringService.score(submissions)
+        val actual = gameScoringService.score(submissions, emptyList())
         assertEquals(expected, actual)
     }
 }

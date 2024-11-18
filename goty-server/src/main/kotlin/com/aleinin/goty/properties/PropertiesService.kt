@@ -1,7 +1,6 @@
 package com.aleinin.goty.properties
 
 import PropertiesUpdateRequest
-import com.aleinin.goty.activeYear.ActiveYearProviderService
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.configuration.toProperties
 import org.springframework.stereotype.Service
@@ -38,19 +37,36 @@ fun Properties.toPropertiesDocument(): PropertiesDocument {
 
 @Service
 class PropertiesService(
-    private val propertiesDocumentRepository: PropertiesDocumentRepository,
+    private val propertiesRepository: PropertiesRepository,
     private val templateService: TemplateService,
-    private val activeYearService: ActiveYearProviderService,
+    private val activeYearRepository: ActiveYearRepository,
     @Validated private val defaultProperties: DefaultProperties
 ) {
+    companion object {
+        const val ACTIVE_YEAR_ID = "activeYear"
+    }
+
+    fun getActiveYear(): Int = activeYearRepository.findById(ACTIVE_YEAR_ID)
+        .map { it.year }
+        .orElseGet { defaultProperties.year }
+
+    fun setActiveYear(newActiveYear: Int) = getProperties(newActiveYear)
+        .map { activeYearRepository.save(
+            ActiveYearDocument(
+                id = ACTIVE_YEAR_ID,
+                year = newActiveYear,
+            )
+        ).year }
+        .orElseThrow{ InvalidYearException(newActiveYear) }
+
     fun getAllPropertiesResponse(localTimeZone: ZoneId?): List<PropertiesResponse> {
-        return propertiesDocumentRepository.findAll()
+        return propertiesRepository.findAll()
             .map { it.toProperties() }
             .map { toResponse(it, localTimeZone) }
     }
 
     fun getProperties(year: Int): Optional<Properties> {
-        return propertiesDocumentRepository.findByYear(year)
+        return propertiesRepository.findByYear(year)
             .map { it.toProperties() }
     }
 
@@ -60,7 +76,7 @@ class PropertiesService(
     }
 
     fun getActiveYearProperties(): Properties {
-        return propertiesDocumentRepository.findByYear(activeYearService.getActiveYear())
+        return propertiesRepository.findByYear(getActiveYear())
             .map { it.toProperties() }
             .orElseGet(defaultProperties::toProperties)
     }
@@ -70,22 +86,22 @@ class PropertiesService(
     }
 
     fun getTiePoints(year: Int): List<Int> {
-        return propertiesDocumentRepository.findByYear(year)
+        return propertiesRepository.findByYear(year)
             .map { it.tiePoints }
             .orElseGet { defaultProperties.tiePoints }
     }
 
     fun saveProperties(properties: Properties, localTimeZone: ZoneId?): PropertiesResponse {
-        val existing = propertiesDocumentRepository.findByYear(properties.year)
+        val existing = propertiesRepository.findByYear(properties.year)
         if (existing.isPresent) {
             throw PropertiesConflictException(properties.year)
         }
-        return toResponse(propertiesDocumentRepository.save(properties.toPropertiesDocument()).toProperties(), localTimeZone)
+        return toResponse(propertiesRepository.save(properties.toPropertiesDocument()).toProperties(), localTimeZone)
     }
 
     fun replaceProperties(year: Int, request: PropertiesUpdateRequest, localTimeZone: ZoneId?): PropertiesResponse {
-        return propertiesDocumentRepository.findByYear(year)
-            .map { propertiesDocumentRepository.save(
+        return propertiesRepository.findByYear(year)
+            .map { propertiesRepository.save(
                 PropertiesDocument(
                     year = year,
                     title = request.title,
@@ -103,12 +119,12 @@ class PropertiesService(
     }
 
     fun deleteProperties(year: Int) {
-        val activeYear = activeYearService.getActiveYear()
+        val activeYear = getActiveYear()
         if (year == activeYear) {
             throw CannotDeleteActiveYearException()
         }
-        propertiesDocumentRepository.findByYear(year)
-            .map { propertiesDocumentRepository.delete(it) }
+        propertiesRepository.findByYear(year)
+            .map { propertiesRepository.delete(it) }
             .orElseThrow { YearNotFoundException(year) }
     }
 
@@ -118,8 +134,10 @@ class PropertiesService(
             year = properties.year,
             gotyQuestion = templateService.toGotyQuestionResponse(properties.gotyQuestion, properties, localTimeZone),
             tiePoints = properties.tiePoints,
+            deadline = properties.deadline,
             giveawayAmountUSD = properties.giveawayAmountUSD,
             hasGiveaway = properties.hasGiveaway,
+            defaultLocalTimeZone = properties.defaultLocalTimeZone,
         )
     }
 

@@ -2,7 +2,9 @@ package com.aleinin.goty.submission
 
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.configuration.DefaultProperties
+import com.aleinin.goty.properties.ActiveYearRepository
 import com.aleinin.goty.properties.PropertiesRepository
+import com.aleinin.goty.properties.PropertiesService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -47,6 +49,9 @@ internal class SubmissionControllerTest {
     lateinit var propertiesRepository: PropertiesRepository
 
     @MockBean
+    lateinit var activeYearRepository: ActiveYearRepository
+
+    @MockBean
     lateinit var secretSubmissionRepository: SecretSubmissionRepository
 
     @MockBean
@@ -56,7 +61,8 @@ internal class SubmissionControllerTest {
 
     @BeforeEach()
     fun setup() {
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.empty())
+        whenever(activeYearRepository.findById(PropertiesService.ACTIVE_YEAR_ID)).thenReturn(Optional.empty())
+        whenever(propertiesRepository.findByYear(defaultProperties.year)).thenReturn(Optional.empty())
     }
 
 

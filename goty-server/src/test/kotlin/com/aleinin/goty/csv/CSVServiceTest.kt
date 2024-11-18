@@ -1,10 +1,14 @@
 package com.aleinin.goty.csv
 
 import com.aleinin.goty.SubmissionDataHelper
+import com.aleinin.goty.UTC
 import com.aleinin.goty.csv.CSVData.Companion.assertEqualNormalizeLineEnds
 import com.aleinin.goty.properties.GotyQuestion
+import com.aleinin.goty.properties.GotyQuestionResponse
 import com.aleinin.goty.properties.Properties
+import com.aleinin.goty.properties.PropertiesResponse
 import com.aleinin.goty.properties.PropertiesService
+import com.aleinin.goty.properties.ResolvedTemplate
 import com.aleinin.goty.result.ResultResponse
 import com.aleinin.goty.result.ResultService
 import com.aleinin.goty.submission.SubmissionService
@@ -18,6 +22,7 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.whenever
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.Optional
 import java.util.UUID
 
 @ExtendWith(MockitoExtension::class)
@@ -46,18 +51,31 @@ class CSVServiceTest {
                 participants = emptyList(),
                 giveawayParticipants = emptyList()
         ))
-        val properties = Properties(
-                title = "myTitle",
+        val properties = PropertiesResponse(
+                title = ResolvedTemplate(
+                    template = "myTitle",
+                    text = "myTitle"
+                ),
                 year = year,
-                gotyQuestion = GotyQuestion("myGotyTitle", "myGotyQuestion",  emptyList()),
+                gotyQuestion = GotyQuestionResponse(
+                    title = ResolvedTemplate(
+                        template = "hello",
+                        text = "hello"
+                    ),
+                    question = ResolvedTemplate(
+                        template = "world",
+                        text = "world"
+                    ),
+                    rules = emptyList()
+                ),
                 tiePoints = listOf(1),
                 deadline = ZonedDateTime.of(2000, 1, 1, 12, 12, 12, 0, ZoneId.of("Etc/GMT")),
                 defaultLocalTimeZone = null,
                 giveawayAmountUSD = 0,
                 hasGiveaway = false
         )
-        whenever(propertiesService.getProperties()).thenReturn(properties)
-        val actual = csvService.dumpToCSV(year)
+        whenever(propertiesService.getPropertiesResponse(year, UTC)).thenReturn(Optional.of(properties))
+        val actual = csvService.dumpToCSV(year, UTC)
         assertEqualNormalizeLineEnds(CSVData.emptyCSV(year), actual)
     }
 
@@ -71,21 +89,34 @@ class CSVServiceTest {
                 UUID.fromString("0ffefab3-2dc5-4218-9a6a-b06287934d08"),
         )
         val submissions = SubmissionDataHelper.everything(year)
-                .mapIndexed() { index, submission ->  submission.copy(id=expectedUUIDs[index])}
+                .mapIndexed { index, submission ->  submission.copy(id=expectedUUIDs[index])}
         whenever(submissionService.getSubmissionsForYear(eq(year))).thenReturn(submissions)
         whenever(resultService.calculate(submissions, year)).thenReturn(SubmissionDataHelper.everythingScored(year))
-        val properties = Properties(
-                title = "my cool title",
-                year = year,
-                gotyQuestion = GotyQuestion("hello", "world",  listOf("rule1", "rule2", "rule3")),
-                tiePoints = listOf(15, 13, 11, 7, 6, 5, 4, 3, 2, 1),
-                deadline = ZonedDateTime.of(2000, 1, 1, 12, 12, 12, 0, ZoneId.of("Etc/GMT")),
-                defaultLocalTimeZone = ZoneId.of("America/Chicago"),
-                giveawayAmountUSD = 999,
-                hasGiveaway = true
+        val properties = PropertiesResponse(
+            title = ResolvedTemplate(
+                template = "myTitle",
+                text = "myTitle"
+            ),
+            year = year,
+            gotyQuestion = GotyQuestionResponse(
+                title = ResolvedTemplate(
+                    template = "hello",
+                    text = "hello"
+                ),
+                question = ResolvedTemplate(
+                    template = "world",
+                    text = "world"
+                ),
+                rules = emptyList()
+            ),
+            tiePoints = listOf(15, 13, 11, 7, 6, 5, 4, 3, 2, 1),
+            deadline = ZonedDateTime.of(2000, 1, 1, 12, 12, 12, 0, ZoneId.of("Etc/GMT")),
+            defaultLocalTimeZone = null,
+            giveawayAmountUSD = 0,
+            hasGiveaway = false
         )
-        whenever(propertiesService.getProperties()).thenReturn(properties)
-        val actual = csvService.dumpToCSV(year)
+        whenever(propertiesService.getPropertiesResponse(year, UTC)).thenReturn(Optional.of(properties))
+        val actual = csvService.dumpToCSV(year, UTC)
         assertEqualNormalizeLineEnds(CSVData.fullCSV(year), actual)
     }
 }

@@ -44,6 +44,9 @@ internal class PropertiesControllerTest {
     @MockBean
     lateinit var propertiesRepository: PropertiesRepository
 
+    @MockBean
+    lateinit var activeYearRepository: ActiveYearRepository
+
     @Autowired
     lateinit var defaultProperties: DefaultProperties
 

@@ -4,6 +4,7 @@ import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameResult
 import com.aleinin.goty.SubmissionDataHelper.Companion.aScoredGameResult
 import com.aleinin.goty.configuration.DefaultProperties
+import com.aleinin.goty.properties.ActiveYearRepository
 import com.aleinin.goty.properties.PropertiesRepository
 import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.submission.SecretSubmission
@@ -31,6 +32,9 @@ internal class ResultControllerTest {
 
     @MockBean
     lateinit var propertiesRepository: PropertiesRepository
+
+    @MockBean
+    lateinit var activeYearRepository: ActiveYearRepository
 
     @Autowired
     lateinit var resultService: ResultService

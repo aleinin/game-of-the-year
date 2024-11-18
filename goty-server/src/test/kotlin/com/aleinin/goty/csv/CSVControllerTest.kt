@@ -3,9 +3,12 @@ package com.aleinin.goty.csv
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.csv.CSVData.Companion.assertEqualNormalizeLineEnds
+import com.aleinin.goty.properties.ActiveYearDocument
+import com.aleinin.goty.properties.ActiveYearRepository
 import com.aleinin.goty.properties.GotyQuestion
 import com.aleinin.goty.properties.PropertiesDocument
 import com.aleinin.goty.properties.PropertiesRepository
+import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.submission.SecretSubmissionRepository
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.eq
@@ -34,11 +37,17 @@ class CSVControllerTest {
     lateinit var propertiesRepository: PropertiesRepository
 
     @MockBean
+    lateinit var activeYearRepository: ActiveYearRepository
+
+    @MockBean
     lateinit var secretSubmissionRepository: SecretSubmissionRepository
 
     @Test
     fun `Should get CSV`() {
         val expectedYear = defaultProperties.year
+        whenever(activeYearRepository.findById(PropertiesService.ACTIVE_YEAR_ID)).thenReturn(Optional.of(
+            ActiveYearDocument(PropertiesService.ACTIVE_YEAR_ID, expectedYear)
+        ))
         whenever(propertiesRepository.findByYear(expectedYear)).thenReturn(Optional.of(PropertiesDocument(
                 year = expectedYear,
                 title = "My Title",

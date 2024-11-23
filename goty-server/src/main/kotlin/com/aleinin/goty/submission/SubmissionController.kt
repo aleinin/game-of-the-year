@@ -1,6 +1,5 @@
 package com.aleinin.goty.submission
 
-import com.aleinin.goty.properties.PropertiesService
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -19,23 +18,19 @@ import java.util.UUID
 @RestController
 class SubmissionController(
         private val submissionService: SubmissionService,
-        private val propertiesService: PropertiesService
 ) {
-
-    @GetMapping("/submissions")
-    fun getSubmissions(@RequestParam(required = false) year: Int?): List<Submission> = submissionService.getSubmissionsForYear(year ?: propertiesService.getActiveYear())
-
-    @GetMapping("/submissions/years")
-    fun getSubmissionYears(): List<Int> = submissionService.getSubmissionYears()
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/submissions/secret")
-    fun getSecretSubmissions(@RequestParam(required = false) year: Int?): List<SecretSubmission> = submissionService.getAllSecretSubmissions(year)
+    fun getSecretSubmissions(): List<SecretSubmission> = submissionService.getAllSecretSubmissions()
+
+
+    @GetMapping("/submissions")
+    fun getSubmissions(@RequestParam(required = false) year: Int?): List<Submission> = submissionService.getAllSubmissions()
 
     @PostMapping("/submissions")
-    fun addSubmission(@RequestBody submissionCreationRequest: SubmissionCreationRequest) =
+    fun createSubmission(@RequestBody submissionCreationRequest: SubmissionCreationRequest) =
             try {
-                submissionService.saveSubmission(submissionCreationRequest)
+                submissionService.createSubmission(submissionCreationRequest)
             } catch (e: AfterDeadlineException) {
                 throw ResponseStatusException(HttpStatus.FORBIDDEN, e.message)
             } catch (e: TooManyGamesException) {
@@ -43,8 +38,8 @@ class SubmissionController(
             }
 
     @GetMapping("/submissions/{id}")
-    fun getSubmission(@PathVariable id: UUID, @RequestParam(required = false) year: Int?): Submission =
-            submissionService.getSubmission(id, year ?: propertiesService.getActiveYear()).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+    fun getSubmission(@PathVariable id: UUID): Submission =
+            submissionService.getSubmission(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
     @PutMapping("/submissions/{id}")
     fun updateSubmission(@PathVariable id: UUID, @RequestBody submissionUpdateRequest: SubmissionUpdateRequest): Submission =

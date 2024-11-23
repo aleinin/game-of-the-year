@@ -17,23 +17,15 @@ class SubmissionService(
     private val uuidService: UUIDService
 ) {
 
-    fun getSubmissionsForYear(year: Int): List<Submission> = submissionRepository.findSubmissionsByYear(year)
+    fun getAllSubmissions(): List<Submission> = submissionRepository.findSubmissionsByYear(propertiesService.getActiveYear())
 
-    fun getAllSecretSubmissions(year: Int?): List<SecretSubmission> =
-        if (year != null) secretSubmissionRepository.findByYear(year)
-        else secretSubmissionRepository.findAll()
+    fun getAllSecretSubmissions(): List<SecretSubmission> =
+        secretSubmissionRepository.findByYear(propertiesService.getActiveYear())
 
-    fun getSubmissionYears(): List<Int> {
-        val distinctYears = submissionRepository.findSubmissionYears()
-        val thisYear = propertiesService.getActiveYear()
-        val years = if (distinctYears.contains(thisYear)) distinctYears else distinctYears.plus(thisYear)
-        return years.sortedDescending()
-    }
+    fun getSubmission(id: UUID): Optional<Submission> = submissionRepository.findSubmissionByIdAndYear(id, propertiesService.getActiveYear())
 
-    fun getSubmission(id: UUID, year: Int): Optional<Submission> = submissionRepository.findSubmissionByIdAndYear(id, year)
-
-    fun saveSubmission(submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
-        validateAddSubmission(submissionCreationRequest.gamesOfTheYear) {
+    fun createSubmission(submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
+        validateCreateSubmission(submissionCreationRequest.gamesOfTheYear) {
             secretSubmissionRepository.save(
                 SecretSubmission(
                     id = uuidService.randomID(),
@@ -66,12 +58,11 @@ class SubmissionService(
                 .map { secretSubmissionRepository.save(it) }
                 .map { it.toSubmission() }
 
-
     fun deleteSubmission(id: UUID): Optional<Unit> =
-        submissionRepository.findSubmissionById(id)
+        submissionRepository.findSubmissionByIdAndYear(id, propertiesService.getActiveYear())
             .map { submissionRepository.deleteSubmissionById(id) }
 
-    private fun validateAddSubmission(gamesOfTheYear: List<RankedGameSubmission>, perform: () -> SecretSubmission): SecretSubmission {
+    private fun validateCreateSubmission(gamesOfTheYear: List<RankedGameSubmission>, perform: () -> SecretSubmission): SecretSubmission {
         val properties = propertiesService.getActiveYearProperties()
         validateDeadlineAndGames(properties, gamesOfTheYear)
         return perform()

@@ -7,7 +7,7 @@ export interface BestOldGameProps {
   readonly: boolean
   bestOldGame: Game | null
   handleSetBestOldGame?: (game: Game | null) => void
-  year: number
+  year: string
   searchYears?: number[]
 }
 

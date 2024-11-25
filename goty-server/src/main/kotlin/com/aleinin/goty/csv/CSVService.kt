@@ -52,11 +52,11 @@ class CSVService(
         return dumpToCSV(year, localTimeZone)
     }
 
-    fun getYearCSV(year: Int, localTimeZone: ZoneId?): String {
+    fun getYearCSV(year: String, localTimeZone: ZoneId?): String {
         return dumpToCSV(year, localTimeZone)
     }
 
-    private fun dumpToCSV(year: Int, localTimeZone: ZoneId?): String {
+    private fun dumpToCSV(year: String, localTimeZone: ZoneId?): String {
         val properties = propertiesService.getPropertiesResponse(year, localTimeZone).getOrElse { throw NoResultsForYearException() }
         val submissions = submissionArchiveService.getAllSubmissionsForYear(year)
         val results = resultsService.getResultsForYear(year)
@@ -68,7 +68,7 @@ class CSVService(
         return stringWriter.toString()
     }
 
-    private fun printYear(csvPrinter: CSVPrinter, year: Int) {
+    private fun printYear(csvPrinter: CSVPrinter, year: String) {
         csvPrinter.printRecord(YEAR_LABEL, year)
     }
 

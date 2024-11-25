@@ -66,7 +66,7 @@ class SubmissionServiceTest {
     @Test
     fun `Should get all submissions`() {
         val expected = SubmissionDataHelper.everything()
-        val year = 2000
+        val year = "2000"
         whenever(propertiesService.getActiveYear()).thenReturn(year)
         whenever(submissionRepository.findSubmissionsByYear(year)).thenReturn(expected)
         assertEquals(expected, submissionService.getAllSubmissions())
@@ -74,7 +74,7 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should get all secret submissions`() {
-        val year = 2000
+        val year = "2000"
         val expected = SubmissionDataHelper.secret(SubmissionDataHelper.everything())
         whenever(propertiesService.getActiveYear()).thenReturn(year)
         whenever(secretSubmissionRepository.findByYear(year)).thenReturn(expected)
@@ -83,7 +83,7 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should get submission by id`() {
-        val year = 2000
+        val year = "2000"
         val id = UUID.randomUUID()
         val expected = SubmissionDataHelper.minimal()
         whenever(propertiesService.getActiveYear()).thenReturn(year)
@@ -93,7 +93,7 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should return empty if no submission by id`() {
-        val year = 2000
+        val year = "2000"
         val id = UUID.randomUUID()
         whenever(propertiesService.getActiveYear()).thenReturn(year)
         whenever(submissionRepository.findSubmissionByIdAndYear(id, year)).thenReturn(Optional.empty())
@@ -102,10 +102,11 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should create submission`() {
-        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(testTime.year, testTimeMillis, testTimeMillis))
+        val year = testTime.year.toString()
+        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, testTimeMillis, testTimeMillis))
         setupBeforeDeadline()
         whenever(properties.tiePoints).thenReturn((submission.gamesOfTheYear.size downTo 1).toList())
-        whenever(propertiesService.getActiveYear()).thenReturn(testTime.year)
+        whenever(propertiesService.getActiveYear()).thenReturn(year)
         val request = SubmissionDataHelper.creationRequest(submission)
         whenever(secretSubmissionRepository.save(submission)).thenReturn(submission)
         whenever(uuidService.randomID()).thenReturn(submission.id)
@@ -117,7 +118,8 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should reject submission after deadline`() {
-        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(testTime.year, testTimeMillis, testTimeMillis))
+        val year = testTime.year.toString()
+        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, testTimeMillis, testTimeMillis))
         setupAfterDeadline()
         val request = SubmissionDataHelper.creationRequest(submission)
         assertThrows<AfterDeadlineException> {
@@ -128,7 +130,8 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should reject submissions with too many games of the year`() {
-        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(testTime.year, testTimeMillis, testTimeMillis))
+        val year = testTime.year.toString()
+        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, testTimeMillis, testTimeMillis))
         setupBeforeDeadline()
         val request = SubmissionDataHelper.creationRequest(submission)
         whenever(properties.tiePoints).thenReturn((submission.gamesOfTheYear.size - 1 downTo 1).toList())
@@ -140,7 +143,7 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should delete submission by id`() {
-        val year = 2000
+        val year = "2000"
         whenever(propertiesService.getActiveYear()).thenReturn(year)
         val submission = SubmissionDataHelper.minimal()
         whenever(submissionRepository.findSubmissionByIdAndYear(submission.id, year)).thenReturn(Optional.of(submission))
@@ -151,7 +154,7 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should not delete if no submission by id`() {
-        val year = 2000
+        val year = "2000"
         whenever(propertiesService.getActiveYear()).thenReturn(year)
         val id = UUID.randomUUID()
         whenever(submissionRepository.findSubmissionByIdAndYear(id, year)).thenReturn(Optional.empty())
@@ -162,13 +165,14 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should update submission`() {
-        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(testTime.year, testTimeMillis, testTimeMillis))
+        val year = testTime.year.toString()
+        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, testTimeMillis, testTimeMillis))
         setupBeforeDeadline()
         whenever(properties.tiePoints).thenReturn((submission.gamesOfTheYear.size downTo 1).toList())
-        whenever(propertiesService.getActiveYear()).thenReturn(testTime.year)
+        whenever(propertiesService.getActiveYear()).thenReturn(year)
         val request = SubmissionDataHelper.updateRequest(submission)
         whenever(secretSubmissionRepository.save(submission)).thenReturn(submission)
-        whenever(secretSubmissionRepository.findByIdAndYear(submission.id, testTime.year)).thenReturn(Optional.of(submission))
+        whenever(secretSubmissionRepository.findByIdAndYear(submission.id, year)).thenReturn(Optional.of(submission))
         val actual = submissionService.updateSubmission(submission.id, request)
         assertEquals(Optional.of(submission.toSubmission()), actual)
         verify(secretSubmissionRepository, times(1)).save(submission)
@@ -176,7 +180,8 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should reject submission update after deadline`() {
-        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(testTime.year, testTimeMillis, testTimeMillis))
+        val year = testTime.year.toString()
+        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, testTimeMillis, testTimeMillis))
         setupAfterDeadline()
         val request = SubmissionDataHelper.updateRequest(submission)
         assertThrows<AfterDeadlineException> {
@@ -187,7 +192,8 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should reject submissions update with too many games of the year`() {
-        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(testTime.year, testTimeMillis, testTimeMillis))
+        val year = testTime.year.toString()
+        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, testTimeMillis, testTimeMillis))
         setupBeforeDeadline()
         val request = SubmissionDataHelper.updateRequest(submission)
         whenever(properties.tiePoints).thenReturn((submission.gamesOfTheYear.size - 1 downTo 1).toList())
@@ -199,11 +205,12 @@ class SubmissionServiceTest {
 
     @Test
     fun `Should reject submission updates with wrong secret`() {
-        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(testTime.year, testTimeMillis, testTimeMillis))
+        val year = testTime.year.toString()
+        val submission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, testTimeMillis, testTimeMillis))
         setupBeforeDeadline()
         val request = SubmissionDataHelper.updateRequest(submission)
-        whenever(secretSubmissionRepository.findByIdAndYear(submission.id, testTime.year)).thenReturn(Optional.of(submission))
-        whenever(propertiesService.getActiveYear()).thenReturn(testTime.year)
+        whenever(secretSubmissionRepository.findByIdAndYear(submission.id, year)).thenReturn(Optional.of(submission))
+        whenever(propertiesService.getActiveYear()).thenReturn(year)
         whenever(properties.tiePoints).thenReturn((submission.gamesOfTheYear.size downTo 1).toList())
         assertThrows<IncorrectSecretException> {
             submissionService.updateSubmission(submission.id, request.copy(secret = UUID.randomUUID()))

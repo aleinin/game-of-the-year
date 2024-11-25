@@ -7,14 +7,14 @@ export interface MostDisappointingProps {
   readonly: boolean
   mostDisappointing: Game | null
   handleSetMostDisappointing?: (game: Game | null) => void
-  years?: number[]
+  searchYears?: number[]
 }
 
 export const MostDisappointing = ({
   handleSetMostDisappointing,
   mostDisappointing,
   readonly,
-  years,
+  searchYears,
 }: MostDisappointingProps) => {
   const handleSelect = (mostDisappointing: Game | null) => {
     handleSetMostDisappointing && handleSetMostDisappointing(mostDisappointing)
@@ -29,11 +29,13 @@ export const MostDisappointing = ({
         handleSelect={handleSelect}
         rules={[
           `Any game${
-            years != null ? ` released in ${buildYearsGrammar(years)}` : ''
+            searchYears != null
+              ? ` released in ${buildYearsGrammar(searchYears)}`
+              : ''
           }`,
         ]}
         placeholder="Select most disappointing game"
-        years={years}
+        searchYears={searchYears}
       />
     </InputStateKeyContext.Provider>
   )

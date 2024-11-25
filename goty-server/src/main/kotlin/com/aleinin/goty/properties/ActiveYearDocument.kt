@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "activeYear")
 data class ActiveYearDocument(
     @Id val id: String = PropertiesService.ACTIVE_YEAR_ID,
-    val year: Int,
+    val year: String,
 )

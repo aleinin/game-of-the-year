@@ -7,7 +7,7 @@ import java.time.ZoneId
 
 @Document(collection = "properties")
 data class PropertiesDocument(
-    @Id val year: Int,
+    @Id val year: String,
     var title: String,
     val searchYears: List<Int>?,
     val gotyQuestion: GotyQuestion,

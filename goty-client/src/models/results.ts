@@ -2,7 +2,7 @@ import { GameResult } from './gameResult'
 import { GameOfTheYearResult } from './gameOfTheYearResult'
 
 export interface Results {
-  year: number
+  year: string
   participants: string[]
   gamesOfTheYear: GameOfTheYearResult[]
   mostAnticipated: GameResult[]

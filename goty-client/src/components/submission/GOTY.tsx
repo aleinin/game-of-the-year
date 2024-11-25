@@ -88,7 +88,7 @@ export const GOTY = ({
       {readonly || games.length === properties.tiePoints.length ? null : (
         <InputStateKeyContext.Provider value={'goty'}>
           <Search
-            years={properties.searchYears}
+            searchYears={properties.searchYears}
             placeholder="Select games of the year"
             handleSelect={handleAddGame}
           />

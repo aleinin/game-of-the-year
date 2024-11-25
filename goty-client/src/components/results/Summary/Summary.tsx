@@ -68,7 +68,7 @@ const isEmptyResults = (results: Results) =>
   Object.values(results).every((value) => value.length === 0)
 
 interface SummaryProps {
-  year: number
+  year: string
 }
 export const Summary = ({ year }: SummaryProps) => {
   const { properties } = useProperties(year)

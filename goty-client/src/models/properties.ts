@@ -6,7 +6,7 @@ export interface Properties {
     rules: string[]
   }
   tiePoints: number[]
-  year: number
+  year: string
   searchYears?: number[]
   deadline: string
   hasGiveaway: boolean

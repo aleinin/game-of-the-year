@@ -8,7 +8,7 @@ export interface SearchInPlaceProps {
   game: Game | null
   handleSelect: (val: Game | null) => void
   placeholder: string
-  years?: number[]
+  searchYears?: number[]
 }
 
 const gameIsDefined = (game: Game | null): game is Game => {
@@ -20,7 +20,7 @@ export const SearchInPlace = ({
   handleSelect,
   placeholder,
   readonly,
-  years,
+  searchYears,
 }: SearchInPlaceProps) => {
   const handleDelete = () => handleSelect(null)
   if (gameIsDefined(game)) {
@@ -43,7 +43,7 @@ export const SearchInPlace = ({
     <Search
       placeholder={placeholder}
       handleSelect={handleSelect}
-      years={years}
+      searchYears={searchYears}
     />
   )
 }

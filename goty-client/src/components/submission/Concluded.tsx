@@ -1,7 +1,7 @@
 import { Card } from '../controls/Card/Card'
 import { Summary } from '../results/Summary/Summary'
 
-export const Concluded = ({ year }: { year: number }) => {
+export const Concluded = ({ year }: { year: string }) => {
   return (
     <>
       <Card>

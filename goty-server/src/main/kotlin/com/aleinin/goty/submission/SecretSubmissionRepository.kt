@@ -6,7 +6,7 @@ import java.util.UUID
 
 
 interface SecretSubmissionRepository : MongoRepository<SecretSubmission, UUID> {
-    fun findByYear(year: Int): List<SecretSubmission>
+    fun findByYear(year: String): List<SecretSubmission>
 
-    fun findByIdAndYear(id: UUID, year: Int): Optional<SecretSubmission>
+    fun findByIdAndYear(id: UUID, year: String): Optional<SecretSubmission>
 }

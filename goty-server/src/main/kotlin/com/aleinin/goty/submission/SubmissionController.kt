@@ -25,7 +25,7 @@ class SubmissionController(
 
 
     @GetMapping("/submissions")
-    fun getSubmissions(@RequestParam(required = false) year: Int?): List<Submission> = submissionService.getAllSubmissions()
+    fun getSubmissions(@RequestParam(required = false) year: String?): List<Submission> = submissionService.getAllSubmissions()
 
     @PostMapping("/submissions")
     fun createSubmission(@RequestBody submissionCreationRequest: SubmissionCreationRequest) =

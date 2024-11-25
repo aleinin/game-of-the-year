@@ -6,13 +6,13 @@ import {
   fromBackendResultsToResults,
 } from './backendModels/backendResults'
 
-const getResults = (year: number): Promise<Results> =>
+const getResults = (year: string): Promise<Results> =>
   fetcher
     .get<BackendResults>(`/results/${year}`)
     .then(fromBackendResultsToResults)
 
 const initialResults = {
-  year: new Date().getFullYear(),
+  year: new Date().getFullYear().toString(),
   participants: [],
   gamesOfTheYear: [],
   mostAnticipated: [],
@@ -23,7 +23,7 @@ const initialResults = {
 
 const oneMinuteMs = 60000
 
-export const useResults = (year: number) => {
+export const useResults = (year: string) => {
   const query = useQuery({
     queryKey: ['results', year],
     queryFn: () => getResults(year),

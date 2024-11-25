@@ -8,7 +8,7 @@ interface ResolvedTemplate {
 
 export interface BackendProperties {
   title: ResolvedTemplate
-  year: number
+  year: string
   searchYears?: number[]
   gotyQuestion: {
     title: ResolvedTemplate

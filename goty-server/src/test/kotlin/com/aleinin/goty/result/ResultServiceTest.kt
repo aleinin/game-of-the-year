@@ -41,7 +41,7 @@ internal class ResultServiceTest {
 
     @Test
     fun `Should get results for active year`() {
-        val year = 2077
+        val year = "2077"
         whenever(propertiesService.getActiveYear()).thenReturn(year)
         whenever(submissionService.getAllSubmissions()).thenReturn(SubmissionDataHelper.everything(year))
         whenever(propertiesService.getTiePoints(year)).thenReturn(SubmissionDataHelper.tiePoints)
@@ -52,7 +52,7 @@ internal class ResultServiceTest {
 
     @Test
     fun `Should get results for year`() {
-        val year = 2077
+        val year = "2077"
         whenever(submissionArchiveService.getAllSubmissionsForYear(year)).thenReturn(SubmissionDataHelper.everything(year))
         whenever(propertiesService.getTiePoints(year)).thenReturn(SubmissionDataHelper.tiePoints)
         val expected = SubmissionDataHelper.everythingScored(year)
@@ -62,7 +62,7 @@ internal class ResultServiceTest {
 
     @Test
     fun `Should get result years`() {
-        val years = listOf(2077, 2076, 2075)
+        val years = listOf("2077", "2076", "2075")
         whenever(submissionArchiveService.getSubmissionYears()).thenReturn(years)
         val expected = years
         val actual = resultsService.getResultsYears()

@@ -1,7 +1,7 @@
 package com.aleinin.goty.result
 
 data class ResultResponse(
-    val year: Int,
+    val year: String,
     val gamesOfTheYear: List<ScoredGameResult>,
     val mostAnticipated: List<RankedGameResult>,
     val mostDisappointing: List<RankedGameResult>,

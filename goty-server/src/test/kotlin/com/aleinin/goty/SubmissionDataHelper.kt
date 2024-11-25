@@ -14,7 +14,7 @@ import java.util.UUID
 // Helper class with representative data to make testing easier
 class SubmissionDataHelper {
     companion object {
-        private const val defaultYear = 2050
+        private const val defaultYear = "2050"
 
         fun secret(submissions: List<Submission>): List<SecretSubmission> = submissions.map { secret(it) }
         fun secret(submission: Submission): SecretSubmission =
@@ -32,7 +32,7 @@ class SubmissionDataHelper {
                 updatedOn = submission.updatedOn
             )
 
-        fun everything(year: Int = defaultYear): List<Submission> = listOf(
+        fun everything(year: String = defaultYear): List<Submission> = listOf(
             theMaximalSubmission(year),
             theMinimalSubmission(year),
             theAverageSubmission(year),
@@ -67,7 +67,7 @@ class SubmissionDataHelper {
             enteredGiveaway = submission.enteredGiveaway
         )
 
-        fun everythingScored(year: Int = defaultYear): ResultResponse = ResultResponse(
+        fun everythingScored(year: String = defaultYear): ResultResponse = ResultResponse(
             year = year,
             gamesOfTheYear = listOf(
                 aScoredGameResult("Call of Duty Modern Warfare II", 30, 2, 0),
@@ -114,11 +114,11 @@ class SubmissionDataHelper {
             1
         )
 
-        fun minimal(year: Int = defaultYear) = theMinimalSubmission(year)
-        fun maximal(year: Int = defaultYear, enteredOn: Long = 1, updatedOn: Long = 2) =
+        fun minimal(year: String = defaultYear) = theMinimalSubmission(year)
+        fun maximal(year: String = defaultYear, enteredOn: Long = 1, updatedOn: Long = 2) =
             theMaximalSubmission(year, enteredOn, updatedOn)
 
-        private fun theMaximalSubmission(year: Int, enteredOn: Long = 1, updatedOn: Long = 2) = Submission(
+        private fun theMaximalSubmission(year: String, enteredOn: Long = 1, updatedOn: Long = 2) = Submission(
             id = UUID.randomUUID(),
             year = year,
             name = "Maxi Max",
@@ -137,7 +137,7 @@ class SubmissionDataHelper {
             updatedOn = updatedOn
         )
 
-        private fun theMinimalSubmission(year: Int, enteredOn: Long = 1, updatedOn: Long = 2) = Submission(
+        private fun theMinimalSubmission(year: String, enteredOn: Long = 1, updatedOn: Long = 2) = Submission(
             id = UUID.randomUUID(),
             year = year,
             name = "Lazy Luna",
@@ -150,7 +150,7 @@ class SubmissionDataHelper {
             updatedOn = updatedOn
         )
 
-        private fun theAverageSubmission(year: Int, enteredOn: Long = 1, updatedOn: Long = 2) = Submission(
+        private fun theAverageSubmission(year: String, enteredOn: Long = 1, updatedOn: Long = 2) = Submission(
             id = UUID.randomUUID(),
             year = year,
             name = "Average Andy",
@@ -163,7 +163,7 @@ class SubmissionDataHelper {
             updatedOn = updatedOn
         )
 
-        private fun theTieBreakerSubmission(year: Int, enteredOn: Long = 101, updatedOn: Long = 404) = Submission(
+        private fun theTieBreakerSubmission(year: String, enteredOn: Long = 101, updatedOn: Long = 404) = Submission(
             id = UUID.randomUUID(),
             year = year,
             name = "Ty Tie-Breaker",

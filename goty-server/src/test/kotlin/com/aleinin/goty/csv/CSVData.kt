@@ -11,7 +11,7 @@ class CSVData {
             )
         }
 
-        fun emptyCSV(year: Int) = """
+        fun emptyCSV(year: String) = """
             Year,$year
             
             Respondents
@@ -42,7 +42,7 @@ class CSVData {
             
             """.trimIndent()
 
-        fun fullCSV(year: Int) = """
+        fun fullCSV(year: String) = """
             Year,$year
             
             Respondents

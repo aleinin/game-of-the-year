@@ -9,8 +9,8 @@ import { Dropdown } from '../../controls/Dropdown/Dropdown'
 interface ResultsControlsProps {
   tabs: Tab[]
   handleTabChange: (tab: string) => void
-  selectedYear: number
-  handleYearChange: (year: number) => void
+  selectedYear: string
+  handleYearChange: (year: string) => void
   selectedTab: Tab
 }
 
@@ -39,7 +39,7 @@ export const ResultsControls = ({
             value={selectedYear}
             onChange={handleYearChange}
             options={submissionYears}
-            accessorFn={(num: number) => num.toString()}
+            accessorFn={(num: string) => num}
           />
         </div>
       </div>

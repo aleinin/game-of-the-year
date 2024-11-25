@@ -53,5 +53,5 @@ export const ResultsPage = () => {
 }
 
 export const useYear = () => {
-  return useOutletContext<{ selectedYear: number }>().selectedYear
+  return useOutletContext<{ selectedYear: string }>().selectedYear
 }

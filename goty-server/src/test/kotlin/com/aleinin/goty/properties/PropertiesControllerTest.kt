@@ -60,7 +60,7 @@ internal class PropertiesControllerTest {
 
     private val mockPropertiesDocument = PropertiesDocument(
         title = "goty",
-        year = 2050,
+        year = "2050",
         searchYears = listOf(2050),
         gotyQuestion = GotyQuestion("title", "question", emptyList()),
         tiePoints = listOf(3, 2, 1),
@@ -73,7 +73,7 @@ internal class PropertiesControllerTest {
 
     private val basicRequest = Properties(
         title = "goty",
-        year = 2050,
+        year = "2050",
         searchYears = listOf(2050),
         gotyQuestion = GotyQuestion("title", "question", emptyList()),
         tiePoints = listOf(15, 13, 11),
@@ -101,7 +101,7 @@ internal class PropertiesControllerTest {
         val expected = PropertiesResponse(
             title = ResolvedTemplate(mockPropertiesDocument.title, mockPropertiesDocument.title),
             year = mockPropertiesDocument.year,
-            searchYears = listOf(mockPropertiesDocument.year),
+            searchYears = mockPropertiesDocument.searchYears,
             gotyQuestion = GotyQuestionResponse(
                 ResolvedTemplate(mockPropertiesDocument.gotyQuestion.title, mockPropertiesDocument.gotyQuestion.title),
                 ResolvedTemplate(mockPropertiesDocument.gotyQuestion.question, mockPropertiesDocument.gotyQuestion.question),
@@ -126,7 +126,7 @@ internal class PropertiesControllerTest {
         val expected = PropertiesResponse(
             title = templateService.toResolvedTemplate(default.title, default, null),
             year = default.year,
-            searchYears = listOf(default.year),
+            searchYears = default.searchYears,
             gotyQuestion = GotyQuestionResponse(
                 templateService.toResolvedTemplate(default.gotyQuestion.title, default, null),
                 ResolvedTemplate(default.gotyQuestion.question, "What are your favorite game(s) of ${defaultProperties.year}?"),

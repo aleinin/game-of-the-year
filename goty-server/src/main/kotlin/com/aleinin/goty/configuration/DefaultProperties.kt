@@ -34,7 +34,7 @@ data class DefaultProperties(
     val gotyQuestion: GotyQuestion,
 
     @field:Positive
-    val year: Int,
+    val year: String,
 
     @field:NotEmpty
     val searchYears: List<Int>,

@@ -19,7 +19,7 @@ data class SecretSubmission(
     val id: UUID,
     val secret: UUID,
     val name: String,
-    val year: Int,
+    val year: String,
     val gamesOfTheYear: List<RankedGameSubmission>,
     val mostAnticipated: GameSubmission?,
     val mostDisappointing: GameSubmission?,

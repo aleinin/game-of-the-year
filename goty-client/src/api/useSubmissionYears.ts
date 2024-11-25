@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import fetcher from './fetcher'
 
-const getSubmissionYears = (): Promise<number[]> =>
-  fetcher.get<number[]>('/results/years')
+const getSubmissionYears = (): Promise<string[]> =>
+  fetcher.get<string[]>('/results/years')
 
 export const useSubmissionYears = () => {
   const query = useQuery({

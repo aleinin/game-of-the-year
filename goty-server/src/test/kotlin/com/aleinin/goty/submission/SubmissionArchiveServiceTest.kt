@@ -44,7 +44,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should get all secret submissions for year`() {
-        val year = 2000
+        val year = "2000"
         val expectedSubmissions = SubmissionDataHelper.everything(year).map { SubmissionDataHelper.secret(it) }
         whenever(secretSubmissionRepository.findByYear(year)).thenReturn(expectedSubmissions)
         val actualSubmissions = submissionArchiveService.getAllSecretSubmissionsForYear(year)
@@ -53,7 +53,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should get all submissions for year`() {
-        val year = 2000
+        val year = "2000"
         val expectedSubmissions = SubmissionDataHelper.everything(year)
         whenever(submissionRepository.findSubmissionsByYear(year)).thenReturn(expectedSubmissions)
         val actualSubmissions = submissionArchiveService.getAllSubmissionsForYear(year)
@@ -62,8 +62,8 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should get submission years`() {
-        val distinctYears = listOf(2019, 2020, 2021)
-        val thisYear = 2022
+        val distinctYears = listOf("2019", "2020", "2021")
+        val thisYear = "2022"
         whenever(propertiesService.getActiveYear()).thenReturn(thisYear)
         whenever(submissionRepository.findSubmissionYears()).thenReturn(distinctYears)
         val expectedYears = distinctYears.plus(thisYear).sortedDescending()
@@ -73,8 +73,8 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should not duplicate year for getting all submission years`() {
-        val distinctYears = listOf(2019, 2020, 2021)
-        val thisYear = 2021
+        val distinctYears = listOf("2019", "2020", "2021")
+        val thisYear = "2021"
         whenever(propertiesService.getActiveYear()).thenReturn(thisYear)
         whenever(submissionRepository.findSubmissionYears()).thenReturn(distinctYears)
         val expectedYears = distinctYears.sortedDescending()
@@ -84,7 +84,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should create submission for year`() {
-        val year = 2000
+        val year = "2000"
         val now = Instant.now()
         whenever(clock.millis()).thenReturn(now.toEpochMilli())
         val expectedSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, now.toEpochMilli(), now.toEpochMilli()))
@@ -102,7 +102,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should throw when creating if properties for year dont exist`() {
-        val year = 2000
+        val year = "2000"
         val submissionCreationRequest = SubmissionDataHelper.creationRequest(SubmissionDataHelper.maximal())
         whenever(propertiesService.getProperties(year)).thenReturn(Optional.empty())
         assertThrows<YearNotFoundException> {
@@ -112,7 +112,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should throw when creating if too many games of the  year`() {
-        val year = 2000
+        val year = "2000"
         val submissionCreationRequest = SubmissionDataHelper.creationRequest(SubmissionDataHelper.maximal())
         whenever(properties.tiePoints).thenReturn((submissionCreationRequest.gamesOfTheYear.size - 1 downTo 1).toList())
         whenever(propertiesService.getProperties(year)).thenReturn(Optional.of(properties))
@@ -123,7 +123,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should get submission for year by id`() {
-        val year = 2000
+        val year = "2000"
         val expectedSubmission = SubmissionDataHelper.maximal(year)
         whenever(submissionRepository.findSubmissionByIdAndYear(expectedSubmission.id, year)).thenReturn(Optional.of(expectedSubmission))
         val actualSubmission = submissionArchiveService.getSubmissionForYearById(year, expectedSubmission.id)
@@ -132,7 +132,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should return empty optional if submission for year by id does not exist`() {
-        val year = 2000
+        val year = "2000"
         val id = UUID.randomUUID()
         whenever(submissionRepository.findSubmissionByIdAndYear(id, year)).thenReturn(Optional.empty())
         val actualSubmission = submissionArchiveService.getSubmissionForYearById(year, id)
@@ -141,7 +141,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should update submission for year by id`() {
-        val year = 2000
+        val year = "2000"
         val now = Instant.now()
         whenever(clock.millis()).thenReturn(now.toEpochMilli())
         val expectedSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, now.toEpochMilli(), now.toEpochMilli()))
@@ -159,7 +159,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should not update submission if no submission by that id`() {
-        val year = 2000
+        val year = "2000"
         val now = Instant.now()
         val expectedSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, now.toEpochMilli(), now.toEpochMilli()))
         val submissionUpdateRequest = SubmissionDataHelper.updateRequest(expectedSubmission)
@@ -173,7 +173,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should not update submission if too many games of the year`() {
-        val year = 2000
+        val year = "2000"
         val now = Instant.now()
         val expectedSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, now.toEpochMilli(), now.toEpochMilli()))
         val submissionUpdateRequest = SubmissionDataHelper.updateRequest(expectedSubmission)
@@ -188,7 +188,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should not update submission if secret is wrong`() {
-        val year = 2000
+        val year = "2000"
         val now = Instant.now()
         val expectedSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year, now.toEpochMilli(), now.toEpochMilli()))
         val submissionUpdateRequest = SubmissionDataHelper.updateRequest(expectedSubmission)
@@ -203,7 +203,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should delete submission for year by id`() {
-        val year = 2000
+        val year = "2000"
         val id = UUID.randomUUID()
         val expectedSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(year))
         whenever(secretSubmissionRepository.findByIdAndYear(id, year)).thenReturn(Optional.of(expectedSubmission))
@@ -214,7 +214,7 @@ class SubmissionArchiveServiceTest {
 
     @Test
     fun `Should return empty if trying to delete non existant id`() {
-        val year = 2000
+        val year = "2000"
         val id = UUID.randomUUID()
         whenever(secretSubmissionRepository.findByIdAndYear(id, year)).thenReturn(Optional.empty())
         val actual = submissionArchiveService.deleteSubmissionForYearById(year, id)

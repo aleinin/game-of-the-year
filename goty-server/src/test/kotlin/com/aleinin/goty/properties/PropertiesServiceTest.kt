@@ -5,7 +5,6 @@ import com.aleinin.goty.EasternTime
 import com.aleinin.goty.UTC
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.configuration.toProperties
-import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -34,7 +33,7 @@ internal class PropertiesServiceTest {
     private val defaultProperties = DefaultProperties(
         title = "Default Title",
         gotyQuestion = GotyQuestion(title = "Default tile", question = "Defautl question", rules = listOf("Default rules")),
-        year = 2023,
+        year = "2023",
         searchYears = listOf(2023),
         tiePoints = listOf(9, 8, 7),
         deadline = ZonedDateTime.of(2024, 1, 1, 0, 0, 0, 0, UTC),
@@ -62,11 +61,11 @@ internal class PropertiesServiceTest {
 
     @Test
     fun `Should return the stored configuration`() {
-        val year = 2023
+        val year = "2023"
         val expectedProperties = Properties(
             title = "Game of the Year",
             year = year,
-            searchYears = listOf(year),
+            searchYears = listOf(2023),
             gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
             tiePoints = listOf(3, 2, 1),
             deadline = deadline,
@@ -81,7 +80,7 @@ internal class PropertiesServiceTest {
 
     @Test
     fun `Should return current properties year`() {
-        val expectedYear = 2005
+        val expectedYear = "2005"
         whenever(activeYearRepository.findById(PropertiesService.ACTIVE_YEAR_ID)).thenReturn(
             Optional.of(ActiveYearDocument(PropertiesService.ACTIVE_YEAR_ID, expectedYear))
         )
@@ -100,11 +99,11 @@ internal class PropertiesServiceTest {
     @Test
     fun `Should return the stored configuration response`() {
         setupTemplateMock()
-        val year = 2023
+        val year = "2023"
         val storedProperties = Properties(
                 title = "Game of the Year",
                 year = year,
-                searchYears = listOf(year),
+                searchYears = listOf(2023),
                 gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
                 tiePoints = listOf(3, 2, 1),
                 deadline = deadline,
@@ -115,7 +114,7 @@ internal class PropertiesServiceTest {
         val expectedResponse = PropertiesResponse(
             title = ResolvedTemplate(storedProperties.title, storedProperties.title),
             year = storedProperties.year,
-            searchYears = listOf(storedProperties.year),
+            searchYears = storedProperties.searchYears,
             gotyQuestion = GotyQuestionResponse(
                 ResolvedTemplate(storedProperties.gotyQuestion.title, storedProperties.gotyQuestion.title),
                 ResolvedTemplate(storedProperties.gotyQuestion.question, storedProperties.gotyQuestion.question),
@@ -140,7 +139,7 @@ internal class PropertiesServiceTest {
         val expected = PropertiesResponse(
             title = ResolvedTemplate(defaultProperties.title, defaultProperties.title),
             year = defaultProperties.year,
-            searchYears = listOf(defaultProperties.year),
+            searchYears = defaultProperties.searchYears,
             gotyQuestion = GotyQuestionResponse(
                     ResolvedTemplate(defaultProperties.gotyQuestion.title, defaultProperties.gotyQuestion.title),
                     ResolvedTemplate(defaultProperties.gotyQuestion.question, defaultProperties.gotyQuestion.question),
@@ -169,7 +168,7 @@ internal class PropertiesServiceTest {
             giveawayAmountUSD = 0
         )
         val requestDocument = PropertiesDocument(
-            year = 2077,
+            year = "2077",
             searchYears = listOf(2077),
             title = "new title",
             gotyQuestion = GotyQuestion(title = "new goty title", question = "new goty question", rules = listOf("new goty rules")),
@@ -187,7 +186,7 @@ internal class PropertiesServiceTest {
                 question = ResolvedTemplate("new goty question", "new goty question"),
                 rules = listOf(ResolvedTemplate("new goty rules", "new goty rules"))
             ),
-            year = 2077,
+            year = "2077",
             searchYears = listOf(2077),
             tiePoints = listOf(6, 5, 4),
             deadline = deadline,
@@ -195,9 +194,9 @@ internal class PropertiesServiceTest {
             defaultLocalTimeZone = null,
             giveawayAmountUSD = 0
         )
-        whenever(propertiesRepository.findByYear(2077)).thenReturn(Optional.of(requestDocument.copy(title = "old title")))
+        whenever(propertiesRepository.findByYear("2077")).thenReturn(Optional.of(requestDocument.copy(title = "old title")))
         whenever(propertiesRepository.save(requestDocument)).thenReturn(requestDocument)
-        val actualResponse = propertiesService.replaceProperties(2077, request, EasternTime)
+        val actualResponse = propertiesService.replaceProperties("2077", request, EasternTime)
         assertEquals(expectedResponse, actualResponse)
     }
 }

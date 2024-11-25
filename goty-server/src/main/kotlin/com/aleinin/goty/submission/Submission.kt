@@ -5,7 +5,7 @@ import java.util.UUID
 data class Submission(
     val id: UUID,
     val name: String,
-    val year: Int,
+    val year: String,
     val gamesOfTheYear: List<RankedGameSubmission>,
     val mostAnticipated: GameSubmission?,
     val mostDisappointing: GameSubmission?,

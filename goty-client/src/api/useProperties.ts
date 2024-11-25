@@ -6,7 +6,7 @@ import {
 } from './backendModels/backendProperties'
 import { Properties } from '../models/properties'
 
-const getProperties = (year?: number) => {
+const getProperties = (year?: string) => {
   const url = year ? `/properties/${year}` : '/properties/active'
   return fetcher
     .get<BackendProperties>(
@@ -21,7 +21,7 @@ const initialProperties: Properties = {
   gotyQuestion: { question: '', rules: [''], title: '' },
   title: '',
   tiePoints: [],
-  year: new Date().getFullYear(),
+  year: new Date().getFullYear().toString(),
   deadline: `1/1/${new Date().getFullYear() + 1}`,
   hasGiveaway: true,
   giveawayAmountUSD: 0,
@@ -29,7 +29,7 @@ const initialProperties: Properties = {
 
 const oneMinuteMs = 60000
 
-export const useProperties = (year?: number) => {
+export const useProperties = (year?: string) => {
   const query = useQuery({
     queryKey: ['properties', year],
     queryFn: () => getProperties(year),

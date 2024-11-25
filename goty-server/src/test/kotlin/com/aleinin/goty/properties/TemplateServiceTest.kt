@@ -15,7 +15,7 @@ class TemplateServiceTest {
     fun `should convert GotyQuestion to GotyQuestionResponse`() {
         val properties = Properties(
             title="",
-            year = 2077,
+            year = "2077",
             searchYears = listOf(2077),
             gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
@@ -50,7 +50,7 @@ class TemplateServiceTest {
     fun `should convert ${year} to properties year`() {
         val properties = Properties(
             title="",
-            year = 2077,
+            year = "2077",
             searchYears = listOf(2077),
             gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
@@ -69,7 +69,7 @@ class TemplateServiceTest {
     fun `should convert ${maxGame} to properties tiePoints size`() {
         val properties = Properties(
             title="",
-            year = 2077,
+            year = "2077",
             searchYears = listOf(2077),
             gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
@@ -88,7 +88,7 @@ class TemplateServiceTest {
     fun `should convert ${deadline} to properties deadline in localTimeZone`() {
         val properties = Properties(
             title="",
-            year = 2077,
+            year = "2077",
             searchYears = listOf(2077),
             gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
@@ -109,7 +109,7 @@ class TemplateServiceTest {
     fun `should convert ${deadline} to properties deadline in defaultLocalTimeZone if localTimeZone null`() {
         val properties = Properties(
                 title="",
-                year = 2077,
+                year = "2077",
             searchYears = listOf(2077),
                 gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(9, 8, 7),
@@ -129,7 +129,7 @@ class TemplateServiceTest {
     fun `should convert ${deadline} to properties deadline in UTC if default and localTimeZone null`() {
         val properties = Properties(
                 title="",
-                year = 2077,
+                year = "2077",
                 searchYears = listOf(2077),
                 gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(9, 8, 7),

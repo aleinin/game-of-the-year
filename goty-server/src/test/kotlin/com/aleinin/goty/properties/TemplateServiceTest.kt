@@ -16,6 +16,7 @@ class TemplateServiceTest {
         val properties = Properties(
             title="",
             year = 2077,
+            searchYears = listOf(2077),
             gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
             deadline = deadline,
@@ -50,6 +51,7 @@ class TemplateServiceTest {
         val properties = Properties(
             title="",
             year = 2077,
+            searchYears = listOf(2077),
             gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
             deadline = deadline,
@@ -68,6 +70,7 @@ class TemplateServiceTest {
         val properties = Properties(
             title="",
             year = 2077,
+            searchYears = listOf(2077),
             gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
             deadline = deadline,
@@ -86,6 +89,7 @@ class TemplateServiceTest {
         val properties = Properties(
             title="",
             year = 2077,
+            searchYears = listOf(2077),
             gotyQuestion = GotyQuestion("", "", emptyList()),
             tiePoints = listOf(9, 8, 7),
             deadline = deadline,
@@ -106,6 +110,7 @@ class TemplateServiceTest {
         val properties = Properties(
                 title="",
                 year = 2077,
+            searchYears = listOf(2077),
                 gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(9, 8, 7),
                 deadline = deadline,
@@ -125,6 +130,7 @@ class TemplateServiceTest {
         val properties = Properties(
                 title="",
                 year = 2077,
+                searchYears = listOf(2077),
                 gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(9, 8, 7),
                 deadline = deadline,

@@ -14,6 +14,7 @@ internal class PropertiesTest {
             Properties(
                 title = "",
                 year = 2023,
+                searchYears = listOf(2023),
                 gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = emptyList(),
                 hasGiveaway = false,
@@ -30,6 +31,7 @@ internal class PropertiesTest {
             Properties(
                 title = "",
                 year = 2023,
+                searchYears = listOf(2023),
                 gotyQuestion = GotyQuestion("", "", emptyList()),
                 tiePoints = listOf(3, 1, 2),
                 hasGiveaway = false,
@@ -46,6 +48,7 @@ internal class PropertiesTest {
             title =  "",
             gotyQuestion = GotyQuestion("", "", emptyList()),
             year = 2023,
+            searchYears = listOf(2023),
             tiePoints = listOf(3, 2, 1),
             hasGiveaway = false,
             giveawayAmountUSD = 0,

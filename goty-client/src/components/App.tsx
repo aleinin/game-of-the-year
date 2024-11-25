@@ -7,12 +7,12 @@ import { Footer } from './Footer'
 import styles from './App.module.scss'
 import { Responses } from './results/Responses'
 import { ResultsPage } from './results/ResultsPage'
-import { Summary } from './results/Summary/Summary'
 import { Response } from './results/Response'
 import { useProperties } from '../api/useProperties'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import classNames from 'classnames'
+import { SummaryPage } from './results/Summary/SummaryPage'
 
 export const App = () => {
   const queryClient = new QueryClient()
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'summary',
-        element: <Summary />,
+        element: <SummaryPage />,
       },
       {
         path: 'responses',

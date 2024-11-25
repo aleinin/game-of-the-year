@@ -19,13 +19,14 @@ export const Response = () => {
       <BestOldGame
         readonly
         bestOldGame={response.bestOldGame}
-        properties={properties}
+        year={year}
+        searchYears={properties?.searchYears}
       />
       <MostAnticipated readonly mostAnticipated={response.mostAnticipated} />
       <MostDisappointing
         readonly
         mostDisappointing={response.mostDisappointing}
-        years={[properties.year]} // todo
+        years={properties?.searchYears}
       />
       {properties?.hasGiveaway && (
         <Giveaway

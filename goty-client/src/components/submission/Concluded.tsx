@@ -9,7 +9,7 @@ export const Concluded = ({ year }: { year: number }) => {
         <p>Thank you to all who participated</p>
       </Card>
       <Card title="Results" titleFontSize="2em">
-        <Summary />
+        <Summary year={year} />
       </Card>
     </>
   )

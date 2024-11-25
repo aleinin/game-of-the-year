@@ -44,6 +44,7 @@ class CSVServiceTest {
             text = "myTitle"
         ),
         year = year,
+        searchYears = listOf(year),
         gotyQuestion = GotyQuestionResponse(
             title = ResolvedTemplate(
                 template = "hello",

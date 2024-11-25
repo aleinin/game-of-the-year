@@ -16,6 +16,7 @@ fun DefaultProperties.toProperties() = Properties(
     title = this.title,
     gotyQuestion = this.gotyQuestion,
     year = this.year,
+    searchYears = this.searchYears,
     tiePoints = this.tiePoints,
     deadline = this.deadline,
     hasGiveaway = this.hasGiveaway,
@@ -34,6 +35,9 @@ data class DefaultProperties(
 
     @field:Positive
     val year: Int,
+
+    @field:NotEmpty
+    val searchYears: List<Int>,
 
     @field:NotEmpty
     val tiePoints: List<Int>,

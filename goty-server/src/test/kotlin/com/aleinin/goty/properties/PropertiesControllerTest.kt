@@ -61,6 +61,7 @@ internal class PropertiesControllerTest {
     private val mockPropertiesDocument = PropertiesDocument(
         title = "goty",
         year = 2050,
+        searchYears = listOf(2050),
         gotyQuestion = GotyQuestion("title", "question", emptyList()),
         tiePoints = listOf(3, 2, 1),
         deadline = deadline.toInstant(),
@@ -73,6 +74,7 @@ internal class PropertiesControllerTest {
     private val basicRequest = Properties(
         title = "goty",
         year = 2050,
+        searchYears = listOf(2050),
         gotyQuestion = GotyQuestion("title", "question", emptyList()),
         tiePoints = listOf(15, 13, 11),
         deadline = deadline,
@@ -83,6 +85,7 @@ internal class PropertiesControllerTest {
 
     private val basicUpdateRequest = PropertiesUpdateRequest(
         title = basicRequest.title,
+        searchYears = emptyList(),
         gotyQuestion = basicRequest.gotyQuestion,
         tiePoints = basicRequest.tiePoints,
         deadline = basicRequest.deadline,
@@ -98,6 +101,7 @@ internal class PropertiesControllerTest {
         val expected = PropertiesResponse(
             title = ResolvedTemplate(mockPropertiesDocument.title, mockPropertiesDocument.title),
             year = mockPropertiesDocument.year,
+            searchYears = listOf(mockPropertiesDocument.year),
             gotyQuestion = GotyQuestionResponse(
                 ResolvedTemplate(mockPropertiesDocument.gotyQuestion.title, mockPropertiesDocument.gotyQuestion.title),
                 ResolvedTemplate(mockPropertiesDocument.gotyQuestion.question, mockPropertiesDocument.gotyQuestion.question),
@@ -122,6 +126,7 @@ internal class PropertiesControllerTest {
         val expected = PropertiesResponse(
             title = templateService.toResolvedTemplate(default.title, default, null),
             year = default.year,
+            searchYears = listOf(default.year),
             gotyQuestion = GotyQuestionResponse(
                 templateService.toResolvedTemplate(default.gotyQuestion.title, default, null),
                 ResolvedTemplate(default.gotyQuestion.question, "What are your favorite game(s) of ${defaultProperties.year}?"),
@@ -148,6 +153,7 @@ internal class PropertiesControllerTest {
             title = basicRequest.title,
             gotyQuestion = GotyQuestion(basicRequest.gotyQuestion.title, basicRequest.gotyQuestion.question, basicRequest.gotyQuestion.rules),
             year = basicRequest.year,
+            searchYears = basicRequest.searchYears,
             tiePoints = basicRequest.tiePoints,
             deadline = basicRequest.deadline.toInstant(),
             zoneId = basicRequest.deadline.zone,
@@ -163,13 +169,14 @@ internal class PropertiesControllerTest {
                 emptyList()
             ),
             year = basicRequest.year,
+            searchYears = basicRequest.searchYears,
             tiePoints = basicRequest.tiePoints,
             deadline = basicRequest.deadline,
             hasGiveaway = basicRequest.hasGiveaway,
             giveawayAmountUSD = basicRequest.giveawayAmountUSD,
             defaultLocalTimeZone = basicRequest.defaultLocalTimeZone
         )
-        val requestAsJsonString = objectMapper.writeValueAsString(basicUpdateRequest)
+        val requestAsJsonString = objectMapper.writeValueAsString(basicUpdateRequest.copy(searchYears = basicRequest.searchYears))
         val responseAsJsonString = objectMapper.writeValueAsString(expectedResponse)
         whenever(propertiesRepository.findByYear(expectedDocument.year)).thenReturn(Optional.of(mockPropertiesDocument))
         whenever(propertiesRepository.save(Mockito.any(PropertiesDocument::class.java))).thenReturn(expectedDocument)

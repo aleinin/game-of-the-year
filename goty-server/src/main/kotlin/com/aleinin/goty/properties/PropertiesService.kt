@@ -11,6 +11,7 @@ import java.util.Optional
 fun PropertiesDocument.toProperties(): Properties {
     return Properties(
         year = year,
+        searchYears = searchYears,
         title = title,
         gotyQuestion = gotyQuestion,
         tiePoints = tiePoints,
@@ -24,6 +25,7 @@ fun PropertiesDocument.toProperties(): Properties {
 fun Properties.toPropertiesDocument(): PropertiesDocument {
     return PropertiesDocument(
         year = year,
+        searchYears = searchYears,
         title = title,
         gotyQuestion = gotyQuestion,
         tiePoints = tiePoints,
@@ -104,6 +106,7 @@ class PropertiesService(
             .map { propertiesRepository.save(
                 PropertiesDocument(
                     year = year,
+                    searchYears = request.searchYears,
                     title = request.title,
                     gotyQuestion = request.gotyQuestion,
                     tiePoints = request.tiePoints,
@@ -132,6 +135,7 @@ class PropertiesService(
         return PropertiesResponse(
             title = templateService.toResolvedTemplate(properties.title, properties, localTimeZone),
             year = properties.year,
+            searchYears = properties.searchYears,
             gotyQuestion = templateService.toGotyQuestionResponse(properties.gotyQuestion, properties, localTimeZone),
             tiePoints = properties.tiePoints,
             deadline = properties.deadline,

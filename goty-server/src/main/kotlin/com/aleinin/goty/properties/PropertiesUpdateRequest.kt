@@ -3,6 +3,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 data class PropertiesUpdateRequest(
+    val searchYears: List<Int>?,
     val title: String,
     val gotyQuestion: GotyQuestion,
     val tiePoints: List<Int>,

@@ -82,7 +82,8 @@ export const SubmissionForm = ({
         readonly={false}
         bestOldGame={submission.bestOldGame}
         handleSetBestOldGame={handleSetBestOldGame}
-        properties={properties}
+        year={properties?.year}
+        searchYears={properties?.searchYears}
       />
       <MostAnticipated
         readonly={false}
@@ -93,7 +94,7 @@ export const SubmissionForm = ({
         readonly={false}
         mostDisappointing={submission.mostDisappointing}
         handleSetMostDisappointing={handleSetMostDisappointing}
-        years={[properties.year]} // todo
+        years={properties?.searchYears}
       />
       {properties.hasGiveaway ? (
         <Giveaway

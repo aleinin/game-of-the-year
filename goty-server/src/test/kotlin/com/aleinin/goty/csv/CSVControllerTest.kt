@@ -70,7 +70,11 @@ class CSVControllerTest {
                 UUID.fromString("0ffefab3-2dc5-4218-9a6a-b06287934d08"),
         )
         val secretSubmissions = SubmissionDataHelper.secret(SubmissionDataHelper.everything(expectedYear)
-                .mapIndexed() { index, submission ->  submission.copy(id=expectedUUIDs[index])}
+                .mapIndexed() { index, submission ->  submission.copy(
+                    id=expectedUUIDs[index],
+                    updatedOn=0,
+                    enteredOn=0
+                )}
         )
         whenever(secretSubmissionRepository.findByYear(eq(expectedYear))).thenReturn(secretSubmissions)
         val expected = CSVData.fullCSV(expectedYear)

@@ -4,12 +4,12 @@ import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameResult
 import com.aleinin.goty.SubmissionDataHelper.Companion.aScoredGameResult
 import com.aleinin.goty.configuration.DefaultProperties
+import com.aleinin.goty.properties.ActiveYearDocument
 import com.aleinin.goty.properties.ActiveYearRepository
 import com.aleinin.goty.properties.PropertiesRepository
-import com.aleinin.goty.properties.PropertiesService
+import com.aleinin.goty.properties.PropertiesService.Companion.ACTIVE_YEAR_ID
 import com.aleinin.goty.submission.SecretSubmission
 import com.aleinin.goty.submission.SecretSubmissionRepository
-import com.aleinin.goty.submission.SubmissionService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -40,12 +40,6 @@ internal class ResultControllerTest {
     lateinit var resultService: ResultService
 
     @Autowired
-    lateinit var submissionService: SubmissionService
-
-    @Autowired
-    lateinit var propertiesService: PropertiesService
-
-    @Autowired
     lateinit var objectMapper: ObjectMapper
 
     @Autowired
@@ -56,7 +50,7 @@ internal class ResultControllerTest {
 
     @BeforeEach
     fun setup() {
-        mockMvc = standaloneSetup(ResultController(submissionService, resultService, propertiesService)).build()
+        mockMvc = standaloneSetup(ResultController(resultService)).build()
         whenever(propertiesRepository.findById(any())).thenReturn(Optional.empty())
     }
 
@@ -130,5 +124,21 @@ internal class ResultControllerTest {
                 .contentType("application/json"))
                 .andExpect(status().isOk)
                 .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
+    }
+
+    @Test
+    fun `Should get the submission years`() {
+        val submissions = listOf(
+            SubmissionDataHelper.maximal(2000),
+            SubmissionDataHelper.minimal(2000),
+            SubmissionDataHelper.minimal(2001)
+        )
+        val years = listOf(2000, 2001, defaultProperties.year).sortedDescending()
+        whenever(secretSubmissionRepository.findAll()).thenReturn(SubmissionDataHelper.secret(submissions))
+        whenever(activeYearRepository.findById(ACTIVE_YEAR_ID)).thenReturn(Optional.of(ActiveYearDocument(ACTIVE_YEAR_ID, defaultProperties.year)))
+        mockMvc.perform(get("/results/years")
+            .contentType("application/json"))
+            .andExpect(status().isOk)
+            .andExpect(content().json(objectMapper.writeValueAsString(years), true))
     }
 }

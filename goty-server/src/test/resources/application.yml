@@ -1,7 +1,6 @@
 goty:
   admin:
-    username: test
-    password: test
+    apiKey: test
   default:
     title: Top Games of the Year $year
     gotyQuestion:

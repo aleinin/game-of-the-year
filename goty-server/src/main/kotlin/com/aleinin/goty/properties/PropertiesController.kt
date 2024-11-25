@@ -24,6 +24,7 @@ class PropertiesController(
     @GetMapping("/properties/active-year")
     fun getActiveYear() = propertiesService.getActiveYear()
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/properties/active-year/{activeYear}")
     fun putActiveYear(@PathVariable activeYear: Int) = try {
         propertiesService.setActiveYear(activeYear)

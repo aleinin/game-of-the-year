@@ -43,7 +43,7 @@ class SubmissionService(
             )
         }
     fun updateSubmission(id: UUID, submissionUpdateRequest: SubmissionUpdateRequest): Optional<Submission> =
-            validateUpdateSubmission(secretSubmissionRepository.findById(id), submissionUpdateRequest)
+            validateUpdateSubmission(secretSubmissionRepository.findByIdAndYear(id, propertiesService.getActiveYear()), submissionUpdateRequest)
                 .map {
                     it.copy(
                             name = submissionUpdateRequest.name,
@@ -78,9 +78,6 @@ class SubmissionService(
             val secretSubmission = optionalSecretSubmission.get()
             if (secretSubmission.secret != request.secret) {
                 throw IncorrectSecretException("Incorrect secret.")
-            }
-            if (secretSubmission.year != properties.year) {
-                throw AfterDeadlineException("Submission year ${secretSubmission.year} has ended. Submission year ${properties.year} is in progress.")
             }
         }
         return optionalSecretSubmission

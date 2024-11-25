@@ -84,10 +84,10 @@ class CSVData {
             
             Submissions
             ID,Entered on,Updated on,Name,Best Old Game,Most Anticipated,Entered Giveaway,1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th
-            f11186fe-3cfb-44cb-a429-67005ab60584,1970-01-01T00:00:00.001Z,1970-01-01T00:00:00.002Z,Maxi Max,Nostalgia,Cant wait,Yes,Call of Duty Modern Warfare II,Stray,Bayonetta 3,OlliOlli World,Tiny Tina's Wonderland
-            98a8332d-1f2c-47ed-a9a0-fd2a36467d8f,1970-01-01T00:00:00.001Z,1970-01-01T00:00:00.001Z,Lazy Luna,,,No,Clicker Pro
-            a8665bae-d4c0-4349-99e4-f054649903e8,1970-01-01T00:00:00.001Z,1970-01-01T00:00:00.001Z,Average Andy,Elder Scrolls V: Skyrim,Call of Duty XIX,Yes,PlateUp!,Overwatch 2,Elden Ring
-            0ffefab3-2dc5-4218-9a6a-b06287934d08,1970-01-01T00:00:00.101Z,1970-01-01T00:00:00.404Z,Ty Tie-Breaker,Nostalgia,Cant wait,No,Call of Duty Modern Warfare II,Clicker Pro,PlateUp!,Stray,Overwatch 2,Bayonetta 3,Elden Ring
+            f11186fe-3cfb-44cb-a429-67005ab60584,1970-01-01T00:00:00Z,1970-01-01T00:00:00Z,Maxi Max,Nostalgia,Cant wait,Yes,Call of Duty Modern Warfare II,Stray,Bayonetta 3,OlliOlli World,Tiny Tina's Wonderland
+            98a8332d-1f2c-47ed-a9a0-fd2a36467d8f,1970-01-01T00:00:00Z,1970-01-01T00:00:00Z,Lazy Luna,,,No,Clicker Pro
+            a8665bae-d4c0-4349-99e4-f054649903e8,1970-01-01T00:00:00Z,1970-01-01T00:00:00Z,Average Andy,Elder Scrolls V: Skyrim,Call of Duty XIX,Yes,PlateUp!,Overwatch 2,Elden Ring
+            0ffefab3-2dc5-4218-9a6a-b06287934d08,1970-01-01T00:00:00Z,1970-01-01T00:00:00Z,Ty Tie-Breaker,Nostalgia,Cant wait,No,Call of Duty Modern Warfare II,Clicker Pro,PlateUp!,Stray,Overwatch 2,Bayonetta 3,Elden Ring
             
         """.trimIndent()
     }

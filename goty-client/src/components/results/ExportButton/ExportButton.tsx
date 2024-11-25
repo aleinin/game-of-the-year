@@ -4,9 +4,13 @@ import { downloadCSV } from './downloadCSV'
 import fetcher from '../../../api/fetcher'
 
 const getCSV = async (year: number) => {
-  const response = await fetch(`${fetcher.getBaseUrl()}/csv?year=${year}`, {
-    headers: new Headers({ 'Content-Type': 'text/csv' }),
-  })
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const response = await fetch(
+    `${fetcher.getBaseUrl()}/csv/${year}?localTimeZone=${timeZone}`,
+    {
+      headers: new Headers({ 'Content-Type': 'text/csv' }),
+    },
+  )
   return response.text()
 }
 

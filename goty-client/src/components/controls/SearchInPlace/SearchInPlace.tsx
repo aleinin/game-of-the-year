@@ -8,7 +8,7 @@ export interface SearchInPlaceProps {
   game: Game | null
   handleSelect: (val: Game | null) => void
   placeholder: string
-  year?: number
+  years?: number[]
 }
 
 const gameIsDefined = (game: Game | null): game is Game => {
@@ -20,7 +20,7 @@ export const SearchInPlace = ({
   handleSelect,
   placeholder,
   readonly,
-  year,
+  years,
 }: SearchInPlaceProps) => {
   const handleDelete = () => handleSelect(null)
   if (gameIsDefined(game)) {
@@ -40,6 +40,10 @@ export const SearchInPlace = ({
     return <span className={styles.noSelection}>No selection</span>
   }
   return (
-    <Search placeholder={placeholder} handleSelect={handleSelect} year={year} />
+    <Search
+      placeholder={placeholder}
+      handleSelect={handleSelect}
+      years={years}
+    />
   )
 }

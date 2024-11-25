@@ -10,7 +10,7 @@ export interface SingleGameProps {
   readonly: boolean
   game: Game | null
   handleSelect: (val: Game | null) => void
-  year?: number
+  years?: number[]
   placeholder?: string
 }
 
@@ -21,7 +21,7 @@ export const SingleGame = ({
   rules,
   subtitle,
   title,
-  year,
+  years,
   placeholder,
 }: SingleGameProps) => {
   return (
@@ -33,7 +33,7 @@ export const SingleGame = ({
         placeholder={placeholder ?? 'Select a game'}
         game={game}
         handleSelect={handleSelect}
-        year={year}
+        years={years}
       />
     </Card>
   )

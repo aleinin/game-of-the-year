@@ -25,7 +25,7 @@ export const Response = () => {
       <MostDisappointing
         readonly
         mostDisappointing={response.mostDisappointing}
-        year={properties.year}
+        years={[properties.year]} // todo
       />
       {properties?.hasGiveaway && (
         <Giveaway

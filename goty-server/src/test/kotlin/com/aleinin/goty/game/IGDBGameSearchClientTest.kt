@@ -49,15 +49,27 @@ internal class IGDBGameSearchClientTest {
     }
 
     @Test
-    fun `Should find main games by year`() {
-        val expectedWhereClause = "w release_dates.y = 2050 & category = 0;"
-        runTest("my game!", 2050, true, 7, expectedWhereClause)
+    fun `Should find main games by single year`() {
+        val expectedWhereClause = "w (release_dates.y = 2050) & category = 0;"
+        runTest("my game!", listOf(2050), true, 7, expectedWhereClause)
     }
 
     @Test
-    fun `Should find games by year`() {
-        val expectedWhereClause = "w release_dates.y = 2077;"
-        runTest("gameTitle", 2077, false, 5, expectedWhereClause)
+    fun `Should find main games by multiple years`() {
+        val expectedWhereClause = "w (release_dates.y = 2050 | release_dates.y = 2051 | release_dates.y = 2052) & category = 0;"
+        runTest("my game!", listOf(2050, 2051, 2052), true, 7, expectedWhereClause)
+    }
+
+    @Test
+    fun `Should find games by single year`() {
+        val expectedWhereClause = "w (release_dates.y = 2050);"
+        runTest("my game!", listOf(2050), false, 7, expectedWhereClause)
+    }
+
+    @Test
+    fun `Should find games by multiple years`() {
+        val expectedWhereClause = "w (release_dates.y = 2050 | release_dates.y = 2051 | release_dates.y = 2052);"
+        runTest("my game!", listOf(2050, 2051, 2052), false, 7, expectedWhereClause)
     }
 
     @Test
@@ -72,7 +84,7 @@ internal class IGDBGameSearchClientTest {
         runTest("finality", null, false, 6, expectedWhereClause)
     }
 
-    private fun runTest(searchTitle: String, year: Int?, mainGame: Boolean, limit: Int, expectedClause: String) {
+    private fun runTest(searchTitle: String, year: List<Int>?, mainGame: Boolean, limit: Int, expectedClause: String) {
         whenever(igdbWrapper.apiJsonRequest(any(), any())).thenReturn(mockApiResponse)
         val expectedQuery = buildExpectedQuery(searchTitle, limit, expectedClause)
         val actualReturn = client.findGames(searchTitle, year, mainGame, limit)

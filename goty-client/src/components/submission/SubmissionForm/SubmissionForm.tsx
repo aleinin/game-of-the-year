@@ -93,7 +93,7 @@ export const SubmissionForm = ({
         readonly={false}
         mostDisappointing={submission.mostDisappointing}
         handleSetMostDisappointing={handleSetMostDisappointing}
-        year={properties.year}
+        years={[properties.year]} // todo
       />
       {properties.hasGiveaway ? (
         <Giveaway

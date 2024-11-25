@@ -6,14 +6,30 @@ export interface MostDisappointingProps {
   readonly: boolean
   mostDisappointing: Game | null
   handleSetMostDisappointing?: (game: Game | null) => void
-  year: number
+  years: number[]
+}
+
+const buildYearsGrammar = (years: number[]): string => {
+  if (years.length === 0) {
+    console.error('empty years when trying to build years grammar')
+    return ''
+  }
+  const sortedYears = [...years].sort((a, b) => a - b)
+  if (sortedYears.length === 1) {
+    return `${sortedYears[0]}`
+  } else if (sortedYears.length === 2) {
+    return `${sortedYears[0]} or ${sortedYears[1]}`
+  } else {
+    const lastYear = sortedYears.pop()
+    return `${sortedYears.join(', ')}, or ${lastYear}`
+  }
 }
 
 export const MostDisappointing = ({
   handleSetMostDisappointing,
   mostDisappointing,
   readonly,
-  year,
+  years,
 }: MostDisappointingProps) => {
   const handleSelect = (mostDisappointing: Game | null) => {
     handleSetMostDisappointing && handleSetMostDisappointing(mostDisappointing)
@@ -26,9 +42,9 @@ export const MostDisappointing = ({
         readonly={readonly}
         game={mostDisappointing}
         handleSelect={handleSelect}
-        rules={[`Any game released in ${year}`]}
+        rules={[`Any game released in ${buildYearsGrammar(years)}`]}
         placeholder="Select most disappointing game"
-        year={year}
+        years={years}
       />
     </InputStateKeyContext.Provider>
   )

@@ -4,12 +4,15 @@ import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.result.ResultResponse
 import com.aleinin.goty.result.ResultService
 import com.aleinin.goty.submission.Submission
+import com.aleinin.goty.submission.SubmissionArchiveService
 import com.aleinin.goty.submission.SubmissionService
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import org.springframework.stereotype.Service
 import java.io.StringWriter
 import java.time.Instant
+import java.time.ZoneId
+import kotlin.jvm.optionals.getOrElse
 
 fun CSVPrinter.printSection(header: String, columnHeaders: Array<String>?, rows: List<Array<Any>>) {
     this.printRecord()
@@ -26,9 +29,9 @@ fun CSVPrinter.printSection(header: String, columnHeaders: Array<String>?, rows:
 
 @Service
 class CSVService(
-    private val submissionService: SubmissionService,
     private val resultsService: ResultService,
-    private val propertiesService: PropertiesService
+    private val propertiesService: PropertiesService,
+    private val submissionArchiveService: SubmissionArchiveService
 ) {
     companion object {
         private const val YEAR_LABEL = "Year"
@@ -44,10 +47,19 @@ class CSVService(
         private val staticSubmissionColumns = arrayOf("ID", "Entered on", "Updated on", "Name", "Best Old Game", "Most Anticipated", "Entered Giveaway")
     }
 
-    fun dumpToCSV(year: Int): String {
-        val properties = propertiesService.getProperties()
-        val submissions = submissionService.getSubmissionsForYear(year)
-        val results = resultsService.calculate(submissions, year)
+    fun getActiveYearCSV(localTimeZone: ZoneId?): String {
+        val year = propertiesService.getActiveYear()
+        return dumpToCSV(year, localTimeZone)
+    }
+
+    fun getYearCSV(year: Int, localTimeZone: ZoneId?): String {
+        return dumpToCSV(year, localTimeZone)
+    }
+
+    private fun dumpToCSV(year: Int, localTimeZone: ZoneId?): String {
+        val properties = propertiesService.getPropertiesResponse(year, localTimeZone).getOrElse { throw NoResultsForYearException() }
+        val submissions = submissionArchiveService.getAllSubmissionsForYear(year)
+        val results = resultsService.getResultsForYear(year)
         val stringWriter = StringWriter()
         val csvPrinter = CSVPrinter(stringWriter, CSVFormat.DEFAULT)
         printYear(csvPrinter, year)

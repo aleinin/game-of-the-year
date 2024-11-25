@@ -2,10 +2,10 @@ import { indexToOrdinal } from '../../util/indexToOrdinal'
 import { Card } from '../controls/Card/Card'
 import { Game } from '../../models/game'
 import { Rules } from './Rules'
-import { useProperties } from '../../api/useProperties'
 import { Search } from '../controls/Search/Search'
 import { OrderedList } from '../controls/OrderedList'
 import { InputStateKeyContext } from './useSubmissionForm'
+import { Properties } from '../../models/properties'
 
 export enum MoveDirection {
   IncreaseRank,
@@ -54,10 +54,15 @@ export interface GOTYProps {
   games: Game[]
   readonly: boolean
   handleSetGames?: (games: Game[]) => void
+  properties: Properties
 }
 
-export const GOTY = ({ games, handleSetGames, readonly }: GOTYProps) => {
-  const { properties } = useProperties()
+export const GOTY = ({
+  games,
+  handleSetGames,
+  readonly,
+  properties,
+}: GOTYProps) => {
   const setGames = (games: Game[]) => handleSetGames && handleSetGames(games)
   const handleAddGame = (gameToAdd: Game) => {
     if (!readonly && games.length !== properties.tiePoints.length) {

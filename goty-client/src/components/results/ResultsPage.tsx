@@ -47,11 +47,11 @@ export const ResultsPage = () => {
         selectedYear={selectedYear}
       />
 
-      <Outlet context={selectedYear} />
+      <Outlet context={{ selectedYear }} />
     </>
   )
 }
 
 export const useYear = () => {
-  return useOutletContext<number>()
+  return useOutletContext<{ selectedYear: number }>().selectedYear
 }

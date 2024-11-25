@@ -17,29 +17,21 @@ class SubmissionService(
     private val uuidService: UUIDService
 ) {
 
-    fun getSubmissionsForYear(year: Int): List<Submission> = submissionRepository.findSubmissionsByYear(year)
+    fun getAllSubmissions(): List<Submission> = submissionRepository.findSubmissionsByYear(propertiesService.getActiveYear())
 
-    fun getAllSecretSubmissions(year: Int?): List<SecretSubmission> =
-        if (year != null) secretSubmissionRepository.findByYear(year)
-        else secretSubmissionRepository.findAll()
+    fun getAllSecretSubmissions(): List<SecretSubmission> =
+        secretSubmissionRepository.findByYear(propertiesService.getActiveYear())
 
-    fun getSubmissionYears(): List<Int> {
-        val distinctYears = submissionRepository.findSubmissionYears()
-        val thisYear = propertiesService.getThisYear()
-        val years = if (distinctYears.contains(thisYear)) distinctYears else distinctYears.plus(thisYear)
-        return years.sortedDescending()
-    }
+    fun getSubmission(id: UUID): Optional<Submission> = submissionRepository.findSubmissionByIdAndYear(id, propertiesService.getActiveYear())
 
-    fun getSubmission(id: UUID, year: Int): Optional<Submission> = submissionRepository.findSubmissionByIdAndYear(id, year)
-
-    fun saveSubmission(submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
-        validateAddSubmission(submissionCreationRequest.gamesOfTheYear) {
+    fun createSubmission(submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
+        validateCreateSubmission(submissionCreationRequest.gamesOfTheYear) {
             secretSubmissionRepository.save(
                 SecretSubmission(
                     id = uuidService.randomID(),
                     secret = uuidService.randomSecret(),
                     name = submissionCreationRequest.name,
-                    year = propertiesService.getThisYear(),
+                    year = propertiesService.getActiveYear(),
                     gamesOfTheYear = submissionCreationRequest.gamesOfTheYear,
                     mostAnticipated = submissionCreationRequest.mostAnticipated,
                     mostDisappointing =  submissionCreationRequest.mostDisappointing,
@@ -51,7 +43,7 @@ class SubmissionService(
             )
         }
     fun updateSubmission(id: UUID, submissionUpdateRequest: SubmissionUpdateRequest): Optional<Submission> =
-            validateUpdateSubmission(secretSubmissionRepository.findById(id), submissionUpdateRequest)
+            validateUpdateSubmission(secretSubmissionRepository.findByIdAndYear(id, propertiesService.getActiveYear()), submissionUpdateRequest)
                 .map {
                     it.copy(
                             name = submissionUpdateRequest.name,
@@ -66,13 +58,12 @@ class SubmissionService(
                 .map { secretSubmissionRepository.save(it) }
                 .map { it.toSubmission() }
 
-
     fun deleteSubmission(id: UUID): Optional<Unit> =
-        submissionRepository.findSubmissionById(id)
+        submissionRepository.findSubmissionByIdAndYear(id, propertiesService.getActiveYear())
             .map { submissionRepository.deleteSubmissionById(id) }
 
-    private fun validateAddSubmission(gamesOfTheYear: List<RankedGameSubmission>, perform: () -> SecretSubmission): SecretSubmission {
-        val properties = propertiesService.getProperties()
+    private fun validateCreateSubmission(gamesOfTheYear: List<RankedGameSubmission>, perform: () -> SecretSubmission): SecretSubmission {
+        val properties = propertiesService.getActiveYearProperties()
         validateDeadlineAndGames(properties, gamesOfTheYear)
         return perform()
     }
@@ -81,15 +72,12 @@ class SubmissionService(
             optionalSecretSubmission: Optional<SecretSubmission>,
             request: SubmissionUpdateRequest,
     ): Optional<SecretSubmission> {
-        val properties = propertiesService.getProperties()
+        val properties = propertiesService.getActiveYearProperties()
         validateDeadlineAndGames(properties, request.gamesOfTheYear)
         if (optionalSecretSubmission.isPresent) {
             val secretSubmission = optionalSecretSubmission.get()
             if (secretSubmission.secret != request.secret) {
                 throw IncorrectSecretException("Incorrect secret.")
-            }
-            if (secretSubmission.year != properties.year) {
-                throw AfterDeadlineException("Submission year ${secretSubmission.year} has ended. Submission year ${properties.year} is in progress.")
             }
         }
         return optionalSecretSubmission

@@ -76,11 +76,13 @@ export const SubmissionForm = ({
         games={submission.gamesOfTheYear}
         readonly={false}
         handleSetGames={handleSetGames}
+        properties={properties}
       />
       <BestOldGame
         readonly={false}
         bestOldGame={submission.bestOldGame}
         handleSetBestOldGame={handleSetBestOldGame}
+        properties={properties}
       />
       <MostAnticipated
         readonly={false}
@@ -98,6 +100,7 @@ export const SubmissionForm = ({
           readonly={false}
           enteredGiveaway={submission.enteredGiveaway}
           handleSetGiveaway={handleSetEnteredGiveaway}
+          properties={properties}
         />
       ) : null}
       <Button

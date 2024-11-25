@@ -27,10 +27,8 @@ export const SubmissionService = {
       }),
   getSubmissions: (year: number): Promise<Submission[]> =>
     fetcher
-      .get<BackendSubmission[]>(`/submissions?year=${year}`)
+      .get<BackendSubmission[]>(`/submissions/archive/${year}`)
       .then((response) => response.map(fromBackendSubmissionToSubmission)),
-  getSubmissionYears: (): Promise<number[]> =>
-    fetcher.get<number[]>('/submissions/years'),
   createSubmission: (submission: Submission): Promise<Submission> =>
     fetcher
       .post<BackendSubmissionCreationRequest, BackendSecretSubmission>(

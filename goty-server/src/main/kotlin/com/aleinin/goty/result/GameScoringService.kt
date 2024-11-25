@@ -4,16 +4,16 @@ import com.aleinin.goty.submission.RankedGameSubmission
 import org.springframework.stereotype.Component
 
 @Component
-class GameScoringService(private val pointsService: PointsService) {
+class GameScoringService{
 
-    fun score(games: List<RankedGameSubmission>) =
+    fun score(games: List<RankedGameSubmission>, tiePoints: List<Int>,) =
         games
             .groupingBy { it.id }
             .fold(
                 { id, first -> ScoredGameResult(id = id, title = first.title) },
                 { _, scoredGameResult, rankedGameSubmission ->
                     scoredGameResult.copy(
-                        points = scoredGameResult.points + pointsService.calculatePoints(rankedGameSubmission.rank),
+                        points = scoredGameResult.points + (tiePoints.getOrNull(rankedGameSubmission.rank) ?: 0),
                         votes = scoredGameResult.votes + 1,
                     )
                 },

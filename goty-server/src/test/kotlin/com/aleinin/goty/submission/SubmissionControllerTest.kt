@@ -2,7 +2,9 @@ package com.aleinin.goty.submission
 
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.configuration.DefaultProperties
+import com.aleinin.goty.properties.ActiveYearRepository
 import com.aleinin.goty.properties.PropertiesRepository
+import com.aleinin.goty.properties.PropertiesService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -47,6 +49,9 @@ internal class SubmissionControllerTest {
     lateinit var propertiesRepository: PropertiesRepository
 
     @MockBean
+    lateinit var activeYearRepository: ActiveYearRepository
+
+    @MockBean
     lateinit var secretSubmissionRepository: SecretSubmissionRepository
 
     @MockBean
@@ -56,7 +61,8 @@ internal class SubmissionControllerTest {
 
     @BeforeEach()
     fun setup() {
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.empty())
+        whenever(activeYearRepository.findById(PropertiesService.ACTIVE_YEAR_ID)).thenReturn(Optional.empty())
+        whenever(propertiesRepository.findByYear(defaultProperties.year)).thenReturn(Optional.empty())
     }
 
 
@@ -83,24 +89,12 @@ internal class SubmissionControllerTest {
     """.trimIndent()
 
     @Test
-    fun `Should return all Submissions for current year if year not provided`() {
+    fun `Should return all Submissions`() {
         val submissions = SubmissionDataHelper.everything(defaultProperties.year)
         val secretSubmissions = SubmissionDataHelper.secret(submissions)
         whenever(secretSubmissionRepository.findByYear(eq(defaultProperties.year))).thenReturn(secretSubmissions)
         val expectedJson = objectMapper.writeValueAsString(submissions)
         mockMvc.perform(get("/submissions"))
-            .andExpect(status().isOk)
-            .andExpect(content().json(expectedJson, true))
-    }
-
-    @Test
-    fun `Should return a specific Submission with the id and year`() {
-        val year = 2000
-        val submission = SubmissionDataHelper.maximal(year)
-        val secretSubmission = SubmissionDataHelper.secret(submission)
-        whenever(secretSubmissionRepository.findByIdAndYear(secretSubmission.id, year)).thenReturn(Optional.of(secretSubmission))
-        val expectedJson = objectMapper.writeValueAsString(submission)
-        mockMvc.perform(get("/submissions/${submission.id}?year=$year"))
             .andExpect(status().isOk)
             .andExpect(content().json(expectedJson, true))
     }
@@ -234,7 +228,7 @@ internal class SubmissionControllerTest {
         )
         val expectedUpdatedSubmission = updatedSecretSubmission.toSubmission()
         setupBeforeDeadline()
-        whenever(secretSubmissionRepository.findById(secretSubmission.id)).thenReturn(Optional.of(secretSubmission))
+        whenever(secretSubmissionRepository.findByIdAndYear(secretSubmission.id, defaultProperties.year)).thenReturn(Optional.of(secretSubmission))
         whenever(secretSubmissionRepository.save(updatedSecretSubmission)).thenReturn(updatedSecretSubmission)
         mockMvc.perform(
             put("/submissions/${submission.id}")
@@ -357,7 +351,7 @@ internal class SubmissionControllerTest {
     @WithMockUser(roles = ["ADMIN"])
     fun `Should delete a submission`() {
         val secretSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal())
-        whenever(secretSubmissionRepository.findById(secretSubmission.id)).thenReturn(Optional.of(secretSubmission))
+        whenever(secretSubmissionRepository.findByIdAndYear(secretSubmission.id, defaultProperties.year)).thenReturn(Optional.of(secretSubmission))
         mockMvc.perform(
             delete("/submissions/${secretSubmission.id}")
         ).andExpect(status().isOk)
@@ -385,27 +379,10 @@ internal class SubmissionControllerTest {
     @WithMockUser(roles = ["ADMIN"])
     fun `Should get secret submissions`() {
         val submissions = SubmissionDataHelper.secret(SubmissionDataHelper.everything())
-        whenever(secretSubmissionRepository.findAll()).thenReturn(submissions)
+        whenever(secretSubmissionRepository.findByYear(defaultProperties.year)).thenReturn(submissions)
         val expectedJson = objectMapper.writeValueAsString(submissions)
         mockMvc.perform(
             get("/submissions/secret")
-        )
-            .andExpect(status().isOk)
-            .andExpect(content().json(expectedJson, true))
-    }
-
-    @Test
-    fun `Should get submissions for provided year`() {
-        val expectedYear = 2010
-        val submissions = SubmissionDataHelper.secret(listOf(
-                SubmissionDataHelper.maximal(2010),
-                SubmissionDataHelper.maximal(2010),
-        ))
-        whenever(secretSubmissionRepository.findByYear(expectedYear)).thenReturn(submissions)
-        val expected = submissions.map { it.toSubmission() }
-        val expectedJson = objectMapper.writeValueAsString(expected)
-        mockMvc.perform(
-            get("/submissions?year=$expectedYear")
         )
             .andExpect(status().isOk)
             .andExpect(content().json(expectedJson, true))
@@ -428,25 +405,6 @@ internal class SubmissionControllerTest {
     }
 
     @Test
-    fun `Should get distinct submissions years`() {
-        val thisYear = defaultProperties.year
-        val submissions = SubmissionDataHelper.secret(listOf(
-            SubmissionDataHelper.maximal(thisYear - 3),
-            SubmissionDataHelper.maximal(thisYear - 2),
-            SubmissionDataHelper.maximal(thisYear - 1),
-            SubmissionDataHelper.maximal(thisYear)
-        ))
-        whenever(secretSubmissionRepository.findAll()).thenReturn(submissions)
-        val expected = listOf(thisYear - 3, thisYear - 2, thisYear - 1, thisYear).sortedDescending()
-        val expectedJson = objectMapper.writeValueAsString(expected)
-        mockMvc.perform(
-            get("/submissions/years")
-        )
-            .andExpect(status().isOk)
-            .andExpect(content().json(expectedJson, true))
-    }
-
-    @Test
     @WithMockUser(roles = ["ADMIN"])
     fun `Should all secretSubmissions if submission year not provided`() {
         val submissions = SubmissionDataHelper.secret(listOf(
@@ -455,7 +413,7 @@ internal class SubmissionControllerTest {
                 SubmissionDataHelper.maximal(2011),
                 SubmissionDataHelper.maximal(2015)
         ))
-        whenever(secretSubmissionRepository.findAll()).thenReturn(submissions)
+        whenever(secretSubmissionRepository.findByYear(defaultProperties.year)).thenReturn(submissions)
         val expectedJson = objectMapper.writeValueAsString(submissions)
         mockMvc.perform(
                 get("/submissions/secret")
@@ -464,20 +422,4 @@ internal class SubmissionControllerTest {
                 .andExpect(content().json(expectedJson, true))
     }
 
-    @Test
-    @WithMockUser(roles = ["ADMIN"])
-    fun `Should get years secretSubmissions if year provided`() {
-        val expectedYear = 2015
-        val submissions = SubmissionDataHelper.secret(listOf(
-                SubmissionDataHelper.maximal(defaultProperties.year),
-                SubmissionDataHelper.maximal(defaultProperties.year),
-        ))
-        whenever(secretSubmissionRepository.findByYear(expectedYear)).thenReturn(submissions)
-        val expectedJson = objectMapper.writeValueAsString(submissions)
-        mockMvc.perform(
-                get("/submissions/secret?year=$expectedYear")
-        )
-                .andExpect(status().isOk)
-                .andExpect(content().json(expectedJson, true))
-    }
 }

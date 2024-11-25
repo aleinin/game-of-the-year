@@ -3,7 +3,12 @@ package com.aleinin.goty.csv
 import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.csv.CSVData.Companion.assertEqualNormalizeLineEnds
+import com.aleinin.goty.properties.ActiveYearDocument
+import com.aleinin.goty.properties.ActiveYearRepository
+import com.aleinin.goty.properties.GotyQuestion
+import com.aleinin.goty.properties.PropertiesDocument
 import com.aleinin.goty.properties.PropertiesRepository
+import com.aleinin.goty.properties.PropertiesService
 import com.aleinin.goty.submission.SecretSubmissionRepository
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.eq
@@ -32,12 +37,32 @@ class CSVControllerTest {
     lateinit var propertiesRepository: PropertiesRepository
 
     @MockBean
+    lateinit var activeYearRepository: ActiveYearRepository
+
+    @MockBean
     lateinit var secretSubmissionRepository: SecretSubmissionRepository
 
     @Test
     fun `Should get CSV`() {
         val expectedYear = defaultProperties.year
-        whenever(propertiesRepository.findProperties()).thenReturn(Optional.empty())
+        whenever(activeYearRepository.findById(PropertiesService.ACTIVE_YEAR_ID)).thenReturn(Optional.of(
+            ActiveYearDocument(PropertiesService.ACTIVE_YEAR_ID, expectedYear)
+        ))
+        whenever(propertiesRepository.findByYear(expectedYear)).thenReturn(Optional.of(PropertiesDocument(
+                year = expectedYear,
+                title = "My Title",
+                gotyQuestion = GotyQuestion(
+                        question = "What is your game of the year?",
+                        title = "Game of the Year",
+                        rules = emptyList()
+                ),
+                tiePoints = listOf(15, 13, 11, 7, 6, 5, 4, 3, 2, 1),
+                giveawayAmountUSD = 100,
+                hasGiveaway = true,
+                deadline = defaultProperties.deadline.toInstant(),
+                zoneId = defaultProperties.deadline.zone,
+                defaultLocalTimeZone = defaultProperties.defaultLocalTimeZone
+        )))
         val expectedUUIDs = listOf(
                 UUID.fromString("f11186fe-3cfb-44cb-a429-67005ab60584"),
                 UUID.fromString("98a8332d-1f2c-47ed-a9a0-fd2a36467d8f"),
@@ -45,7 +70,11 @@ class CSVControllerTest {
                 UUID.fromString("0ffefab3-2dc5-4218-9a6a-b06287934d08"),
         )
         val secretSubmissions = SubmissionDataHelper.secret(SubmissionDataHelper.everything(expectedYear)
-                .mapIndexed() { index, submission ->  submission.copy(id=expectedUUIDs[index])}
+                .mapIndexed() { index, submission ->  submission.copy(
+                    id=expectedUUIDs[index],
+                    updatedOn=0,
+                    enteredOn=0
+                )}
         )
         whenever(secretSubmissionRepository.findByYear(eq(expectedYear))).thenReturn(secretSubmissions)
         val expected = CSVData.fullCSV(expectedYear)

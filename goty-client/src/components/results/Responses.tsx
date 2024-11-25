@@ -33,11 +33,14 @@ export const Responses = () => {
           showTotalPages
         />
       </Card>
-      <Outlet context={selectedSubmission} />
+      <Outlet context={{ selectedSubmission, selectedYear: year }} />
     </>
   )
 }
 
 export const useSelectedResponse = () => {
-  return useOutletContext<Submission>()
+  return useOutletContext<{
+    selectedSubmission: Submission
+    selectedYear: number
+  }>().selectedSubmission
 }

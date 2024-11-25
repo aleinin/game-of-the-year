@@ -8,7 +8,7 @@ import {
 
 const getResults = (year: number): Promise<Results> =>
   fetcher
-    .get<BackendResults>(`/results?year=${year}`)
+    .get<BackendResults>(`/results/${year}`)
     .then(fromBackendResultsToResults)
 
 const initialResults = {

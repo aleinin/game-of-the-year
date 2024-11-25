@@ -1,0 +1,742 @@
+{
+	"info": {
+		"_postman_id": "10eeaca2-4a01-4bb1-b00e-6109c0f3dbe0",
+		"name": "GOTY Server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Submissions",
+			"item": [
+				{
+					"name": "All Submissions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Secret Submissions",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/secret",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"secret"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Submission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Rurin\",\r\n    \"gamesOfTheYear\": [\r\n      {\r\n        \"id\": \"143114\",\r\n        \"title\": \"Total War: Warhammer III\",\r\n        \"rank\": 0\r\n      },\r\n      {\r\n        \"id\": \"135998\",\r\n        \"title\": \"Warhammer 40,000: Darktide\",\r\n        \"rank\": 1\r\n      },\r\n      {\r\n        \"id\": \"119133\",\r\n        \"title\": \"Elden Ring\",\r\n        \"rank\": 2\r\n      },\r\n      {\r\n        \"id\": \"186725\",\r\n        \"title\": \"Vampire Survivors\",\r\n        \"rank\": 3\r\n      },\r\n      {\r\n        \"id\": \"151353\",\r\n        \"title\": \"PlateUp!\",\r\n        \"rank\": 4\r\n      },\r\n      {\r\n        \"id\": \"125624\",\r\n        \"title\": \"Grounded\",\r\n        \"rank\": 5\r\n      },\r\n      {\r\n        \"id\": \"125174\",\r\n        \"title\": \"Overwatch 2\",\r\n        \"rank\": 6\r\n      }\r\n    ],\r\n    \"mostAnticipated\": {\r\n      \"id\": \"119171\",\r\n      \"title\": \"Baldur's Gate 3\"\r\n    },\r\n    \"bestOldGame\": {\r\n      \"id\": \"5607\",\r\n      \"title\": \"SMITE\"\r\n    },\r\n    \"enteredGiveaway\": false\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/submissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/3aab1184-9d6e-4639-89ae-ab4d3c6a24f1?year=2022",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"3aab1184-9d6e-4639-89ae-ab4d3c6a24f1"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Submission",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"secret\": \"e5c598df-1b29-41d5-9fb1-e88ddf2f7c50\",\r\n    \"name\": \"rake :)\",\r\n    \"gamesOfTheYear\": [\r\n        {\r\n            \"id\": \"119171\",\r\n            \"title\": \"Baldur's Gate 3\",\r\n            \"rank\": 0\r\n        },\r\n        {\r\n            \"id\": \"228542\",\r\n            \"title\": \"Armored Core VI: Fires of Rubicon\",\r\n            \"rank\": 1\r\n        },\r\n        {\r\n            \"id\": \"212089\",\r\n            \"title\": \"Lethal Company\",\r\n            \"rank\": 2\r\n        },\r\n        {\r\n            \"id\": \"125165\",\r\n            \"title\": \"Diablo IV\",\r\n            \"rank\": 3\r\n        },\r\n        {\r\n            \"id\": \"152257\",\r\n            \"title\": \"Wartales\",\r\n            \"rank\": 4\r\n        },\r\n        {\r\n            \"id\": \"204631\",\r\n            \"title\": \"Spellforce: Conquest of EO\",\r\n            \"rank\": 5\r\n        },\r\n        {\r\n                \"id\": \"229794\",\r\n                \"title\": \"Risk of Rain Returns\",\r\n                \"rank\": 6\r\n            },\r\n        {\r\n            \"id\": \"204628\",\r\n            \"title\": \"Wo Long: Fallen Dynasty\",\r\n            \"rank\": 7\r\n        }\r\n    ],\r\n    \"mostAnticipated\": {\r\n        \"id\": \"115060\",\r\n        \"title\": \"Dragon's Dogma II\"\r\n    },\r\n    \"mostDisappointing\": {\r\n        \"id\": \"96437\",\r\n        \"title\": \"Starfield\"\r\n    },\r\n    \"bestOldGame\": {\r\n        \"id\": \"135998\",\r\n        \"title\": \"Warhammer 40,000: Darktide\"\r\n    },\r\n    \"enteredGiveaway\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/submissions/b9ad1402-fa96-4cda-ad73-d2ae8b246bbf",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"b9ad1402-fa96-4cda-ad73-d2ae8b246bbf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Submission",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/b9ad1402-fa96-4cda-ad73-d2ae8b246bbf",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"b9ad1402-fa96-4cda-ad73-d2ae8b246bbf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Submissions Archive",
+			"item": [
+				{
+					"name": "All Secret Submissions",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/archive/2000/secret",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"archive",
+								"2000",
+								"secret"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Submissions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/archive/2000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"archive",
+								"2000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submission",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Rurin\",\r\n    \"gamesOfTheYear\": [\r\n      {\r\n        \"id\": \"143114\",\r\n        \"title\": \"Total War: Warhammer III\",\r\n        \"rank\": 0\r\n      },\r\n      {\r\n        \"id\": \"135998\",\r\n        \"title\": \"Warhammer 40,000: Darktide\",\r\n        \"rank\": 1\r\n      },\r\n      {\r\n        \"id\": \"119133\",\r\n        \"title\": \"Elden Ring\",\r\n        \"rank\": 2\r\n      },\r\n      {\r\n        \"id\": \"186725\",\r\n        \"title\": \"Vampire Survivors\",\r\n        \"rank\": 3\r\n      },\r\n      {\r\n        \"id\": \"151353\",\r\n        \"title\": \"PlateUp!\",\r\n        \"rank\": 4\r\n      },\r\n      {\r\n        \"id\": \"125624\",\r\n        \"title\": \"Grounded\",\r\n        \"rank\": 5\r\n      },\r\n      {\r\n        \"id\": \"125174\",\r\n        \"title\": \"Overwatch 2\",\r\n        \"rank\": 6\r\n      }\r\n    ],\r\n    \"mostAnticipated\": {\r\n      \"id\": \"119171\",\r\n      \"title\": \"Baldur's Gate 3\"\r\n    },\r\n    \"bestOldGame\": {\r\n      \"id\": \"5607\",\r\n      \"title\": \"SMITE\"\r\n    },\r\n    \"enteredGiveaway\": false\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/submissions/archive/2000/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"archive",
+								"2000",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/archive/2000/c89783cf-ce3d-4c1d-b38f-914b936076ae",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"archive",
+								"2000",
+								"c89783cf-ce3d-4c1d-b38f-914b936076ae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submission",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"secret\": \"4a3c08a2-03f9-4e15-8ab5-ab995dcb4d6b\",\r\n    \"name\": \"rake :)\",\r\n    \"gamesOfTheYear\": [\r\n        {\r\n            \"id\": \"119171\",\r\n            \"title\": \"Baldur's Gate 3\",\r\n            \"rank\": 0\r\n        },\r\n        {\r\n            \"id\": \"228542\",\r\n            \"title\": \"Armored Core VI: Fires of Rubicon\",\r\n            \"rank\": 1\r\n        },\r\n        {\r\n            \"id\": \"212089\",\r\n            \"title\": \"Lethal Company\",\r\n            \"rank\": 2\r\n        },\r\n        {\r\n            \"id\": \"125165\",\r\n            \"title\": \"Diablo IV\",\r\n            \"rank\": 3\r\n        },\r\n        {\r\n            \"id\": \"152257\",\r\n            \"title\": \"Wartales\",\r\n            \"rank\": 4\r\n        },\r\n        {\r\n            \"id\": \"204631\",\r\n            \"title\": \"Spellforce: Conquest of EO\",\r\n            \"rank\": 5\r\n        },\r\n        {\r\n                \"id\": \"229794\",\r\n                \"title\": \"Risk of Rain Returns\",\r\n                \"rank\": 6\r\n            },\r\n        {\r\n            \"id\": \"204628\",\r\n            \"title\": \"Wo Long: Fallen Dynasty\",\r\n            \"rank\": 7\r\n        }\r\n    ],\r\n    \"mostAnticipated\": {\r\n        \"id\": \"115060\",\r\n        \"title\": \"Dragon's Dogma II\"\r\n    },\r\n    \"mostDisappointing\": {\r\n        \"id\": \"96437\",\r\n        \"title\": \"Starfield\"\r\n    },\r\n    \"bestOldGame\": {\r\n        \"id\": \"135998\",\r\n        \"title\": \"Warhammer 40,000: Darktide\"\r\n    },\r\n    \"enteredGiveaway\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/submissions/archive/2000/c89783cf-ce3d-4c1d-b38f-914b936076ae",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"archive",
+								"2000",
+								"c89783cf-ce3d-4c1d-b38f-914b936076ae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submission",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/submissions/archive/2000/c89783cf-ce3d-4c1d-b38f-914b936076ae",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"submissions",
+								"archive",
+								"2000",
+								"c89783cf-ce3d-4c1d-b38f-914b936076ae"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Properties",
+			"item": [
+				{
+					"name": "All Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Properties",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"The Midnight Watchmen's\\nTop Games of the Year ${year}\",\r\n    \"gotyQuestion\": {\r\n        \"title\": \"Games of the Year\",\r\n        \"question\": \"What are your favorite game(s) of ${year}?\",\r\n        \"rules\": [\r\n            \"Voting closes ${deadline}.\",\r\n            \"May nominate any amount of games up to ${maxGames}.\",\r\n            \"Eligible games must have been released in ${year}.\",\r\n            \"Early access games are eligible if they were released in ${year}.\",\r\n            \"DLC is not eligible.\"\r\n        ]\r\n    },\r\n    \"tiePoints\": [\r\n        15,\r\n        13,\r\n        11,\r\n        7,\r\n        6,\r\n        5,\r\n        4,\r\n        3,\r\n        2,\r\n        1\r\n    ],\r\n    \"deadline\": \"2025-01-01T00:00:00-05:00\",\r\n    \"hasGiveaway\": true,\r\n    \"giveawayAmountUSD\": 25,\r\n    \"defaultLocalTimeZone\": \"America/New_York\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/2026",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"2026"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Active Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Properties",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/2024",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"2024"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Properties",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"The Midnight Watchmen's\\nTop Games of the Year ${year}\",\r\n    \"year\": \"2000\",\r\n    \"gotyQuestion\": {\r\n        \"title\": \"Games of the Year\",\r\n        \"question\": \"What are your favorite game(s) of ${year}?\",\r\n        \"rules\": [\r\n            \"Voting closes ${deadline}.\",\r\n            \"May nominate any amount of games up to ${maxGames}.\",\r\n            \"Eligible games must have been released in ${year}.\",\r\n            \"Early access games are eligible if they were released in ${year}.\",\r\n            \"DLC is not eligible.\"\r\n        ]\r\n    },\r\n    \"tiePoints\": [\r\n        15,\r\n        13,\r\n        11,\r\n        7,\r\n        6,\r\n        5,\r\n        4,\r\n        3,\r\n        2,\r\n        1\r\n    ],\r\n    \"deadline\": \"2017-01-01T00:00:00-05:00\",\r\n    \"hasGiveaway\": false,\r\n    \"giveawayAmountUSD\": -1,\r\n    \"defaultLocalTimeZone\": \"America/New_York\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/2024",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"2024"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActiveYear",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/active-year",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"active-year"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActiveYear",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/active-year/2024",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"active-year",
+								"2024"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Results",
+			"item": [
+				{
+					"name": "Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/results",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Results By Year",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/results/2016",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"2016"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Years",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/results/years",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"years"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CSV",
+			"item": [
+				{
+					"name": "CSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/csv",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"csv"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CSV By Year",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/csv/2016",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"csv",
+								"2016"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Games",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/games?title=The Division&limit=10&mainGame=false",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"games"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "The Division"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "year",
+							"value": "2018",
+							"disabled": true
+						},
+						{
+							"key": "mainGame",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

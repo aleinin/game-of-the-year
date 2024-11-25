@@ -70,7 +70,7 @@ const isEmptyResults = (results: Results) =>
 
 export const Summary = () => {
   const year = useYear()
-  const { properties } = useProperties()
+  const { properties } = useProperties(year)
   const { results } = useResults(year ?? properties.year)
   useAnchorScroll(results)
   if (isEmptyResults(results)) {
@@ -87,7 +87,9 @@ export const Summary = () => {
       <BestOldGameResults rows={results.bestOldGames} />
       <MostAnticipatedResults rows={results.mostAnticipated} />
       <MostDisappointingResults rows={results.mostDisappointing} />
-      <GiveawayParticipants rows={results.giveawayParticipants} />
+      {properties?.hasGiveaway && (
+        <GiveawayParticipants rows={results.giveawayParticipants} />
+      )}
     </>
   )
 }

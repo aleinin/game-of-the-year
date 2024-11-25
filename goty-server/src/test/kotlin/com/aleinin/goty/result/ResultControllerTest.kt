@@ -4,11 +4,12 @@ import com.aleinin.goty.SubmissionDataHelper
 import com.aleinin.goty.SubmissionDataHelper.Companion.aRankedGameResult
 import com.aleinin.goty.SubmissionDataHelper.Companion.aScoredGameResult
 import com.aleinin.goty.configuration.DefaultProperties
-import com.aleinin.goty.properties.PropertiesDocumentRepository
-import com.aleinin.goty.properties.PropertiesService
+import com.aleinin.goty.properties.ActiveYearDocument
+import com.aleinin.goty.properties.ActiveYearRepository
+import com.aleinin.goty.properties.PropertiesRepository
+import com.aleinin.goty.properties.PropertiesService.Companion.ACTIVE_YEAR_ID
 import com.aleinin.goty.submission.SecretSubmission
 import com.aleinin.goty.submission.SecretSubmissionRepository
-import com.aleinin.goty.submission.SubmissionService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -30,16 +31,13 @@ internal class ResultControllerTest {
     lateinit var mockMvc: MockMvc
 
     @MockBean
-    lateinit var propertiesDocumentRepository: PropertiesDocumentRepository
+    lateinit var propertiesRepository: PropertiesRepository
+
+    @MockBean
+    lateinit var activeYearRepository: ActiveYearRepository
 
     @Autowired
     lateinit var resultService: ResultService
-
-    @Autowired
-    lateinit var submissionService: SubmissionService
-
-    @Autowired
-    lateinit var propertiesService: PropertiesService
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
@@ -52,8 +50,8 @@ internal class ResultControllerTest {
 
     @BeforeEach
     fun setup() {
-        mockMvc = standaloneSetup(ResultController(submissionService, resultService, propertiesService)).build()
-        whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.empty())
+        mockMvc = standaloneSetup(ResultController(resultService)).build()
+        whenever(propertiesRepository.findById(any())).thenReturn(Optional.empty())
     }
 
     @Test
@@ -102,7 +100,7 @@ internal class ResultControllerTest {
                 giveawayParticipants = mockSubmissions.filter { it.enteredGiveaway }.map { it.name }
         )
         whenever(secretSubmissionRepository.findByYear(expectedYear)).thenReturn(mockSubmissions)
-        mockMvc.perform(get("/results?year=$expectedYear")
+        mockMvc.perform(get("/results/$expectedYear")
                 .contentType("application/json"))
                 .andExpect(status().isOk)
                 .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
@@ -122,9 +120,25 @@ internal class ResultControllerTest {
                 giveawayParticipants = emptyList()
         )
         whenever(secretSubmissionRepository.findAll()).thenReturn(mockSubmissions)
-        mockMvc.perform(get("/results?year=$noSubmissionYear")
+        mockMvc.perform(get("/results/$noSubmissionYear")
                 .contentType("application/json"))
                 .andExpect(status().isOk)
                 .andExpect(content().json(objectMapper.writeValueAsString(expected), true))
+    }
+
+    @Test
+    fun `Should get the submission years`() {
+        val submissions = listOf(
+            SubmissionDataHelper.maximal(2000),
+            SubmissionDataHelper.minimal(2000),
+            SubmissionDataHelper.minimal(2001)
+        )
+        val years = listOf(2000, 2001, defaultProperties.year).sortedDescending()
+        whenever(secretSubmissionRepository.findAll()).thenReturn(SubmissionDataHelper.secret(submissions))
+        whenever(activeYearRepository.findById(ACTIVE_YEAR_ID)).thenReturn(Optional.of(ActiveYearDocument(ACTIVE_YEAR_ID, defaultProperties.year)))
+        mockMvc.perform(get("/results/years")
+            .contentType("application/json"))
+            .andExpect(status().isOk)
+            .andExpect(content().json(objectMapper.writeValueAsString(years), true))
     }
 }

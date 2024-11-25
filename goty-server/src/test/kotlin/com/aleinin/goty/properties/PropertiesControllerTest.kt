@@ -1,5 +1,6 @@
 package com.aleinin.goty.properties
 
+import PropertiesUpdateRequest
 import com.aleinin.goty.UTC
 import com.aleinin.goty.configuration.DefaultProperties
 import com.aleinin.goty.configuration.toProperties
@@ -35,10 +36,16 @@ import java.util.Optional
 internal class PropertiesControllerTest {
 
     @Autowired
+    private lateinit var templateService: TemplateService
+
+    @Autowired
     lateinit var mockMvc: MockMvc
 
     @MockBean
-    lateinit var propertiesDocumentRepository: PropertiesDocumentRepository
+    lateinit var propertiesRepository: PropertiesRepository
+
+    @MockBean
+    lateinit var activeYearRepository: ActiveYearRepository
 
     @Autowired
     lateinit var defaultProperties: DefaultProperties
@@ -51,9 +58,7 @@ internal class PropertiesControllerTest {
 
     private val deadline = ZonedDateTime.of(2023, 11, 24, 0, 0, 0, 0, UTC).truncatedTo(ChronoUnit.SECONDS)
 
-
     private val mockPropertiesDocument = PropertiesDocument(
-        id = "id",
         title = "goty",
         year = 2050,
         gotyQuestion = GotyQuestion("title", "question", emptyList()),
@@ -76,9 +81,20 @@ internal class PropertiesControllerTest {
         defaultLocalTimeZone = UTC
     )
 
+    private val basicUpdateRequest = PropertiesUpdateRequest(
+        title = basicRequest.title,
+        gotyQuestion = basicRequest.gotyQuestion,
+        tiePoints = basicRequest.tiePoints,
+        deadline = basicRequest.deadline,
+        hasGiveaway = basicRequest.hasGiveaway,
+        giveawayAmountUSD = basicRequest.giveawayAmountUSD,
+        defaultLocalTimeZone = basicRequest.defaultLocalTimeZone
+    )
+
     @Test
     fun `Should get properties response from database if available`() {
-        whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.of(mockPropertiesDocument))
+        val year = mockPropertiesDocument.year
+        whenever(propertiesRepository.findByYear(year)).thenReturn(Optional.of(mockPropertiesDocument))
         val expected = PropertiesResponse(
             title = ResolvedTemplate(mockPropertiesDocument.title, mockPropertiesDocument.title),
             year = mockPropertiesDocument.year,
@@ -94,23 +110,24 @@ internal class PropertiesControllerTest {
             defaultLocalTimeZone = mockPropertiesDocument.defaultLocalTimeZone
         )
         val expectedJsonContent = objectMapper.writeValueAsString(expected)
-        mockMvc.perform(get("/properties"))
+        mockMvc.perform(get("/properties/$year"))
             .andExpect(status().isOk)
             .andExpect(content().json(expectedJsonContent, true))
     }
 
     @Test
     fun `Should get the default properties if none are stored`() {
-        whenever(propertiesDocumentRepository.findById(any())).thenReturn(Optional.empty())
+        whenever(propertiesRepository.findById(any())).thenReturn(Optional.empty())
         val default = defaultProperties.toProperties()
-        val rule = defaultProperties.gotyQuestion.rules[0]
         val expected = PropertiesResponse(
-            title = ResolvedTemplate(default.title, default.title),
+            title = templateService.toResolvedTemplate(default.title, default, null),
             year = default.year,
             gotyQuestion = GotyQuestionResponse(
-                ResolvedTemplate(default.gotyQuestion.title, default.gotyQuestion.title),
+                templateService.toResolvedTemplate(default.gotyQuestion.title, default, null),
                 ResolvedTemplate(default.gotyQuestion.question, "What are your favorite game(s) of ${defaultProperties.year}?"),
-                listOf(ResolvedTemplate(rule, rule))
+                defaultProperties.gotyQuestion.rules.map {
+                    templateService.toResolvedTemplate(it, default, null)
+                }
             ),
             tiePoints = default.tiePoints,
             deadline = default.deadline,
@@ -119,7 +136,7 @@ internal class PropertiesControllerTest {
             defaultLocalTimeZone = default.defaultLocalTimeZone
         )
         val expectedJsonContent = objectMapper.writeValueAsString(expected)
-        mockMvc.perform(get("/properties"))
+        mockMvc.perform(get("/properties/active"))
             .andExpect(status().isOk)
             .andExpect(content().json(expectedJsonContent, true))
     }
@@ -128,7 +145,6 @@ internal class PropertiesControllerTest {
     @WithMockUser(roles = ["ADMIN"])
     fun `Should replace the properties`() {
         val expectedDocument = PropertiesDocument(
-            id = PropertiesRepository.PROPERTIES_ID,
             title = basicRequest.title,
             gotyQuestion = GotyQuestion(basicRequest.gotyQuestion.title, basicRequest.gotyQuestion.question, basicRequest.gotyQuestion.rules),
             year = basicRequest.year,
@@ -153,23 +169,24 @@ internal class PropertiesControllerTest {
             giveawayAmountUSD = basicRequest.giveawayAmountUSD,
             defaultLocalTimeZone = basicRequest.defaultLocalTimeZone
         )
-        val requestAsJsonString = objectMapper.writeValueAsString(basicRequest)
+        val requestAsJsonString = objectMapper.writeValueAsString(basicUpdateRequest)
         val responseAsJsonString = objectMapper.writeValueAsString(expectedResponse)
-        whenever(propertiesDocumentRepository.save(Mockito.any(PropertiesDocument::class.java))).thenReturn(expectedDocument)
-        mockMvc.perform(put("/properties")
+        whenever(propertiesRepository.findByYear(expectedDocument.year)).thenReturn(Optional.of(mockPropertiesDocument))
+        whenever(propertiesRepository.save(Mockito.any(PropertiesDocument::class.java))).thenReturn(expectedDocument)
+        mockMvc.perform(put("/properties/${expectedDocument.year}")
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestAsJsonString))
             .andExpect(status().isOk)
             .andExpect(content().json(responseAsJsonString, true))
-        verify(propertiesDocumentRepository, times(1)).save(capture(documentCaptor))
+        verify(propertiesRepository, times(1)).save(capture(documentCaptor))
         val actualDocument = documentCaptor.firstValue
         assertEquals(expectedDocument, actualDocument)
     }
 
     @Test
     fun `Should require authentication to replace properties`() {
-        val requestAsJsonString = objectMapper.writeValueAsString(basicRequest)
-        mockMvc.perform(put("/properties")
+        val requestAsJsonString = objectMapper.writeValueAsString(basicUpdateRequest)
+        mockMvc.perform(put("/properties/2024")
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestAsJsonString))
             .andExpect(status().isUnauthorized)
@@ -178,8 +195,8 @@ internal class PropertiesControllerTest {
     @Test
     @WithMockUser(roles = ["USER"])
     fun `Should only allow admins to replace properties`() {
-        val requestAsJsonString = objectMapper.writeValueAsString(basicRequest)
-        mockMvc.perform(put("/properties")
+        val requestAsJsonString = objectMapper.writeValueAsString(basicUpdateRequest)
+        mockMvc.perform(put("/properties/2024")
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestAsJsonString))
             .andExpect(status().isForbidden)

@@ -30,7 +30,6 @@ const initialProperties: Properties = {
 const oneMinuteMs = 60000
 
 export const useProperties = (year?: number) => {
-  console.log('year', year)
   const query = useQuery({
     queryKey: ['properties', year],
     queryFn: () => getProperties(year),

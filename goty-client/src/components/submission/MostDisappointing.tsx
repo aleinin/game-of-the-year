@@ -1,19 +1,20 @@
 import { Game } from '../../models/game'
 import { SingleGame } from '../controls/SingleGame'
 import { InputStateKeyContext } from './useSubmissionForm'
+import { buildYearsGrammar } from './buildYearsGrammar'
 
 export interface MostDisappointingProps {
   readonly: boolean
   mostDisappointing: Game | null
   handleSetMostDisappointing?: (game: Game | null) => void
-  year: number
+  searchYears?: number[]
 }
 
 export const MostDisappointing = ({
   handleSetMostDisappointing,
   mostDisappointing,
   readonly,
-  year,
+  searchYears,
 }: MostDisappointingProps) => {
   const handleSelect = (mostDisappointing: Game | null) => {
     handleSetMostDisappointing && handleSetMostDisappointing(mostDisappointing)
@@ -26,9 +27,15 @@ export const MostDisappointing = ({
         readonly={readonly}
         game={mostDisappointing}
         handleSelect={handleSelect}
-        rules={[`Any game released in ${year}`]}
+        rules={[
+          `Any game${
+            searchYears != null
+              ? ` released in ${buildYearsGrammar(searchYears)}`
+              : ''
+          }`,
+        ]}
         placeholder="Select most disappointing game"
-        year={year}
+        searchYears={searchYears}
       />
     </InputStateKeyContext.Provider>
   )

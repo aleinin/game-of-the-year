@@ -3,7 +3,7 @@ import { GameResult } from '../../models/gameResult'
 import { Results } from '../../models/results'
 
 export interface BackendResults {
-  year: number
+  year: string
   participants: string[]
   gamesOfTheYear: GameOfTheYearResult[]
   mostAnticipated: GameResult[]

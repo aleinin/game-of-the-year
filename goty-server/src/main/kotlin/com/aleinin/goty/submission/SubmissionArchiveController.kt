@@ -22,15 +22,15 @@ class SubmissionArchiveController(
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/submissions/archive/{year}/secret")
-    fun getSecretSubmissions(@PathVariable year: Int): List<SecretSubmission> = submissionArchiveService.getAllSecretSubmissionsForYear(year)
+    fun getSecretSubmissions(@PathVariable year: String): List<SecretSubmission> = submissionArchiveService.getAllSecretSubmissionsForYear(year)
 
 
     @GetMapping("/submissions/archive/{year}")
-    fun getSubmissions(@PathVariable year: Int): List<Submission> = submissionArchiveService.getAllSubmissionsForYear(year)
+    fun getSubmissions(@PathVariable year: String): List<Submission> = submissionArchiveService.getAllSubmissionsForYear(year)
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/submissions/archive/{year}")
-    fun addSubmission(@PathVariable year: Int, @RequestBody submissionCreationRequest: SubmissionCreationRequest) =
+    fun addSubmission(@PathVariable year: String, @RequestBody submissionCreationRequest: SubmissionCreationRequest) =
         try {
             submissionArchiveService.createSubmissionForYear(year, submissionCreationRequest)
         } catch (e: YearNotFoundException) {
@@ -40,13 +40,13 @@ class SubmissionArchiveController(
         }
 
     @GetMapping("/submissions/archive/{year}/{id}")
-    fun getSubmission(@PathVariable year: Int, @PathVariable id: UUID): Submission =
+    fun getSubmission(@PathVariable year: String, @PathVariable id: UUID): Submission =
         submissionArchiveService.getSubmissionForYearById(year, id).orElseThrow { ResponseStatusException(
             HttpStatus.NOT_FOUND) }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/submissions/archive/{year}/{id}")
-    fun updateSubmission(@PathVariable year: Int, @PathVariable id: UUID, @RequestBody submissionUpdateRequest: SubmissionUpdateRequest): Submission =
+    fun updateSubmission(@PathVariable year: String, @PathVariable id: UUID, @RequestBody submissionUpdateRequest: SubmissionUpdateRequest): Submission =
         try {
             submissionArchiveService.updateSubmissionForYearById(year, id, submissionUpdateRequest)
                 .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
@@ -60,7 +60,7 @@ class SubmissionArchiveController(
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/submissions/archive/{year}/{id}")
-    fun deleteSubmission(@PathVariable year: Int, @PathVariable id: UUID): Unit =
+    fun deleteSubmission(@PathVariable year: String, @PathVariable id: UUID): Unit =
         submissionArchiveService.deleteSubmissionForYearById(year, id)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 }

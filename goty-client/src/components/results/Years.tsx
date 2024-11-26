@@ -1,9 +1,9 @@
 import { Dropdown } from '../controls/Dropdown/Dropdown'
 
 interface YearsProps {
-  selectedYear: number
-  handleYearChange: (year: number) => void
-  yearOptions: number[]
+  selectedYear: string
+  handleYearChange: (year: string) => void
+  yearOptions: string[]
 }
 export const Years = ({
   selectedYear,
@@ -15,7 +15,7 @@ export const Years = ({
       value={selectedYear}
       onChange={handleYearChange}
       options={yearOptions}
-      accessorFn={(num: number) => num.toString()}
+      accessorFn={(year: string) => year}
     />
   )
 }

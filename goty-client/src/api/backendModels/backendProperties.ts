@@ -8,7 +8,8 @@ interface ResolvedTemplate {
 
 export interface BackendProperties {
   title: ResolvedTemplate
-  year: number
+  year: string
+  searchYears?: number[]
   gotyQuestion: {
     title: ResolvedTemplate
     question: ResolvedTemplate
@@ -26,6 +27,7 @@ export const fromBackendPropertiesToProperties = ({
   gotyQuestion,
   tiePoints,
   year,
+  searchYears,
   deadline,
   hasGiveaway,
   giveawayAmountUSD,
@@ -38,6 +40,7 @@ export const fromBackendPropertiesToProperties = ({
   },
   tiePoints,
   year,
+  searchYears,
   deadline: dateStringToTwelveHourString(deadline),
   hasGiveaway,
   giveawayAmountUSD,

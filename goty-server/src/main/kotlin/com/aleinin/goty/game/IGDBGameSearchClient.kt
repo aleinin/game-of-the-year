@@ -17,13 +17,20 @@ class IGDBGameSearchClient(
     private val objectMapper: ObjectMapper,
 ) : GameSearchClient {
 
-    override fun findGames(title: String, year: Int?, mainGame: Boolean, limit: Int): List<GameSearchResponse> {
+    override fun findGames(title: String, years: List<Int>?, mainGame: Boolean, limit: Int): List<GameSearchResponse> {
         val request = APICalypse()
             .fields("id, name")
             .search(title)
             .apply {
-                if (year != null || mainGame) {
-                    where(buildWhere(year, mainGame))
+                val conditions = mutableListOf<String>()
+                if (!years.isNullOrEmpty()) {
+                    conditions.add(buildReleaseDateWhere(years))
+                }
+                if (mainGame) {
+                    conditions.add(buildMainGameWhere())
+                }
+                if (conditions.isNotEmpty()) {
+                    where(conditions.joinToString(" & "))
                 }
             }
             .limit(limit)
@@ -36,12 +43,12 @@ class IGDBGameSearchClient(
             .collect(ImmutableList.toImmutableList())
     }
 
-    private fun buildWhere(year: Int?, mainGame: Boolean) =
-        if (mainGame && year != null) {
-            "release_dates.y = $year & category = 0"
-        } else if (year != null) {
-            "release_dates.y = $year"
-        } else {
-            "category = 0"
-        }
+
+    private fun buildReleaseDateWhere(years: List<Int>): String {
+        return years.joinToString(" | ") { "release_dates.y = $it" }.let { "($it)" }
+    }
+
+    private fun buildMainGameWhere(): String {
+        return "category = 0"
+    }
 }

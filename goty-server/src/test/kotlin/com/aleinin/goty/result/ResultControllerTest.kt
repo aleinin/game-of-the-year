@@ -86,7 +86,7 @@ internal class ResultControllerTest {
 
     @Test
     fun `Should calculate results for year if specified`() {
-        val expectedYear = defaultProperties.year - 1
+        val expectedYear = defaultProperties.year
         val thisYearSubmission = SubmissionDataHelper.secret(SubmissionDataHelper.maximal(expectedYear))
         val mockSubmissions = listOf(thisYearSubmission)
         val expected = ResultResponse(
@@ -108,7 +108,7 @@ internal class ResultControllerTest {
 
     @Test
     fun `Should handle a year being passed that has no submissions`() {
-        val noSubmissionYear = 1996
+        val noSubmissionYear = "1996"
         val mockSubmissions = emptyList<SecretSubmission>()
         val expected = ResultResponse(
                 year = noSubmissionYear,
@@ -129,11 +129,11 @@ internal class ResultControllerTest {
     @Test
     fun `Should get the submission years`() {
         val submissions = listOf(
-            SubmissionDataHelper.maximal(2000),
-            SubmissionDataHelper.minimal(2000),
-            SubmissionDataHelper.minimal(2001)
+            SubmissionDataHelper.maximal("2000"),
+            SubmissionDataHelper.minimal("2000"),
+            SubmissionDataHelper.minimal("2001")
         )
-        val years = listOf(2000, 2001, defaultProperties.year).sortedDescending()
+        val years = listOf("2000", "2001", defaultProperties.year).sortedDescending()
         whenever(secretSubmissionRepository.findAll()).thenReturn(SubmissionDataHelper.secret(submissions))
         whenever(activeYearRepository.findById(ACTIVE_YEAR_ID)).thenReturn(Optional.of(ActiveYearDocument(ACTIVE_YEAR_ID, defaultProperties.year)))
         mockMvc.perform(get("/results/years")

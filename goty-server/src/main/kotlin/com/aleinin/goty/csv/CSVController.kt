@@ -25,7 +25,7 @@ class CSVController(
 
     @GetMapping(value = ["/csv/{year}"], produces = ["text/csv"])
     fun getExportForYear(
-        @PathVariable year: Int,
+        @PathVariable year: String,
         @RequestParam(required = false) localTimeZone: ZoneId?,
     ) = try {
         csvService.getYearCSV(year, localTimeZone)

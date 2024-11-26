@@ -7,7 +7,6 @@ import styles from './Summary.module.scss'
 import { Card } from '../../controls/Card/Card'
 import { useAnchorScroll } from '../../../util/useAnchorScroll'
 import { useResults } from '../../../api/useResults'
-import { useYear } from '../ResultsPage'
 import { useProperties } from '../../../api/useProperties'
 
 const stringHeaders: Header<string>[] = [
@@ -68,8 +67,10 @@ const gotyHeaders: Header<GameOfTheYearResult>[] = [
 const isEmptyResults = (results: Results) =>
   Object.values(results).every((value) => value.length === 0)
 
-export const Summary = () => {
-  const year = useYear()
+interface SummaryProps {
+  year: string
+}
+export const Summary = ({ year }: SummaryProps) => {
   const { properties } = useProperties(year)
   const { results } = useResults(year ?? properties.year)
   useAnchorScroll(results)

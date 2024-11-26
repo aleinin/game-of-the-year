@@ -12,7 +12,7 @@ import classNames from 'classnames'
 export interface SearchProps {
   placeholder: string
   handleSelect: (game: Game) => void
-  year?: number
+  searchYears?: number[]
 }
 
 const errorMessage =
@@ -28,7 +28,7 @@ export const Search = (props: SearchProps) => {
   const handleSearch = (searchText: string) =>
     GameService.searchGames({
       title: searchText,
-      year: props.year,
+      years: props.searchYears,
     }).then((results) => setSuggestions(results))
   const handleSelect = (game: Game) => {
     setInput('')

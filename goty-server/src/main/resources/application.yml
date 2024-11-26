@@ -24,6 +24,7 @@ goty:
       - 3
       - 2
       - 1
+    search-years: 2022
 
 server:
   error:

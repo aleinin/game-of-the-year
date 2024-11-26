@@ -410,8 +410,8 @@ internal class SubmissionControllerTest {
         val submissions = SubmissionDataHelper.secret(listOf(
                 SubmissionDataHelper.maximal(defaultProperties.year),
                 SubmissionDataHelper.maximal(defaultProperties.year),
-                SubmissionDataHelper.maximal(2011),
-                SubmissionDataHelper.maximal(2015)
+                SubmissionDataHelper.maximal("2011"),
+                SubmissionDataHelper.maximal("2015")
         ))
         whenever(secretSubmissionRepository.findByYear(defaultProperties.year)).thenReturn(submissions)
         val expectedJson = objectMapper.writeValueAsString(submissions)

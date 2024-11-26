@@ -708,7 +708,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/games?title=The Division&limit=10&mainGame=false",
+					"raw": "{{baseUrl}}/games?title=Risk of rain&limit=10&years=2013,2023&mainGame=true",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -718,20 +718,19 @@
 					"query": [
 						{
 							"key": "title",
-							"value": "The Division"
+							"value": "Risk of rain"
 						},
 						{
 							"key": "limit",
 							"value": "10"
 						},
 						{
-							"key": "year",
-							"value": "2018",
-							"disabled": true
+							"key": "years",
+							"value": "2013,2023"
 						},
 						{
 							"key": "mainGame",
-							"value": "false"
+							"value": "true"
 						}
 					]
 				}

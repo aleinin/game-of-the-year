@@ -50,6 +50,7 @@ class CSVControllerTest {
         ))
         whenever(propertiesRepository.findByYear(expectedYear)).thenReturn(Optional.of(PropertiesDocument(
                 year = expectedYear,
+                searchYears = defaultProperties.searchYears,
                 title = "My Title",
                 gotyQuestion = GotyQuestion(
                         question = "What is your game of the year?",

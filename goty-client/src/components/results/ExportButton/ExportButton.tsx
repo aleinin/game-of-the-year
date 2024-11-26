@@ -3,7 +3,7 @@ import { Button, ButtonType } from '../../controls/Button/Button'
 import { downloadCSV } from './downloadCSV'
 import fetcher from '../../../api/fetcher'
 
-const getCSV = async (year: number) => {
+const getCSV = async (year: string) => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const response = await fetch(
     `${fetcher.getBaseUrl()}/csv/${year}?localTimeZone=${timeZone}`,
@@ -15,7 +15,7 @@ const getCSV = async (year: number) => {
 }
 
 export interface ExportButtonProps {
-  year: number
+  year: string
 }
 export const ExportButton = ({ year }: ExportButtonProps) => {
   const handleExport = () => {

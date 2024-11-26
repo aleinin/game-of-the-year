@@ -1,22 +1,22 @@
 import { Game } from '../../models/game'
 import { SingleGame } from '../controls/SingleGame'
 import { InputStateKeyContext } from './useSubmissionForm'
-import { Properties } from '../../models/properties'
+import { buildYearsGrammar } from './buildYearsGrammar'
 
 export interface BestOldGameProps {
   readonly: boolean
   bestOldGame: Game | null
   handleSetBestOldGame?: (game: Game | null) => void
-  properties: Properties
+  year: string
+  searchYears?: number[]
 }
-
-const rules = (year: number) => [`Any game released prior to ${year}`]
 
 export const BestOldGame = ({
   bestOldGame,
   handleSetBestOldGame,
   readonly,
-  properties,
+  year,
+  searchYears,
 }: BestOldGameProps) => {
   const handleSelect = (bestOldGame: Game | null) => {
     handleSetBestOldGame && handleSetBestOldGame(bestOldGame)
@@ -25,11 +25,15 @@ export const BestOldGame = ({
     <InputStateKeyContext.Provider value={'bestOldGame'}>
       <SingleGame
         title="Best Old Game"
-        subtitle={`What is your favorite old game of ${properties.year}?`}
+        subtitle={`What is your favorite old game of ${year}?`}
         readonly={readonly}
         game={bestOldGame}
         handleSelect={handleSelect}
-        rules={rules(properties.year)}
+        rules={[
+          `Any game released${
+            searchYears ? ` prior to ${buildYearsGrammar(searchYears)}` : ''
+          }`,
+        ]}
         placeholder="Select best old game"
       />
     </InputStateKeyContext.Provider>

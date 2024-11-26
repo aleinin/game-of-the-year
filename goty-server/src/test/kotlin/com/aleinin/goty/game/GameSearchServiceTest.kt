@@ -21,7 +21,7 @@ internal class GameSearchServiceTest {
         val request = GameSearchRequest(
             title = "MyGame",
             limit = 10,
-            year = 2077,
+            years = listOf(2077),
             mainGame = false
         )
         val expectedResponse = listOf(
@@ -34,7 +34,7 @@ internal class GameSearchServiceTest {
                 title = "MyGame 2: Electric Boogaloo"
             )
         )
-        whenever(gameSearchClient.findGames(request.title, request.year, request.mainGame, request.limit))
+        whenever(gameSearchClient.findGames(request.title, request.years, request.mainGame, request.limit))
             .thenReturn(expectedResponse)
         val actualResponse = gameSearchService.search(request)
         assertEquals(expectedResponse, actualResponse)

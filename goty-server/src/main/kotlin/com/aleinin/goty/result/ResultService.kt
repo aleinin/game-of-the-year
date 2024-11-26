@@ -16,11 +16,11 @@ class ResultService(
 ) {
     fun getResultsForActiveYear(): ResultResponse = calculate(submissionService.getAllSubmissions(), propertiesService.getActiveYear())
 
-    fun getResultsForYear(year: Int): ResultResponse = calculate(submissionArchiveService.getAllSubmissionsForYear(year), year)
+    fun getResultsForYear(year: String): ResultResponse = calculate(submissionArchiveService.getAllSubmissionsForYear(year), year)
 
-    fun getResultsYears(): List<Int> = submissionArchiveService.getSubmissionYears()
+    fun getResultsYears(): List<String> = submissionArchiveService.getSubmissionYears()
 
-    private fun calculate(submissions: List<Submission>, year: Int): ResultResponse {
+    private fun calculate(submissions: List<Submission>, year: String): ResultResponse {
         val tiePoints = propertiesService.getTiePoints(year)
         return ResultResponse(
             year = year,

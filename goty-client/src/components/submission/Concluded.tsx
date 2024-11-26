@@ -1,7 +1,7 @@
 import { Card } from '../controls/Card/Card'
 import { Summary } from '../results/Summary/Summary'
 
-export const Concluded = ({ year }: { year: number }) => {
+export const Concluded = ({ year }: { year: string }) => {
   return (
     <>
       <Card>
@@ -9,7 +9,7 @@ export const Concluded = ({ year }: { year: number }) => {
         <p>Thank you to all who participated</p>
       </Card>
       <Card title="Results" titleFontSize="2em">
-        <Summary />
+        <Summary year={year} />
       </Card>
     </>
   )

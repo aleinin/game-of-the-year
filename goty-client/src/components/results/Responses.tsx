@@ -41,6 +41,6 @@ export const Responses = () => {
 export const useSelectedResponse = () => {
   return useOutletContext<{
     selectedSubmission: Submission
-    selectedYear: number
+    selectedYear: string
   }>().selectedSubmission
 }

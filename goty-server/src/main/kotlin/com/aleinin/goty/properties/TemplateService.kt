@@ -26,7 +26,8 @@ class TemplateService {
         val valueMap = mapOf(
             "year" to properties.year,
             "deadline" to getDeadlineAtTimeZone(properties.deadline, localTimeZone ?: properties.defaultLocalTimeZone),
-            "maxGames"  to properties.tiePoints.size
+            "maxGames"  to properties.tiePoints.size,
+            "searchYears" to getYearRange(properties.searchYears),
         )
         return StringSubstitutor(valueMap)
     }

@@ -24,11 +24,11 @@ class SubmissionRepositoryTest {
 
     @Test
     fun `Should find distinct submission years`() {
-        val submissions = secret(SubmissionDataHelper.everything(2019)
-                .plus(SubmissionDataHelper.everything(2020))
-                .plus(SubmissionDataHelper.everything(2021))
+        val submissions = secret(SubmissionDataHelper.everything("2019")
+                .plus(SubmissionDataHelper.everything("2020"))
+                .plus(SubmissionDataHelper.everything("2021"))
         )
-        val expectedYears = listOf(2019, 2020, 2021)
+        val expectedYears = listOf("2019", "2020", "2021")
         whenever(secretSubmissionRepository.findAll()).thenReturn(submissions)
         val actualYears = submissionRepository.findSubmissionYears()
         assertEquals(expectedYears, actualYears)
@@ -36,11 +36,11 @@ class SubmissionRepositoryTest {
 
     @Test
     fun `Should find submissions by year`() {
-        val expectedYear = 2019
+        val expectedYear = "2019"
         val expectedSubmissions = SubmissionDataHelper.everything(expectedYear)
         val submissions = secret(expectedSubmissions
-                .plus(SubmissionDataHelper.everything(2020))
-                .plus(SubmissionDataHelper.everything(2021))
+                .plus(SubmissionDataHelper.everything("2020"))
+                .plus(SubmissionDataHelper.everything("2021"))
         )
         whenever(secretSubmissionRepository.findByYear(expectedYear)).thenReturn(submissions.filter { it.year == expectedYear })
         val actualSubmissions = submissionRepository.findSubmissionsByYear(expectedYear)
@@ -60,7 +60,7 @@ class SubmissionRepositoryTest {
     @Test
     fun `Should find submission by id and year`() {
         val id = UUID.randomUUID()
-        val year = 2050
+        val year = "2050"
         val expectedSubmission = SubmissionDataHelper.maximal(year)
         whenever(secretSubmissionRepository.findByIdAndYear(id ,year)).thenReturn(Optional.of(secret(expectedSubmission)))
         val actualSubmission = submissionRepository.findSubmissionByIdAndYear(id, year)

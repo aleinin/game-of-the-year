@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service
 class GameSearchService(private val gameSearchClient: GameSearchClient) {
 
     fun search(request: GameSearchRequest) =
-        gameSearchClient.findGames(request.title, request.year, request.mainGame, request.limit)
+        gameSearchClient.findGames(request.title, request.years, request.mainGame, request.limit)
 }

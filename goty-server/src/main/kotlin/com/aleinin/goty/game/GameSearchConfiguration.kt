@@ -26,7 +26,7 @@ class DefaultUnconfiguredSearchConfiguration {
 
     @Bean
     fun defaultUnconfiguredSearchClient() = object : GameSearchClient {
-        override fun findGames(title: String, year: Int?, mainGame: Boolean, limit: Int) =
+        override fun findGames(title: String, years: List<Int>?, mainGame: Boolean, limit: Int) =
             throw IllegalStateException("Game search is not configured. The 'prod' profile must be active.")
     }
 }

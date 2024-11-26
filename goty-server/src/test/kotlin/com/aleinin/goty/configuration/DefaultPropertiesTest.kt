@@ -14,7 +14,8 @@ internal class DefaultPropertiesTest {
         val defaultProperties = DefaultProperties(
             title = "Hello",
             gotyQuestion = GotyQuestion(title = "GOTY", question = "?", rules = listOf("None!")),
-            year = 2022,
+            year = "2022",
+            searchYears = listOf(2022),
             tiePoints = listOf(3, 2, 1),
             deadline = ZonedDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
             hasGiveaway = true,
@@ -25,6 +26,7 @@ internal class DefaultPropertiesTest {
             title = defaultProperties.title,
             gotyQuestion = defaultProperties.gotyQuestion,
             year = defaultProperties.year,
+            searchYears = listOf(2022),
             tiePoints = defaultProperties.tiePoints,
             deadline = defaultProperties.deadline,
             hasGiveaway = defaultProperties.hasGiveaway,

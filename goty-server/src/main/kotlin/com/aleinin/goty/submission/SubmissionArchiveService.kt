@@ -15,18 +15,18 @@ class SubmissionArchiveService(
     private val clock: Clock,
     private val uuidService: UUIDService
 ) {
-    fun getSubmissionYears(): List<Int> {
+    fun getSubmissionYears(): List<String> {
         val distinctYears = submissionRepository.findSubmissionYears()
         val thisYear = propertiesService.getActiveYear()
         val years = if (distinctYears.contains(thisYear)) distinctYears else distinctYears.plus(thisYear)
         return years.sortedDescending()
     }
 
-    fun getAllSecretSubmissionsForYear(year: Int): List<SecretSubmission> = secretSubmissionRepository.findByYear(year)
+    fun getAllSecretSubmissionsForYear(year: String): List<SecretSubmission> = secretSubmissionRepository.findByYear(year)
 
-    fun getAllSubmissionsForYear(year: Int): List<Submission> = submissionRepository.findSubmissionsByYear(year)
+    fun getAllSubmissionsForYear(year: String): List<Submission> = submissionRepository.findSubmissionsByYear(year)
 
-    fun createSubmissionForYear(year: Int, submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
+    fun createSubmissionForYear(year: String, submissionCreationRequest: SubmissionCreationRequest): SecretSubmission =
         validateArchiveCreateSubmission(year, submissionCreationRequest.gamesOfTheYear) {
             secretSubmissionRepository.save(
                 SecretSubmission(
@@ -45,10 +45,10 @@ class SubmissionArchiveService(
             )
         }
 
-    fun getSubmissionForYearById(year: Int, id: UUID): Optional<Submission> =
+    fun getSubmissionForYearById(year: String, id: UUID): Optional<Submission> =
         submissionRepository.findSubmissionByIdAndYear(id, year)
 
-    fun updateSubmissionForYearById(year: Int, id: UUID, submissionUpdateRequest: SubmissionUpdateRequest): Optional<Submission> =
+    fun updateSubmissionForYearById(year: String, id: UUID, submissionUpdateRequest: SubmissionUpdateRequest): Optional<Submission> =
         validateArchiveUpdateSubmission(year, secretSubmissionRepository.findById(id), submissionUpdateRequest)
             .map {
                 it.copy(
@@ -64,17 +64,17 @@ class SubmissionArchiveService(
             .map { secretSubmissionRepository.save(it) }
             .map { it.toSubmission() }
 
-    fun deleteSubmissionForYearById(year: Int, id: UUID): Optional<Unit> = secretSubmissionRepository.findByIdAndYear(id, year)
+    fun deleteSubmissionForYearById(year: String, id: UUID): Optional<Unit> = secretSubmissionRepository.findByIdAndYear(id, year)
         .map { secretSubmissionRepository.deleteById(it.id) }
 
-    private fun validateArchiveCreateSubmission(year: Int, gamesOfTheYear: List<RankedGameSubmission>, perform: () -> SecretSubmission): SecretSubmission {
+    private fun validateArchiveCreateSubmission(year: String, gamesOfTheYear: List<RankedGameSubmission>, perform: () -> SecretSubmission): SecretSubmission {
         val properties = propertiesService.getProperties(year).orElseThrow { YearNotFoundException(year) }
         validateGames(properties.tiePoints, gamesOfTheYear)
         return perform()
     }
 
     private fun validateArchiveUpdateSubmission(
-        year: Int,
+        year: String,
         optionalSecretSubmission: Optional<SecretSubmission>,
         request: SubmissionUpdateRequest,
     ): Optional<SecretSubmission> {

@@ -11,11 +11,11 @@ class ResultController(
         private val resultService: ResultService,
 ) {
     @GetMapping("/results/years")
-    fun getResultsYears(): List<Int> = resultService.getResultsYears()
+    fun getResultsYears(): List<String> = resultService.getResultsYears()
 
     @GetMapping("/results")
     fun getResults(): ResultResponse = resultService.getResultsForActiveYear()
 
     @GetMapping("/results/{year}")
-    fun getResultsForYear(@PathVariable year: Int): ResultResponse = resultService.getResultsForYear(year)
+    fun getResultsForYear(@PathVariable year: String): ResultResponse = resultService.getResultsForYear(year)
 }

@@ -26,7 +26,7 @@ class PropertiesController(
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/properties/active-year/{activeYear}")
-    fun putActiveYear(@PathVariable activeYear: Int) = try {
+    fun putActiveYear(@PathVariable activeYear: String) = try {
         propertiesService.setActiveYear(activeYear)
     } catch (e: InvalidYearException) {
         throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
@@ -44,7 +44,7 @@ class PropertiesController(
 
     @GetMapping("/properties/{year}")
     fun getPropertiesForYear(
-        @PathVariable year: Int,
+        @PathVariable year: String,
         @RequestParam(required = false) localTimeZone: ZoneId?,
     ) = propertiesService.getPropertiesResponse(year, localTimeZone)
         .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
@@ -52,7 +52,7 @@ class PropertiesController(
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/properties/{year}")
     fun putProperties(
-        @PathVariable year: Int,
+        @PathVariable year: String,
         @RequestParam(required = false) localTimeZone: ZoneId?,
         @RequestBody request: PropertiesUpdateRequest
     ) = try {
@@ -75,7 +75,7 @@ class PropertiesController(
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/properties/{year}")
     fun deleteProperties(
-        @PathVariable year: Int
+        @PathVariable year: String
     ) = try {
         propertiesService.deleteProperties(year)
     } catch (e: YearNotFoundException) {

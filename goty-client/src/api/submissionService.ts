@@ -25,7 +25,7 @@ export const SubmissionService = {
         }
         throw new Error(error)
       }),
-  getSubmissions: (year: number): Promise<Submission[]> =>
+  getSubmissions: (year: string): Promise<Submission[]> =>
     fetcher
       .get<BackendSubmission[]>(`/submissions/archive/${year}`)
       .then((response) => response.map(fromBackendSubmissionToSubmission)),

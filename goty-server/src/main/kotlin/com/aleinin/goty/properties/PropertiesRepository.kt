@@ -6,6 +6,6 @@ import java.util.Optional
 
 @Repository
 interface PropertiesRepository : MongoRepository<PropertiesDocument, String> {
-    fun findByYear(year: Int): Optional<PropertiesDocument>
+    fun findByYear(year: String): Optional<PropertiesDocument>
 }
 

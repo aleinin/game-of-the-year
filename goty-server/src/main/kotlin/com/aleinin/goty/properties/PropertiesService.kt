@@ -61,6 +61,10 @@ class PropertiesService(
         ).year }
         .orElseThrow{ InvalidYearException(newActiveYear) }
 
+    fun deleteActiveYear() {
+        activeYearRepository.deleteById(ACTIVE_YEAR_ID)
+    }
+
     fun getAllPropertiesResponse(localTimeZone: ZoneId?): List<PropertiesResponse> {
         return propertiesRepository.findAll()
             .map { it.toProperties() }
@@ -99,6 +103,25 @@ class PropertiesService(
             throw PropertiesConflictException(properties.year)
         }
         return toResponse(propertiesRepository.save(properties.toPropertiesDocument()).toProperties(), localTimeZone)
+    }
+
+    fun saveBatchProperties(properties: List<Properties>, localTimeZone: ZoneId?): PropertiesBatchResponse {
+        val existingYears = propertiesRepository.findAll().map { it.year }
+        val created = mutableListOf<PropertiesResponse>()
+        val failedBatches = mutableListOf<PropertiesBatchFailure>()
+        for (property in properties) {
+            if (property.year in existingYears) {
+                failedBatches.add(PropertiesBatchFailure("Properties for year '${property.year}' already exists", property))
+            } else {
+                try {
+                    propertiesRepository.save(property.toPropertiesDocument())
+                    created.add(toResponse(property, localTimeZone))
+                } catch (e: Exception) {
+                    failedBatches.add(PropertiesBatchFailure(e.message ?: "Unknown error", property))
+                }
+            }
+        }
+        return PropertiesBatchResponse(created, failedBatches)
     }
 
     fun replaceProperties(year: String, request: PropertiesUpdateRequest, localTimeZone: ZoneId?): PropertiesResponse {

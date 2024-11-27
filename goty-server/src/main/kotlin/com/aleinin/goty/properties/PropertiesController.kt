@@ -32,6 +32,10 @@ class PropertiesController(
         throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/properties/active-year")
+    fun deleteActiveYear() = propertiesService.deleteActiveYear()
+
     @GetMapping("/properties")
     fun getAllProperties(
         @RequestParam(required = false) localTimeZone: ZoneId?
@@ -71,6 +75,13 @@ class PropertiesController(
     } catch (e: PropertiesConflictException) {
         throw ResponseStatusException(HttpStatus.CONFLICT, e.message)
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/properties/batch")
+    fun postPropertiesBatch(
+        @RequestParam(required = false) localTimeZone: ZoneId?,
+        @RequestBody request: List<Properties>
+    ) = propertiesService.saveBatchProperties(request, localTimeZone)
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/properties/{year}")

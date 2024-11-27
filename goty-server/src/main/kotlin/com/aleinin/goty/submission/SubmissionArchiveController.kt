@@ -39,6 +39,10 @@ class SubmissionArchiveController(
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
         }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/submissions/archive/batch")
+    fun addSubmissionsBatch(@RequestBody submissions: List<SubmissionBatchCreationRequest>) = submissionArchiveService.createSubmissionsBatch(submissions)
+
     @GetMapping("/submissions/archive/{year}/{id}")
     fun getSubmission(@PathVariable year: String, @PathVariable id: UUID): Submission =
         submissionArchiveService.getSubmissionForYearById(year, id).orElseThrow { ResponseStatusException(

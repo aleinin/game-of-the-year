@@ -13,6 +13,8 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.time.ZonedDateTime
 import java.util.Optional
@@ -198,5 +200,99 @@ internal class PropertiesServiceTest {
         whenever(propertiesRepository.save(requestDocument)).thenReturn(requestDocument)
         val actualResponse = propertiesService.replaceProperties("2077", request, EasternTime)
         assertEquals(expectedResponse, actualResponse)
+    }
+
+    @Test
+    fun `should accept batches`() {
+        whenever(propertiesRepository.findAll()).thenReturn(listOf(
+            PropertiesDocument(
+            year = "2023",
+            searchYears = listOf(2023),
+            title = "Game of the Year",
+            gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
+            tiePoints = listOf(3, 2, 1),
+            deadline = deadline.toInstant(),
+            zoneId = UTC,
+            hasGiveaway = false,
+            giveawayAmountUSD = 0,
+            defaultLocalTimeZone = null
+        )
+        ))
+        val alreadyExistsProperties = Properties(
+            title = "Already Exists",
+            year = "2023",
+            searchYears = listOf(2023),
+            gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
+            tiePoints = listOf(3, 2, 1),
+            deadline = deadline,
+            hasGiveaway = false,
+            defaultLocalTimeZone = UTC,
+            giveawayAmountUSD = 0
+        )
+        val successProperties = Properties(
+            title = "Success",
+            year = "2024",
+            searchYears = listOf(2024),
+            gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
+            tiePoints = listOf(3, 2, 1),
+            deadline = deadline,
+            hasGiveaway = false,
+            defaultLocalTimeZone = UTC,
+            giveawayAmountUSD = 0
+        )
+        val errorProperties = Properties(
+            title = "Error",
+            year = "2025",
+            searchYears = listOf(2025),
+            gotyQuestion = GotyQuestion(title = "Title", question="Question", rules= listOf("Rules")),
+            tiePoints = listOf(3, 2, 1),
+            deadline = deadline,
+            hasGiveaway = false,
+            defaultLocalTimeZone = UTC,
+            giveawayAmountUSD = 0
+        )
+        val properties = listOf(alreadyExistsProperties, successProperties, errorProperties)
+        whenever(propertiesRepository.save(successProperties.toPropertiesDocument())).thenAnswer { successProperties.toPropertiesDocument() }
+        whenever(propertiesRepository.save(errorProperties.toPropertiesDocument())).thenThrow(RuntimeException("Error"))
+        whenever(templateService.toResolvedTemplate(anyString(), any(), any())).thenAnswer { ResolvedTemplate(it.getArgument(0), it.getArgument(0)) }
+        whenever(templateService.toGotyQuestionResponse(any(), any(), any())).thenAnswer {
+            GotyQuestionResponse(
+                title = ResolvedTemplate(it.getArgument<GotyQuestion>(0).title, it.getArgument<GotyQuestion>(0).title),
+                question = ResolvedTemplate(it.getArgument<GotyQuestion>(0).question, it.getArgument<GotyQuestion>(0).question),
+                rules = it.getArgument<GotyQuestion>(0).rules.map { rule -> ResolvedTemplate(rule, rule) }
+            )
+        }
+        val expectedResponse = PropertiesBatchResponse(
+            created = listOf(
+                PropertiesResponse(
+                    title = ResolvedTemplate("Success", "Success"),
+                    year = "2024",
+                    searchYears = listOf(2024),
+                    gotyQuestion = GotyQuestionResponse(
+                        title = ResolvedTemplate("Title", "Title"),
+                        question = ResolvedTemplate("Question", "Question"),
+                        rules = listOf(ResolvedTemplate("Rules", "Rules"))
+                    ),
+                    tiePoints = listOf(3, 2, 1),
+                    deadline = deadline,
+                    hasGiveaway = false,
+                    defaultLocalTimeZone = UTC,
+                    giveawayAmountUSD = 0
+                )
+            ),
+            notCreated = listOf(
+                PropertiesBatchFailure(
+                    reason = "Properties for year '2023' already exists",
+                    input = alreadyExistsProperties
+                ),
+                PropertiesBatchFailure(
+                    reason = "Error",
+                    input = errorProperties
+                ),
+            )
+        )
+        val actual = propertiesService.saveBatchProperties(properties, UTC)
+        assertEquals(expectedResponse, actual)
+        verify(propertiesRepository, times(2)).save(any())
     }
 }

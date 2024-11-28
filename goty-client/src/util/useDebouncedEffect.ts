@@ -8,5 +8,5 @@ export const useDebouncedEffect = (
   useEffect(() => {
     const handler = setTimeout(() => effect(), delay)
     return () => clearTimeout(handler)
-  }, [...(deps || []), delay])
+  }, [...(deps || []), effect, delay]) // eslint-disable-line react-hooks/exhaustive-deps
 }

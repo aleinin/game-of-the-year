@@ -9,7 +9,7 @@ export const useAnchorScroll = (...deps: any[]) => {
       return document.getElementById(anchoredId)
     }
     return null
-  }, [location, ...deps]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [location, ...deps])
   useEffect(() => {
     if (anchoredElement) {
       anchoredElement.scrollIntoView({

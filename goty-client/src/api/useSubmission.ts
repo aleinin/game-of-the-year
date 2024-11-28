@@ -17,7 +17,6 @@ export const useSubmission = (id: string) =>
     queryKey: ['submission', id],
     queryFn: () => SubmissionService.getSubmission(id),
     enabled: id !== '',
-    staleTime: Infinity,
     initialData: defaultSubmission,
     initialDataUpdatedAt: 0,
   })

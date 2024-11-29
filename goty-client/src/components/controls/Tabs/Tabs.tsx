@@ -30,9 +30,7 @@ export const TabButtons = ({
     )
     if (newSelected) {
       width = newSelected?.offsetWidth ?? 0
-      left =
-        newSelected?.getBoundingClientRect()?.left - startDivLeft ??
-        startDivLeft
+      left = newSelected?.getBoundingClientRect()?.left - startDivLeft
     }
   }
 

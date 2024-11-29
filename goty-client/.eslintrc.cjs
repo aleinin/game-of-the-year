@@ -17,8 +17,12 @@ module.exports = {
     semi: ['error', 'never'],
     quotes: ['error', 'single'],
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-expressions': [
+      'error',
+      { allowShortCircuit: true, allowTernary: true },
+    ],
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.cjs', 'build/'],
   settings: {
     react: {
       version: 'detect',

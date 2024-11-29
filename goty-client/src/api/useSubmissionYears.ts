@@ -9,7 +9,6 @@ export const useSubmissionYears = () => {
     queryKey: ['submissionYears'],
     queryFn: getSubmissionYears,
     initialData: [],
-    staleTime: Infinity,
     initialDataUpdatedAt: 0,
   })
   return { ...query, submissionYears: query.data }

@@ -31,4 +31,5 @@ jobs:
         working-directory: goty-client
         run: npm install
       - name: Build
+        working-directory: goty-client
         run: npm run ci

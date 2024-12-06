@@ -4,6 +4,7 @@ import styles from './SearchInPlace.module.scss'
 import { Search } from '../Search/Search'
 
 export interface SearchInPlaceProps {
+  id: string
   readonly: boolean
   game: Game | null
   handleSelect: (val: Game | null) => void
@@ -16,6 +17,7 @@ const gameIsDefined = (game: Game | null): game is Game => {
 }
 
 export const SearchInPlace = ({
+  id,
   game,
   handleSelect,
   placeholder,
@@ -41,6 +43,7 @@ export const SearchInPlace = ({
   }
   return (
     <Search
+      id={id}
       placeholder={placeholder}
       handleSelect={handleSelect}
       searchYears={searchYears}

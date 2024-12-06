@@ -24,6 +24,7 @@ export const BestOldGame = ({
   return (
     <InputStateKeyContext.Provider value={'bestOldGame'}>
       <SingleGame
+        id="bestOldGame"
         title="Best Old Game"
         subtitle={`What is your favorite old game of ${year}?`}
         readonly={readonly}

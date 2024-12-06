@@ -4,6 +4,7 @@ import { Card } from './Card/Card'
 import { Game } from '../../models/game'
 
 export interface SingleGameProps {
+  id: string
   title: string
   subtitle?: string
   rules: string[]
@@ -15,6 +16,7 @@ export interface SingleGameProps {
 }
 
 export const SingleGame = ({
+  id,
   game,
   handleSelect,
   readonly,
@@ -29,6 +31,7 @@ export const SingleGame = ({
       {subtitle && <span>{subtitle}</span>}
       <Rules readonly={readonly} rules={rules} />
       <SearchInPlace
+        id={id}
         readonly={readonly}
         placeholder={placeholder ?? 'Select a game'}
         game={game}

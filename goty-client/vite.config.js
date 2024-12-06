@@ -1,8 +1,12 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import eslint from 'vite-plugin-eslint'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
 import * as path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export default defineConfig(() => {
   return {
@@ -10,13 +14,11 @@ export default defineConfig(() => {
       outDir: 'build',
       target: 'esnext',
     },
-    plugins: [
-      react(),
-      eslint({
-        exclude: ['/virtual:/**', 'node_modules/**'],
-      }),
-      viteTsconfigPaths(),
-    ],
+    test: {
+      globals: true,
+      environment: 'jsdom',
+    },
+    plugins: [react(), viteTsconfigPaths()],
     server: {
       host: 'localhost',
       port: 3000,

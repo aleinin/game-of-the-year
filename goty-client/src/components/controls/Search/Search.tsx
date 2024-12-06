@@ -10,6 +10,7 @@ import styles from './Search.module.scss'
 import classNames from 'classnames'
 
 export interface SearchProps {
+  id: string
   placeholder: string
   handleSelect: (game: Game) => void
   searchYears?: number[]
@@ -46,7 +47,7 @@ export const Search = (props: SearchProps) => {
     <div>
       <div className={styles.error}>{hasError && errorMessage}</div>
       <AutoComplete
-        id="goty"
+        id={props.id}
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder={props.placeholder}

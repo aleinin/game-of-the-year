@@ -22,6 +22,7 @@ export const MostDisappointing = ({
   return (
     <InputStateKeyContext.Provider value={'mostDisappointing'}>
       <SingleGame
+        id="mostDisappointing"
         title="Most Disappointing"
         subtitle="What game didnt live up to your expectations?"
         readonly={readonly}

@@ -20,9 +20,11 @@
     "start": "vite",
     "build": "vite build",
     "test": "vitest",
+    "test:ci": "vitest run",
     "tsc": "tsc",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "ci": "npm run lint && npm run tsc && npm run test:ci && npm run build"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",

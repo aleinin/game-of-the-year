@@ -2,6 +2,7 @@ import { TextInput } from '../TextInput/TextInput'
 import { ChevronDown } from '../../../icons/chevron/ChevronDown'
 import { Button } from '../Button/Button'
 import {
+  ChangeEvent,
   ChangeEventHandler,
   KeyboardEventHandler,
   useCallback,
@@ -9,9 +10,9 @@ import {
   useState,
 } from 'react'
 import { DropdownMenu } from '../DropdownMenu/DropdownMenu'
-import { useDebouncedEffect } from '../../../util/useDebouncedEffect'
 import styles from './AutoComplete.module.scss'
 import { useClickOff } from '../../../util/useClickOff'
+import { useDebounce } from '../../../util/useDebounce'
 
 export interface AutoCompleteProps<T> {
   id: string
@@ -42,6 +43,31 @@ export const AutoComplete = <T = any,>({
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   useClickOff(ref, () => setIsOpen(false))
+
+  const searchCallback = useCallback(
+    (query: string) => {
+      setIsLoading(true)
+      queryFn &&
+        queryFn(query).then(() => {
+          setIsLoading(false)
+          setIsOpen(true)
+        })
+    },
+    [queryFn],
+  )
+  const searchNowCallback = useCallback(() => {
+    if (value) {
+      searchCallback(value)
+    }
+  }, [value, searchCallback])
+  const debouncedSearch = useDebounce(
+    (query: string) => searchCallback(query),
+    500,
+  )
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange && onChange(event)
+    debouncedSearch(event.target.value)
+  }
   const handleSelect = (value: T) => {
     setIsOpen(false)
     onSelect && onSelect(value)
@@ -51,24 +77,6 @@ export const AutoComplete = <T = any,>({
       handleSelect(options[0])
     }
   }
-
-  const searchCallback = useCallback(
-    (requireValue: boolean) => () => {
-      if (queryFn && (value || !requireValue)) {
-        setIsLoading(true)
-        queryFn(value).then(() => {
-          setIsLoading(false)
-          setIsOpen(true)
-        })
-      }
-    },
-    [value, queryFn],
-  )
-  const handleFocus = () => {
-    const searchFn = searchCallback(true)
-    searchFn()
-  }
-  useDebouncedEffect(searchCallback(true), [value], 500)
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.comboBox}>
@@ -76,12 +84,12 @@ export const AutoComplete = <T = any,>({
           style={{ borderRadius: 0 }}
           id={`${id}-text`}
           value={value}
-          onChange={onChange}
+          onChange={handleOnChange}
           placeholder={placeholder}
           isLoading={isLoading}
           onKeyDown={handleKey}
           className={textInputClass}
-          onFocus={handleFocus}
+          onFocus={searchNowCallback}
           onBlur={onBlur}
         />
         {isOpen && (
@@ -96,7 +104,7 @@ export const AutoComplete = <T = any,>({
       </div>
       <Button
         className={styles.dropdownButton}
-        onClick={searchCallback(false)}
+        onClick={searchNowCallback}
         aria-label="Search"
       >
         <ChevronDown />

@@ -21,6 +21,7 @@ export const MostAnticipated = ({
   return (
     <InputStateKeyContext.Provider value={'mostAnticipated'}>
       <SingleGame
+        id="mostAnticipated"
         title="Most Anticipated"
         subtitle="What game are you looking forward to most?"
         readonly={readonly}
